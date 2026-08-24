@@ -1,0 +1,23 @@
+<div #vantaRef class="flex w-screen h-screen bg-linear-to-br from-emerald-800 to-emerald-900">
+  <div
+    class="flex-1 bg-emerald-950/70 rounded-br-2xl rounded-tr-2xl shadow-2xl justify-center items-center h-full flex"
+  >
+    <p class="absolute top-0 left-0 p-4 font-semibold text-2xl text-white lg:hidden">
+      CodeWith<span class="text-amber-500">Mixx</span>
+    </p>
+
+    <router-outlet></router-outlet>
+  </div>
+  <div class="flex-2 hidden lg:flex justify-center items-center h-full w-full gap-2">
+    <div class="">
+      <h1 class="text-7xl text-white font-semibold text-center gap-2">
+        CodeWith<span class="text-amber-500">Mixx</span>
+      </h1>
+      <p class="text-xl md:text-2xl text-emerald-100 max-w-xl mx-auto lg:mx-0">
+        Spremni da rešimo sve fakultetske probleme?
+      </p>
+    </div>
+  </div>
+</div>
+
+<router-outlet></router-outlet>
