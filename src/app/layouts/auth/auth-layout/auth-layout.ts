@@ -1,9 +1,12 @@
 import { afterNextRender, Component, ElementRef, ViewChild } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { faSolidArrowLeft } from '@ng-icons/font-awesome/solid';
 import * as THREE from 'three';
 import FOG from 'vanta/dist/vanta.fog.min';
 @Component({
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, NgIcon],
+  providers: [provideIcons({faSolidArrowLeft})],
   selector: 'app-auth-layout',
   styleUrl: './auth-layout.css',
   templateUrl: './auth-layout.html',

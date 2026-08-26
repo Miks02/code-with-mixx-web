@@ -1,23 +1,27 @@
 <div #vantaRef class="flex w-screen h-screen bg-linear-to-br from-emerald-800 to-emerald-900">
   <div
-    class="flex-1 bg-emerald-950/70 rounded-br-2xl rounded-tr-2xl shadow-2xl justify-center items-center h-full flex"
+    class="flex-1 bg-emerald-950/70 backdrop-blur-md lg:rounded-br-4xl lg:rounded-tr-4xl shadow-2xl justify-center items-center h-full flex"
   >
     <p class="absolute top-0 left-0 p-4 font-semibold text-2xl text-white lg:hidden">
-      CodeWith<span class="text-amber-500">Mixx</span>
+      <span class="text-amber-500">Code</span>WithMixx
     </p>
+    <a href="https://codewithmixx.com">
+      <ng-icon
+        class="absolute m-4 top-0 right-0 lg:left-0 font-semibold text-amber-500! text-2xl hover:opacity-70 transition duration-200 active:scale-95"
+        name="faSolidArrowLeft"
+      ></ng-icon>
+    </a>
 
     <router-outlet></router-outlet>
   </div>
   <div class="flex-2 hidden lg:flex justify-center items-center h-full w-full gap-2">
     <div class="">
       <h1 class="text-7xl text-white font-semibold text-center gap-2">
-        CodeWith<span class="text-amber-500">Mixx</span>
+        <span class="text-amber-500">Code</span>WithMixx
       </h1>
       <p class="text-xl md:text-2xl text-emerald-100 max-w-xl mx-auto lg:mx-0">
-        Spremni da rešimo sve fakultetske probleme?
+        Spreman/na da rešimo sve fakultetske probleme?
       </p>
     </div>
   </div>
 </div>
-
-<router-outlet></router-outlet>
