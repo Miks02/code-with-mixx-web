@@ -1,0 +1,52 @@
+<div class="bg-emerald-950/80 backdrop-blur-xl rounded-lg shadow-lg p-4 relative h-115">
+  <h2 class="text-xl font-semibold text-emerald-100">Predstojeći projekti</h2>
+  @if (upcomingProjects()?.length! > 0) {
+  <div class="p-2 gap-4 grid grid-cols-1 lg:grid-cols-2 mt-2 h-100 overflow-y-auto">
+    @for (project of upcomingProjects(); track project.id) {
+    <div
+      class="p-4 bg-emerald-900/80 rounded-lg flex flex-col gap-3 hover:bg-emerald-800/80 active:scale-95 transition-200 cursor-pointer"
+    >
+      <div class="flex gap-3 items-center">
+        <div
+          class="flex justify-center items-center bg-emerald-500 rounded-full h-10 w-10 shrink-0"
+        >
+          <span class="text-sm font-semibold text-emerald-950"
+            >{{ getInitials(project.studentName) }}</span
+          >
+        </div>
+        <div class="flex flex-col min-w-0">
+          <p class="text-emerald-100 font-semibold truncate">{{ project.studentName }}</p>
+          <p class="text-emerald-300 text-sm truncate">{{ project.subjectName }}</p>
+        </div>
+      </div>
+      <div
+        class="flex items-center gap-2 text-emerald-200 text-sm border-t border-emerald-800 pt-2"
+      >
+        <ng-icon
+          name="faSolidCalendarDays"
+          class="text-emerald-400! text-base self-center!"
+        ></ng-icon>
+        <span>
+          {{ project.startDate | date: 'dd.MM.yyyy' }} - {{ project.endDate | date: 'dd.MM.yyyy' }}
+        </span>
+      </div>
+    </div>
+    }
+  </div>
+  } @else {
+  <div
+    class="flex flex-col items-center justify-center gap-3 py-10 text-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+  >
+    <div class="flex justify-center items-center bg-emerald-900 rounded-full h-14 w-14">
+      <ng-icon
+        name="faSolidCalendarXmark"
+        class="text-emerald-400! text-2xl self-center!"
+      ></ng-icon>
+    </div>
+    <p class="text-emerald-200 font-medium">Trenutno nema predstojećih projekata.</p>
+    <p class="text-emerald-200/70">
+      Svi projekti čije je početno vreme rada u roku od 2 nedelje prikazaće se ovde
+    </p>
+  </div>
+  }
+</div>

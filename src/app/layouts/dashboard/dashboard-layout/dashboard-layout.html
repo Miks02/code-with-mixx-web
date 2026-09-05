@@ -1,0 +1,16 @@
+<div
+  #vantaRef
+  class="w-screen h-screen flex bg-linear-to-br from-emerald-700 to-emerald-800 overflow-hidden"
+>
+  <app-sidebar
+    (closeSidebar)="isSidebarOpen.set(false)"
+    [showSidebar]="isSidebarOpen()"
+    class="z-50"
+  ></app-sidebar>
+  <div class="flex flex-col w-full grow overflow-hidden min-h-0">
+    <app-header (toggleSidebar)="isSidebarOpen.set(true)"></app-header>
+    <div class="p-6 w-full grow overflow-y-auto min-h-0">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

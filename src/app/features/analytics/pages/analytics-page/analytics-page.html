@@ -1,0 +1,55 @@
+<div class="flex flex-col gap-6">
+  <div class="flex justify-between flex-wrap">
+    <app-admin-action-bar></app-admin-action-bar>
+
+    <div class="flex gap-4 flex-wrap">
+      <app-analytics-card
+        class="grow"
+        variant="emerald"
+        title="Ukupan prihod"
+        value="128.400 RSD"
+        icon="faSolidSackDollar"
+      ></app-analytics-card>
+
+      <app-analytics-card
+        class="grow"
+        variant="sky"
+        title="Broj studenata"
+        value="342"
+        icon="faSolidUserGraduate"
+      ></app-analytics-card>
+
+      <app-analytics-card
+        class="grow"
+        variant="violet"
+        title="Održani časovi"
+        value="214"
+        icon="faSolidChalkboardUser"
+      ></app-analytics-card>
+
+      <app-analytics-card
+        class="grow"
+        variant="amber"
+        title="Projekti"
+        value="57"
+        icon="faSolidFileLines"
+      ></app-analytics-card>
+    </div>
+  </div>
+
+  <div class="flex w-full gap-6 flex-wrap">
+    <app-finance-chart class="flex-3"></app-finance-chart>
+    <app-subjects-chart class="flex-2"></app-subjects-chart>
+  </div>
+
+  <div class="flex gap-4 w-full flex-col md:flex-row">
+    <app-upcoming-classes
+      class="flex-1 h-full"
+      [upcomingClasses]="upcomingClasses()"
+    ></app-upcoming-classes>
+    <app-upcoming-projects
+      class="flex-1 h-full"
+      [upcomingProjects]="upcomingProjects()"
+    ></app-upcoming-projects>
+  </div>
+</div>

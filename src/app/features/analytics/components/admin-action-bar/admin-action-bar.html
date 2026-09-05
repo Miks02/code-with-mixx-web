@@ -1,0 +1,25 @@
+<div class="bg-transparent p-4 rounded-lg flex flex-col gap-6 w-full">
+  <div class="flex gap-2">
+    <div
+      class="w-14 h-14 flex items-center justify-center border-2 border-emerald-500 bg-emerald-700 rounded-full"
+    >
+      <ng-icon name="faSolidUser" class="text-emerald-200! text-xl"></ng-icon>
+    </div>
+    <div class="flex flex-col">
+      <p class="text-lg font-semibold text-emerald-200">Milan Nikolić</p>
+      <p class="font-semibold text-amber-500">Administrator</p>
+    </div>
+  </div>
+
+  <div class="flex gap-4 flex-wrap w-full mx-auto">
+    <app-button variant="ghost" icon="faSolidUserPlus" [loading]="false">Dodaj studenta</app-button>
+
+    <app-button variant="ghost" icon="faSolidFileCirclePlus" [loading]="false"
+      >Dodaj projekat</app-button
+    >
+
+    <app-button variant="secondary" icon="faSolidFileCirclePlus" [loading]="false"
+      >Zakaži čas</app-button
+    >
+  </div>
+</div>
