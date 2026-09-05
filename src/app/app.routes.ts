@@ -1,10 +1,12 @@
 import { Routes } from '@angular/router';
-import { AuthLayout } from './layouts/auth/auth-layout/auth-layout';
+import { authGuard } from './core/guard/auth-guard';
+import { guestGuard } from './core/guard/guest-guard';
 
 export const routes: Routes = [
   {
     path: '',
-    component: AuthLayout,
+    canActivate: [guestGuard],
+    loadComponent: () => import('./layouts/auth/auth-layout/auth-layout').then((c) => c.AuthLayout),
     children: [
       {
         path: '',
@@ -14,6 +16,22 @@ export const routes: Routes = [
       {
         path: 'login',
         loadComponent: () => import('./features/auth/components/login/login').then((c) => c.Login),
+      },
+    ],
+  },
+  {
+    path: '',
+    canActivate: [authGuard],
+    loadComponent: () => import('./layouts/dashboard/dashboard-layout/dashboard-layout').then((c) => c.DashboardLayout),
+    children: [
+      {
+        path: '',
+        redirectTo: 'analytics',
+        pathMatch: 'full',
+      },
+      {
+        path: 'analytics',
+        loadComponent: () => import('./features/analytics/pages/analytics-page/analytics-page').then((c) => c.AnalyticsPage),
       },
     ],
   },
