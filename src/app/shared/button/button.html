@@ -1,0 +1,15 @@
+<button
+  [type]="type()"
+  [disabled]="isDisabled()"
+  (click)="onClick()"
+  [class]="baseClasses + ' ' + variantClasses() + ' ' + sizeClasses()"
+  [class.pointer-events-none]="loading()"
+  [class.w-full]="fullWidth()"
+>
+  @if (loading()) {
+  <ng-icon name="faSolidSpinner" class="animate-spin"></ng-icon>
+  } @else if (icon()) {
+  <ng-icon [name]="icon()!"></ng-icon>
+  }
+  <ng-content></ng-content>
+</button>
