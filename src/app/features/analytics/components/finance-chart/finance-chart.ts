@@ -34,7 +34,7 @@ export class FinanceChart {
       chart: {
         type: 'line',
         width: '100%',
-        height: 300,
+        height: 400,
         toolbar: { show: false },
         zoom: { enabled: false },
         background: 'transparent',
@@ -71,7 +71,7 @@ export class FinanceChart {
       legend: {
         show: true,
         position: 'bottom',
-        labels: { colors: '#065f46' },
+        labels: { colors: 'lightgray' },
       },
       tooltip: {
         shared: true,
@@ -106,11 +106,10 @@ export class FinanceChart {
         ],
         axisBorder: { show: false },
         axisTicks: { show: false },
-        labels: { style: { colors: '#334155' } },
+        labels: { style: { colors: '#10b981' } },
       },
       yaxis: [
         {
-          title: { text: 'Prihod (RSD)', style: { color: '#10b981' } },
           labels: {
             style: { colors: '#10b981' },
             formatter: (val: number) => `${val}`,
@@ -118,7 +117,6 @@ export class FinanceChart {
         },
         {
           opposite: true,
-          title: { text: 'Broj studenata', style: { color: '#f59e0b' } },
           labels: {
             style: { colors: '#f59e0b' },
             formatter: (val: number) => `${val}`,
