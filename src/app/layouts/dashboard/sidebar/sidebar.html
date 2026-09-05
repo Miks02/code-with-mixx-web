@@ -1,0 +1,40 @@
+<aside class="max-w-64 bg-emerald-950 h-screen p-4 px-8 flex flex-col">
+  <div class="flex flex-col p-4 items-center gap-4 border-b border-gray-100">
+    <h2 class="text-2xl text-white font-bold"><span class="text-amber-600">Code</span>WithMixx</h2>
+    <p class="text-white text-lg font-semibold">Administracija</p>
+  </div>
+
+  <ul class="flex flex-col gap-2 mt-6 h-full w-full">
+    @for (link of SIDEBAR_LINKS; track $index) {
+    <app-sidebar-link
+      [linkName]="link.name"
+      [linkIcon]="link.icon"
+      [navigateTo]="link.navigateTo"
+    ></app-sidebar-link>
+    }
+
+    <div class="mt-auto flex flex-col gap-2 w-full">
+      <li
+        class="hover:bg-yellow-400/70 rounded-lg transition-200 active:scale-95 active:opacity-90 w-full"
+      >
+        <a
+          class="flex gap-2 items-center font-semibold hover:ml-4 px-2 py-3 rounded-lg transition-200 cursor-pointer"
+        >
+          <ng-icon name="faSolidArrowLeftLong" class="text-xl text-yellow-100!"></ng-icon>
+          <span class="text-lg text-yellow-100">Nazad na sajt</span>
+        </a>
+      </li>
+
+      <li
+        class="hover:bg-red-400/70 rounded-lg transition-200 active:scale-95 active:opacity-90 w-full"
+      >
+        <a
+          class="flex gap-2 items-center font-semibold hover:ml-4 px-2 py-3 rounded-lg transition-200 cursor-pointer"
+        >
+          <ng-icon name="faSolidArrowRightFromBracket" class="text-xl text-red-100!"></ng-icon>
+          <span class="text-lg text-red-100">Odjavi se</span>
+        </a>
+      </li>
+    </div>
+  </ul>
+</aside>
