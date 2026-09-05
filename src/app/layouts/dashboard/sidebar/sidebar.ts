@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { SidebarLink } from '../sidebar-link/sidebar-link';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
@@ -36,4 +36,12 @@ export class Sidebar {
     { name: 'Projekti', icon: 'faSolidFile', navigateTo: '/projects' },
     { name: 'Podešavanje', icon: 'faSolidGear', navigateTo: '/settings' },
   ];
+
+  closeSidebar = output<void>();
+  
+  showSidebar = input(false);
+
+  onCloseSidebar() {
+    this.closeSidebar.emit();
+  }
 }

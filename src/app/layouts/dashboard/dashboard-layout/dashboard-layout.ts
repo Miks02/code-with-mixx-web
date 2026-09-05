@@ -1,11 +1,13 @@
-import { afterNextRender, Component, ElementRef, ViewChild } from '@angular/core';
+import { afterNextRender, Component, ElementRef, signal, ViewChild, WritableSignal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import * as THREE from 'three';
 import FOG from 'vanta/dist/vanta.fog.min';
 import { Sidebar } from '../sidebar/sidebar';
+import { Header } from '../header/header';
+import { NgIcon } from '@ng-icons/core';
 
 @Component({
-  imports: [RouterOutlet, Sidebar],
+  imports: [RouterOutlet, Sidebar, Header, NgIcon],
   selector: 'app-dashboard-layout',
   styleUrl: './dashboard-layout.css',
   templateUrl: './dashboard-layout.html',
@@ -13,6 +15,8 @@ import { Sidebar } from '../sidebar/sidebar';
 export class DashboardLayout {
   @ViewChild('vantaRef') vantaRef!: ElementRef<HTMLDivElement>;
   private vantaEffect: any;
+
+  isSidebarOpen: WritableSignal<boolean> = signal(false);
 
   constructor() {
     THREE.ColorManagement.enabled = false;
