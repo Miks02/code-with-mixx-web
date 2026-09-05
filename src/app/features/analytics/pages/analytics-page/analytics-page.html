@@ -1,8 +1,9 @@
-<div class="flex justify-between">
+<div class="flex justify-between flex-wrap">
   <app-admin-action-bar></app-admin-action-bar>
 
-  <div class="flex gap-4">
+  <div class="flex gap-4 flex-wrap">
     <app-analytics-card
+      class="grow"
       variant="emerald"
       title="Ukupan prihod"
       value="128.400 RSD"
@@ -10,6 +11,7 @@
     ></app-analytics-card>
 
     <app-analytics-card
+      class="grow"
       variant="sky"
       title="Broj studenata"
       value="342"
@@ -17,6 +19,7 @@
     ></app-analytics-card>
 
     <app-analytics-card
+      class="grow"
       variant="violet"
       title="Održani časovi"
       value="214"
@@ -24,11 +27,11 @@
     ></app-analytics-card>
 
     <app-analytics-card
+      class="grow"
       variant="amber"
       title="Projekti"
       value="57"
       icon="faSolidFileLines"
     ></app-analytics-card>
-
   </div>
 </div>

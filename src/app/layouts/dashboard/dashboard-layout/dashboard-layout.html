@@ -1,4 +1,4 @@
-<div #vantaRef class="w-screen h-screen flex bg-linear-to-br from-emerald-700 to-emerald-800">
+<div #vantaRef class="w-screen min-h-screen flex bg-linear-to-br from-emerald-700 to-emerald-800">
   <app-sidebar
     (closeSidebar)="isSidebarOpen.set(false)"
     [showSidebar]="isSidebarOpen()"
@@ -7,7 +7,7 @@
   <div class="flex flex-col w-full">
     <app-header (toggleSidebar)="isSidebarOpen.set(true)"></app-header>
 
-    <div class="p-6 w-full">
+    <div class="p-6 w-full h-full">
       <router-outlet></router-outlet>
     </div>
   </div>
