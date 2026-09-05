@@ -4,3 +4,9 @@
 body {
   font-family: 'Outfit', sans-serif;
 }
+
+@layer utilities {
+  .transition-200 {
+    @apply transition-all duration-200;
+  }
+}
