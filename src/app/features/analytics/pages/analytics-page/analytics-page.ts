@@ -12,9 +12,10 @@ import {
 } from '@ng-icons/font-awesome/solid';
 import { AdminActionBar } from '../../components/admin-action-bar/admin-action-bar';
 import { AnalyticsCard } from '../../components/analytics-card/analytics-card';
+import { FinanceChart } from '../../components/finance-chart/finance-chart';
 
 @Component({
-  imports: [NgIcon, AdminActionBar, AnalyticsCard],
+  imports: [NgIcon, AdminActionBar, AnalyticsCard, FinanceChart],
   providers: [
     provideIcons({
       faSolidUser,

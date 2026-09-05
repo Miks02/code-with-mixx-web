@@ -1,37 +1,44 @@
-<div class="flex justify-between flex-wrap">
-  <app-admin-action-bar></app-admin-action-bar>
+<div class="flex flex-col gap-4">
+  <div class="flex justify-between flex-wrap">
+    <app-admin-action-bar></app-admin-action-bar>
 
-  <div class="flex gap-4 flex-wrap">
-    <app-analytics-card
-      class="grow"
-      variant="emerald"
-      title="Ukupan prihod"
-      value="128.400 RSD"
-      icon="faSolidSackDollar"
-    ></app-analytics-card>
+    <div class="flex gap-4 flex-wrap">
+      <app-analytics-card
+        class="grow"
+        variant="emerald"
+        title="Ukupan prihod"
+        value="128.400 RSD"
+        icon="faSolidSackDollar"
+      ></app-analytics-card>
 
-    <app-analytics-card
-      class="grow"
-      variant="sky"
-      title="Broj studenata"
-      value="342"
-      icon="faSolidUserGraduate"
-    ></app-analytics-card>
+      <app-analytics-card
+        class="grow"
+        variant="sky"
+        title="Broj studenata"
+        value="342"
+        icon="faSolidUserGraduate"
+      ></app-analytics-card>
 
-    <app-analytics-card
-      class="grow"
-      variant="violet"
-      title="Održani časovi"
-      value="214"
-      icon="faSolidChalkboardUser"
-    ></app-analytics-card>
+      <app-analytics-card
+        class="grow"
+        variant="violet"
+        title="Održani časovi"
+        value="214"
+        icon="faSolidChalkboardUser"
+      ></app-analytics-card>
 
-    <app-analytics-card
-      class="grow"
-      variant="amber"
-      title="Projekti"
-      value="57"
-      icon="faSolidFileLines"
-    ></app-analytics-card>
+      <app-analytics-card
+        class="grow"
+        variant="amber"
+        title="Projekti"
+        value="57"
+        icon="faSolidFileLines"
+      ></app-analytics-card>
+    </div>
+  </div>
+
+  <div class="flex w-full gap-4 flex-wrap">
+    <app-finance-chart class="flex-3"></app-finance-chart>
+    <app-finance-chart class="flex-2"></app-finance-chart>
   </div>
 </div>
