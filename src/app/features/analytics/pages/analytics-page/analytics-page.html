@@ -41,4 +41,15 @@
     <app-finance-chart class="flex-3"></app-finance-chart>
     <app-subjects-chart class="flex-2"></app-subjects-chart>
   </div>
+
+  <div class="flex gap-4 w-full flex-col md:flex-row">
+    <app-upcoming-classes
+      class="flex-1 h-full"
+      [upcomingClasses]="upcomingClasses()"
+    ></app-upcoming-classes>
+    <app-upcoming-projects
+      class="flex-1 h-full"
+      [upcomingProjects]="upcomingProjects()"
+    ></app-upcoming-projects>
+  </div>
 </div>
