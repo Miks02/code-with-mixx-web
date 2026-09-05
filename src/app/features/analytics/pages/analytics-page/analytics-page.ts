@@ -13,9 +13,10 @@ import {
 import { AdminActionBar } from '../../components/admin-action-bar/admin-action-bar';
 import { AnalyticsCard } from '../../components/analytics-card/analytics-card';
 import { FinanceChart } from '../../components/finance-chart/finance-chart';
+import { SubjectsChart } from '../../components/subjects-chart/subjects-chart';
 
 @Component({
-  imports: [NgIcon, AdminActionBar, AnalyticsCard, FinanceChart],
+  imports: [NgIcon, AdminActionBar, AnalyticsCard, FinanceChart, SubjectsChart],
   providers: [
     provideIcons({
       faSolidUser,
