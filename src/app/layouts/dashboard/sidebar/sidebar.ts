@@ -33,18 +33,18 @@ import { AuthService } from '../../../core/services/auth-service';
 })
 export class Sidebar {
   SIDEBAR_LINKS = [
-    { name: 'Analitika', icon: 'faSolidChartArea', navigateTo: '/dashboard' },
-    { name: 'Predmeti', icon: 'faSolidBook', navigateTo: '/subjects' },
-    { name: 'Studenti', icon: 'faSolidUserGraduate', navigateTo: '/students' },
-    { name: 'Časovi', icon: 'faSolidCalendar', navigateTo: '/lessons' },
-    { name: 'Projekti', icon: 'faSolidFile', navigateTo: '/projects' },
-    { name: 'Podešavanje', icon: 'faSolidGear', navigateTo: '/settings' },
+    { name: 'Analitika', icon: 'faSolidChartArea', navigateTo: '/admin/analytics' },
+    { name: 'Predmeti', icon: 'faSolidBook', navigateTo: '/admin/subjects' },
+    { name: 'Studenti', icon: 'faSolidUserGraduate', navigateTo: '/admin/students' },
+    { name: 'Časovi', icon: 'faSolidCalendar', navigateTo: '/admin/lessons' },
+    { name: 'Projekti', icon: 'faSolidFile', navigateTo: '/admin/projects' },
+    { name: 'Podešavanje', icon: 'faSolidGear', navigateTo: '/admin/settings' },
   ];
 
   private authService = inject(AuthService);
 
   closeSidebar = output<void>();
-  
+
   showSidebar = input(false);
 
   onCloseSidebar() {
