@@ -1,6 +1,8 @@
 @if(showSidebar()) {
-<div (click)="onCloseSidebar()"
-  class="absolute w-screen h-screen backdrop-blur-xs z-30 md:hidden"></div>
+<div
+  (click)="onCloseSidebar()"
+  class="absolute w-screen h-screen backdrop-blur-xs z-30 md:hidden"
+></div>
 }
 
 <aside
@@ -37,12 +39,13 @@
       <li
         class="hover:bg-red-400/70 rounded-lg transition-200 active:scale-95 active:opacity-90 w-full"
       >
-        <a
+        <button
+          (click)="onLogout()"
           class="flex gap-2 items-center font-semibold hover:ml-4 px-2 py-3 rounded-lg transition-200 cursor-pointer"
         >
           <ng-icon name="faSolidArrowRightFromBracket" class="text-xl text-red-100!"></ng-icon>
           <span class="text-lg text-red-100">Odjavi se</span>
-        </a>
+        </button>
       </li>
     </div>
   </ul>
