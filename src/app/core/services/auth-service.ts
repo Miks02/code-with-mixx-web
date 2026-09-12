@@ -14,22 +14,10 @@ export class AuthService {
 
   private _userDetails: WritableSignal<UserDetails | null> = signal(null);
 
-  userDetails = computed(() => {
-    const userDetails = this._userDetails();
-    return userDetails ?? null;
-  });
-
-  userRoles = computed<string[]>(() => {
-    const userDetails = this._userDetails();
-    return userDetails ? userDetails.roles : [];
-  });
-
+  userDetails = computed(() => this._userDetails() ?? null);
+  userRoles = computed<string[]>(() => this._userDetails()?.roles ?? []);
   isAuthenticated = computed(() => !!this.userDetails());
-
-  isAdmin = computed(() => {
-    const userDetails = this._userDetails();
-    return userDetails?.roles.includes('Admin') ?? false;
-  });
+  isAdmin = computed(() => this._userDetails()?.roles.includes('Admin') ?? false);
 
   loginMutation = injectMutation<UserDetails, ProblemDetails, LoginRequest>(() => ({
     mutationFn: async (request: LoginRequest) => lastValueFrom(this.login(request)),
@@ -43,7 +31,6 @@ export class AuthService {
         this.http.get<UserDetails>(`${this.apiUrl}/auth/me`, { withCredentials: true }).pipe(
           tap((res) => {
             this._userDetails.set(res);
-            console.log('Pozvan getme i setovani podaci');
           }),
         ),
       ),
