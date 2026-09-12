@@ -26,7 +26,7 @@
       </div>
 
       @if (loginForm.email().touched() && loginForm.email().errors().length) {
-      <p class="text-sm text-red-400 leading-relaxed px-2">
+      <p class="text-sm text-red-400 leading-relaxed px-2 text-center">
         {{ loginForm.email().errors()[0]?.message }}
       </p>
       }
@@ -56,7 +56,7 @@
       </div>
 
       @if (loginForm.password().touched() && loginForm.password().errors().length) {
-      <p class="text-sm text-red-400 leading-relaxed px-2">
+      <p class="text-sm text-red-400 leading-relaxed px-2 text-center">
         {{ loginForm.password().errors()[0]?.message }}
       </p>
       }
@@ -69,7 +69,14 @@
     </a>
   </div>
 
-  <app-button class="mx-auto w-full" size="lg" [fullWidth]="true" icon="faSolidArrowRightToBracket">
+  <app-button
+    (click)="onSubmit()"
+    [loading]="loginMutation.isPending()"
+    class="mx-auto w-full"
+    size="lg"
+    [fullWidth]="true"
+    icon="faSolidArrowRightToBracket"
+  >
     Prijavi se
   </app-button>
 
