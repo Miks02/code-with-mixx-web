@@ -3,7 +3,7 @@ import { Service, Signal, WritableSignal, computed, effect, inject, signal } fro
 import { environment } from '../../../environments/environment';
 import { LoginRequest } from '../../features/auth/models/login-request';
 import { injectMutation, injectQuery } from '@tanstack/angular-query-experimental';
-import { lastValueFrom, Observable } from 'rxjs';
+import { lastValueFrom, Observable, tap } from 'rxjs';
 import { ProblemDetails } from '../models/problem-details';
 import { UserDetails } from '../models/user-details';
 
@@ -14,6 +14,23 @@ export class AuthService {
 
   private _userDetails: WritableSignal<UserDetails | null> = signal(null);
 
+  userDetails = computed(() => {
+    const userDetails = this._userDetails();
+    return userDetails ?? null;
+  });
+
+  userRoles = computed<string[]>(() => {
+    const userDetails = this._userDetails();
+    return userDetails ? userDetails.roles : [];
+  });
+
+  isAuthenticated = computed(() => !!this.userDetails());
+
+  isAdmin = computed(() => {
+    const userDetails = this._userDetails();
+    return userDetails?.roles.includes('Admin') ?? false;
+  });
+
   loginMutation = injectMutation<UserDetails, ProblemDetails, LoginRequest>(() => ({
     mutationFn: async (request: LoginRequest) => lastValueFrom(this.login(request)),
     onSuccess: (data: UserDetails) => this._userDetails.set(data),
@@ -23,18 +40,15 @@ export class AuthService {
     queryKey: ['me'],
     queryFn: async () =>
       await lastValueFrom(
-        this.http.get<UserDetails>(`${this.apiUrl}/auth/me`, { withCredentials: true }),
+        this.http.get<UserDetails>(`${this.apiUrl}/auth/me`, { withCredentials: true }).pipe(
+          tap((res) => {
+            this._userDetails.set(res);
+            console.log('Pozvan getme i setovani podaci');
+          }),
+        ),
       ),
-    onSuccess: (data: UserDetails) => this._userDetails.set(data),
     enabled: this._userDetails() === null,
   }));
-
-  userDetails = computed(() => {
-    const userDetails = this._userDetails();
-
-    return userDetails ?? null;
-  });
-  isAuthenticated = computed(() => !!this.userDetails());
 
   private login(request: LoginRequest): Observable<UserDetails> {
     return this.http.post<UserDetails>(`${this.apiUrl}/auth/login`, request, {
