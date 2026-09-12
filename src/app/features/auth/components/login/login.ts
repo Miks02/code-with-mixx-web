@@ -3,15 +3,14 @@ import { FormField, submit } from '@angular/forms/signals';
 import { Router } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
-  faSolidArrowRightToBracket,
-  faSolidEnvelope,
-  faSolidLock,
+    faSolidArrowRightToBracket,
+    faSolidEnvelope,
+    faSolidLock,
 } from '@ng-icons/font-awesome/solid';
 import { AuthService } from '../../../../core/services/auth-service';
 import { Button } from '../../../../shared/button/button';
 import { createLoginForm } from '../../factories/auth-factories';
 import { LoginRequest } from '../../models/login-request';
-import { ProblemDetails } from '../../../../core/models/problem-details';
 
 @Component({
   imports: [NgIcon, FormField, Button],

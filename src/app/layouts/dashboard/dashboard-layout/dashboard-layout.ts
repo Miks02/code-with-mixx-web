@@ -1,13 +1,19 @@
-import { afterNextRender, Component, ElementRef, signal, ViewChild, WritableSignal } from '@angular/core';
+import {
+    afterNextRender,
+    Component,
+    ElementRef,
+    signal,
+    ViewChild,
+    WritableSignal,
+} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import * as THREE from 'three';
 import FOG from 'vanta/dist/vanta.fog.min';
-import { Sidebar } from '../sidebar/sidebar';
 import { Header } from '../header/header';
-import { NgIcon } from '@ng-icons/core';
+import { Sidebar } from '../sidebar/sidebar';
 
 @Component({
-  imports: [RouterOutlet, Sidebar, Header, NgIcon],
+  imports: [RouterOutlet, Sidebar, Header],
   selector: 'app-dashboard-layout',
   styleUrl: './dashboard-layout.css',
   templateUrl: './dashboard-layout.html',
