@@ -21,7 +21,6 @@ import { UpcomingProjects } from '../../components/upcoming-projects/upcoming-pr
 
 @Component({
   imports: [
-    NgIcon,
     AdminActionBar,
     AnalyticsCard,
     FinanceChart,
@@ -133,6 +132,6 @@ export class AnalyticsPage {
       studentName: 'Jovana Stanković',
       startDate: '2026-09-22',
       endDate: '2026-10-10',
-    }
+    },
   ]);
 }

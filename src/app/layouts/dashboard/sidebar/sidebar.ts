@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input, output, inject } from '@angular/core';
 import { SidebarLink } from '../sidebar-link/sidebar-link';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
@@ -11,6 +11,7 @@ import {
   faSolidGear,
   faSolidUserGraduate,
 } from '@ng-icons/font-awesome/solid';
+import { AuthService } from '../../../core/services/auth-service';
 
 @Component({
   imports: [SidebarLink, NgIcon],
@@ -40,11 +41,17 @@ export class Sidebar {
     { name: 'Podešavanje', icon: 'faSolidGear', navigateTo: '/settings' },
   ];
 
-  closeSidebar = output<void>();
+  private authService = inject(AuthService);
 
+  closeSidebar = output<void>();
+  
   showSidebar = input(false);
 
   onCloseSidebar() {
     this.closeSidebar.emit();
+  }
+
+  onLogout() {
+    this.authService.logoutMutation.mutate();
   }
 }
