@@ -1,0 +1,21 @@
+<div class="p-4 bg-emerald-950/70 rounded-lg shadow-lg w-full h-full backdrop-blur-lg">
+  <div class="flex flex-col gap-2 justify-between h-full">
+    <div class="flex w-full justify-between">
+      <h2 class="text-xl font-bold text-emerald-100">{{ title() }}</h2>
+      <div
+        [class.bg-sky-600/40]="iconBackground() === 'sky'"
+        [class.bg-violet-600/40]="iconBackground() === 'violet'"
+        [class.bg-red-600/40]="iconBackground() === 'red'"
+        class="p-2 self-center rounded-full flex items-center"
+      >
+        <ng-icon name="{{ icon() }}" class="text-emerald-100! text-xl"></ng-icon>
+      </div>
+    </div>
+    <div class="flex justify-between items-center">
+      <p class="text-emerald-100 text-5xl font-bold">{{ value() }}</p>
+      <p class="text-emerald-100/80 font-semibold self-end">
+        {{ description() }}
+      </p>
+    </div>
+  </div>
+</div>
