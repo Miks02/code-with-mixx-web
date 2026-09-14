@@ -14,6 +14,7 @@ import { CreateSubjectRequest } from '../models/create-subject-request';
 import { SubjectItem } from '../models/subject-item';
 import { SubjectsSummary } from '../models/subjects-summary';
 import { UpdateSubjectRequest } from '../models/update-subject-request';
+import { dateConverter } from '../../../core/utilities/date-helpers';
 
 @Service()
 export class SubjectService {
@@ -39,6 +40,16 @@ export class SubjectService {
             },
           }),
         ),
+      select: (data: SubjectsSummary) => ({
+        ...data,
+        pagedSubjects: {
+          ...data.pagedSubjects,
+          items: data.pagedSubjects.items.map((subject) => ({
+            ...subject,
+            createdAt: dateConverter(subject.createdAt),
+          })),
+        },
+      }),
     }));
   }
 
@@ -60,6 +71,13 @@ export class SubjectService {
             },
           }),
         ),
+      select: (data) => ({
+        ...data,
+        pagedSubjects: data.items.map((subject) => ({
+          ...subject,
+          createdAt: dateConverter(subject.createdAt),
+        })),
+      }),
       enabled: queryResult.isSuccess,
       placeholderData: queryResult.data()?.pagedSubjects,
     }));
