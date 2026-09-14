@@ -1,1 +1,51 @@
-<p>subjects-page works!</p>
+<div class="flex flex-col gap-6">
+  <div class="flex flex-col lg:flex-row gap-6">
+    <app-subjects-list
+      class="flex-1 min-w-0"
+      [pagedSubjects]="subjects()"
+      [selectedSubjectId]="selectedSubject()?.id"
+      (subjectSelected)="onSubjectSelected($event)"
+      (searchChanged)="onSearchChange($event)"
+      (pageChanged)="onPageChanged($event)"
+    ></app-subjects-list>
+
+    <app-subject-details class="flex-1 min-w-0" [subject]="selectedSubject()"></app-subject-details>
+  </div>
+
+  <div class="flex flex-col lg:flex-row gap-6">
+    <div class="grid grid-cols-6 grid-rows-2 flex-1 gap-4">
+      <app-most-popular-subject
+        class="flex-1 min-w-0 col-span-4"
+        [subject]="mostPopularSubject()!"
+      ></app-most-popular-subject>
+      <app-stats-card
+        title="Predmeti"
+        icon="faSolidBook"
+        iconBackground="sky"
+        description="Ukupno"
+        [value]="subjectsSummary()?.totalSubjects"
+        class="flex-1 min-w-0 col-span-2"
+      ></app-stats-card>
+
+      <app-stats-card
+        title="Neodržani predmeti"
+        icon="faSolidBookSkull"
+        iconBackground="red"
+        description="Predmeti koji još nisu predavani"
+        [value]="subjectsSummary()?.untaughtSubjects"
+        class="flex-1 min-w-0 col-span-3"
+      ></app-stats-card>
+
+      <app-stats-card
+        title="Održani predmeti"
+        icon="faSolidBookOpen"
+        iconBackground="violet"
+        description="Predmeti koji su predavani"
+        [value]="subjectsSummary()?.taughtSubjects"
+        class="flex-1 min-w-0 col-span-3"
+      ></app-stats-card>
+    </div>
+
+    <app-create-subject-form class="flex-2 min-w-0"></app-create-subject-form>
+  </div>
+</div>
