@@ -1,0 +1,51 @@
+<div
+  class="bg-emerald-950/80 backdrop-blur-xl rounded-lg shadow-lg p-4 h-full min-h-80 flex flex-col gap-4 relative"
+>
+  @if (subject(); as subject) {
+  <div class="flex flex-col min-w-0 gap-1">
+    <h2 class="text-xl font-semibold text-emerald-100 truncate">{{ subject.subjectName }}</h2>
+  </div>
+
+  <div class="flex gap-3 flex-wrap">
+    <div
+      class="flex items-center gap-2 bg-emerald-900/80 rounded-lg px-3 py-2 text-emerald-100 flex-1 min-w-32"
+    >
+      <ng-icon name="faSolidCalendar" class="text-emerald-400! text-lg self-center!"></ng-icon>
+      <div class="flex flex-col">
+        <span class="text-lg font-semibold leading-tight">{{ subject.classesCount }}</span>
+        <span class="text-xs text-emerald-300">Časovi</span>
+      </div>
+    </div>
+
+    <div
+      class="flex items-center gap-2 bg-emerald-900/80 rounded-lg px-3 py-2 text-emerald-100 flex-1 min-w-32"
+    >
+      <ng-icon name="faSolidUserGraduate" class="text-emerald-400! text-lg self-center!"></ng-icon>
+      <div class="flex flex-col">
+        <span class="text-lg font-semibold leading-tight">{{ subject.studentsCount }}</span>
+        <span class="text-xs text-emerald-300">Studenti</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="border border-emerald-500 rounded-lg p-6 w-full mt-auto">
+    <p class="text-emerald-300">{{ subject.subjectDescription }}</p>
+  </div>
+
+  <div class="flex gap-3 flex-wrap mt-auto">
+    <app-button variant="ghost" icon="faSolidPenToSquare">Izmeni</app-button>
+    <app-button variant="danger" icon="faSolidTrashCan">Obriši</app-button>
+  </div>
+  } @else {
+  <div
+    class="flex flex-col items-center justify-center gap-3 text-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-6"
+  >
+    <div class="flex justify-center items-center bg-emerald-900 rounded-full h-14 w-14">
+      <ng-icon name="faSolidHandPointer" class="text-emerald-400! text-2xl self-center!"></ng-icon>
+    </div>
+    <p class="text-emerald-200 font-medium text-lg">
+      Izaberite predmet iz liste kako bi prikazali detalje
+    </p>
+  </div>
+  }
+</div>
