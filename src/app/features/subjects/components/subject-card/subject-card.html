@@ -1,4 +1,8 @@
-<div [class]="containerClasses()" (click)="onClick()">
+<div
+  [class]="containerClasses()"
+  (click)="onClick()"
+  [style]="addOpacity() ? { opacity: 0.5 } : null"
+>
   <div class="flex gap-3 items-center">
     <div class="flex justify-center items-center bg-emerald-500 rounded-full h-10 w-10 shrink-0">
       <span class="text-sm font-semibold text-emerald-950">IP</span>
@@ -14,7 +18,10 @@
       <span>{{ subject().classesCount }}</span>
     </div>
     <div class="flex items-center gap-1">
-      <ng-icon name="faSolidUserGraduate" class="text-emerald-400! text-base self-center!"></ng-icon>
+      <ng-icon
+        name="faSolidUserGraduate"
+        class="text-emerald-400! text-base self-center!"
+      ></ng-icon>
       <span>{{ subject().studentsCount }}</span>
     </div>
   </div>

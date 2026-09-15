@@ -7,13 +7,14 @@ import {
 import { PagedResult } from '../../../../core/models/paged-result';
 import { Button } from '../../../../shared/button/button';
 import { SearchBar } from '../../../../shared/search-bar/search-bar';
+import { Skeleton } from '../../../../shared/skeleton/skeleton';
 import { SortMenu } from '../../../../shared/sort-menu/sort-menu';
 import { SubjectItem } from '../../models/subject-item';
 import { SubjectSort } from '../../models/subject-sort';
 import { SubjectCard } from '../subject-card/subject-card';
 
 @Component({
-  imports: [SubjectCard, Button, SearchBar, SortMenu, NgIcon],
+  imports: [SubjectCard, Button, SearchBar, SortMenu, NgIcon, Skeleton],
   providers: [provideIcons({ faSolidChevronLeft, faSolidChevronRight})],
   selector: 'app-subjects-list',
   styleUrl: './subjects-list.css',
@@ -24,6 +25,8 @@ export class SubjectsList {
   selectedSubjectId = input<number | undefined>(undefined);
   selectedSort = input<SubjectSort>(SubjectSort.CreatedAscending);
   showOnlyArchived = input<boolean>(false);
+  isPending = input<boolean>(false);
+  isFetching = input<boolean>(false);
 
   subjectSelected = output<SubjectItem>();
   searchChanged = output<string>();
@@ -32,6 +35,7 @@ export class SubjectsList {
   archivedToggled = output<boolean>();
 
   subjects = computed(() => this.pagedSubjects()?.items);
+  skeletonItems = computed(() => Array.from({ length: 6 }));
   totalCount = computed(() => this.pagedSubjects()?.totalCount ?? 0);
   pageSize = computed(() => this.pagedSubjects()?.pageSize ?? 0);
   paginatedCount = computed(() => this.pagedSubjects()?.paginatedCount ?? 0);

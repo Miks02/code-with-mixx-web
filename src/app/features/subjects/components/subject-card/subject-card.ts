@@ -11,7 +11,7 @@ import { SubjectItem } from '../../models/subject-item';
 export class SubjectCard {
   subject = input.required<SubjectItem>();
   isSelected = input<boolean>(false);
-
+  addOpacity = input<boolean>(false);
   selected = output<SubjectItem>();
 
   subjectName = computed(() => this.subject().subjectName);
