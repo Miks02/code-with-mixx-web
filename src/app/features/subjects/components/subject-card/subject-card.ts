@@ -17,7 +17,7 @@ export class SubjectCard {
   subjectName = computed(() => this.subject().subjectName);
   subjectDescription = computed(() => {
     const description = this.subject().subjectDescription;
-    return description?.length > 50 ? description.slice(0, 40) + '...' : description;
+    return description;
   });
 
   containerClasses = computed(() =>
