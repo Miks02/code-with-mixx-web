@@ -1,13 +1,13 @@
 import { Component, computed, inject, input, output } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
-    faSolidCalendar,
-    faSolidClockRotateLeft,
-    faSolidHandPointer,
-    faSolidPenToSquare,
-    faSolidSpinner,
-    faSolidTrashCan,
-    faSolidUserGraduate
+  faSolidCalendar,
+  faSolidClockRotateLeft,
+  faSolidHandPointer,
+  faSolidPenToSquare,
+  faSolidSpinner,
+  faSolidTrashCan,
+  faSolidUserGraduate,
 } from '@ng-icons/font-awesome/solid';
 import { currentDate, dateConverter } from '../../../../../core/utilities/date-helpers';
 import { Button } from '../../../../../shared/button/button';
@@ -31,7 +31,7 @@ type SubjectStat = {
       faSolidPenToSquare,
       faSolidTrashCan,
       faSolidUserGraduate,
-      faSolidSpinner
+      faSolidSpinner,
     }),
   ],
   selector: 'app-subject-details',
@@ -47,9 +47,11 @@ export class SubjectDetails {
   private subjectService = inject(SubjectService);
 
   isUpdating = computed(() => {
-    return this.subjectService.archiveSubjectMutation.isPending() ||
-           this.subjectService.deleteSubjectMutation.isPending() ||
-           this.subjectService.restoreSubjectMutation.isPending();
+    return (
+      this.subjectService.archiveSubjectMutation.isPending() ||
+      this.subjectService.deleteSubjectMutation.isPending() ||
+      this.subjectService.restoreSubjectMutation.isPending()
+    );
   });
 
   onEdit() {
@@ -58,28 +60,30 @@ export class SubjectDetails {
 
   onArchive() {
     this.subjectService.archiveSubjectMutation.mutate(this.subject()!.id, {
-      onSuccess: () => this.updatedSubject.emit({
-        ...this.subject()!,
-        deletedAt: currentDate(),
-      }),
-      onError: (err) => console.error(err)
+      onSuccess: () =>
+        this.updatedSubject.emit({
+          ...this.subject()!,
+          deletedAt: currentDate(),
+        }),
+      onError: (err) => console.error(err),
     });
   }
 
   onRestore() {
     this.subjectService.restoreSubjectMutation.mutate(this.subject()!.id, {
-      onSuccess: () => this.updatedSubject.emit({
-        ...this.subject()!,
-        deletedAt: null,
-      }),
-      onError: (err) => console.error(err)
+      onSuccess: () =>
+        this.updatedSubject.emit({
+          ...this.subject()!,
+          deletedAt: null,
+        }),
+      onError: (err) => console.error(err),
     });
   }
 
   onDelete() {
     this.subjectService.deleteSubjectMutation.mutate(this.subject()!.id, {
       onSuccess: () => this.deleteSubject.emit(),
-      onError: (err) => console.error(err)
+      onError: (err) => console.error(err),
     });
   }
 
@@ -110,9 +114,9 @@ export class SubjectDetails {
 
     if (subject.deletedAt) {
       stats.push({
-        icon: 'faSolidTrashCan',
+        icon: 'faSolidBoxArchive',
         value: dateConverter(subject.deletedAt),
-        label: 'Obrisano',
+        label: 'Arhivirano',
         tone: 'danger',
       });
     }
