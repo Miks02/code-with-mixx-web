@@ -4,6 +4,7 @@ import {
   CreateQueryResult,
   injectMutation,
   injectQuery,
+  keepPreviousData,
   QueryClient,
 } from '@tanstack/angular-query-experimental';
 import { lastValueFrom } from 'rxjs';
@@ -16,6 +17,7 @@ import { SubjectsSummary } from '../models/subjects-summary';
 import { UpdateSubjectRequest } from '../models/update-subject-request';
 import { dateConverter } from '../../../core/utilities/date-helpers';
 import { SubjectSort } from '../models/subject-sort';
+import { Item } from 'three/examples/jsm/inspector/ui/Item.js';
 
 @Service()
 export class SubjectService {
@@ -33,27 +35,36 @@ export class SubjectService {
   ) {
     return injectQuery(() => ({
       queryKey: ['subjects-summary-admin'],
-      queryFn: () =>
-        lastValueFrom(
-          this.http.get<SubjectsSummary>(`${this.apiUrl}/admin/subjects/summary`, {
-            params: {
-              pageSize: pageSize(),
-              pageNumber: pageNumber(),
-              searchTerm: searchTerm(),
-              sortBy: sortBy(),
-              onlyArchived: onlyArchived(),
-            },
-          }),
-        ),
+      queryFn: async () => {
+        const params = {
+          pageNumber: pageNumber(),
+          pageSize: pageSize(),
+          searchTerm: searchTerm(),
+          sortBy: sortBy(),
+          onlyArchived: onlyArchived(),
+        };
+
+        const data = await lastValueFrom(
+          this.http.get<SubjectsSummary>(`${this.apiUrl}/admin/subjects/summary`, { params }),
+        );
+
+        this.queryClient.setQueryData(
+          [
+            'paged-subjects-admin',
+            pageNumber(),
+            pageSize(),
+            searchTerm(),
+            sortBy(),
+            onlyArchived(),
+          ],
+          data.pagedSubjects,
+        );
+
+        return data;
+      },
       select: (data: SubjectsSummary) => ({
         ...data,
-        pagedSubjects: {
-          ...data.pagedSubjects,
-          items: data.pagedSubjects.items.map((subject) => ({
-            ...subject,
-            createdAt: dateConverter(subject.createdAt),
-          })),
-        },
+        pagedSubjects: this.mapPagedSubjects(data.pagedSubjects),
       }),
     }));
   }
@@ -87,15 +98,9 @@ export class SubjectService {
             },
           }),
         ),
-      select: (data) => ({
-        ...data,
-        items: data.items.map((subject) => ({
-          ...subject,
-          createdAt: dateConverter(subject.createdAt),
-        })),
-      }),
-      enabled: queryResult.isSuccess,
-      placeholderData: queryResult.data()?.pagedSubjects,
+      select: (data) => this.mapPagedSubjects(data),
+      enabled: queryResult.isSuccess(),
+      placeholderData: keepPreviousData,
     }));
   }
 
@@ -110,10 +115,7 @@ export class SubjectService {
           Pick<SubjectItem, 'id' | 'subjectName' | 'subjectDescription' | 'createdAt'>
         >(`${this.apiUrl}/admin/subjects`, request),
       ),
-    onSuccess: () => {
-      this.queryClient.invalidateQueries({ queryKey: ['subjects-summary-admin'] });
-      this.queryClient.invalidateQueries({ queryKey: ['subjects-paged-admin'] });
-    },
+    onSuccess: () => this.invalidateSubjectQueries(),
   }));
 
   updateSubjectMutation = injectMutation<SubjectItem, ProblemDetails, UpdateSubjectRequest>(() => ({
@@ -124,36 +126,42 @@ export class SubjectService {
           subjectDescription: request.subjectDescription,
         }),
       ),
-    onSuccess: () => {
-      this.queryClient.invalidateQueries({ queryKey: ['subjects-summary-admin'] });
-      this.queryClient.invalidateQueries({ queryKey: ['subjects-paged-admin'] });
-    },
+    onSuccess: () => this.invalidateSubjectQueries(),
   }));
 
   deleteSubjectMutation = injectMutation<void, ProblemDetails, number>(() => ({
     mutationFn: (id: number) =>
       lastValueFrom(this.http.delete<void>(`${this.apiUrl}/admin/subjects/${id}`)),
-    onSuccess: () => {
-      this.queryClient.invalidateQueries({ queryKey: ['subjects-summary-admin'] });
-      this.queryClient.invalidateQueries({ queryKey: ['paged-subjects-admin'] });
-    },
+    onSuccess: () => this.invalidateSubjectQueries(),
   }));
 
   archiveSubjectMutation = injectMutation<void, ProblemDetails, number>(() => ({
     mutationFn: (id: number) =>
       lastValueFrom(this.http.post<void>(`${this.apiUrl}/admin/subjects/${id}/archive`, {})),
-    onSuccess: () => {
-      this.queryClient.invalidateQueries({ queryKey: ['subjects-summary-admin'] });
-      this.queryClient.invalidateQueries({ queryKey: ['paged-subjects-admin'] });
-    },
+    onSuccess: () => this.invalidateSubjectQueries(),
   }));
 
   restoreSubjectMutation = injectMutation<void, ProblemDetails, number>(() => ({
     mutationFn: (id: number) =>
       lastValueFrom(this.http.post<void>(`${this.apiUrl}/admin/subjects/${id}/restore`, {})),
-    onSuccess: () => {
-      this.queryClient.invalidateQueries({ queryKey: ['subjects-summary-admin'] });
-      this.queryClient.invalidateQueries({ queryKey: ['paged-subjects-admin'] });
-    },
+    onSuccess: () => this.invalidateSubjectQueries(),
   }));
+
+  private mapPagedSubjects(data: PagedResult<SubjectItem>): PagedResult<SubjectItem> {
+    return {
+      ...data,
+      items: data.items.map((subject) => ({
+        ...subject,
+        createdAt: dateConverter(subject.createdAt),
+      })),
+    };
+  }
+
+  private invalidateSubjectQueries(): Promise<void> {
+    this.queryClient.invalidateQueries({
+      queryKey: ['paged-subjects-admin'],
+      refetchType: 'none',
+    });
+    return this.queryClient.invalidateQueries({ queryKey: ['subjects-summary-admin'] });
+  }
 }
