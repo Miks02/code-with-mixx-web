@@ -1,6 +1,20 @@
 <div
   class="bg-linear-to-br from-emerald-950 to-emerald-900 rounded-lg shadow-lg p-4 h-full min-h-40 flex flex-col gap-4"
 >
+  @if (isPending()) {
+  <div class="flex items-center justify-between gap-3">
+    <app-skeleton width="55%" />
+    <app-skeleton variant="circular" width="2.25rem" />
+  </div>
+
+  <div class="flex flex-col gap-2 mt-auto">
+    <app-skeleton width="70%" height="1.5rem" />
+    <div class="flex justify-between items-center gap-4">
+      <app-skeleton width="40%" />
+      <app-skeleton width="40%" />
+    </div>
+  </div>
+  } @else {
   <div class="flex items-center justify-between gap-3">
     <h2 class="text-lg md:text-xl font-semibold text-emerald-100">Najpopularniji predmet</h2>
     <div class="flex items-center justify-center bg-amber-500/40 rounded-full p-2 shrink-0">
@@ -27,4 +41,5 @@
       </div>
     </div>
   </div>
+  }
 </div>

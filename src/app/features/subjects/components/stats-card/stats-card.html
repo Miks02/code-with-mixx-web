@@ -1,4 +1,16 @@
 <div class="p-4 bg-emerald-950/70 rounded-lg shadow-lg w-full h-full backdrop-blur-lg">
+  @if (isPending()) {
+  <div class="flex flex-col gap-2 justify-between h-full">
+    <div class="flex w-full justify-between items-center">
+      <app-skeleton width="45%" />
+      <app-skeleton variant="circular" width="2.25rem" />
+    </div>
+    <div class="flex justify-between items-center">
+      <app-skeleton width="30%" height="2.5rem" />
+      <app-skeleton width="25%" />
+    </div>
+  </div>
+  } @else {
   <div class="flex flex-col gap-2 justify-between h-full">
     <div class="flex w-full justify-between">
       <h2 class="text-lg md:text-xl font-bold text-emerald-100">{{ title() }}</h2>
@@ -18,4 +30,5 @@
       </p>
     </div>
   </div>
+  }
 </div>

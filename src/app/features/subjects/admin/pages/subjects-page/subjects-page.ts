@@ -3,25 +3,25 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { provideIcons } from '@ng-icons/core';
 import {
-    faSolidBook,
-    faSolidBookOpen,
-    faSolidBookSkull,
-    faSolidBoxArchive,
-    faSolidCalendar,
-    faSolidCheck,
-    faSolidUserGraduate,
-    faSolidXmark,
+  faSolidBook,
+  faSolidBookOpen,
+  faSolidBookSkull,
+  faSolidBoxArchive,
+  faSolidCalendar,
+  faSolidCheck,
+  faSolidUserGraduate,
+  faSolidXmark,
 } from '@ng-icons/font-awesome/solid';
 import { BehaviorSubject, debounceTime } from 'rxjs';
 import { StatsCard } from '../../../components/stats-card/stats-card';
 import { SubjectsList } from '../../../components/subjects-list/subjects-list';
 import { SubjectItem } from '../../../models/subject-item';
+import { SubjectSort } from '../../../models/subject-sort';
 import { SubjectService } from '../../../services/subject-service';
 import { CreateSubjectForm } from '../../components/create-subject-form/create-subject-form';
 import { EditSubjectForm } from '../../components/edit-subject-form/edit-subject-form';
 import { MostPopularSubject } from '../../components/most-popular-subject/most-popular-subject';
 import { SubjectDetails } from '../../components/subject-details/subject-details';
-import { SubjectSort } from '../../../models/subject-sort';
 
 @Component({
   imports: [
@@ -31,7 +31,7 @@ import { SubjectSort } from '../../../models/subject-sort';
     MostPopularSubject,
     CreateSubjectForm,
     StatsCard,
-    EditSubjectForm
+    EditSubjectForm,
   ],
   providers: [
     provideIcons({
@@ -42,7 +42,7 @@ import { SubjectSort } from '../../../models/subject-sort';
       faSolidBookOpen,
       faSolidCheck,
       faSolidXmark,
-      faSolidBoxArchive
+      faSolidBoxArchive,
     }),
   ],
   selector: 'app-subjects-page',
@@ -58,7 +58,7 @@ export class SubjectsPage {
   private pageSize: WritableSignal<number> = signal(15);
   onlyDeleted: WritableSignal<boolean> = signal(false);
   selectedSort: WritableSignal<SubjectSort> = signal(SubjectSort.CreatedAscending);
-  
+
   subjectToEdit: WritableSignal<SubjectItem | null> = signal(null);
 
   subjectsSummarySource = this.subjectService.getSubjectsSummaryForAdminQuery(
@@ -80,6 +80,9 @@ export class SubjectsPage {
 
   subjectsSummary = computed(() => this.subjectsSummarySource.data());
   subjects = computed(() => this.subjectsSource?.data());
+  subjectsPending = computed(() => this.subjectsSource.isPending());
+  subjectsFetching = computed(() => this.subjectsSource.isFetching());
+  subjectsSummaryPending = computed(() => this.subjectsSummarySource.isPending());
   selectedSubject: WritableSignal<SubjectItem | undefined> = signal(undefined);
 
   mostPopularSubject = computed(() => this.subjectsSummary()?.mostPopularSubject);

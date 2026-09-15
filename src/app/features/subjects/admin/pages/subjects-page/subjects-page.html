@@ -6,6 +6,8 @@
       [selectedSubjectId]="selectedSubject()?.id"
       [selectedSort]="selectedSort()"
       [showOnlyArchived]="onlyDeleted()"
+      [isPending]="subjectsPending()"
+      [isFetching]="subjectsFetching()"
       (subjectSelected)="onSubjectSelected($event)"
       (searchChanged)="onSearchChange($event)"
       (pageChanged)="onPageChanged($event)"
@@ -36,6 +38,7 @@
       <app-most-popular-subject
         class="flex-1 min-w-0 sm:col-span-4"
         [subject]="mostPopularSubject()!"
+        [isPending]="subjectsSummaryPending()"
       ></app-most-popular-subject>
       <app-stats-card
         title="Predmeti"
@@ -43,6 +46,7 @@
         iconBackground="sky"
         description="Ukupno"
         [value]="subjectsSummary()?.totalSubjects"
+        [isPending]="subjectsSummaryPending()"
         class="flex-1 min-w-0 sm:col-span-2"
       ></app-stats-card>
 
@@ -52,6 +56,7 @@
         iconBackground="red"
         description="Predmeti koji još nisu predavani"
         [value]="subjectsSummary()?.untaughtSubjects"
+        [isPending]="subjectsSummaryPending()"
         class="flex-1 min-w-0 sm:col-span-3"
       ></app-stats-card>
 
@@ -61,6 +66,7 @@
         iconBackground="violet"
         description="Predmeti koji su predavani"
         [value]="subjectsSummary()?.taughtSubjects"
+        [isPending]="subjectsSummaryPending()"
         class="flex-1 min-w-0 sm:col-span-3"
       ></app-stats-card>
     </div>
