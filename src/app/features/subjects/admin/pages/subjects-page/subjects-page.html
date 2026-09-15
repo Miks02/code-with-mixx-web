@@ -5,7 +5,7 @@
       [pagedSubjects]="subjects()"
       [selectedSubjectId]="selectedSubject()?.id"
       [selectedSort]="selectedSort()"
-      [showOnlyArchived]="onlyDeleted()"
+      [showOnlyArchived]="onlyArchived()"
       [isPending]="subjectsPending()"
       [isFetching]="subjectsFetching()"
       (subjectSelected)="onSubjectSelected($event)"

@@ -29,7 +29,7 @@ export class SubjectService {
     pageSize: Signal<number>,
     searchTerm: Signal<string>,
     sortBy: Signal<SubjectSort>,
-    onlyDeleted: Signal<boolean>,
+    onlyArchived: Signal<boolean>,
   ) {
     return injectQuery(() => ({
       queryKey: ['subjects-summary-admin'],
@@ -41,7 +41,7 @@ export class SubjectService {
               pageNumber: pageNumber(),
               searchTerm: searchTerm(),
               sortBy: sortBy(),
-              onlyDeleted: onlyDeleted(),
+              onlyArchived: onlyArchived(),
             },
           }),
         ),
@@ -64,7 +64,7 @@ export class SubjectService {
     pageSize: Signal<number>,
     searchTerm: Signal<string>,
     sortBy: Signal<SubjectSort>,
-    onlyDeleted: Signal<boolean>,
+    onlyArchived: Signal<boolean>,
   ) {
     return injectQuery(() => ({
       queryKey: [
@@ -73,7 +73,7 @@ export class SubjectService {
         pageSize(),
         searchTerm(),
         sortBy(),
-        onlyDeleted(),
+        onlyArchived(),
       ],
       queryFn: () =>
         lastValueFrom(
@@ -83,7 +83,7 @@ export class SubjectService {
               pageNumber: pageNumber(),
               searchTerm: searchTerm(),
               sortBy: sortBy(),
-              onlyDeleted: onlyDeleted(),
+              onlyArchived: onlyArchived(),
             },
           }),
         ),

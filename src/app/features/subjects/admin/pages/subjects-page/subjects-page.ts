@@ -56,7 +56,7 @@ export class SubjectsPage {
 
   private pageNumber: WritableSignal<number> = signal(1);
   private pageSize: WritableSignal<number> = signal(15);
-  onlyDeleted: WritableSignal<boolean> = signal(false);
+  onlyArchived: WritableSignal<boolean> = signal(false);
   selectedSort: WritableSignal<SubjectSort> = signal(SubjectSort.CreatedAscending);
 
   subjectToEdit: WritableSignal<SubjectItem | null> = signal(null);
@@ -66,7 +66,7 @@ export class SubjectsPage {
     this.pageSize,
     this.searchTerm,
     this.selectedSort,
-    this.onlyDeleted,
+    this.onlyArchived,
   );
 
   subjectsSource = this.subjectService.getPagedSubjectsForAdminQuery(
@@ -75,7 +75,7 @@ export class SubjectsPage {
     this.pageSize,
     this.searchTerm,
     this.selectedSort,
-    this.onlyDeleted,
+    this.onlyArchived,
   );
 
   subjectsSummary = computed(() => this.subjectsSummarySource.data());
@@ -102,7 +102,7 @@ export class SubjectsPage {
 
   onArchivedToggle(onlyDeleted: boolean) {
     this.pageNumber.set(1);
-    this.onlyDeleted.set(onlyDeleted);
+    this.onlyArchived.set(onlyDeleted);
   }
 
   onPageChanged(page: number) {
