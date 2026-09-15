@@ -10,7 +10,7 @@
     ></app-subjects-list>
 
     @if(subjectToEdit()) {
-    <app-edit-subject-form 
+    <app-edit-subject-form
       (closeForm)="subjectToEdit.set(null)"
       class="flex-1 min-w-0"
       [selectedSubject]="subjectToEdit()"
@@ -27,9 +27,9 @@
   </div>
 
   <div class="flex flex-col lg:flex-row gap-6">
-    <div class="grid grid-cols-6 grid-rows-2 flex-1 gap-4">
+    <div class="grid grid-cols-1 grid-rows-4 sm:grid-cols-6 sm:grid-rows-2 flex-1 gap-4">
       <app-most-popular-subject
-        class="flex-1 min-w-0 col-span-4"
+        class="flex-1 min-w-0 sm:col-span-4"
         [subject]="mostPopularSubject()!"
       ></app-most-popular-subject>
       <app-stats-card
@@ -38,7 +38,7 @@
         iconBackground="sky"
         description="Ukupno"
         [value]="subjectsSummary()?.totalSubjects"
-        class="flex-1 min-w-0 col-span-2"
+        class="flex-1 min-w-0 sm:col-span-2"
       ></app-stats-card>
 
       <app-stats-card
@@ -47,7 +47,7 @@
         iconBackground="red"
         description="Predmeti koji još nisu predavani"
         [value]="subjectsSummary()?.untaughtSubjects"
-        class="flex-1 min-w-0 col-span-3"
+        class="flex-1 min-w-0 sm:col-span-3"
       ></app-stats-card>
 
       <app-stats-card
@@ -56,7 +56,7 @@
         iconBackground="violet"
         description="Predmeti koji su predavani"
         [value]="subjectsSummary()?.taughtSubjects"
-        class="flex-1 min-w-0 col-span-3"
+        class="flex-1 min-w-0 sm:col-span-3"
       ></app-stats-card>
     </div>
 

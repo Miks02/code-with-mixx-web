@@ -1,25 +1,25 @@
-import { Component, computed, effect, inject, signal, WritableSignal } from '@angular/core';
+import { Component, computed, inject, signal, WritableSignal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { provideIcons } from '@ng-icons/core';
 import {
-  faSolidBook,
-  faSolidBookOpen,
-  faSolidBookSkull,
-  faSolidCalendar,
-  faSolidCheck,
-  faSolidUserGraduate,
-  faSolidXmark,
+    faSolidBook,
+    faSolidBookOpen,
+    faSolidBookSkull,
+    faSolidCalendar,
+    faSolidCheck,
+    faSolidUserGraduate,
+    faSolidXmark,
 } from '@ng-icons/font-awesome/solid';
 import { BehaviorSubject, debounceTime } from 'rxjs';
+import { StatsCard } from '../../../components/stats-card/stats-card';
 import { SubjectsList } from '../../../components/subjects-list/subjects-list';
 import { SubjectItem } from '../../../models/subject-item';
 import { SubjectService } from '../../../services/subject-service';
 import { CreateSubjectForm } from '../../components/create-subject-form/create-subject-form';
+import { EditSubjectForm } from '../../components/edit-subject-form/edit-subject-form';
 import { MostPopularSubject } from '../../components/most-popular-subject/most-popular-subject';
 import { SubjectDetails } from '../../components/subject-details/subject-details';
-import { StatsCard } from '../../../components/stats-card/stats-card';
-import { EditSubjectForm } from '../../components/edit-subject-form/edit-subject-form';
 
 @Component({
   imports: [

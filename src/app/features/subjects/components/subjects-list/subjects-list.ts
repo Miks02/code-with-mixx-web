@@ -1,4 +1,4 @@
-import { Component, computed, input, output } from '@angular/core';
+import { Component, computed, input, output, signal } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
   faSolidChevronLeft,
@@ -9,12 +9,11 @@ import { PagedResult } from '../../../../core/models/paged-result';
 import { Button } from '../../../../shared/button/button';
 import { SubjectItem } from '../../models/subject-item';
 import { SubjectCard } from '../subject-card/subject-card';
+import { SearchBar } from '../../../../shared/search-bar/search-bar';
 
 @Component({
-  imports: [SubjectCard, NgIcon, Button],
-  providers: [
-    provideIcons({ faSolidChevronLeft, faSolidChevronRight, faSolidMagnifyingGlass }),
-  ],
+  imports: [SubjectCard, Button, SearchBar],
+  providers: [provideIcons({ faSolidChevronLeft, faSolidChevronRight })],
   selector: 'app-subjects-list',
   styleUrl: './subjects-list.css',
   templateUrl: './subjects-list.html',
@@ -40,9 +39,8 @@ export class SubjectsList {
     this.subjectSelected.emit(subject);
   }
 
-  onSearchInput(event: Event) {
-    const target = event.target as HTMLInputElement;
-    this.searchChanged.emit(target.value);
+  onSearchInput(searchTerm: string) {
+    this.searchChanged.emit(searchTerm);
   }
 
   onPreviousPage() {

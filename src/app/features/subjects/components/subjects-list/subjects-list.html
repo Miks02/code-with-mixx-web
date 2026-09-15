@@ -4,20 +4,10 @@
   <div class="flex items-center justify-between gap-3 flex-wrap">
     <h2 class="text-xl font-semibold text-emerald-100">Predmeti</h2>
 
-    <div
-      class="flex items-center gap-2 bg-emerald-900/80 rounded-lg px-3 py-2 flex-1 min-w-40 max-w-64"
-    >
-      <ng-icon
-        name="faSolidMagnifyingGlass"
-        class="text-emerald-400! text-sm self-center!"
-      ></ng-icon>
-      <input
-        type="text"
-        (input)="onSearchInput($event)"
-        class="w-full bg-transparent outline-none text-sm text-emerald-100 placeholder:text-emerald-100/50"
-        placeholder="Pretraži predmete..."
-      />
-    </div>
+    <app-search-bar
+      placeholder="Pretraži predmete"
+      (searchTerm)="onSearchInput($event)"
+    ></app-search-bar>
   </div>
 
   @if (subjects()?.length) {
