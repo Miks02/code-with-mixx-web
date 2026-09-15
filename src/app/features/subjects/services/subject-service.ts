@@ -67,7 +67,14 @@ export class SubjectService {
     onlyDeleted: Signal<boolean>,
   ) {
     return injectQuery(() => ({
-      queryKey: ['paged-subjects-admin', pageNumber(), pageSize(), searchTerm(), sortBy(), onlyDeleted()],
+      queryKey: [
+        'paged-subjects-admin',
+        pageNumber(),
+        pageSize(),
+        searchTerm(),
+        sortBy(),
+        onlyDeleted(),
+      ],
       queryFn: () =>
         lastValueFrom(
           this.http.get<PagedResult<SubjectItem>>(`${this.apiUrl}/admin/subjects`, {
@@ -103,7 +110,10 @@ export class SubjectService {
           Pick<SubjectItem, 'id' | 'subjectName' | 'subjectDescription' | 'createdAt'>
         >(`${this.apiUrl}/admin/subjects`, request),
       ),
-    onSuccess: () => this.queryClient.invalidateQueries({ queryKey: ['subjects-summary-admin'] }),
+    onSuccess: () => {
+      this.queryClient.invalidateQueries({ queryKey: ['subjects-summary-admin'] });
+      this.queryClient.invalidateQueries({ queryKey: ['subjects-paged-admin'] });
+    },
   }));
 
   updateSubjectMutation = injectMutation<SubjectItem, ProblemDetails, UpdateSubjectRequest>(() => ({
@@ -123,6 +133,24 @@ export class SubjectService {
   deleteSubjectMutation = injectMutation<void, ProblemDetails, number>(() => ({
     mutationFn: (id: number) =>
       lastValueFrom(this.http.delete<void>(`${this.apiUrl}/admin/subjects/${id}`)),
+    onSuccess: () => {
+      this.queryClient.invalidateQueries({ queryKey: ['subjects-summary-admin'] });
+      this.queryClient.invalidateQueries({ queryKey: ['paged-subjects-admin'] });
+    },
+  }));
+
+  archiveSubjectMutation = injectMutation<void, ProblemDetails, number>(() => ({
+    mutationFn: (id: number) =>
+      lastValueFrom(this.http.post<void>(`${this.apiUrl}/admin/subjects/${id}/archive`, {})),
+    onSuccess: () => {
+      this.queryClient.invalidateQueries({ queryKey: ['subjects-summary-admin'] });
+      this.queryClient.invalidateQueries({ queryKey: ['paged-subjects-admin'] });
+    },
+  }));
+
+  restoreSubjectMutation = injectMutation<void, ProblemDetails, number>(() => ({
+    mutationFn: (id: number) =>
+      lastValueFrom(this.http.post<void>(`${this.apiUrl}/admin/subjects/${id}/restore`, {})),
     onSuccess: () => {
       this.queryClient.invalidateQueries({ queryKey: ['subjects-summary-admin'] });
       this.queryClient.invalidateQueries({ queryKey: ['paged-subjects-admin'] });
