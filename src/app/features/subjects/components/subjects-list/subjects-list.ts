@@ -1,21 +1,20 @@
 import { Component, computed, input, output } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
-  faSolidBoxArchive,
-  faSolidChevronLeft,
-  faSolidChevronRight,
+    faSolidChevronLeft,
+    faSolidChevronRight
 } from '@ng-icons/font-awesome/solid';
 import { PagedResult } from '../../../../core/models/paged-result';
 import { Button } from '../../../../shared/button/button';
 import { SearchBar } from '../../../../shared/search-bar/search-bar';
+import { SortMenu } from '../../../../shared/sort-menu/sort-menu';
 import { SubjectItem } from '../../models/subject-item';
 import { SubjectSort } from '../../models/subject-sort';
 import { SubjectCard } from '../subject-card/subject-card';
-import { SortMenu } from '../../../../shared/sort-menu/sort-menu';
 
 @Component({
   imports: [SubjectCard, Button, SearchBar, SortMenu, NgIcon],
-  providers: [provideIcons({ faSolidChevronLeft, faSolidChevronRight, faSolidBoxArchive })],
+  providers: [provideIcons({ faSolidChevronLeft, faSolidChevronRight})],
   selector: 'app-subjects-list',
   styleUrl: './subjects-list.css',
   templateUrl: './subjects-list.html',

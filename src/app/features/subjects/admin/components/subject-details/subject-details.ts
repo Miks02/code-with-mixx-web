@@ -1,14 +1,15 @@
 import { Component, computed, inject, input, output } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
-  faSolidCalendar,
-  faSolidClockRotateLeft,
-  faSolidHandPointer,
-  faSolidPenToSquare,
-  faSolidTrashCan,
-  faSolidUserGraduate,
+    faSolidCalendar,
+    faSolidClockRotateLeft,
+    faSolidHandPointer,
+    faSolidPenToSquare,
+    faSolidSpinner,
+    faSolidTrashCan,
+    faSolidUserGraduate
 } from '@ng-icons/font-awesome/solid';
-import { dateConverter } from '../../../../../core/utilities/date-helpers';
+import { currentDate, dateConverter } from '../../../../../core/utilities/date-helpers';
 import { Button } from '../../../../../shared/button/button';
 import { SubjectItem } from '../../../models/subject-item';
 import { SubjectService } from '../../../services/subject-service';
@@ -30,6 +31,7 @@ type SubjectStat = {
       faSolidPenToSquare,
       faSolidTrashCan,
       faSolidUserGraduate,
+      faSolidSpinner
     }),
   ],
   selector: 'app-subject-details',
@@ -40,11 +42,38 @@ export class SubjectDetails {
   subject = input<SubjectItem>();
   editSubject = output<SubjectItem>();
   deleteSubject = output();
+  updatedSubject = output<SubjectItem>();
 
   private subjectService = inject(SubjectService);
 
+  isUpdating = computed(() => {
+    return this.subjectService.archiveSubjectMutation.isPending() ||
+           this.subjectService.deleteSubjectMutation.isPending() ||
+           this.subjectService.restoreSubjectMutation.isPending();
+  });
+
   onEdit() {
     this.editSubject.emit(this.subject()!);
+  }
+
+  onArchive() {
+    this.subjectService.archiveSubjectMutation.mutate(this.subject()!.id, {
+      onSuccess: () => this.updatedSubject.emit({
+        ...this.subject()!,
+        deletedAt: currentDate(),
+      }),
+      onError: (err) => console.error(err)
+    });
+  }
+
+  onRestore() {
+    this.subjectService.restoreSubjectMutation.mutate(this.subject()!.id, {
+      onSuccess: () => this.updatedSubject.emit({
+        ...this.subject()!,
+        deletedAt: null,
+      }),
+      onError: (err) => console.error(err)
+    });
   }
 
   onDelete() {

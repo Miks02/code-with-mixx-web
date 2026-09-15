@@ -6,6 +6,7 @@ import {
     faSolidBook,
     faSolidBookOpen,
     faSolidBookSkull,
+    faSolidBoxArchive,
     faSolidCalendar,
     faSolidCheck,
     faSolidUserGraduate,
@@ -40,7 +41,8 @@ import { SubjectSort } from '../../../models/subject-sort';
       faSolidBookSkull,
       faSolidBookOpen,
       faSolidCheck,
-      faSolidXmark
+      faSolidXmark,
+      faSolidBoxArchive
     }),
   ],
   selector: 'app-subjects-page',
@@ -81,6 +83,10 @@ export class SubjectsPage {
   selectedSubject: WritableSignal<SubjectItem | undefined> = signal(undefined);
 
   mostPopularSubject = computed(() => this.subjectsSummary()?.mostPopularSubject);
+
+  updateSelectedSubject(subject: SubjectItem) {
+    this.selectedSubject.set(subject);
+  }
 
   onSearchChange(searchTerm: string) {
     this.pageNumber.set(1);
