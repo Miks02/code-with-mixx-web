@@ -1,4 +1,4 @@
-<div
+<label
   class="hidden md:flex items-center gap-2 bg-emerald-900/80 rounded-lg px-3 py-2 flex-1 min-w-40 max-w-64"
 >
   <ng-icon name="faSolidMagnifyingGlass" class="text-emerald-400! text-sm self-center!"></ng-icon>
@@ -8,29 +8,32 @@
     class="w-full bg-transparent outline-none text-sm text-emerald-100 placeholder:text-emerald-100/50"
     placeholder="{{ placeholder() }}"
   />
-</div>
+</label>
 
 <button
   (click)="onToggle()"
   [class]="isVisible() ? 'border-amber-500' : 'border-emerald-400'"
   class="md:hidden shrink-0 rounded-full bg-emerald-700 p-2 flex justify-center items-center border-2 cursor-pointer shadow-lg active:scale-95 transition-200"
 >
-  <ng-icon name="faSolidMagnifyingGlass" class="text-emerald-300! self-center!"></ng-icon>
+  <ng-icon name="faSolidMagnifyingGlass" class="text-emerald-300! self-center!"></ng-icon> 
 </button>
 
 <div
-  class="md:hidden grid transition-[grid-template-rows] duration-200 ease-out"
-  [class]="isVisible() ? 'grid-rows-[1fr] w-full' : 'grid-rows-[0fr]'"
+  class="md:hidden absolute left-0 right-0 top-full mt-2 z-10 grid overflow-hidden transition-[grid-template-rows,opacity] duration-200 ease-out"
+  [class]="isVisible() ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'"
 >
   <div class="overflow-hidden">
-    <div class="flex items-center gap-2 bg-emerald-950 rounded-lg px-3 py-3">
-      <ng-icon name="faSolidMagnifyingGlass" class="text-emerald-400! text-sm self-center!"></ng-icon>
+    <label class="flex items-center gap-2 bg-emerald-950 rounded-lg px-3 py-3 shadow-lg">
+      <ng-icon
+        name="faSolidMagnifyingGlass"
+        class="text-emerald-400! text-sm self-center!"
+      ></ng-icon>
       <input
         type="text"
         (input)="onSearch($event)"
         class="w-full bg-transparent outline-none text-sm text-emerald-100 placeholder:text-emerald-100/50"
         placeholder="{{ placeholder() }}"
       />
-    </div>
+    </label>
   </div>
 </div>

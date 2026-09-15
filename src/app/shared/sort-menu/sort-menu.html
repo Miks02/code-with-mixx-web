@@ -1,0 +1,42 @@
+<label
+  class="hidden md:flex items-center gap-2 bg-emerald-900/80 rounded-lg px-3 py-2 flex-1 min-w-40 max-w-64 cursor-pointer"
+>
+  <ng-icon
+    name="faSolidArrowDownWideShort"
+    class="text-emerald-400! text-sm self-center!"
+  ></ng-icon>
+  <div class="relative flex-1 min-w-0">
+    <select
+      (change)="onSelect($event)"
+      class="w-full h-5 leading-5 appearance-none bg-transparent outline-none text-sm text-emerald-100 cursor-pointer pr-2 scheme-dark"
+    >
+      @for (entry of entries(); track entry[0]) {
+      <option [value]="entry[0]" [selected]="entry[0] === selected()" class="bg-emerald-950 text-emerald-100">
+        {{ entry[1] }}
+      </option>
+      }
+    </select>
+    <ng-icon
+      name="faSolidChevronDown"
+      class="text-emerald-400! text-xs! pointer-events-none absolute right-0 top-1/2 -translate-y-1/2"
+    ></ng-icon>
+  </div>
+</label>
+
+<div class="relative md:hidden">
+  <select
+    (change)="onSelect($event)"
+    class="peer absolute inset-0 h-full w-full cursor-pointer appearance-none opacity-0 scheme-dark"
+  >
+    @for (entry of entries(); track entry[0]) {
+    <option [value]="entry[0]" [selected]="entry[0] === selected()" class="bg-emerald-950 text-emerald-100">
+      {{ entry[1] }}
+    </option>
+    }
+  </select>
+  <div
+    class="pointer-events-none flex shrink-0 justify-center items-center rounded-full bg-emerald-700 p-2 border-2 border-emerald-400 shadow-lg transition-200 peer-active:scale-95"
+  >
+    <ng-icon name="faSolidArrowDownWideShort" class="text-emerald-300! self-center!"></ng-icon>
+  </div>
+</div>
