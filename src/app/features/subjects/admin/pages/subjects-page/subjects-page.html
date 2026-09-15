@@ -5,10 +5,12 @@
       [pagedSubjects]="subjects()"
       [selectedSubjectId]="selectedSubject()?.id"
       [selectedSort]="selectedSort()"
+      [showOnlyArchived]="onlyDeleted()"
       (subjectSelected)="onSubjectSelected($event)"
       (searchChanged)="onSearchChange($event)"
       (pageChanged)="onPageChanged($event)"
       (sortChanged)="onSortChange($event)"
+      (archivedToggled)="onArchivedToggle($event)"
     ></app-subjects-list>
 
     @if(subjectToEdit()) {

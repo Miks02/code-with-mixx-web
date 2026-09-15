@@ -1,6 +1,10 @@
 import { Component, computed, input, output } from '@angular/core';
-import { provideIcons } from '@ng-icons/core';
-import { faSolidChevronLeft, faSolidChevronRight } from '@ng-icons/font-awesome/solid';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import {
+  faSolidBoxArchive,
+  faSolidChevronLeft,
+  faSolidChevronRight,
+} from '@ng-icons/font-awesome/solid';
 import { PagedResult } from '../../../../core/models/paged-result';
 import { Button } from '../../../../shared/button/button';
 import { SearchBar } from '../../../../shared/search-bar/search-bar';
@@ -10,8 +14,8 @@ import { SubjectCard } from '../subject-card/subject-card';
 import { SortMenu } from '../../../../shared/sort-menu/sort-menu';
 
 @Component({
-  imports: [SubjectCard, Button, SearchBar, SortMenu],
-  providers: [provideIcons({ faSolidChevronLeft, faSolidChevronRight })],
+  imports: [SubjectCard, Button, SearchBar, SortMenu, NgIcon],
+  providers: [provideIcons({ faSolidChevronLeft, faSolidChevronRight, faSolidBoxArchive })],
   selector: 'app-subjects-list',
   styleUrl: './subjects-list.css',
   templateUrl: './subjects-list.html',
@@ -20,11 +24,13 @@ export class SubjectsList {
   pagedSubjects = input.required<PagedResult<SubjectItem> | undefined>();
   selectedSubjectId = input<number | undefined>(undefined);
   selectedSort = input<SubjectSort>(SubjectSort.CreatedAscending);
+  showOnlyArchived = input<boolean>(false);
 
   subjectSelected = output<SubjectItem>();
   searchChanged = output<string>();
   pageChanged = output<number>();
   sortChanged = output<SubjectSort>();
+  archivedToggled = output<boolean>();
 
   subjects = computed(() => this.pagedSubjects()?.items);
   totalCount = computed(() => this.pagedSubjects()?.totalCount ?? 0);
@@ -52,6 +58,10 @@ export class SubjectsList {
 
   onSortChanged(sort: SubjectSort) {
     this.sortChanged.emit(sort);
+  }
+
+  onArchivedToggle() {
+    this.archivedToggled.emit(!this.showOnlyArchived());
   }
 
   onPreviousPage() {

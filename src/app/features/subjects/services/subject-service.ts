@@ -29,6 +29,7 @@ export class SubjectService {
     pageSize: Signal<number>,
     searchTerm: Signal<string>,
     sortBy: Signal<SubjectSort>,
+    onlyDeleted: Signal<boolean>,
   ) {
     return injectQuery(() => ({
       queryKey: ['subjects-summary-admin'],
@@ -40,6 +41,7 @@ export class SubjectService {
               pageNumber: pageNumber(),
               searchTerm: searchTerm(),
               sortBy: sortBy(),
+              onlyDeleted: onlyDeleted(),
             },
           }),
         ),
@@ -62,9 +64,10 @@ export class SubjectService {
     pageSize: Signal<number>,
     searchTerm: Signal<string>,
     sortBy: Signal<SubjectSort>,
+    onlyDeleted: Signal<boolean>,
   ) {
     return injectQuery(() => ({
-      queryKey: ['paged-subjects-admin', pageNumber(), pageSize(), searchTerm(), sortBy()],
+      queryKey: ['paged-subjects-admin', pageNumber(), pageSize(), searchTerm(), sortBy(), onlyDeleted()],
       queryFn: () =>
         lastValueFrom(
           this.http.get<PagedResult<SubjectItem>>(`${this.apiUrl}/admin/subjects`, {
@@ -73,6 +76,7 @@ export class SubjectService {
               pageNumber: pageNumber(),
               searchTerm: searchTerm(),
               sortBy: sortBy(),
+              onlyDeleted: onlyDeleted(),
             },
           }),
         ),

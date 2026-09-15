@@ -4,11 +4,32 @@
   <div class="relative flex items-center justify-between gap-3 flex-wrap">
     <h2 class="text-xl font-semibold text-emerald-100">Predmeti</h2>
 
-    <div class="flex gap-2">
-      <app-sort-menu 
-        [options]="sort" 
+    <div class="flex gap-2 self-center">
+      <app-button
+        variant="ghost"
+        size="sm"
+        icon="faSolidBoxArchive"
+        class="hidden md:inline-flex"
+        [class]="showOnlyArchived() ? 'hidden md:inline-flex bg-emerald-700' : 'hidden md:inline-flex'"
+        (click)="onArchivedToggle()"
+      >
+        Arhivirani
+      </app-button>
+
+      <button
+        type="button"
+        (click)="onArchivedToggle()"
+        [class]="showOnlyArchived() ? 'border-amber-500' : 'border-emerald-400'"
+        class="md:hidden shrink-0 rounded-full bg-emerald-700 p-2 flex justify-center items-center border-2 cursor-pointer shadow-lg active:scale-95 transition-200"
+      >
+        <ng-icon name="faSolidBoxArchive" class="text-emerald-300! self-center!"></ng-icon>
+      </button>
+
+      <app-sort-menu
+        [options]="sort"
         [selected]="selectedSort()"
-        (sortChanged)="onSortChanged($event)"></app-sort-menu>
+        (sortChanged)="onSortChanged($event)"
+      ></app-sort-menu>
 
       <app-search-bar
         placeholder="Pretraži predmete"
