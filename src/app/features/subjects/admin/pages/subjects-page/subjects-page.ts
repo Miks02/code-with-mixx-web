@@ -54,7 +54,7 @@ export class SubjectsPage {
 
   private pageNumber: WritableSignal<number> = signal(1);
   private pageSize: WritableSignal<number> = signal(15);
-  private selectedSort: WritableSignal<SubjectSort> = signal(SubjectSort.CreatedAscending);
+  selectedSort: WritableSignal<SubjectSort> = signal(SubjectSort.CreatedAscending);
 
   subjectToEdit: WritableSignal<SubjectItem | null> = signal(null);
 
@@ -81,7 +81,7 @@ export class SubjectsPage {
 
   onSearchChange(searchTerm: string) {
     this.pageNumber.set(1);
-    this.searchTerm$.next(searchTerm);  
+    this.searchTerm$.next(searchTerm);
   }
 
   onSortChange(sort: SubjectSort) {

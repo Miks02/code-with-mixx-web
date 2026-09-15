@@ -4,6 +4,7 @@
       class="flex-1 min-w-0"
       [pagedSubjects]="subjects()"
       [selectedSubjectId]="selectedSubject()?.id"
+      [selectedSort]="selectedSort()"
       (subjectSelected)="onSubjectSelected($event)"
       (searchChanged)="onSearchChange($event)"
       (pageChanged)="onPageChanged($event)"

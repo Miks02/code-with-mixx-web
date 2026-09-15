@@ -38,8 +38,8 @@ export class SubjectsList {
   sort: Record<SubjectSort, string> = {
     [SubjectSort.NameAscending]: 'Po imenu (A-Z)',
     [SubjectSort.NameDescending]: 'Po imenu (Z-A)',
-    [SubjectSort.CreatedAscending]: 'Po datumu - noviji',
-    [SubjectSort.CreatedDescending]: 'Po datumu - stariji',
+    [SubjectSort.CreatedAscending]: 'Po datumu - stariji',
+    [SubjectSort.CreatedDescending]: 'Po datumu - noviji',
   };
 
   onSubjectSelected(subject: SubjectItem) {
