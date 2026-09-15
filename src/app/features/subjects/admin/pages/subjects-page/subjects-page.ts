@@ -20,6 +20,7 @@ import { CreateSubjectForm } from '../../components/create-subject-form/create-s
 import { EditSubjectForm } from '../../components/edit-subject-form/edit-subject-form';
 import { MostPopularSubject } from '../../components/most-popular-subject/most-popular-subject';
 import { SubjectDetails } from '../../components/subject-details/subject-details';
+import { SubjectSort } from '../../../models/subject-sort';
 
 @Component({
   imports: [
@@ -53,6 +54,7 @@ export class SubjectsPage {
 
   private pageNumber: WritableSignal<number> = signal(1);
   private pageSize: WritableSignal<number> = signal(15);
+  private selectedSort: WritableSignal<SubjectSort> = signal(SubjectSort.CreatedAscending);
 
   subjectToEdit: WritableSignal<SubjectItem | null> = signal(null);
 
@@ -60,6 +62,7 @@ export class SubjectsPage {
     this.pageNumber,
     this.pageSize,
     this.searchTerm,
+    this.selectedSort,
   );
 
   subjectsSource = this.subjectService.getPagedSubjectsForAdminQuery(
@@ -67,6 +70,7 @@ export class SubjectsPage {
     this.pageNumber,
     this.pageSize,
     this.searchTerm,
+    this.selectedSort,
   );
 
   subjectsSummary = computed(() => this.subjectsSummarySource.data());
@@ -77,7 +81,11 @@ export class SubjectsPage {
 
   onSearchChange(searchTerm: string) {
     this.pageNumber.set(1);
-    this.searchTerm$.next(searchTerm);
+    this.searchTerm$.next(searchTerm);  
+  }
+
+  onSortChange(sort: SubjectSort) {
+    this.selectedSort.set(sort);
   }
 
   onPageChanged(page: number) {

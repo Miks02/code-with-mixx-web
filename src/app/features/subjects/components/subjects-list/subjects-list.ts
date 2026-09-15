@@ -1,18 +1,16 @@
-import { Component, computed, input, output, signal } from '@angular/core';
-import { NgIcon, provideIcons } from '@ng-icons/core';
-import {
-  faSolidChevronLeft,
-  faSolidChevronRight,
-  faSolidMagnifyingGlass,
-} from '@ng-icons/font-awesome/solid';
+import { Component, computed, input, output } from '@angular/core';
+import { provideIcons } from '@ng-icons/core';
+import { faSolidChevronLeft, faSolidChevronRight } from '@ng-icons/font-awesome/solid';
 import { PagedResult } from '../../../../core/models/paged-result';
 import { Button } from '../../../../shared/button/button';
-import { SubjectItem } from '../../models/subject-item';
-import { SubjectCard } from '../subject-card/subject-card';
 import { SearchBar } from '../../../../shared/search-bar/search-bar';
+import { SubjectItem } from '../../models/subject-item';
+import { SubjectSort } from '../../models/subject-sort';
+import { SubjectCard } from '../subject-card/subject-card';
+import { SortMenu } from '../../../../shared/sort-menu/sort-menu';
 
 @Component({
-  imports: [SubjectCard, Button, SearchBar],
+  imports: [SubjectCard, Button, SearchBar, SortMenu],
   providers: [provideIcons({ faSolidChevronLeft, faSolidChevronRight })],
   selector: 'app-subjects-list',
   styleUrl: './subjects-list.css',
@@ -21,10 +19,12 @@ import { SearchBar } from '../../../../shared/search-bar/search-bar';
 export class SubjectsList {
   pagedSubjects = input.required<PagedResult<SubjectItem> | undefined>();
   selectedSubjectId = input<number | undefined>(undefined);
+  selectedSort = input<SubjectSort>(SubjectSort.CreatedAscending);
 
   subjectSelected = output<SubjectItem>();
   searchChanged = output<string>();
   pageChanged = output<number>();
+  sortChanged = output<SubjectSort>();
 
   subjects = computed(() => this.pagedSubjects()?.items);
   totalCount = computed(() => this.pagedSubjects()?.totalCount ?? 0);
@@ -35,12 +35,23 @@ export class SubjectsList {
   hasPreviousPage = computed(() => this.pagedSubjects()?.hasPreviousPage ?? false);
   hasNextPage = computed(() => this.pagedSubjects()?.hasNextPage ?? false);
 
+  sort: Record<SubjectSort, string> = {
+    [SubjectSort.NameAscending]: 'Po imenu (A-Z)',
+    [SubjectSort.NameDescending]: 'Po imenu (Z-A)',
+    [SubjectSort.CreatedAscending]: 'Po datumu - noviji',
+    [SubjectSort.CreatedDescending]: 'Po datumu - stariji',
+  };
+
   onSubjectSelected(subject: SubjectItem) {
     this.subjectSelected.emit(subject);
   }
 
   onSearchInput(searchTerm: string) {
     this.searchChanged.emit(searchTerm);
+  }
+
+  onSortChanged(sort: SubjectSort) {
+    this.sortChanged.emit(sort);
   }
 
   onPreviousPage() {
