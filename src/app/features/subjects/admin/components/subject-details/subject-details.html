@@ -1,0 +1,76 @@
+<div
+  class="bg-emerald-950/80 backdrop-blur-xl rounded-lg shadow-lg p-4 h-full min-h-80 flex flex-col gap-4 relative"
+>
+  @if(isUpdating()) {
+  <div
+    class="absolute w-full h-full top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 bg-emerald-900/50"
+  >
+    <div class="flex items-center justify-center h-full">
+      <ng-icon name="faSolidSpinner" class="animate-spin text-emerald-100! text-7xl"></ng-icon>
+    </div>
+  </div>
+  } @if (subject(); as subject) {
+  <div class="flex flex-wrap w-full items-center justify-between min-w-0 gap-1">
+    <h2 class="text-xl font-semibold text-emerald-100 truncate">{{ subject.subjectName }}</h2>
+    <p class="text-emerald-100/80 font-semibold">Kreiran: {{subject.createdAt}}</p>
+  </div>
+
+  <div class="flex gap-2 flex-wrap">
+    @for (stat of stats(); track stat.label) {
+    <div
+      class="flex items-center gap-2 rounded-lg px-2.5 py-1.5 flex-1 min-w-28"
+      [class.bg-emerald-900/80]="stat.tone !== 'danger'"
+      [class.text-emerald-100]="stat.tone !== 'danger'"
+      [class.bg-red-950/60]="stat.tone === 'danger'"
+      [class.text-red-100]="stat.tone === 'danger'"
+    >
+      <ng-icon
+        [name]="stat.icon"
+        class="text-base self-center!"
+        [class.text-emerald-400!]="stat.tone !== 'danger'"
+        [class.text-red-400!]="stat.tone === 'danger'"
+      ></ng-icon>
+      <div class="flex flex-col min-w-0">
+        <span class="text-sm font-semibold leading-tight truncate">{{ stat.value }}</span>
+        <span
+          class="text-xs"
+          [class.text-emerald-300]="stat.tone !== 'danger'"
+          [class.text-red-300]="stat.tone === 'danger'"
+          >{{ stat.label }}</span
+        >
+      </div>
+    </div>
+    }
+  </div>
+
+  <div class="border border-emerald-500 rounded-lg p-6 w-full mt-auto">
+    <p class="text-emerald-300">{{ subject.subjectDescription }}</p>
+  </div>
+
+  <div class="flex gap-3 flex-wrap mt-auto">
+    <app-button (clicked)="onEdit()" variant="ghost" icon="faSolidPenToSquare">Izmeni</app-button>
+    @if(!subject.deletedAt) {
+    <app-button (clicked)="onArchive()" variant="secondary" icon="faSolidBoxArchive"
+      >Arhiviraj</app-button
+    >
+    } @else {
+    <app-button (clicked)="onRestore()" variant="secondary" icon="faSolidBoxArchive"
+      >Vrati iz arhive</app-button
+    >
+    } @if(!subject.classesCount) {
+    <app-button (clicked)="onDelete()" variant="danger" icon="faSolidTrashCan">Obriši</app-button>
+    }
+  </div>
+  } @else {
+  <div
+    class="flex flex-col items-center justify-center gap-3 text-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+  >
+    <div class="flex justify-center items-center bg-emerald-900 rounded-full h-14 w-14">
+      <ng-icon name="faSolidHandPointer" class="text-emerald-400! text-2xl self-center!"></ng-icon>
+    </div>
+    <p class="text-emerald-200 font-medium text-lg w-full">
+      Izaberite predmet iz liste kako bi prikazali detalje
+    </p>
+  </div>
+  }
+</div>

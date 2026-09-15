@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { authGuard } from './core/guard/auth-guard';
 import { guestGuard } from './core/guard/guest-guard';
 import { adminGuard } from './core/guard/admin-guard';
+import { SubjectsPage } from './features/subjects/admin/pages/subjects-page/subjects-page';
 
 export const routes: Routes = [
   {
@@ -33,6 +34,10 @@ export const routes: Routes = [
       {
         path: 'analytics',
         loadComponent: () => import('./features/analytics/pages/analytics-page/analytics-page').then((c) => c.AnalyticsPage),
+      },
+      {
+        path: 'subjects',
+        loadComponent: () => import('./features/subjects/admin/pages/subjects-page/subjects-page').then((c) => c.SubjectsPage),
       },
     ],
   },

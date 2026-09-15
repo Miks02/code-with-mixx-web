@@ -1,0 +1,76 @@
+<div class="flex flex-col gap-6">
+  <div class="flex flex-col lg:flex-row gap-6">
+    <app-subjects-list
+      class="flex-1 min-w-0"
+      [pagedSubjects]="subjects()"
+      [selectedSubjectId]="selectedSubject()?.id"
+      [selectedSort]="selectedSort()"
+      [showOnlyArchived]="onlyArchived()"
+      [isPending]="subjectsPending()"
+      [isFetching]="subjectsFetching()"
+      (subjectSelected)="onSubjectSelected($event)"
+      (searchChanged)="onSearchChange($event)"
+      (pageChanged)="onPageChanged($event)"
+      (sortChanged)="onSortChange($event)"
+      (archivedToggled)="onArchivedToggle($event)"
+    ></app-subjects-list>
+
+    @if(subjectToEdit()) {
+    <app-edit-subject-form
+      (closeForm)="subjectToEdit.set(null)"
+      class="flex-1 min-w-0"
+      [selectedSubject]="subjectToEdit()"
+      (updatedSubject)="selectedSubject.set($event)"
+    ></app-edit-subject-form>
+    } @else {
+    <app-subject-details
+      (editSubject)="subjectToEdit.set($event)"
+      class="flex-1 min-w-0"
+      [subject]="selectedSubject()"
+      (updatedSubject)="updateSelectedSubject($event)"
+      (deleteSubject)="selectedSubject.set(undefined)"
+    ></app-subject-details>
+    }
+  </div>
+
+  <div class="flex flex-col lg:flex-row gap-6">
+    <div class="grid grid-cols-1 grid-rows-4 sm:grid-cols-6 sm:grid-rows-2 flex-1 gap-4">
+      <app-most-popular-subject
+        class="flex-1 min-w-0 sm:col-span-4"
+        [subject]="mostPopularSubject()!"
+        [isPending]="subjectsSummaryPending()"
+      ></app-most-popular-subject>
+      <app-stats-card
+        title="Predmeti"
+        icon="faSolidBook"
+        iconBackground="sky"
+        description="Ukupno"
+        [value]="subjectsSummary()?.totalSubjects"
+        [isPending]="subjectsSummaryPending()"
+        class="flex-1 min-w-0 sm:col-span-2"
+      ></app-stats-card>
+
+      <app-stats-card
+        title="Neodržani predmeti"
+        icon="faSolidBookSkull"
+        iconBackground="red"
+        description="Predmeti koji još nisu predavani"
+        [value]="subjectsSummary()?.untaughtSubjects"
+        [isPending]="subjectsSummaryPending()"
+        class="flex-1 min-w-0 sm:col-span-3"
+      ></app-stats-card>
+
+      <app-stats-card
+        title="Održani predmeti"
+        icon="faSolidBookOpen"
+        iconBackground="violet"
+        description="Predmeti koji su predavani"
+        [value]="subjectsSummary()?.taughtSubjects"
+        [isPending]="subjectsSummaryPending()"
+        class="flex-1 min-w-0 sm:col-span-3"
+      ></app-stats-card>
+    </div>
+
+    <app-create-subject-form class="flex-2 min-w-0"></app-create-subject-form>
+  </div>
+</div>

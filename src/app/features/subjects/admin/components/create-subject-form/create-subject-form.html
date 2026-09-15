@@ -1,0 +1,51 @@
+<div
+  class="bg-emerald-950/80 backdrop-blur-xl rounded-lg shadow-lg p-4 h-full min-h-40 flex flex-col gap-4"
+>
+  <h2 class="text-xl font-semibold text-emerald-100">Novi predmet</h2>
+
+  <div class="flex flex-col gap-4 flex-1">
+    <div class="flex flex-col gap-1">
+      <div class="flex items-center justify-between">
+        <label for="subjectName" class="text-sm text-emerald-300">Naziv predmeta</label>
+        @if (subjectForm.subjectName().touched() && subjectForm.subjectName().errors().length) {
+        <p class="text-sm text-red-400">{{ subjectForm.subjectName().errors()[0]?.message }}</p>
+        }
+      </div>
+      <input
+        [formField]="subjectForm.subjectName"
+        type="text"
+        id="subjectName"
+        class="w-full rounded-lg bg-emerald-900/80 px-3 py-2.5 text-emerald-100 placeholder:text-emerald-100/50 outline-none"
+        placeholder="Npr. Web programiranje"
+      />
+    </div>
+
+    <div class="flex flex-col gap-1 flex-1">
+      <div class="flex items-center justify-between">
+        <label for="subjectDescription" class="text-sm text-emerald-300">Opis predmeta</label>
+        @if (subjectForm.subjectDescription().touched() &&
+        subjectForm.subjectDescription().errors().length) {
+        <p class="text-sm text-red-400">
+          {{ subjectForm.subjectDescription().errors()[0]?.message }}
+        </p>
+        }
+      </div>
+      <textarea
+        [formField]="subjectForm.subjectDescription"
+        id="subjectDescription"
+        rows="4"
+        class="w-full rounded-lg bg-emerald-900/80 px-3 py-2.5 text-emerald-100 placeholder:text-emerald-100/50 outline-none resize-none flex-1"
+        placeholder="Kratak opis predmeta"
+      ></textarea>
+    </div>
+  </div>
+
+  <app-button
+    (click)="onSubmit()"
+    [loading]="createSubjectMutation.isPending()"
+    icon="faSolidCirclePlus"
+    [fullWidth]="true"
+  >
+    Dodaj predmet
+  </app-button>
+</div>

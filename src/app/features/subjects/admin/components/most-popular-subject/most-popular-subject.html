@@ -1,0 +1,45 @@
+<div
+  class="bg-linear-to-br from-emerald-950 to-emerald-900 rounded-lg shadow-lg p-4 h-full min-h-40 flex flex-col gap-4"
+>
+  @if (isPending()) {
+  <div class="flex items-center justify-between gap-3">
+    <app-skeleton width="55%" />
+    <app-skeleton variant="circular" width="2.25rem" />
+  </div>
+
+  <div class="flex flex-col gap-2 mt-auto">
+    <app-skeleton width="70%" height="1.5rem" />
+    <div class="flex justify-between items-center gap-4">
+      <app-skeleton width="40%" />
+      <app-skeleton width="40%" />
+    </div>
+  </div>
+  } @else {
+  <div class="flex items-center justify-between gap-3">
+    <h2 class="text-lg md:text-xl font-semibold text-emerald-100">Najpopularniji predmet</h2>
+    <div class="flex items-center justify-center bg-amber-500/40 rounded-full p-2 shrink-0">
+      <ng-icon name="faSolidFire" class="text-amber-100! text-lg self-center!"></ng-icon>
+    </div>
+  </div>
+
+  <div class="flex flex-col gap-1 mt-auto">
+    <p class="text-lg md:text-2xl font-bold text-emerald-100 truncate">{{ subjectName() }}</p>
+    <div class="flex justify-between items-center gap-2 text-emerald-300 text-sm">
+      <div class="flex items-center gap-2">
+        <ng-icon name="faSolidCalendar" class="text-emerald-400! text-base self-center!"></ng-icon>
+        <span>{{ classesCount() }} <span class="hidden md:inline">održanih časova</span></span>
+      </div>
+      <div class="flex items-center gap-2">
+        <ng-icon
+          name="faSolidUserGraduate"
+          class="text-emerald-400! text-base self-center!"
+        ></ng-icon>
+        <span
+          >{{ classesCount() }}
+          <span class="hidden md:inline">studenata koji su pohadjali predmet</span></span
+        >
+      </div>
+    </div>
+  </div>
+  }
+</div>

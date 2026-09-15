@@ -1,0 +1,28 @@
+<div
+  [class]="containerClasses()"
+  (click)="onClick()"
+  [style]="addOpacity() ? { opacity: 0.5 } : null"
+>
+  <div class="flex gap-3 items-center">
+    <div class="flex justify-center items-center bg-emerald-500 rounded-full h-10 w-10 shrink-0">
+      <span class="text-sm font-semibold text-emerald-950">IP</span>
+    </div>
+    <div class="flex flex-col min-w-0">
+      <p class="text-emerald-100 font-semibold truncate">{{subjectName()}}</p>
+      <p class="text-emerald-300 text-sm truncate">{{subjectDescription()}}</p>
+    </div>
+  </div>
+  <div class="flex items-center gap-3 text-emerald-200 text-sm pt-2">
+    <div class="flex items-center gap-1">
+      <ng-icon name="faSolidCalendar" class="text-emerald-400! text-base self-center!"></ng-icon>
+      <span>{{ subject().classesCount }}</span>
+    </div>
+    <div class="flex items-center gap-1">
+      <ng-icon
+        name="faSolidUserGraduate"
+        class="text-emerald-400! text-base self-center!"
+      ></ng-icon>
+      <span>{{ subject().studentsCount }}</span>
+    </div>
+  </div>
+</div>

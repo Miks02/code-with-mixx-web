@@ -26,7 +26,7 @@ export class Button {
   isDisabled = computed(() => this.disabled() || this.loading());
 
   baseClasses =
-    'inline-flex items-center justify-center gap-2 rounded-lg font-semibold transition-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100 cursor-pointer';
+    'inline-flex items-center justify-center gap-2 rounded-lg font-semibold transition-200 active:scale-95 disabled:opacity-50 disabled:active:scale-100 disabled:cursor-not-allowed cursor-pointer';
 
   variantClasses = computed(() => {
     const variants: Record<ButtonVariant, string> = {
