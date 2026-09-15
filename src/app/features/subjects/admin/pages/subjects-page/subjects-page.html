@@ -21,6 +21,7 @@
       (editSubject)="subjectToEdit.set($event)"
       class="flex-1 min-w-0"
       [subject]="selectedSubject()"
+      (deleteSubject)="selectedSubject.set(undefined)"
     ></app-subject-details>
     }
   </div>

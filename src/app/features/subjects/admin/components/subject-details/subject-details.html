@@ -41,7 +41,7 @@
 
   <div class="flex gap-3 flex-wrap mt-auto">
     <app-button (clicked)="onEdit()" variant="ghost" icon="faSolidPenToSquare">Izmeni</app-button>
-    <app-button variant="danger" icon="faSolidTrashCan">Obriši</app-button>
+    <app-button (clicked)="onDelete()" variant="danger" icon="faSolidTrashCan">Obriši</app-button>
   </div>
   } @else {
   <div

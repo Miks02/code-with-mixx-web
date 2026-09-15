@@ -107,4 +107,12 @@ export class SubjectService {
       ),
     onSuccess: () => this.queryClient.invalidateQueries({ queryKey: ['subjects-summary-admin'] }),
   }));
+
+  deleteSubjectMutation = injectMutation<void, ProblemDetails, number>(() => ({
+    mutationFn: (id: number) =>
+      lastValueFrom(
+        this.http.delete<void>(`${this.apiUrl}/admin/subjects/${id}`),
+      ),
+    onSuccess: () => this.queryClient.invalidateQueries({ queryKey: ['subjects-summary-admin'] }),
+  }));
 }

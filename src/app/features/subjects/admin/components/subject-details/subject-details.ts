@@ -1,4 +1,4 @@
-import { Component, computed, input, output } from '@angular/core';
+import { Component, computed, inject, input, output } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
   faSolidCalendar,
@@ -11,6 +11,7 @@ import {
 import { dateConverter } from '../../../../../core/utilities/date-helpers';
 import { Button } from '../../../../../shared/button/button';
 import { SubjectItem } from '../../../models/subject-item';
+import { SubjectService } from '../../../services/subject-service';
 
 type SubjectStat = {
   icon: string;
@@ -38,9 +39,19 @@ type SubjectStat = {
 export class SubjectDetails {
   subject = input<SubjectItem>();
   editSubject = output<SubjectItem>();
+  deleteSubject = output();
+
+  private subjectService = inject(SubjectService);
 
   onEdit() {
     this.editSubject.emit(this.subject()!);
+  }
+
+  onDelete() {
+    this.subjectService.deleteSubjectMutation.mutate(this.subject()!.id, {
+      onSuccess: () => this.deleteSubject.emit(),
+      onError: (err) => console.error(err)
+    });
   }
 
   stats = computed<SubjectStat[]>(() => {
