@@ -99,7 +99,12 @@ export class SubjectService {
 
   updateSubjectMutation = injectMutation<SubjectItem, ProblemDetails, UpdateSubjectRequest>(() => ({
     mutationFn: (request: UpdateSubjectRequest) =>
-      lastValueFrom(this.http.put<SubjectItem>(`${this.apiUrl}/admin/subjects/`, request)),
+      lastValueFrom(
+        this.http.put<SubjectItem>(`${this.apiUrl}/admin/subjects/${request.id}`, {
+          subjectName: request.subjectName,
+          subjectDescription: request.subjectDescription,
+        }),
+      ),
     onSuccess: () => this.queryClient.invalidateQueries({ queryKey: ['subjects-summary-admin'] }),
   }));
 }

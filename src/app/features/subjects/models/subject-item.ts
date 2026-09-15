@@ -5,6 +5,6 @@ export type SubjectItem = {
   classesCount: number;
   studentsCount: number;
   createdAt: string;
-  updatedAt: string;
-  deletedAt: string;
+  updatedAt: string | null;
+  deletedAt: string | null;
 };

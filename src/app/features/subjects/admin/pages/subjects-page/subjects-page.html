@@ -9,7 +9,20 @@
       (pageChanged)="onPageChanged($event)"
     ></app-subjects-list>
 
-    <app-subject-details class="flex-1 min-w-0" [subject]="selectedSubject()"></app-subject-details>
+    @if(subjectToEdit()) {
+    <app-edit-subject-form 
+      (closeForm)="subjectToEdit.set(null)"
+      class="flex-1 min-w-0"
+      [selectedSubject]="subjectToEdit()"
+      (updatedSubject)="selectedSubject.set($event)"
+    ></app-edit-subject-form>
+    } @else {
+    <app-subject-details
+      (editSubject)="subjectToEdit.set($event)"
+      class="flex-1 min-w-0"
+      [subject]="selectedSubject()"
+    ></app-subject-details>
+    }
   </div>
 
   <div class="flex flex-col lg:flex-row gap-6">

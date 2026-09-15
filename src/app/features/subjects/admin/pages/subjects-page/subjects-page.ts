@@ -7,7 +7,9 @@ import {
   faSolidBookOpen,
   faSolidBookSkull,
   faSolidCalendar,
+  faSolidCheck,
   faSolidUserGraduate,
+  faSolidXmark,
 } from '@ng-icons/font-awesome/solid';
 import { BehaviorSubject, debounceTime } from 'rxjs';
 import { SubjectsList } from '../../../components/subjects-list/subjects-list';
@@ -17,6 +19,7 @@ import { CreateSubjectForm } from '../../components/create-subject-form/create-s
 import { MostPopularSubject } from '../../components/most-popular-subject/most-popular-subject';
 import { SubjectDetails } from '../../components/subject-details/subject-details';
 import { StatsCard } from '../../../components/stats-card/stats-card';
+import { EditSubjectForm } from '../../components/edit-subject-form/edit-subject-form';
 
 @Component({
   imports: [
@@ -26,6 +29,7 @@ import { StatsCard } from '../../../components/stats-card/stats-card';
     MostPopularSubject,
     CreateSubjectForm,
     StatsCard,
+    EditSubjectForm
   ],
   providers: [
     provideIcons({
@@ -34,6 +38,8 @@ import { StatsCard } from '../../../components/stats-card/stats-card';
       faSolidBook,
       faSolidBookSkull,
       faSolidBookOpen,
+      faSolidCheck,
+      faSolidXmark
     }),
   ],
   selector: 'app-subjects-page',
@@ -47,6 +53,8 @@ export class SubjectsPage {
 
   private pageNumber: WritableSignal<number> = signal(1);
   private pageSize: WritableSignal<number> = signal(15);
+
+  subjectToEdit: WritableSignal<SubjectItem | null> = signal(null);
 
   subjectsSummarySource = this.subjectService.getSubjectsSummaryForAdminQuery(
     this.pageNumber,
