@@ -13,6 +13,8 @@ import { currentDate, dateConverter } from '../../../../../core/utilities/date-h
 import { Button } from '../../../../../shared/button/button';
 import { SubjectItem } from '../../../models/subject-item';
 import { SubjectService } from '../../../services/subject-service';
+import { DialogService } from '../../../../../core/services/dialog-service';
+import { DialogResult } from '../../../../../core/components/dialog/dialog';
 
 type SubjectStat = {
   icon: string;
@@ -45,6 +47,7 @@ export class SubjectDetails {
   updatedSubject = output<SubjectItem>();
 
   private subjectService = inject(SubjectService);
+  private dialogService = inject(DialogService);
 
   isUpdating = computed(() => {
     return (
@@ -80,7 +83,14 @@ export class SubjectDetails {
     });
   }
 
-  onDelete() {
+  async onDelete() {
+    const dialog = await this.dialogService.showDialog({
+      title: 'Brisanje predmeta',
+      message: `Da li ste sigurni da želite da obrišete predmet „${this.subject()!.subjectName}”?`,
+    });
+
+    if (dialog === DialogResult.Cancelled) return;
+
     this.subjectService.deleteSubjectMutation.mutate(this.subject()!.id, {
       onSuccess: () => this.deleteSubject.emit(),
       onError: (err) => console.error(err),
