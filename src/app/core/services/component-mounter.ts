@@ -1,16 +1,15 @@
 import { DOCUMENT } from '@angular/common';
 import {
-  ApplicationRef,
-  Binding,
-  ComponentRef,
-  createComponent,
-  EnvironmentInjector,
-  inject,
-  Injector,
-  Service,
-  Type,
+    ApplicationRef,
+    Binding,
+    ComponentRef,
+    createComponent,
+    EnvironmentInjector,
+    inject,
+    Injector,
+    Service,
+    Type,
 } from '@angular/core';
-import { Toast } from '../components/toast/toast';
 
 export type MountOptions = {
   bindings?: Binding[];

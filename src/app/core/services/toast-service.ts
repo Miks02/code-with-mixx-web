@@ -75,8 +75,20 @@ export class ToastService {
     if (!container) {
       container = this.document.createElement('div');
       container.id = 'toast-container';
-      container.style =
-        'position: fixed; top: 5px; right: 0px; z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;';
+      container.classList.add(
+        'fixed',
+        'top-1.25',
+        'right-0',
+        'z-1000',
+        'flex',
+        'flex-col',
+        'items-center',
+        'justify-center',
+        'gap-1.5',
+        'w-full',
+        'sm:right-1.25',
+        'sm:w-auto',
+      );
       this.document.body.appendChild(container);
     }
     return container;
