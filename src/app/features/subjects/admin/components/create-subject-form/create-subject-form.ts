@@ -33,8 +33,7 @@ export class CreateSubjectForm {
         await this.createSubjectMutation.mutateAsync(this.requestModel());
         this.requestModel.set({ subjectName: '', subjectDescription: '' });
         this.subjectForm().reset();
-        this.toastService.showInfo('Predmet je uspešno dodan');
-        this.toastService.showWarning('Predmet je uspešno dodat.');
+        this.toastService.showSuccess('Predmet je uspešno dodat');
 
         return [];
       } catch (err: any) {
@@ -46,7 +45,9 @@ export class CreateSubjectForm {
             fieldTree: this.subjectForm.subjectName,
           };
         }
-        this.toastService.showError("Došlo je do greške prilikom kreiranja predmeta. Pokušajte ponovo kasnije.");
+        this.toastService.showError(
+          'Došlo je do greške prilikom kreiranja predmeta. Pokušajte ponovo kasnije.',
+        );
         return;
       }
     });
