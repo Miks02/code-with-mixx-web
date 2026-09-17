@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal, WritableSignal } from '@angular/core';
+import { Component, computed, effect, inject, signal, WritableSignal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { provideIcons } from '@ng-icons/core';
@@ -22,6 +22,7 @@ import { CreateSubjectForm } from '../../components/create-subject-form/create-s
 import { EditSubjectForm } from '../../components/edit-subject-form/edit-subject-form';
 import { MostPopularSubject } from '../../components/most-popular-subject/most-popular-subject';
 import { SubjectDetails } from '../../components/subject-details/subject-details';
+import { ToastService } from '../../../../../core/services/toast-service';
 
 @Component({
   imports: [
@@ -51,6 +52,8 @@ import { SubjectDetails } from '../../components/subject-details/subject-details
 })
 export class SubjectsPage {
   private subjectService = inject(SubjectService);
+  private toastService = inject(ToastService);
+
   private searchTerm$ = new BehaviorSubject<string>('');
   private searchTerm = toSignal(this.searchTerm$.pipe(debounceTime(300)), { initialValue: '' });
 
@@ -86,6 +89,14 @@ export class SubjectsPage {
   selectedSubject: WritableSignal<SubjectItem | undefined> = signal(undefined);
 
   mostPopularSubject = computed(() => this.subjectsSummary()?.mostPopularSubject);
+
+  constructor() {
+    effect(() => {
+      const subjects = this.subjects();
+      //this.toastService.showInfo('Lista predmeta je osvezena');
+    //  this.toastService.showInfo('Lista predmeta je osvezena');
+    });
+  }
 
   updateSelectedSubject(subject: SubjectItem) {
     this.selectedSubject.set(subject);

@@ -15,6 +15,7 @@ import { SubjectService } from '../../../services/subject-service';
 import { createSubjectForm } from '../../factories/subject-factories';
 import { UpdateSubjectRequest } from '../../../models/update-subject-request';
 import { FormField, submit } from '@angular/forms/signals';
+import { ToastService } from '../../../../../core/services/toast-service';
 
 type SubjectStat = {
   icon: string;
@@ -44,6 +45,7 @@ export class EditSubjectForm implements OnInit {
   updatedSubject = output<SubjectItem>();
 
   private subjectService = inject(SubjectService);
+  private toastService = inject(ToastService);
 
   requestModel = signal<UpdateSubjectRequest>({
     id: 0,
@@ -124,7 +126,8 @@ export class EditSubjectForm implements OnInit {
             fieldTree: this.updateForm.subjectName,
           };
         }
-        throw err;
+        this.toastService.showError('Došlo je do greške prilikom ažuriranja predmeta. Pokušajte ponovo kasnije.');
+        return;
       }
     })
   }

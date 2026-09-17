@@ -6,6 +6,7 @@ import { Button } from '../../../../../shared/button/button';
 import { CreateSubjectRequest } from '../../../models/create-subject-request';
 import { SubjectService } from '../../../services/subject-service';
 import { createSubjectForm } from '../../factories/subject-factories';
+import { ToastService } from '../../../../../core/services/toast-service';
 
 @Component({
   imports: [FormField, Button],
@@ -16,6 +17,7 @@ import { createSubjectForm } from '../../factories/subject-factories';
 })
 export class CreateSubjectForm {
   private subjectService = inject(SubjectService);
+  private toastService = inject(ToastService);
 
   requestModel = signal<CreateSubjectRequest>({
     subjectName: '',
@@ -31,8 +33,12 @@ export class CreateSubjectForm {
         await this.createSubjectMutation.mutateAsync(this.requestModel());
         this.requestModel.set({ subjectName: '', subjectDescription: '' });
         this.subjectForm().reset();
+        this.toastService.showInfo('Predmet je uspešno dodan');
+        this.toastService.showWarning('Predmet je uspešno dodat.');
+
         return [];
       } catch (err: any) {
+        console.error(err);
         if (err.error.errorCode === 'Subject.AlreadyExists') {
           return {
             kind: 'server',
@@ -40,7 +46,8 @@ export class CreateSubjectForm {
             fieldTree: this.subjectForm.subjectName,
           };
         }
-        throw err;
+        this.toastService.showError("Došlo je do greške prilikom kreiranja predmeta. Pokušajte ponovo kasnije.");
+        return;
       }
     });
   }
