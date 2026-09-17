@@ -1,16 +1,16 @@
 import { Component, computed, effect, input, output, signal } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
-  faSolidCheck,
-  faSolidTriangleExclamation,
-  faSolidInfo,
-  faSolidXmark,
+    faSolidCheck,
+    faSolidInfo,
+    faSolidTriangleExclamation,
+    faSolidXmark,
 } from '@ng-icons/font-awesome/solid';
-import { compute } from 'three/src/nodes/TSL.js';
 
 export type ToastType = 'success' | 'error' | 'info' | 'warning';
 
 export type ToastOptions = {
+  title?: string;
   message: string;
   duration: number;
   type: ToastType;
@@ -50,6 +50,13 @@ const TOAST_STYLES: Record<ToastType, ToastStyle> = {
   },
 };
 
+const TOAST_TITLES: Record<ToastType, string> = {
+  success: 'Uspeh',
+  error: 'Greška',
+  info: 'Informacija',
+  warning: 'Upozorenje',
+};
+
 @Component({
   imports: [NgIcon],
   providers: [
@@ -63,6 +70,11 @@ export class Toast {
   options = input.required<ToastOptions>();
   closed = output<void>();
   style = computed(() => TOAST_STYLES[this.options().type]);
+  title = computed(() => {
+    const title = this.options().title;
+    
+    return title ?? TOAST_TITLES[this.options().type];
+  });
 
   closing = signal(false);
 

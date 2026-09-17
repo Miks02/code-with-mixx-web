@@ -13,7 +13,9 @@
 
   <div class="flex-1 min-w-0 pt-0.5">
     <div class="flex items-center justify-between">
-      <h4 [class]="style().textColor" class="font-semibold text-base leading-none">Uspeh</h4>
+      <h4 [class]="style().textColor" class="font-semibold text-base leading-none">
+        {{ title() }}
+      </h4>
       <button
         (click)="onClose()"
         class="text-emerald-400/70 hover:text-emerald-100 transition-colors cursor-pointer hover:opacity-70 active:opacity-50 transition-200"

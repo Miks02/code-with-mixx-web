@@ -1,10 +1,4 @@
-import {
-    ComponentRef,
-    DOCUMENT,
-    inject,
-    inputBinding,
-    Service
-} from '@angular/core';
+import { ComponentRef, DOCUMENT, inject, inputBinding, Service } from '@angular/core';
 import { Toast, ToastOptions } from '../components/toast/toast';
 import { ComponentMounter } from './component-mounter';
 
@@ -20,20 +14,20 @@ export class ToastService {
   private readonly defaultDuration = 4000;
   private toasts: ToastData[] = [];
 
-  showSuccess(message: string, duration = this.defaultDuration) {
-    this.createToastRef({ message: message, type: 'success', duration: duration });
+  showSuccess(message: string, title?: string, duration = this.defaultDuration) {
+    this.createToastRef({ message: message, type: 'success', duration: duration, title: title });
   }
 
-  showError(message: string, duration = this.defaultDuration * 2) {
-    this.createToastRef({ message: message, type: 'error', duration: duration });
+  showError(message: string, title?: string, duration = this.defaultDuration * 2) {
+    this.createToastRef({ message: message, type: 'error', duration: duration, title: title });
   }
 
-  showInfo(message: string, duration = this.defaultDuration) {
-    this.createToastRef({ message: message, type: 'info', duration: duration });
+  showInfo(message: string, title?: string, duration = this.defaultDuration) {
+    this.createToastRef({ message: message, type: 'info', duration: duration, title: title });
   }
 
-  showWarning(message: string, duration = this.defaultDuration) {
-    this.createToastRef({ message: message, type: 'warning', duration: duration });
+  showWarning(message: string, title?: string, duration = this.defaultDuration) {
+    this.createToastRef({ message: message, type: 'warning', duration: duration, title: title });
   }
 
   private createToastRef(options: ToastOptions) {
@@ -92,6 +86,6 @@ export class ToastService {
     if (this.toasts.length < 1) return duration;
 
     const previous = this.toasts[this.toasts.length - 1];
-    return previous.scheduledDuration + 1200;
+    return previous.scheduledDuration + 1600;
   }
 }
