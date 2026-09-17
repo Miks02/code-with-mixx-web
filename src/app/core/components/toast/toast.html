@@ -1,0 +1,30 @@
+<div
+  animate.enter="toast-in"
+  [class.toast-out]="closing()"
+  [class]="style().bgColor"
+  class="z-1000 flex w-80 items-start gap-3 rounded-xl p-4 text-emerald-100 shadow-xl backdrop-blur-md transition-200"
+>
+  <div
+    [class]="style().accentColor"
+    class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-emerald-100/40 relative top-2"
+  >
+    <ng-icon [name]="style().icon" class="text-lg" [class]="style().textColor"></ng-icon>
+  </div>
+
+  <div class="flex-1 min-w-0 pt-0.5">
+    <div class="flex items-center justify-between">
+      <h4 [class]="style().textColor" class="font-semibold text-base leading-none">
+        {{ title() }}
+      </h4>
+      <button
+        (click)="onClose()"
+        class="text-emerald-400/70 hover:text-emerald-100 transition-colors cursor-pointer hover:opacity-70 active:opacity-50 transition-200"
+      >
+        <ng-icon name="faSolidXmark" class="text-lg text-red-100!"></ng-icon>
+      </button>
+    </div>
+    <p [class]="style().textColor" class="mt-1 text-sm leading-snug wrap-break-word">
+      {{ options().message }}
+    </p>
+  </div>
+</div>

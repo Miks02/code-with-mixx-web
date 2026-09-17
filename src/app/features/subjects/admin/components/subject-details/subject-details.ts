@@ -15,6 +15,7 @@ import { SubjectItem } from '../../../models/subject-item';
 import { SubjectService } from '../../../services/subject-service';
 import { DialogService } from '../../../../../core/services/dialog-service';
 import { DialogResult } from '../../../../../core/components/dialog/dialog';
+import { ToastService } from '../../../../../core/services/toast-service';
 
 type SubjectStat = {
   icon: string;
@@ -48,6 +49,7 @@ export class SubjectDetails {
 
   private subjectService = inject(SubjectService);
   private dialogService = inject(DialogService);
+  private toastService = inject(ToastService);
 
   isUpdating = computed(() => {
     return (
@@ -68,7 +70,7 @@ export class SubjectDetails {
           ...this.subject()!,
           deletedAt: currentDate(),
         }),
-      onError: (err) => console.error(err),
+      onError: (err) => this.toastService.showError("Došlo je do greške prilikom arhiviranja predmeta. Pokušajte ponovo kasnije."),
     });
   }
 
@@ -79,7 +81,7 @@ export class SubjectDetails {
           ...this.subject()!,
           deletedAt: null,
         }),
-      onError: (err) => console.error(err),
+      onError: () => this.toastService.showError("Došlo je do greške prilikom vraćanja predmeta. Pokušajte ponovo kasnije."),
     });
   }
 
@@ -92,8 +94,11 @@ export class SubjectDetails {
     if (dialog === DialogResult.Cancelled) return;
 
     this.subjectService.deleteSubjectMutation.mutate(this.subject()!.id, {
-      onSuccess: () => this.deleteSubject.emit(),
-      onError: (err) => console.error(err),
+      onSuccess: () => {
+        this.toastService.showSuccess('Predmet je uspešno obrisan.');
+        this.deleteSubject.emit();
+      },
+      onError: () => this.toastService.showError("Došlo je do greške prilikom brisanja predmeta. Pokušajte ponovo kasnije."),
     });
   }
 
