@@ -1,10 +1,10 @@
 import { Component, computed, effect, input, output, signal } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
-    faSolidCheck,
-    faSolidInfo,
-    faSolidTriangleExclamation,
-    faSolidXmark,
+  faSolidCheck,
+  faSolidInfo,
+  faSolidTriangleExclamation,
+  faSolidXmark,
 } from '@ng-icons/font-awesome/solid';
 
 export type ToastType = 'success' | 'error' | 'info' | 'warning';
@@ -26,9 +26,9 @@ type ToastStyle = {
 const TOAST_STYLES: Record<ToastType, ToastStyle> = {
   success: {
     icon: 'faSolidCheck',
-    bgColor: ' bg-emerald-800/80',
-    accentColor: 'bg-emerald-500/20',
-    textColor: 'text-emerald-100',
+    bgColor: ' bg-green-700/80',
+    accentColor: 'bg-green-500/20',
+    textColor: 'text-green-100',
   },
   error: {
     icon: 'faSolidXmark',
@@ -72,7 +72,7 @@ export class Toast {
   style = computed(() => TOAST_STYLES[this.options().type]);
   title = computed(() => {
     const title = this.options().title;
-    
+
     return title ?? TOAST_TITLES[this.options().type];
   });
 
