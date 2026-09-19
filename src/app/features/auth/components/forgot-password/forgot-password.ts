@@ -17,34 +17,35 @@ import { ForgotPasswordRequest } from '../../models/forgot-password-request';
 export class ForgotPassword {
   isOnCooldown = computed(() => this.cooldownDuration() > 0);
   cooldownDuration = signal(0);
-  message = signal("");
   messageWrapper = signal({
-    title: "",
-    text: "",
-  })
-  
+    title: '',
+    text: '',
+  });
+
   forgotPasswordModel = signal<ForgotPasswordRequest>({ email: '' });
   forgotPasswordForm = createForgotPasswordForm(this.forgotPasswordModel);
 
   onSubmit() {
     return submit(this.forgotPasswordForm, async () => {
-      this.createMessageWrapper("Zahtev je uspešno poslat!", "Ako postoji nalog s tim emailom, biće ti poslat email za resetovanje lozinke.");
+      this.createMessageWrapper(
+        'Zahtev je uspešno poslat!',
+        'Ako postoji nalog s tim emailom, biće ti poslat email za resetovanje lozinke.',
+      );
       this.beginCooldown();
       return [];
     });
   }
 
   beginCooldown() {
-    this.cooldownDuration.set(60);
+    this.cooldownDuration.set(2);
 
     let interval = setInterval(() => {
       this.cooldownDuration.update((duration) => duration - 1);
-      if (this.cooldownDuration() === 0)
-        clearInterval(interval);
+      if (this.cooldownDuration() === 0) clearInterval(interval);
     }, 1000);
   }
 
-  createMessageWrapper(title: string, text: string) {
+  private createMessageWrapper(title: string, text: string) {
     this.messageWrapper.set({ title, text });
   }
 }
