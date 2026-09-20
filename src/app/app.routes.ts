@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { authGuard } from './core/guard/auth-guard';
 import { guestGuard } from './core/guard/guest-guard';
 import { adminGuard } from './core/guard/admin-guard';
-import { SubjectsPage } from './features/subjects/admin/pages/subjects-page/subjects-page';
+import { resetPasswordGuardGuard } from './core/guard/reset-password-guard-guard';
 
 export const routes: Routes = [
   {
@@ -18,6 +18,15 @@ export const routes: Routes = [
       {
         path: 'login',
         loadComponent: () => import('./features/auth/components/login/login').then((c) => c.Login),
+      },
+      {
+        path: 'forgot-password',
+        loadComponent: () => import('./features/auth/components/forgot-password/forgot-password').then((c) => c.ForgotPassword),
+      },
+      {
+        canActivate: [resetPasswordGuardGuard],
+        path: 'reset-password',
+        loadComponent: () => import('./features/auth/components/reset-password/reset-password').then((c) => c.ResetPassword),
       },
     ],
   },
