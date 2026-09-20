@@ -1,9 +1,8 @@
+import { WritableSignal } from '@angular/core';
 import { debounce, email, form, minLength, required, validate } from '@angular/forms/signals';
-import { LoginRequest } from '../models/login-request';
 import { ForgotPasswordRequest } from '../models/forgot-password-request';
-import { ResetPasswordRequest } from '../models/reset-password-request';
-import { Signal, WritableSignal } from '@angular/core';
-import { ProblemDetails } from '../../../core/models/problem-details';
+import { LoginRequest } from '../models/login-request';
+import { ResetPasswordBody } from '../models/reset-password-body';
 
 export function createLoginForm(
   request: WritableSignal<LoginRequest>
@@ -25,14 +24,14 @@ export function createForgotPasswordForm(request: WritableSignal<ForgotPasswordR
   });
 }
 
-export function createResetPasswordForm(request: WritableSignal<ResetPasswordRequest>) {
+export function createResetPasswordForm(request: WritableSignal<ResetPasswordBody>) {
   return form(request, (schemaPath) => {
     debounce(schemaPath.password, 100);
-    debounce(schemaPath.confirmPassword, 100);
+    debounce(schemaPath.confirmedPassword, 100);
     required(schemaPath.password, { message: 'Nova lozinka je obavezna' });
     minLength(schemaPath.password, 8, { message: 'Lozinka mora imati najmanje 8 karaktera' });
-    required(schemaPath.confirmPassword, { message: 'Potvrda lozinke je obavezna' });
-    validate(schemaPath.confirmPassword, ({ value, valueOf }) =>
+    required(schemaPath.confirmedPassword, { message: 'Potvrda lozinke je obavezna' });
+    validate(schemaPath.confirmedPassword, ({ value, valueOf }) =>
       value() === valueOf(schemaPath.password)
         ? null
         : { kind: 'passwordMismatch', message: 'Lozinke se ne poklapaju' },

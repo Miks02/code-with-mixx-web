@@ -16,8 +16,8 @@ import { environment } from '../../../environments/environment';
 import { LoginRequest } from '../../features/auth/models/login-request';
 import { ProblemDetails } from '../models/problem-details';
 import { UserDetails } from '../models/user-details';
-import { ResetPasswordRequest } from '../../features/auth/models/reset-password-request';
 import { ForgotPasswordRequest } from '../../features/auth/models/forgot-password-request';
+import { ResetPasswordRequest } from '../../features/auth/models/reset-password-request';
 
 export const SKIP_AUTH_RETRY = new HttpContextToken<boolean>(() => false);
 @Service()
@@ -57,6 +57,15 @@ export class AuthService {
       },
     }),
   );
+
+  resetPasswordMutation = injectMutation<void, ProblemDetails, ResetPasswordRequest>(() => ({
+    mutationFn: (request: ResetPasswordRequest) =>
+      lastValueFrom(
+        this.http.post<void>(`${this.apiUrl}/auth/reset-password`, request, {
+          context: new HttpContext().set(SKIP_AUTH_RETRY, true),
+        }),
+      ),
+  }));
 
   checkSession(): Promise<void> {
     if (!document.cookie.includes('Session')) {

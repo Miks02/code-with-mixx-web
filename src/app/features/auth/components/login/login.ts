@@ -37,7 +37,7 @@ export class Login {
         if (err.error.errorCode === 'Auth.LoginFailed') {
           return {
             kind: 'server',
-            message: 'Prijava nije uspela. Proverite lozinku i email adresu.',
+            message: 'Prijava nije uspela. Proveri lozinku i email adresu.',
             fieldTree: this.loginForm.password,
           };
         }
