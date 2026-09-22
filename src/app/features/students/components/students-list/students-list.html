@@ -1,0 +1,119 @@
+<div
+  class="bg-emerald-950/80 backdrop-blur-xl rounded-lg shadow-lg p-4 flex flex-col gap-3 h-full min-h-80"
+>
+  <div class="relative flex items-center justify-between gap-3 flex-wrap">
+    <h2 class="text-xl font-semibold text-emerald-100">Studenti</h2>
+
+    <div class="flex gap-2 self-center">
+      <app-button
+        variant="ghost"
+        size="sm"
+        icon="faSolidUserSlash"
+        class="hidden md:inline-flex"
+        [class]="showOnlyDeleted() ? 'hidden md:inline-flex bg-emerald-700 rounded-lg' : 'hidden md:inline-flex'"
+        (click)="onDeletedToggle()"
+      >
+        Obrisani
+      </app-button>
+
+      <button
+        type="button"
+        (click)="onDeletedToggle()"
+        [class]="showOnlyDeleted() ? 'border-amber-500' : 'border-emerald-400'"
+        class="md:hidden shrink-0 rounded-full bg-emerald-700 p-2 flex justify-center items-center border-2 cursor-pointer shadow-lg active:scale-95 transition-200"
+      >
+        <ng-icon name="faSolidUserSlash" class="text-emerald-300! self-center!"></ng-icon>
+      </button>
+
+      <app-filter-menu
+        [options]="filters"
+        [conflictingOptions]="conflictingFilters"
+        [selected]="selectedFilters()"
+        (selectedChanged)="onFiltersChanged($event)"
+      ></app-filter-menu>
+
+      <app-sort-menu
+        [options]="sort"
+        [selected]="selectedSort()"
+        (sortChanged)="onSortChanged($event)"
+      ></app-sort-menu>
+
+      <app-search-bar
+        placeholder="Pretraži studente"
+        (searchTerm)="onSearchInput($event)"
+      ></app-search-bar>
+    </div>
+  </div>
+
+  @if (isPending()) {
+
+  <div class="flex flex-wrap content-start gap-3 h-80 overflow-y-auto">
+    @for (item of skeletonItems(); track $index) {
+    <div
+      class="w-full sm:w-[calc(50%-0.375rem)] p-4 rounded-lg bg-emerald-900/80 flex flex-col gap-3"
+    >
+      <div class="flex gap-3 items-center">
+        <app-skeleton variant="circular" width="2.5rem" />
+        <div class="flex flex-col gap-2 flex-1 min-w-0">
+          <app-skeleton width="60%" />
+          <app-skeleton width="90%" />
+        </div>
+      </div>
+      <div class="flex items-center gap-3 pt-2">
+        <app-skeleton width="2rem" height="0.875rem" />
+        <app-skeleton width="2rem" height="0.875rem" />
+        <app-skeleton width="2rem" height="0.875rem" />
+      </div>
+    </div>
+    }
+  </div>
+  } @else if (students()?.length) {
+
+  <div class="flex flex-wrap content-start gap-3 h-80 overflow-y-auto">
+    @for (student of students(); track student.id) {
+    <app-student-card
+      class="w-full sm:w-[calc(50%-0.375rem)]"
+      [student]="student"
+      [addOpacity]="isFetching()"
+      [isSelected]="student.id === selectedStudentId()"
+      (selected)="onStudentSelected($event)"
+    ></app-student-card>
+    }
+  </div>
+  } @else {
+  <div
+    class="flex flex-col items-center justify-center gap-3 text-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+  >
+    <div class="flex justify-center items-center bg-emerald-900 rounded-full h-14 w-14">
+      <ng-icon name="faSolidXmark" class="text-emerald-400! text-2xl self-center!"></ng-icon>
+    </div>
+    <p class="text-emerald-200 font-medium text-lg w-full">
+      Nije pronadjen nijedan student. Promenite filtere.
+    </p>
+  </div>
+  }
+
+  <div class="flex items-center justify-between gap-3 flex-wrap mt-auto pt-2">
+    <p class="text-emerald-300 text-sm">Prikazano {{ paginatedCount() }} od {{ totalCount() }}</p>
+
+    <div class="flex items-center gap-2">
+      <app-button
+        variant="ghost"
+        size="sm"
+        icon="faSolidChevronLeft"
+        [disabled]="!hasPreviousPage()"
+        (click)="onPreviousPage()"
+      ></app-button>
+
+      <span class="text-emerald-100 text-sm">{{ currentPage() }} / {{ totalPages() }}</span>
+
+      <app-button
+        variant="ghost"
+        size="sm"
+        icon="faSolidChevronRight"
+        [disabled]="!hasNextPage()"
+        (click)="onNextPage()"
+      ></app-button>
+    </div>
+  </div>
+</div>
