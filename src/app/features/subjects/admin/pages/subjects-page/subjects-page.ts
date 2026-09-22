@@ -90,14 +90,6 @@ export class SubjectsPage {
 
   mostPopularSubject = computed(() => this.subjectsSummary()?.mostPopularSubject);
 
-  constructor() {
-    effect(() => {
-      const subjects = this.subjects();
-      //this.toastService.showInfo('Lista predmeta je osvezena');
-    //  this.toastService.showInfo('Lista predmeta je osvezena');
-    });
-  }
-
   updateSelectedSubject(subject: SubjectItem) {
     this.selectedSubject.set(subject);
   }

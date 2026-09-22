@@ -1,4 +1,4 @@
-import { Component, computed, signal, inject } from '@angular/core';
+import { Component, computed, signal, inject, effect } from '@angular/core';
 import { StudentFilter } from '../../models/student-filter';
 import { StudentItem } from '../../models/student-item';
 import { StudentSort } from '../../models/student-sort';
@@ -6,6 +6,8 @@ import { StudentsSummary } from '../../models/students-summary';
 import { StudentsList } from '../../components/students-list/students-list';
 import { StudentQueryParams } from '../../models/student-query-params';
 import { StudentService } from '../../services/student-service';
+import { BehaviorSubject, debounceTime, tap } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   imports: [StudentsList],
@@ -109,7 +111,20 @@ export class StudentsPage {
 
   private studentService = inject(StudentService);
 
-  protected readonly queryParams = signal<StudentQueryParams>({
+  private searchTerm$: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  private searchTerm = toSignal(this.searchTerm$.pipe(debounceTime(300)), { initialValue: '' });
+
+  constructor() {
+    effect(() => {
+      const searchTerm = this.searchTerm();
+
+      if(!searchTerm) return;
+      
+      this.queryParams.update((params) => ({ ...params, searchTerm }));
+    })
+  }
+
+  protected queryParams = signal<StudentQueryParams>({
     pageNumber: 1,
     pageSize: 15,
     searchTerm: '',
@@ -128,7 +143,25 @@ export class StudentsPage {
   studentsData = computed(() => this.studentsSource.data());
 
   protected readonly selectedStudent = signal<StudentItem | undefined>(undefined);
-  protected readonly selectedSort = signal<StudentSort>(StudentSort.CreatedAscending);
-  protected readonly selectedFilters = signal<StudentFilter[]>([]);
-  protected readonly onlyDeleted = signal<boolean>(false);
+
+  onSearchChange(term: string) {
+    this.queryParams.update((params) => ({ ...params, pageNumber: 1 }));
+    this.searchTerm$.next(term);
+  }
+
+  onSortChange(sort: StudentSort) {
+    this.queryParams.update((params) => ({ ...params, sortBy: sort }));
+  }
+
+  onFilterChange(filters: StudentFilter[]) {
+    this.queryParams.update((params) => ({ ...params, filters }));
+  }
+
+  onDeleteToggle(includeDeleted: boolean) {
+    this.queryParams.update((params) => ({ ...params, includeDeleted }));
+  }
+
+  onPageChange(pageNumber: number) {
+    this.queryParams.update((params) => ({ ...params, pageNumber }));
+  }
 }

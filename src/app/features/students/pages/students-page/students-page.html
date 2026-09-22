@@ -1,11 +1,12 @@
 <app-students-list
   [pagedStudents]="studentsData()"
   [selectedStudentId]="selectedStudent()?.id"
-  [selectedSort]="selectedSort()"
-  [selectedFilters]="selectedFilters()"
-  [showOnlyDeleted]="onlyDeleted()"
+  [selectedSort]="queryParams().sortBy"
+  (searchChanged)="onSearchChange($event)"
+  [selectedFilters]="queryParams().filters"
+  [showOnlyDeleted]="queryParams().includeDeleted"
   (studentSelected)="selectedStudent.set($event)"
-  (sortChanged)="selectedSort.set($event)"
-  (filtersChanged)="selectedFilters.set($event)"
-  (deletedToggled)="onlyDeleted.set($event)"
+  (sortChanged)="onSortChange($event)"
+  (filtersChanged)="onFilterChange($event)"
+  (deletedToggled)="onDeleteToggle($event)"
 ></app-students-list>

@@ -48,6 +48,10 @@ export const routes: Routes = [
         path: 'subjects',
         loadComponent: () => import('./features/subjects/admin/pages/subjects-page/subjects-page').then((c) => c.SubjectsPage),
       },
+      {
+        path: 'students',
+        loadComponent: () => import('./features/students/pages/students-page/students-page').then((c) => c.StudentsPage),
+      },
     ],
   },
 ];
