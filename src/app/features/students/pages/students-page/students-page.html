@@ -1,0 +1,11 @@
+<app-students-list
+  [pagedStudents]="studentsData()"
+  [selectedStudentId]="selectedStudent()?.id"
+  [selectedSort]="selectedSort()"
+  [selectedFilters]="selectedFilters()"
+  [showOnlyDeleted]="onlyDeleted()"
+  (studentSelected)="selectedStudent.set($event)"
+  (sortChanged)="selectedSort.set($event)"
+  (filtersChanged)="selectedFilters.set($event)"
+  (deletedToggled)="onlyDeleted.set($event)"
+></app-students-list>
