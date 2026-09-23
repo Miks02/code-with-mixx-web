@@ -1,3 +1,5 @@
+import { AccountStatus } from '../../../core/models/account-status';
+
 export type StudentItem = {
   id: string,
   firstName: string,
@@ -9,5 +11,6 @@ export type StudentItem = {
   totalClasses: number,
   totalProjects: number,
   registeredAt: string,
-  deletedAt: string | null
+  deletedAt: string | null,
+  accountStatus: AccountStatus
 }

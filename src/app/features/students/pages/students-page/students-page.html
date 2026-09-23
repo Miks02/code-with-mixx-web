@@ -1,12 +1,20 @@
-<app-students-list
-  [pagedStudents]="studentsData()"
-  [selectedStudentId]="selectedStudent()?.id"
-  [selectedSort]="queryParams().sortBy"
-  (searchChanged)="onSearchChange($event)"
-  [selectedFilters]="queryParams().filters"
-  [showOnlyDeleted]="queryParams().includeDeleted"
-  (studentSelected)="selectedStudent.set($event)"
-  (sortChanged)="onSortChange($event)"
-  (filtersChanged)="onFilterChange($event)"
-  (deletedToggled)="onDeleteToggle($event)"
-></app-students-list>
+<div class="grid grid-cols-5 grid-rows-3 w-full h-full gap-4">
+  <app-students-list
+    class="col-span-3 row-span-2"
+    [pagedStudents]="studentsData()"
+    [selectedStudentId]="selectedStudent()?.id"
+    [selectedSort]="queryParams().sortBy"
+    (searchChanged)="onSearchChange($event)"
+    [selectedFilters]="queryParams().filters"
+    [showOnlyDeleted]="queryParams().includeDeleted"
+    (studentSelected)="selectedStudent.set($event)"
+    (sortChanged)="onSortChange($event)"
+    (filtersChanged)="onFilterChange($event)"
+    (deletedToggled)="onDeleteToggle($event)"
+  ></app-students-list>
+
+  <app-student-details
+    class="col-span-2 row-span-2"
+    [student]="selectedStudent()"
+  ></app-student-details>
+</div>

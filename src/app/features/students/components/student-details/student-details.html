@@ -1,0 +1,113 @@
+<div
+  class="bg-emerald-950/80 backdrop-blur-xl rounded-lg shadow-lg p-4 h-full min-h-80 flex flex-col gap-4 relative"
+>
+  @if (student(); as student) {
+  <div class="flex flex-wrap w-full items-center justify-between min-w-0 gap-1">
+    @if (student.accountStatus === AccountStatus.Deleted) {
+    <p class="text-red-300 font-semibold">Nalog obrisan</p>
+    <p class="text-red-300 font-semibold">{{ deletedAtLabel() }}</p>
+    } @else {
+    <div class="flex items-center gap-4 min-w-0">
+      <h2 class="text-xl font-semibold text-emerald-100 truncate">{{ studentName() }}</h2>
+      <span
+        class="text-xs font-semibold px-2 py-1 rounded-full shrink-0"
+        [class]="status()?.classes"
+        >{{ status()?.label }}</span
+      >
+      @if (student.accountStatus === AccountStatus.Pending) {
+      <button
+        type="button"
+        title="Pošalji pozivnicu"
+        class="shrink-0 rounded-full bg-emerald-700 p-2 flex justify-center items-center border-2 border-emerald-400 cursor-pointer shadow-lg active:scale-95 transition-200"
+      >
+        <ng-icon name="faSolidPaperPlane" class="text-emerald-100! self-center!"></ng-icon>
+      </button>
+      }
+    </div>
+    <p class="text-emerald-100/80 font-semibold">Registrovan: {{ registeredAtLabel() }}</p>
+    }
+  </div>
+
+  <div class="flex gap-2 flex-wrap">
+    @for (stat of stats(); track stat.label) {
+    <div
+      class="flex items-center gap-2 rounded-lg px-2.5 py-1.5 flex-1 min-w-36"
+      [class.bg-emerald-900/80]="stat.tone !== 'danger'"
+      [class.text-emerald-100]="stat.tone !== 'danger'"
+      [class.bg-red-950/60]="stat.tone === 'danger'"
+      [class.text-red-100]="stat.tone === 'danger'"
+    >
+      <ng-icon
+        [name]="stat.icon"
+        class="text-base self-center!"
+        [class.text-emerald-400!]="stat.tone !== 'danger'"
+        [class.text-red-400!]="stat.tone === 'danger'"
+      ></ng-icon>
+      <div class="flex flex-col min-w-0">
+        <span class="text-sm font-semibold leading-tight truncate">{{ stat.value }}</span>
+        <span
+          class="text-xs"
+          [class.text-emerald-300]="stat.tone !== 'danger'"
+          [class.text-red-300]="stat.tone === 'danger'"
+          >{{ stat.label }}</span
+        >
+      </div>
+    </div>
+    }
+  </div>
+
+  <div class="border border-emerald-500 rounded-lg p-4 w-full mt-auto flex flex-col gap-3">
+    <div class="flex items-center gap-2 text-emerald-300 min-w-0">
+      <ng-icon name="faSolidEnvelope" class="text-emerald-400! self-center! shrink-0"></ng-icon>
+      <span class="truncate">{{ student.email }}</span>
+    </div>
+    <div class="flex items-center gap-2 text-emerald-300 min-w-0">
+      <ng-icon name="faSolidPhone" class="text-emerald-400! self-center! shrink-0"></ng-icon>
+      <span class="truncate">{{ student.phoneNumber }}</span>
+    </div>
+    <div class="flex items-center gap-2 text-emerald-300 min-w-0">
+      <ng-icon name="faSolidIdCard" class="text-emerald-400! self-center! shrink-0"></ng-icon>
+      <span class="truncate">{{ student.id }}</span>
+    </div>
+  </div>
+
+  <div class="flex gap-3 w-full mt-auto">
+    <div class="flex flex-col gap-3 w-full">
+      <app-button class="w-full" [fullWidth]="true" variant="ghost" icon="faSolidEye"
+        >Detaljniji pregled</app-button
+      >
+      @if (student.accountStatus !== AccountStatus.Deleted) {
+      <app-button class="grow" [fullWidth]="true" variant="primary" icon="faSolidPenToSquare"
+        >Izmeni</app-button
+      >
+      }
+    </div>
+    <div class="flex flex-col gap-3 w-full">
+      @if (student.accountStatus === AccountStatus.Deactivated) {
+      <app-button class="grow" [fullWidth]="true" variant="secondary" icon="faSolidUserCheck">
+        Aktiviraj nalog
+      </app-button>
+      } @else {
+      <app-button class="grow" [fullWidth]="true" variant="secondary" icon="faSolidUserSlash">
+        Deaktiviraj nalog
+      </app-button>
+      }
+
+      <app-button class="grow" [fullWidth]="true" variant="danger" icon="faSolidTrashCan">
+        Obriši
+      </app-button>
+    </div>
+  </div>
+  } @else {
+  <div
+    class="flex flex-col items-center justify-center gap-3 text-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+  >
+    <div class="flex justify-center items-center bg-emerald-900 rounded-full h-14 w-14">
+      <ng-icon name="faSolidHandPointer" class="text-emerald-400! text-2xl self-center!"></ng-icon>
+    </div>
+    <p class="text-emerald-200 font-medium text-lg w-full">
+      Izaberite studenta iz liste kako bi prikazali detalje
+    </p>
+  </div>
+  }
+</div>
