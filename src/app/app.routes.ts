@@ -28,6 +28,10 @@ export const routes: Routes = [
         path: 'reset-password',
         loadComponent: () => import('./features/auth/components/reset-password/reset-password').then((c) => c.ResetPassword),
       },
+      {
+        path: 'activate-account',
+        loadComponent: () => import('./features/auth/components/account-activation/account-activation').then((c) => c.AccountActivation),
+      },
     ],
   },
   {
