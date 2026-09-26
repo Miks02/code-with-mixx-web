@@ -1,4 +1,4 @@
-import { Component, computed, inject, input } from '@angular/core';
+import { Component, computed, inject, input, output } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
   faSolidCalendar,
@@ -17,15 +17,14 @@ import {
   faSolidUserCheck,
   faSolidUserSlash,
 } from '@ng-icons/font-awesome/solid';
+import { DialogResult } from '../../../../core/components/dialog/dialog';
 import { AccountStatus } from '../../../../core/models/account-status';
+import { DialogService } from '../../../../core/services/dialog-service';
+import { ToastService } from '../../../../core/services/toast-service';
 import { dateConverter } from '../../../../core/utilities/date-helpers';
 import { Button } from '../../../../shared/button/button';
 import { StudentItem } from '../../models/student-item';
 import { StudentService } from '../../services/student-service';
-import { ToastService } from '../../../../core/services/toast-service';
-import { DialogService } from '../../../../core/services/dialog-service';
-import { DialogResult } from '../../../../core/components/dialog/dialog';
-import { ProblemDetails } from '../../../../core/models/problem-details';
 
 type StudentStat = {
   icon: string;
@@ -78,6 +77,8 @@ export class StudentDetails {
   private studentService = inject(StudentService);
   private toastService = inject(ToastService);
   private dialogService = inject(DialogService);
+  studentUpdated = output<StudentItem>();
+  studentDeleted = output<void>();
 
   readonly AccountStatus = AccountStatus;
 
@@ -151,6 +152,7 @@ export class StudentDetails {
     this.activateMutation.mutate(this.student()?.id!, {
       onSuccess: () => {
         this.toastService.showSuccess('Nalog je uspešno aktiviran.');
+        this.studentUpdated.emit({ ...this.student()!, accountStatus: AccountStatus.Active });
       },
       onError: (err: any) => {
         const errorCode = err?.error.errorCode;
@@ -181,6 +183,7 @@ export class StudentDetails {
     this.deactivateMutation.mutate(this.student()?.id!, {
       onSuccess: () => {
         this.toastService.showSuccess('Nalog je uspešno deaktiviran.');
+        this.studentUpdated.emit({ ...this.student()!, accountStatus: AccountStatus.Deactivated });
       },
       onError: (err: any) => {
         const errorCode = err?.error.errorCode;
@@ -212,8 +215,10 @@ export class StudentDetails {
           this.toastService.showError('Došlo je do greške. Korisnik nije pronađen.');
           return;
         }
-        if(errorCode === "User.AccountDeactivated") {
-          this.toastService.showError('Nalog izabranog studenta je deaktiviran. Slanje pozivnice nije moguće.');
+        if (errorCode === 'User.AccountDeactivated') {
+          this.toastService.showError(
+            'Nalog izabranog studenta je deaktiviran. Slanje pozivnice nije moguće.',
+          );
           return;
         }
         if (errorCode === 'User.AlreadyActivated') {
@@ -245,6 +250,7 @@ export class StudentDetails {
     this.studentService.deleteStudentMutation.mutate(this.student()?.id!, {
       onSuccess: () => {
         this.toastService.showSuccess('Student je uspešno obrisan.');
+        this.studentDeleted.emit();
       },
       onError: (err: any) => {
         const errorCode = err?.error.errorCode;

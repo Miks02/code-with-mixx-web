@@ -172,4 +172,12 @@ export class StudentsPage {
   onPageChange(pageNumber: number) {
     this.queryParams.update((params) => ({ ...params, pageNumber }));
   }
+
+  onStudentDeleted() {
+    this.selectedStudent.set(undefined);
+  }
+
+  onStudentUpdated(student: StudentItem) {
+    this.selectedStudent.set(student);
+  }
 }

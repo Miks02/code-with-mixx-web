@@ -16,5 +16,7 @@
   <app-student-details
     class="col-span-2 row-span-2"
     [student]="selectedStudent()"
+    (studentDeleted)="onStudentDeleted()"
+    (studentUpdated)="onStudentUpdated($event)"
   ></app-student-details>
 </div>
