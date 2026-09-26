@@ -13,7 +13,7 @@ import {
   faSolidXmark,
 } from '@ng-icons/font-awesome/solid';
 import { BehaviorSubject, debounceTime } from 'rxjs';
-import { StatsCard } from '../../../components/stats-card/stats-card';
+import { StatsCard } from '../../../../../shared/stats-card/stats-card';
 import { SubjectsList } from '../../../components/subjects-list/subjects-list';
 import { SubjectItem } from '../../../models/subject-item';
 import { SubjectSort } from '../../../models/subject-sort';

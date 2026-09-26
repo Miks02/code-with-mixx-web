@@ -1,6 +1,6 @@
 import { Component, input } from '@angular/core';
 import { NgIcon } from '@ng-icons/core';
-import { Skeleton } from '../../../../shared/skeleton/skeleton';
+import { Skeleton } from '../skeleton/skeleton';
 
 @Component({
   imports: [NgIcon, Skeleton],
@@ -13,6 +13,6 @@ export class StatsCard {
   value = input.required<number | undefined>();
   icon = input.required<string>();
   description = input<string>();
-  iconBackground = input.required<'sky' | 'red' | 'violet'>();
+  iconBackground = input.required<'sky' | 'red' | 'violet' | 'emerald' | 'amber' | 'orange'>();
   isPending = input<boolean>(false);
 }
