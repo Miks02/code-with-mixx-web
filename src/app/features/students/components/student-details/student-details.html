@@ -1,7 +1,15 @@
 <div
   class="bg-emerald-950/80 backdrop-blur-xl rounded-lg shadow-lg p-4 h-full min-h-80 flex flex-col gap-4 relative"
 >
-  @if (student(); as student) {
+  @if (isPending()) {
+  <div
+    class="absolute w-full h-full top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 bg-emerald-900/50"
+  >
+    <div class="flex items-center justify-center h-full">
+      <ng-icon name="faSolidSpinner" class="animate-spin text-emerald-100! text-7xl"></ng-icon>
+    </div>
+  </div>
+  } @if (student(); as student) {
   <div class="flex flex-wrap w-full items-center justify-between min-w-0 gap-1">
     @if (student.accountStatus === AccountStatus.Deleted) {
     <p class="text-red-300 font-semibold">Nalog obrisan</p>
@@ -17,6 +25,7 @@
       @if (student.accountStatus === AccountStatus.Pending) {
       <button
         type="button"
+        (click)="onSendInvitation()"
         title="Pošalji pozivnicu"
         class="shrink-0 rounded-full bg-emerald-700 p-2 flex justify-center items-center border-2 border-emerald-400 cursor-pointer shadow-lg active:scale-95 transition-200"
       >
@@ -82,21 +91,41 @@
       >
       }
     </div>
+    @if (student.accountStatus !== AccountStatus.Deleted) {
     <div class="flex flex-col gap-3 w-full">
       @if (student.accountStatus === AccountStatus.Deactivated) {
-      <app-button class="grow" [fullWidth]="true" variant="secondary" icon="faSolidUserCheck">
+      <app-button
+        (clicked)="onActivate()"
+        class="grow"
+        [fullWidth]="true"
+        variant="secondary"
+        icon="faSolidUserCheck"
+      >
         Aktiviraj nalog
       </app-button>
       } @else {
-      <app-button class="grow" [fullWidth]="true" variant="secondary" icon="faSolidUserSlash">
+      <app-button
+        (clicked)="onDeactivate()"
+        class="grow"
+        [fullWidth]="true"
+        variant="secondary"
+        icon="faSolidUserSlash"
+      >
         Deaktiviraj nalog
       </app-button>
       }
 
-      <app-button class="grow" [fullWidth]="true" variant="danger" icon="faSolidTrashCan">
+      <app-button
+        (clicked)="onDelete()"
+        class="grow"
+        [fullWidth]="true"
+        variant="danger"
+        icon="faSolidTrashCan"
+      >
         Obriši
       </app-button>
     </div>
+    }
   </div>
   } @else {
   <div

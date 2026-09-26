@@ -5,6 +5,7 @@ import { StudentSort } from '../models/student-sort';
 import { StudentFilter } from '../models/student-filter';
 import {
   CreateQueryResult,
+  injectMutation,
   injectQuery,
   keepPreviousData,
   QueryClient,
@@ -14,6 +15,7 @@ import { StudentQueryParams } from '../models/student-query-params';
 import { StudentsSummary } from '../models/students-summary';
 import { PagedResult } from '../../../core/models/paged-result';
 import { StudentItem } from '../models/student-item';
+import { ProblemDetails } from '../../../core/models/problem-details';
 
 @Service()
 export class StudentService {
@@ -39,14 +41,50 @@ export class StudentService {
     }));
   }
 
-  getPagedStudentsQuery(queryParams: Signal<StudentQueryParams>, queryResult: CreateQueryResult<StudentsSummary>) {
+  getPagedStudentsQuery(
+    queryParams: Signal<StudentQueryParams>,
+    queryResult: CreateQueryResult<StudentsSummary>,
+  ) {
     const url = `${this.apiUrl}/admin/students`;
 
     return injectQuery<PagedResult<StudentItem>>(() => ({
       queryKey: ['paged-students', queryParams()],
-      queryFn: () => lastValueFrom(this.http.get<PagedResult<StudentItem>>(url, { params: queryParams() })),
+      queryFn: () =>
+        lastValueFrom(this.http.get<PagedResult<StudentItem>>(url, { params: queryParams() })),
       placeholderData: keepPreviousData,
       enabled: queryResult.isSuccess(),
     }));
   }
+
+  sendInvitationMutation = injectMutation<void, ProblemDetails, string>(() => ({
+    mutationFn: (studentId: string) =>
+      lastValueFrom(this.http.post<void>(`${this.apiUrl}/admin/students/${studentId}/invite`, null)),
+  }));
+
+  activateStudentMutation = injectMutation<void, ProblemDetails, string>(() => ({
+    mutationFn: (studentId: string) =>
+      lastValueFrom(this.http.post<void>(`${this.apiUrl}/admin/students/${studentId}/activate`, null)),
+    onSuccess: () => {
+      this.queryClient.invalidateQueries({ queryKey: ['paged-students'], refetchType: 'none' })
+      this.queryClient.invalidateQueries({ queryKey: ['students-summary'] })
+    }
+  }));
+
+  deactivateStudentMutation = injectMutation<void, ProblemDetails, string>(() => ({
+    mutationFn: (studentId: string) =>
+      lastValueFrom(this.http.post<void>(`${this.apiUrl}/admin/students/${studentId}/deactivate`, null)),
+    onSuccess: () => {
+      this.queryClient.invalidateQueries({ queryKey: ['paged-students'], refetchType: 'none' })
+      this.queryClient.invalidateQueries({ queryKey: ['students-summary'] })
+    }
+  }));
+
+  deleteStudentMutation = injectMutation<void, ProblemDetails, string>(() => ({
+    mutationFn: (studentId: string) =>
+      lastValueFrom(this.http.delete<void>(`${this.apiUrl}/admin/students/${studentId}`)),
+    onSuccess: () => {
+      this.queryClient.invalidateQueries({ queryKey: ['paged-students'], refetchType: 'none' })
+      return this.queryClient.invalidateQueries({ queryKey: ['students-summary'] })
+    }
+  }));
 }
