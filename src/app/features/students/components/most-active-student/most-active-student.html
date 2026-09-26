@@ -1,0 +1,68 @@
+<div
+  class="bg-linear-to-br from-emerald-950 to-emerald-900 rounded-lg shadow-lg p-4 h-full min-h-40 flex flex-col gap-4"
+>
+  @if (isPending()) {
+  <div class="flex items-center justify-between gap-3">
+    <app-skeleton width="55%" />
+    <app-skeleton variant="circular" width="2.25rem" />
+  </div>
+
+  <div class="flex items-center gap-3">
+    <app-skeleton variant="circular" width="3rem" />
+    <div class="flex flex-col gap-2 flex-1">
+      <app-skeleton width="60%" height="1.25rem" />
+      <app-skeleton width="80%" />
+    </div>
+  </div>
+
+  <div class="flex gap-2 mt-auto">
+    <app-skeleton width="33%" height="2.75rem" />
+    <app-skeleton width="33%" height="2.75rem" />
+    <app-skeleton width="33%" height="2.75rem" />
+  </div>
+  } @else {
+  <div class="flex items-center justify-between gap-3">
+    <h2 class="text-lg md:text-xl font-semibold text-emerald-100">Najaktivniji student</h2>
+    <div class="flex items-center justify-center bg-amber-500/40 rounded-full p-2 shrink-0">
+      <ng-icon name="faSolidTrophy" class="text-amber-100! text-lg self-center!"></ng-icon>
+    </div>
+  </div>
+
+  @if (student(); as student) {
+  <div class="flex items-center gap-3 min-w-0">
+    <div
+      class="flex justify-center items-center bg-emerald-500 rounded-full h-12 w-12 shrink-0 ring-2 ring-amber-400/60"
+    >
+      <span class="font-semibold text-emerald-950">{{ studentInitials() }}</span>
+    </div>
+    <div class="flex flex-col min-w-0">
+      <p class="text-lg md:text-2xl font-bold text-emerald-100 truncate">{{ studentName() }}</p>
+      <p class="text-emerald-300 text-sm truncate">{{ student.email }}</p>
+      @if (student.university) {
+      <div class="flex items-center gap-1.5 text-emerald-300 text-sm min-w-0">
+        <ng-icon
+          name="faSolidGraduationCap"
+          class="text-emerald-400! text-base self-center! shrink-0"
+        ></ng-icon>
+        <span class="truncate">{{ student.university }}</span>
+      </div>
+      }
+    </div>
+  </div>
+
+  <div class="flex gap-2 mt-auto">
+    @for (stat of stats(); track stat.label) {
+    <div class="flex items-center gap-2 rounded-lg px-2.5 py-1.5 flex-1 min-w-0 bg-emerald-900/80">
+      <ng-icon [name]="stat.icon" class="text-emerald-400! text-base self-center! shrink-0"></ng-icon>
+      <div class="flex flex-col min-w-0">
+        <span class="text-sm font-semibold leading-tight text-emerald-100">{{ stat.value }}</span>
+        <span class="text-xs text-emerald-300 truncate">{{ stat.label }}</span>
+      </div>
+    </div>
+    }
+  </div>
+  } @else {
+  <p class="text-emerald-300 text-sm mt-auto">Još nema aktivnih studenata.</p>
+  }
+  }
+</div>
