@@ -5,30 +5,6 @@
     <h2 class="text-xl font-semibold text-emerald-100">Studenti</h2>
 
     <div class="flex gap-2 ml-auto">
-      <app-button
-        variant="ghost"
-        size="sm"
-        icon="faSolidUserSlash"
-        class="hidden xl:inline-flex"
-        [class]="
-          showOnlyDeleted()
-            ? 'hidden xl:inline-flex bg-emerald-700 rounded-lg'
-            : 'hidden xl:inline-flex'
-        "
-        (click)="onDeletedToggle()"
-      >
-        Obrisani
-      </app-button>
-
-      <button
-        type="button"
-        (click)="onDeletedToggle()"
-        [class]="showOnlyDeleted() ? 'border-amber-500' : 'border-emerald-400'"
-        class="xl:hidden shrink-0 rounded-full bg-emerald-700 p-2 flex justify-center items-center border-2 cursor-pointer shadow-lg active:scale-95 transition-200"
-      >
-        <ng-icon name="faSolidUserSlash" class="text-emerald-300! self-center!"></ng-icon>
-      </button>
-
       <app-filter-menu
         [options]="filters"
         [conflictingOptions]="conflictingFilters"

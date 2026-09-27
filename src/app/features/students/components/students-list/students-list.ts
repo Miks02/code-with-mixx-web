@@ -23,6 +23,10 @@ const CONFLICTING_FILTERS: Record<StudentFilter, StudentFilter[]> = {
   [StudentFilter.WithoutClasses]: [StudentFilter.WithClasses],
   [StudentFilter.WithProjects]: [StudentFilter.WithoutProjects],
   [StudentFilter.WithoutProjects]: [StudentFilter.WithProjects],
+  [StudentFilter.Active]: [],
+  [StudentFilter.Deactivated]: [],
+  [StudentFilter.Pending]: [],
+  [StudentFilter.Deleted]: [],
 };
 
 @Component({
@@ -52,12 +56,11 @@ export class StudentsList {
 
   conflictingFilters = CONFLICTING_FILTERS;
 
-  studentSelected = output<StudentItem>();
+  studentSelected = output<StudentItem | undefined>();
   searchChanged = output<string>();
   pageChanged = output<number>();
   sortChanged = output<StudentSort>();
   filtersChanged = output<StudentFilter[]>();
-  deletedToggled = output<boolean>();
   addStudentClicked = output<void>();
 
   students = computed(() => this.pagedStudents()?.items);
@@ -84,13 +87,17 @@ export class StudentsList {
     [StudentFilter.WithoutClasses]: 'Bez časova',
     [StudentFilter.WithProjects]: 'Sa projektima',
     [StudentFilter.WithoutProjects]: 'Bez projekata',
+    [StudentFilter.Active]: 'Aktivni',
+    [StudentFilter.Deactivated]: 'Deaktivirani',
+    [StudentFilter.Pending]: 'Na čekanju',
+    [StudentFilter.Deleted]: 'Obrisani',
   };
 
   onOpenCreationForm() {
     this.openCreationForm.emit();
   }
 
-  onStudentSelected(student: StudentItem) {
+  onStudentSelected(student: StudentItem | undefined) {
     this.studentSelected.emit(student);
   }
 
@@ -104,10 +111,6 @@ export class StudentsList {
 
   onFiltersChanged(filters: StudentFilter[]) {
     this.filtersChanged.emit(filters);
-  }
-
-  onDeletedToggle() {
-    this.deletedToggled.emit(!this.showOnlyDeleted());
   }
 
   onAddStudent() {

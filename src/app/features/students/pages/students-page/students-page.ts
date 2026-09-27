@@ -79,7 +79,7 @@ export class StudentsPage {
   protected readonly selectedStudent = signal<StudentItem | undefined>(undefined);
   protected readonly studentToEdit = signal<StudentItem | null>(null);
 
-  onStudentSelected(student: StudentItem) {
+  onStudentSelected(student: StudentItem | undefined) {
     this.studentToEdit.set(null);
     this.selectedStudent.set(student);
   }
@@ -95,10 +95,6 @@ export class StudentsPage {
 
   onFilterChange(filters: StudentFilter[]) {
     this.queryParams.update((params) => ({ ...params, filters }));
-  }
-
-  onDeleteToggle(includeDeleted: boolean) {
-    this.queryParams.update((params) => ({ ...params, includeDeleted }));
   }
 
   onPageChange(pageNumber: number) {
