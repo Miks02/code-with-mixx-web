@@ -13,7 +13,7 @@ import {
   faSolidXmark,
 } from '@ng-icons/font-awesome/solid';
 import { BehaviorSubject, debounceTime } from 'rxjs';
-import { StatsCard } from '../../../components/stats-card/stats-card';
+import { StatsCard } from '../../../../../shared/stats-card/stats-card';
 import { SubjectsList } from '../../../components/subjects-list/subjects-list';
 import { SubjectItem } from '../../../models/subject-item';
 import { SubjectSort } from '../../../models/subject-sort';
@@ -89,14 +89,6 @@ export class SubjectsPage {
   selectedSubject: WritableSignal<SubjectItem | undefined> = signal(undefined);
 
   mostPopularSubject = computed(() => this.subjectsSummary()?.mostPopularSubject);
-
-  constructor() {
-    effect(() => {
-      const subjects = this.subjects();
-      //this.toastService.showInfo('Lista predmeta je osvezena');
-    //  this.toastService.showInfo('Lista predmeta je osvezena');
-    });
-  }
 
   updateSelectedSubject(subject: SubjectItem) {
     this.selectedSubject.set(subject);

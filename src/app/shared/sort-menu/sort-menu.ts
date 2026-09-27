@@ -1,4 +1,14 @@
-import { Component, ElementRef, computed, inject, input, output, signal } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  ElementRef,
+  computed,
+  effect,
+  inject,
+  input,
+  output,
+  signal,
+} from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { faSolidArrowDownWideShort, faSolidChevronDown } from '@ng-icons/font-awesome/solid';
 
@@ -8,9 +18,6 @@ import { faSolidArrowDownWideShort, faSolidChevronDown } from '@ng-icons/font-aw
   selector: 'app-sort-menu',
   styleUrl: './sort-menu.css',
   templateUrl: './sort-menu.html',
-  host: {
-    '(document:click)': 'onDocumentClick($event)',
-  },
 })
 export class SortMenu<T extends string = string> {
   options = input.required<Record<T, string>>();
@@ -19,6 +26,33 @@ export class SortMenu<T extends string = string> {
   sortChanged = output<T>();
 
   private elementRef = inject(ElementRef<HTMLElement>);
+  private destroyRef = inject(DestroyRef);
+
+  private closeController: AbortController | null = null;
+
+  constructor() {
+    effect(() => {
+      const isOpen = this.isOpen();
+
+      if (isOpen) {
+        this.closeController = new AbortController();
+
+        const { signal } = this.closeController;
+
+        document.addEventListener('click', (event) => this.onDocumentClick(event), {
+          signal,
+        });
+        document.addEventListener('keydown', (event) => this.onDocumentKeydown(event), {
+          signal,
+        });
+      } else {
+        this.closeController?.abort();
+        this.closeController = null;
+      }
+    });
+
+    this.destroyRef.onDestroy(() => this.closeController?.abort());
+  }
 
   isOpen = signal(false);
 
@@ -48,7 +82,12 @@ export class SortMenu<T extends string = string> {
   }
 
   onDocumentClick(event: Event) {
-    if (!this.elementRef.nativeElement.contains(event.target as Node)) {
+    if (!event.composedPath().includes(this.elementRef.nativeElement)) {
+      this.close();
+    }
+  }
+  private onDocumentKeydown(event: KeyboardEvent) {
+    if (event.key === 'Escape') {
       this.close();
     }
   }

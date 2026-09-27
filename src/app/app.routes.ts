@@ -28,6 +28,10 @@ export const routes: Routes = [
         path: 'reset-password',
         loadComponent: () => import('./features/auth/components/reset-password/reset-password').then((c) => c.ResetPassword),
       },
+      {
+        path: 'activate-account',
+        loadComponent: () => import('./features/auth/components/account-activation/account-activation').then((c) => c.AccountActivation),
+      },
     ],
   },
   {
@@ -47,6 +51,10 @@ export const routes: Routes = [
       {
         path: 'subjects',
         loadComponent: () => import('./features/subjects/admin/pages/subjects-page/subjects-page').then((c) => c.SubjectsPage),
+      },
+      {
+        path: 'students',
+        loadComponent: () => import('./features/students/pages/students-page/students-page').then((c) => c.StudentsPage),
       },
     ],
   },
