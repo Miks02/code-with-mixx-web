@@ -7,19 +7,29 @@
     (searchChanged)="onSearchChange($event)"
     [selectedFilters]="queryParams().filters"
     [showOnlyDeleted]="queryParams().includeDeleted"
-    (studentSelected)="selectedStudent.set($event)"
+    (studentSelected)="onStudentSelected($event)"
     (sortChanged)="onSortChange($event)"
     (filtersChanged)="onFilterChange($event)"
     (deletedToggled)="onDeleteToggle($event)"
     (openCreationForm)="isCreateFormVisible.set(true)"
   ></app-students-list>
 
+  @if (studentToEdit()) {
+  <app-edit-student-form
+    class="min-w-0 lg:col-span-2 lg:row-span-2"
+    [selectedStudent]="studentToEdit()"
+    (closeForm)="studentToEdit.set(null)"
+    (updatedStudent)="onStudentEdited($event)"
+  ></app-edit-student-form>
+  } @else {
   <app-student-details
     class="min-w-0 lg:col-span-2 lg:row-span-2"
     [student]="selectedStudent()"
+    (editStudent)="studentToEdit.set($event)"
     (studentDeleted)="onStudentDeleted()"
     (studentUpdated)="onStudentUpdated($event)"
   ></app-student-details>
+  }
 
   <div class="min-w-0 lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 gap-4">
     <app-stats-card

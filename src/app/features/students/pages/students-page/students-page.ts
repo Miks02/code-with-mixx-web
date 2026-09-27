@@ -20,9 +20,18 @@ import {
 import { StatsCard } from '../../../../shared/stats-card/stats-card';
 import { MostActiveStudent } from '../../components/most-active-student/most-active-student';
 import { CreateStudentForm } from '../../components/create-student-form/create-student-form';
+import { EditStudentForm } from '../../components/edit-student-form/edit-student-form';
+import { UpdateStudentResponse } from '../../models/update-student-request';
 
 @Component({
-  imports: [StudentsList, StudentDetails, StatsCard, MostActiveStudent, CreateStudentForm],
+  imports: [
+    StudentsList,
+    StudentDetails,
+    StatsCard,
+    MostActiveStudent,
+    CreateStudentForm,
+    EditStudentForm,
+  ],
   providers: [
     provideIcons({ faSolidUserCheck, faSolidUserClock, faSolidUserSlash, faSolidUserXmark }),
   ],
@@ -68,6 +77,12 @@ export class StudentsPage {
   mostActiveStudent = computed(() => this.studentsSummaryData()?.mostActiveStudent ?? null);
 
   protected readonly selectedStudent = signal<StudentItem | undefined>(undefined);
+  protected readonly studentToEdit = signal<StudentItem | null>(null);
+
+  onStudentSelected(student: StudentItem) {
+    this.studentToEdit.set(null);
+    this.selectedStudent.set(student);
+  }
 
   onSearchChange(term: string) {
     this.queryParams.update((params) => ({ ...params, pageNumber: 1 }));
@@ -96,5 +111,9 @@ export class StudentsPage {
 
   onStudentUpdated(student: StudentItem) {
     this.selectedStudent.set(student);
+  }
+
+  onStudentEdited(updated: UpdateStudentResponse) {
+    this.selectedStudent.update((student) => (student ? { ...student, ...updated } : student));
   }
 }

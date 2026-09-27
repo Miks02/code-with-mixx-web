@@ -79,6 +79,7 @@ export class StudentDetails {
   private dialogService = inject(DialogService);
   studentUpdated = output<StudentItem>();
   studentDeleted = output<void>();
+  editStudent = output<StudentItem>();
 
   readonly AccountStatus = AccountStatus;
 
@@ -147,6 +148,10 @@ export class StudentDetails {
       this.activateMutation.isPending() ||
       this.sendInvitationMutation.isPending(),
   );
+
+  onEdit() {
+    this.editStudent.emit(this.student()!);
+  }
 
   onActivate() {
     this.activateMutation.mutate(this.student()?.id!, {

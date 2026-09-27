@@ -86,7 +86,12 @@
         >Detaljniji pregled</app-button
       >
       @if (student.accountStatus !== AccountStatus.Deleted) {
-      <app-button class="grow" [fullWidth]="true" variant="primary" icon="faSolidPenToSquare"
+      <app-button
+        (clicked)="onEdit()"
+        class="grow"
+        [fullWidth]="true"
+        variant="primary"
+        icon="faSolidPenToSquare"
         >Izmeni</app-button
       >
       }
