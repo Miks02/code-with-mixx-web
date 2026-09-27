@@ -1,0 +1,215 @@
+<div
+  class="bg-emerald-950/80 backdrop-blur-xl rounded-lg shadow-lg p-4 h-full min-h-80 flex flex-col gap-4 relative"
+>
+  @if (isPending()) {
+    <div
+      class="absolute w-full h-full top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 bg-emerald-900/50 z-10"
+    >
+      <div class="flex items-center justify-center h-full">
+        <ng-icon name="faSolidSpinner" class="animate-spin text-emerald-100! text-7xl"></ng-icon>
+      </div>
+    </div>
+  }
+  @if (selectedStudent(); as student) {
+    <div class="flex flex-wrap w-full items-center justify-between min-w-0 gap-1">
+      <div class="flex items-center gap-4 min-w-0">
+        <h2 class="text-xl font-semibold text-emerald-100 truncate">{{ studentName() }}</h2>
+        <span
+          class="text-xs font-semibold px-2 py-1 rounded-full shrink-0"
+          [class]="status()?.classes"
+          >{{ status()?.label }}</span
+        >
+      </div>
+      <p class="text-emerald-100/80 font-semibold">Registrovan: {{ registeredAtLabel() }}</p>
+    </div>
+
+    <div class="flex gap-2 flex-wrap">
+      @for (stat of stats(); track stat.label) {
+        <div
+          class="flex items-center gap-2 rounded-lg px-2.5 py-1.5 flex-1 min-w-32 bg-emerald-900/80 text-emerald-100"
+        >
+          <ng-icon [name]="stat.icon" class="text-base self-center! text-emerald-400!"></ng-icon>
+          <div class="flex flex-col min-w-0">
+            <span class="text-sm font-semibold leading-tight truncate">{{ stat.value }}</span>
+            <span class="text-xs text-emerald-300">{{ stat.label }}</span>
+          </div>
+        </div>
+      }
+    </div>
+
+    <form
+      class="border border-emerald-500 rounded-lg p-4 w-full mt-auto grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-2"
+      (submit)="$event.preventDefault(); onSubmit()"
+    >
+      <div class="flex flex-col gap-1 min-w-0">
+        <div class="flex items-baseline justify-between gap-2 px-1">
+          <label for="edit-firstName" class="text-xs font-semibold text-emerald-300 shrink-0"
+            >Ime *</label
+          >
+          @if (updateForm.firstName().touched() && updateForm.firstName().errors().length) {
+            <p
+              class="text-xs text-red-400 text-right truncate"
+              [title]="updateForm.firstName().errors()[0]?.message"
+            >
+              {{ updateForm.firstName().errors()[0]?.message }}
+            </p>
+          }
+        </div>
+        <div
+          class="flex items-center gap-2 bg-emerald-900/60 border border-emerald-700 rounded-lg px-3 py-2 focus-within:border-emerald-400 focus-within:ring-2 focus-within:ring-emerald-500/40 transition-200"
+          [class.border-red-400]="
+            updateForm.firstName().touched() && updateForm.firstName().errors().length
+          "
+        >
+          <ng-icon name="faSolidUser" class="text-emerald-400! self-center! shrink-0"></ng-icon>
+          <input
+            [formField]="updateForm.firstName"
+            type="text"
+            id="edit-firstName"
+            autocomplete="given-name"
+            class="w-full min-w-0 border-none outline-none bg-transparent text-emerald-100 caret-emerald-100 placeholder:text-emerald-300/50"
+            placeholder="Marko"
+          />
+        </div>
+      </div>
+      <div class="flex flex-col gap-1 min-w-0">
+        <div class="flex items-baseline justify-between gap-2 px-1">
+          <label for="edit-lastName" class="text-xs font-semibold text-emerald-300 shrink-0"
+            >Prezime *</label
+          >
+          @if (updateForm.lastName().touched() && updateForm.lastName().errors().length) {
+            <p
+              class="text-xs text-red-400 text-right truncate"
+              [title]="updateForm.lastName().errors()[0]?.message"
+            >
+              {{ updateForm.lastName().errors()[0]?.message }}
+            </p>
+          }
+        </div>
+        <div
+          class="flex items-center gap-2 bg-emerald-900/60 border border-emerald-700 rounded-lg px-3 py-2 focus-within:border-emerald-400 focus-within:ring-2 focus-within:ring-emerald-500/40 transition-200"
+          [class.border-red-400]="
+            updateForm.lastName().touched() && updateForm.lastName().errors().length
+          "
+        >
+          <ng-icon name="faSolidUser" class="text-emerald-400! self-center! shrink-0"></ng-icon>
+          <input
+            [formField]="updateForm.lastName"
+            type="text"
+            id="edit-lastName"
+            autocomplete="family-name"
+            class="w-full min-w-0 border-none outline-none bg-transparent text-emerald-100 caret-emerald-100 placeholder:text-emerald-300/50"
+            placeholder="Marković"
+          />
+        </div>
+      </div>
+      <div class="flex flex-col gap-1 min-w-0">
+        <div class="flex items-baseline justify-between gap-2 px-1">
+          <label for="edit-email" class="text-xs font-semibold text-emerald-300 shrink-0"
+            >Email adresa *</label
+          >
+          @if (updateForm.email().touched() && updateForm.email().errors().length) {
+            <p
+              class="text-xs text-red-400 text-right truncate"
+              [title]="updateForm.email().errors()[0]?.message"
+            >
+              {{ updateForm.email().errors()[0]?.message }}
+            </p>
+          }
+        </div>
+        <div
+          class="flex items-center gap-2 bg-emerald-900/60 border border-emerald-700 rounded-lg px-3 py-2 focus-within:border-emerald-400 focus-within:ring-2 focus-within:ring-emerald-500/40 transition-200"
+          [class.border-red-400]="
+            updateForm.email().touched() && updateForm.email().errors().length
+          "
+        >
+          <ng-icon name="faSolidEnvelope" class="text-emerald-400! self-center! shrink-0"></ng-icon>
+          <input
+            [formField]="updateForm.email"
+            type="email"
+            id="edit-email"
+            autocomplete="email"
+            class="w-full min-w-0 border-none outline-none bg-transparent text-emerald-100 caret-emerald-100 placeholder:text-emerald-300/50"
+            placeholder="marko@primer.com"
+          />
+        </div>
+      </div>
+      <div class="flex flex-col gap-1 min-w-0">
+        <div class="flex items-baseline justify-between gap-2 px-1">
+          <label for="edit-phoneNumber" class="text-xs font-semibold text-emerald-300 shrink-0"
+            >Broj telefona *</label
+          >
+          @if (updateForm.phoneNumber().touched() && updateForm.phoneNumber().errors().length) {
+            <p
+              class="text-xs text-red-400 text-right truncate"
+              [title]="updateForm.phoneNumber().errors()[0]?.message"
+            >
+              {{ updateForm.phoneNumber().errors()[0]?.message }}
+            </p>
+          }
+        </div>
+        <div
+          class="flex items-center gap-2 bg-emerald-900/60 border border-emerald-700 rounded-lg px-3 py-2 focus-within:border-emerald-400 focus-within:ring-2 focus-within:ring-emerald-500/40 transition-200"
+          [class.border-red-400]="
+            updateForm.phoneNumber().touched() && updateForm.phoneNumber().errors().length
+          "
+        >
+          <ng-icon name="faSolidPhone" class="text-emerald-400! self-center! shrink-0"></ng-icon>
+          <input
+            [formField]="updateForm.phoneNumber"
+            type="tel"
+            id="edit-phoneNumber"
+            autocomplete="tel"
+            class="w-full min-w-0 border-none outline-none bg-transparent text-emerald-100 caret-emerald-100 placeholder:text-emerald-300/50"
+            placeholder="+381 60 123 4567"
+          />
+        </div>
+      </div>
+      <div class="flex flex-col gap-1 min-w-0 sm:col-span-2">
+        <div class="flex items-baseline justify-between gap-2 px-1">
+          <label for="edit-university" class="text-xs font-semibold text-emerald-300 shrink-0"
+            >Fakultet <span class="font-normal text-emerald-300/60">(opciono)</span></label
+          >
+        </div>
+        <div
+          class="flex items-center gap-2 bg-emerald-900/60 border border-emerald-700 rounded-lg px-3 py-2 focus-within:border-emerald-400 focus-within:ring-2 focus-within:ring-emerald-500/40 transition-200"
+        >
+          <ng-icon
+            name="faSolidBuildingColumns"
+            class="text-emerald-400! self-center! shrink-0"
+          ></ng-icon>
+          <input
+            [formField]="updateForm.university"
+            type="text"
+            id="edit-university"
+            autocomplete="organization"
+            class="w-full min-w-0 border-none outline-none bg-transparent text-emerald-100 caret-emerald-100 placeholder:text-emerald-300/50"
+            placeholder="Fakultet"
+          />
+        </div>
+      </div>
+      <button type="submit" class="hidden"></button>
+    </form>
+
+    <div class="flex flex-col sm:flex-row gap-3 w-full mt-auto">
+      <app-button
+        (clicked)="onSubmit()"
+        class="w-full"
+        [fullWidth]="true"
+        [loading]="isPending()"
+        variant="primary"
+        icon="faSolidCheck"
+        >Sačuvaj izmene</app-button
+      >
+      <app-button
+        (clicked)="onClose()"
+        class="w-full"
+        [fullWidth]="true"
+        [disabled]="isPending()"
+        variant="ghost"
+        icon="faSolidXmark"
+        >Otkaži</app-button
+      >
+    </div>
+  }
+</div>
