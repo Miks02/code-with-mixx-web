@@ -11,6 +11,7 @@
     (sortChanged)="onSortChange($event)"
     (filtersChanged)="onFilterChange($event)"
     (deletedToggled)="onDeleteToggle($event)"
+    (openCreationForm)="isCreateFormVisible.set(true)"
   ></app-students-list>
 
   <app-student-details
@@ -63,4 +64,10 @@
     [student]="mostActiveStudent()"
     [isPending]="studentsSummaryPending()"
   ></app-most-active-student>
+
+  <app-create-student-form
+    (closed)="isCreateFormVisible.set(false)"
+    [isVisible]="isCreateFormVisible()"
+  >
+  </app-create-student-form>
 </div>

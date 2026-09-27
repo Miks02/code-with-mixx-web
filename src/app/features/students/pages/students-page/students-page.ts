@@ -19,9 +19,10 @@ import {
 } from '@ng-icons/font-awesome/solid';
 import { StatsCard } from '../../../../shared/stats-card/stats-card';
 import { MostActiveStudent } from '../../components/most-active-student/most-active-student';
+import { CreateStudentForm } from '../../components/create-student-form/create-student-form';
 
 @Component({
-  imports: [StudentsList, StudentDetails, StatsCard, MostActiveStudent],
+  imports: [StudentsList, StudentDetails, StatsCard, MostActiveStudent, CreateStudentForm],
   providers: [
     provideIcons({ faSolidUserCheck, faSolidUserClock, faSolidUserSlash, faSolidUserXmark }),
   ],
@@ -31,6 +32,7 @@ import { MostActiveStudent } from '../../components/most-active-student/most-act
 })
 export class StudentsPage {
   private studentService = inject(StudentService);
+  isCreateFormVisible = signal(false);
 
   private searchTerm$: BehaviorSubject<string> = new BehaviorSubject<string>('');
   private searchTerm = toSignal(this.searchTerm$.pipe(debounceTime(300)), { initialValue: '' });
@@ -39,10 +41,10 @@ export class StudentsPage {
     effect(() => {
       const searchTerm = this.searchTerm();
 
-      if(!searchTerm) return;
-      
+      if (!searchTerm) return;
+
       this.queryParams.update((params) => ({ ...params, searchTerm }));
-    })
+    });
   }
 
   protected queryParams = signal<StudentQueryParams>({

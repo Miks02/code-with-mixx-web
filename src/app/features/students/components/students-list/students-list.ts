@@ -6,6 +6,7 @@ import {
   faSolidChevronLeft,
   faSolidChevronRight,
   faSolidDiagramProject,
+  faSolidPlus,
   faSolidUserSlash,
   faSolidXmark,
 } from '@ng-icons/font-awesome/solid';
@@ -36,6 +37,7 @@ const CONFLICTING_FILTERS: Record<StudentFilter, StudentFilter[]> = {
       faSolidChevronLeft,
       faSolidChevronRight,
       faSolidDiagramProject,
+      faSolidPlus,
       faSolidUserSlash,
       faSolidXmark,
     }),
@@ -52,6 +54,7 @@ export class StudentsList {
   showOnlyDeleted = input<boolean>(false);
   isPending = input<boolean>(false);
   isFetching = input<boolean>(false);
+  openCreationForm = output<void>();
 
   conflictingFilters = CONFLICTING_FILTERS;
 
@@ -61,6 +64,7 @@ export class StudentsList {
   sortChanged = output<StudentSort>();
   filtersChanged = output<StudentFilter[]>();
   deletedToggled = output<boolean>();
+  addStudentClicked = output<void>();
 
   students = computed(() => this.pagedStudents()?.items);
   skeletonItems = computed(() => Array.from({ length: 6 }));
@@ -88,6 +92,10 @@ export class StudentsList {
     [StudentFilter.WithoutProjects]: 'Bez projekata',
   };
 
+  onOpenCreationForm() {
+    this.openCreationForm.emit();
+  }
+
   onStudentSelected(student: StudentItem) {
     this.studentSelected.emit(student);
   }
@@ -106,6 +114,10 @@ export class StudentsList {
 
   onDeletedToggle() {
     this.deletedToggled.emit(!this.showOnlyDeleted());
+  }
+
+  onAddStudent() {
+    this.addStudentClicked.emit();
   }
 
   onPreviousPage() {
