@@ -1,0 +1,5 @@
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px var(--color-emerald-700) inset;
+  -webkit-text-fill-color: var(--color-white);
+  caret-color: var(--color-white);
+}

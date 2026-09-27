@@ -1,0 +1,195 @@
+@if (isVisible()) {
+<div
+  (click)="onClose()"
+  class="fixed inset-0 z-1000 flex items-center justify-center bg-emerald-900/60 backdrop-blur-xs"
+></div>
+
+<div
+  class="flex flex-col p-4 gap-6 w-full max-w-lg max-h-full overflow-y-auto bg-emerald-200 rounded-xl z-1000 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 shadow-lg"
+>
+  <div class="flex items-start justify-between gap-4">
+    <div class="flex flex-col gap-1">
+      <p class="text-xl font-semibold text-emerald-900">Registracija studenta</p>
+      <p class="text-sm text-emerald-900/70">
+        Unesi podatke studenta. Polja označena sa * su obavezna.
+      </p>
+    </div>
+    <button
+      type="button"
+      aria-label="Zatvori"
+      (click)="onClose()"
+      class="text-2xl text-red-900 cursor-pointer hover:opacity-70 active:opacity-50 transition-200"
+    >
+      <ng-icon name="faSolidXmark"></ng-icon>
+    </button>
+  </div>
+  <form class="flex flex-col gap-4" (submit)="$event.preventDefault(); onSubmit()">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div class="flex flex-col gap-1.5">
+        <div class="flex items-baseline justify-between gap-2 px-1">
+          <label for="firstName" class="text-sm font-semibold text-emerald-900 shrink-0"
+            >Ime *</label
+          >
+          @if (studentForm.firstName().touched() && studentForm.firstName().errors().length) {
+          <p
+            class="text-xs text-red-600 text-right truncate"
+            [title]="studentForm.firstName().errors()[0]?.message"
+          >
+            {{ studentForm.firstName().errors()[0]?.message }}
+          </p>
+          }
+        </div>
+        <div
+          class="flex items-center gap-3 bg-emerald-700 rounded-lg shadow-lg px-4 py-3 focus-within:ring-2 focus-within:ring-amber-500 transition-200"
+          [class.ring-2]="
+              studentForm.firstName().touched() && studentForm.firstName().errors().length
+            "
+          [class.ring-red-400]="
+              studentForm.firstName().touched() && studentForm.firstName().errors().length
+            "
+        >
+          <ng-icon class="shrink-0 text-emerald-100!" name="faSolidUser"></ng-icon>
+          <input
+            [formField]="studentForm.firstName"
+            type="text"
+            id="firstName"
+            autocomplete="given-name"
+            class="w-full border-none outline-none bg-transparent text-white caret-white placeholder:text-emerald-100/50"
+            placeholder="Marko"
+          />
+        </div>
+      </div>
+      <div class="flex flex-col gap-1.5">
+        <div class="flex items-baseline justify-between gap-2 px-1">
+          <label for="lastName" class="text-sm font-semibold text-emerald-900 shrink-0"
+            >Prezime *</label
+          >
+          @if (studentForm.lastName().touched() && studentForm.lastName().errors().length) {
+          <p
+            class="text-xs text-red-600 text-right truncate"
+            [title]="studentForm.lastName().errors()[0]?.message"
+          >
+            {{ studentForm.lastName().errors()[0]?.message }}
+          </p>
+          }
+        </div>
+        <div
+          class="flex items-center gap-3 bg-emerald-700 rounded-lg shadow-lg px-4 py-3 focus-within:ring-2 focus-within:ring-amber-500 transition-200"
+          [class.ring-2]="
+              studentForm.lastName().touched() && studentForm.lastName().errors().length
+            "
+          [class.ring-red-400]="
+              studentForm.lastName().touched() && studentForm.lastName().errors().length
+            "
+        >
+          <ng-icon class="shrink-0 text-emerald-100!" name="faSolidUser"></ng-icon>
+          <input
+            [formField]="studentForm.lastName"
+            type="text"
+            id="lastName"
+            autocomplete="family-name"
+            class="w-full border-none outline-none bg-transparent text-white caret-white placeholder:text-emerald-100/50"
+            placeholder="Marković"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-col gap-1.5">
+      <div class="flex items-baseline justify-between gap-2 px-1">
+        <label for="email" class="text-sm font-semibold text-emerald-900 shrink-0"
+          >Email adresa *</label
+        >
+        @if (studentForm.email().touched() && studentForm.email().errors().length) {
+        <p
+          class="text-xs text-red-600 text-right truncate"
+          [title]="studentForm.email().errors()[0]?.message"
+        >
+          {{ studentForm.email().errors()[0]?.message }}
+        </p>
+        }
+      </div>
+      <div
+        class="flex items-center gap-3 bg-emerald-700 rounded-lg shadow-lg px-4 py-3 focus-within:ring-2 focus-within:ring-amber-500 transition-200"
+        [class.ring-2]="studentForm.email().touched() && studentForm.email().errors().length"
+        [class.ring-red-400]="
+            studentForm.email().touched() && studentForm.email().errors().length
+          "
+      >
+        <ng-icon class="shrink-0 text-emerald-100!" name="faSolidEnvelope"></ng-icon>
+        <input
+          [formField]="studentForm.email"
+          type="email"
+          id="email"
+          autocomplete="email"
+          class="w-full border-none outline-none bg-transparent text-white caret-white placeholder:text-emerald-100/50"
+          placeholder="marko@primer.com"
+        />
+      </div>
+    </div>
+    <div class="flex flex-col gap-1.5">
+      <div class="flex items-baseline justify-between gap-2 px-1">
+        <label for="phoneNumber" class="text-sm font-semibold text-emerald-900 shrink-0"
+          >Broj telefona *</label
+        >
+        @if (studentForm.phoneNumber().touched() && studentForm.phoneNumber().errors().length) {
+        <p
+          class="text-xs text-red-600 text-right truncate"
+          [title]="studentForm.phoneNumber().errors()[0]?.message"
+        >
+          {{ studentForm.phoneNumber().errors()[0]?.message }}
+        </p>
+        }
+      </div>
+      <div
+        class="flex items-center gap-3 bg-emerald-700 rounded-lg shadow-lg px-4 py-3 focus-within:ring-2 focus-within:ring-amber-500 transition-200"
+        [class.ring-2]="
+            studentForm.phoneNumber().touched() && studentForm.phoneNumber().errors().length
+          "
+        [class.ring-red-400]="
+            studentForm.phoneNumber().touched() && studentForm.phoneNumber().errors().length
+          "
+      >
+        <ng-icon class="shrink-0 text-emerald-100!" name="faSolidPhone"></ng-icon>
+        <input
+          [formField]="studentForm.phoneNumber"
+          type="tel"
+          id="phoneNumber"
+          autocomplete="tel"
+          class="w-full border-none outline-none bg-transparent text-white caret-white placeholder:text-emerald-100/50"
+          placeholder="+381 60 123 4567"
+        />
+      </div>
+    </div>
+    <div class="flex flex-col gap-1.5">
+      <label for="university" class="text-sm font-semibold text-emerald-900 px-1">
+        Univerzitet <span class="font-normal text-emerald-900/60">(opciono)</span>
+      </label>
+      <div
+        class="flex items-center gap-3 bg-emerald-700 rounded-lg shadow-lg px-4 py-3 focus-within:ring-2 focus-within:ring-amber-500 transition-200"
+      >
+        <ng-icon class="shrink-0 text-emerald-100!" name="faSolidBuildingColumns"></ng-icon>
+        <input
+          [formField]="studentForm.university"
+          type="text"
+          id="university"
+          autocomplete="organization"
+          class="w-full border-none outline-none bg-transparent text-white caret-white placeholder:text-emerald-100/50"
+          placeholder="Univerzitet"
+        />
+      </div>
+    </div>
+    <button type="submit" class="hidden"></button>
+  </form>
+  <div class="self-end flex gap-2">
+    <app-button size="sm" variant="secondary" (click)="onClose()">Odustani</app-button>
+    <app-button
+      size="sm"
+      icon="faSolidUserPlus"
+      [loading]="createStudentMutation.isPending()"
+      (click)="onSubmit()"
+    >
+      Potvrdi
+    </app-button>
+  </div>
+</div>
+}
