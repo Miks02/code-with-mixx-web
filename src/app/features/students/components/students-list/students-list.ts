@@ -1,11 +1,8 @@
 import { Component, computed, input, output } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
-  faSolidCalendar,
-  faSolidCalendarCheck,
   faSolidChevronLeft,
   faSolidChevronRight,
-  faSolidDiagramProject,
   faSolidPlus,
   faSolidUserSlash,
   faSolidXmark,
@@ -32,11 +29,8 @@ const CONFLICTING_FILTERS: Record<StudentFilter, StudentFilter[]> = {
   imports: [StudentCard, Button, SearchBar, SortMenu, FilterMenu, NgIcon, Skeleton],
   providers: [
     provideIcons({
-      faSolidCalendar,
-      faSolidCalendarCheck,
       faSolidChevronLeft,
       faSolidChevronRight,
-      faSolidDiagramProject,
       faSolidPlus,
       faSolidUserSlash,
       faSolidXmark,
