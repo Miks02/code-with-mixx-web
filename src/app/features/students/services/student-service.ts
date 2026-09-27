@@ -16,6 +16,7 @@ import { StudentsSummary } from '../models/students-summary';
 import { PagedResult } from '../../../core/models/paged-result';
 import { StudentItem } from '../models/student-item';
 import { ProblemDetails } from '../../../core/models/problem-details';
+import { CreateStudentFormModel, CreateStudentRequest } from '../models/create-student-request';
 
 @Service()
 export class StudentService {
@@ -55,6 +56,18 @@ export class StudentService {
       enabled: queryResult.isSuccess(),
     }));
   }
+
+  createStudentMutation = injectMutation<void, ProblemDetails, CreateStudentFormModel>(() => ({
+    mutationFn: (model: CreateStudentFormModel) => {
+      const request: CreateStudentRequest = { ...model, university: model.university.trim() || null };
+
+      return lastValueFrom(this.http.post<void>(`${this.apiUrl}/admin/students`, request));
+    },
+    onSuccess: () => {
+      this.queryClient.invalidateQueries({ queryKey: ['paged-students'], refetchType: 'none' })
+      return this.queryClient.invalidateQueries({ queryKey: ['students-summary'] })
+    }
+  }));
 
   sendInvitationMutation = injectMutation<void, ProblemDetails, string>(() => ({
     mutationFn: (studentId: string) =>
