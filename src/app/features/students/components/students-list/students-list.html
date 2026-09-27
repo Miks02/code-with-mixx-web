@@ -4,16 +4,16 @@
   <div class="relative flex items-center justify-between gap-3 flex-wrap">
     <h2 class="text-xl font-semibold text-emerald-100">Studenti</h2>
 
-    <div class="flex gap-2 self-center">
+    <div class="flex gap-2 ml-auto">
       <app-button
         variant="ghost"
         size="sm"
         icon="faSolidUserSlash"
-        class="hidden md:inline-flex"
+        class="hidden xl:inline-flex"
         [class]="
           showOnlyDeleted()
-            ? 'hidden md:inline-flex bg-emerald-700 rounded-lg'
-            : 'hidden md:inline-flex'
+            ? 'hidden xl:inline-flex bg-emerald-700 rounded-lg'
+            : 'hidden xl:inline-flex'
         "
         (click)="onDeletedToggle()"
       >
@@ -24,7 +24,7 @@
         type="button"
         (click)="onDeletedToggle()"
         [class]="showOnlyDeleted() ? 'border-amber-500' : 'border-emerald-400'"
-        class="md:hidden shrink-0 rounded-full bg-emerald-700 p-2 flex justify-center items-center border-2 cursor-pointer shadow-lg active:scale-95 transition-200"
+        class="xl:hidden shrink-0 rounded-full bg-emerald-700 p-2 flex justify-center items-center border-2 cursor-pointer shadow-lg active:scale-95 transition-200"
       >
         <ng-icon name="faSolidUserSlash" class="text-emerald-300! self-center!"></ng-icon>
       </button>
@@ -48,7 +48,7 @@
       ></app-search-bar>
 
       <app-button
-        class="hidden md:inline-flex self-center"
+        class="hidden xl:inline-flex self-center"
         variant="primary"
         size="sm"
         icon="faSolidPlus"
@@ -62,7 +62,7 @@
         type="button"
         aria-label="Dodaj studenta"
         (click)="onOpenCreationForm()"
-        class="md:hidden shrink-0 rounded-full bg-emerald-700 p-2 flex justify-center items-center border-2 border-emerald-400 cursor-pointer shadow-lg active:scale-95 transition-200"
+        class="xl:hidden shrink-0 rounded-full bg-emerald-700 p-2 flex justify-center items-center border-2 border-emerald-400 cursor-pointer shadow-lg active:scale-95 transition-200"
       >
         <ng-icon name="faSolidPlus" class="text-emerald-300! self-center!"></ng-icon>
       </button>
