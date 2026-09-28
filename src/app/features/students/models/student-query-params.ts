@@ -7,5 +7,4 @@ export type StudentQueryParams = {
   searchTerm: string;
   sortBy: StudentSort;
   filters: StudentFilter[];
-  includeDeleted: boolean;
 }

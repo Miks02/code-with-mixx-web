@@ -26,7 +26,7 @@ const CONFLICTING_FILTERS: Record<StudentFilter, StudentFilter[]> = {
   [StudentFilter.Active]: [],
   [StudentFilter.Deactivated]: [],
   [StudentFilter.Pending]: [],
-  [StudentFilter.Deleted]: [],
+  [StudentFilter.Deleted]: [StudentFilter.Active, StudentFilter.Deactivated, StudentFilter.Pending],
 };
 
 @Component({
@@ -49,7 +49,6 @@ export class StudentsList {
   selectedStudentId = input<string | undefined>(undefined);
   selectedSort = input<StudentSort>(StudentSort.CreatedAscending);
   selectedFilters = input<StudentFilter[]>([]);
-  showOnlyDeleted = input<boolean>(false);
   isPending = input<boolean>(false);
   isFetching = input<boolean>(false);
   openCreationForm = output<void>();
@@ -61,6 +60,7 @@ export class StudentsList {
   pageChanged = output<number>();
   sortChanged = output<StudentSort>();
   filtersChanged = output<StudentFilter[]>();
+  deletedToggled = output<boolean>();
   addStudentClicked = output<void>();
 
   students = computed(() => this.pagedStudents()?.items);

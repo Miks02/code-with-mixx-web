@@ -62,7 +62,6 @@ export class StudentsPage {
     searchTerm: '',
     sortBy: StudentSort.CreatedAscending,
     filters: [],
-    includeDeleted: false,
   });
 
   private studentsSummarySource = this.studentService.getStudentsSummaryQuery(this.queryParams);
