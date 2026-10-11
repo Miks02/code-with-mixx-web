@@ -1,0 +1,76 @@
+<div
+  class="bg-emerald-950/80 backdrop-blur-xl rounded-lg shadow-lg p-4 h-full min-h-80 flex flex-col gap-4 relative"
+>
+  @if (reservation(); as reservation) {
+  <div class="flex flex-wrap w-full items-center justify-between min-w-0 gap-2">
+    <div class="flex items-center flex-wrap gap-2 min-w-0">
+      <h2 class="text-xl font-semibold text-emerald-100 truncate">
+        {{ reservation.studentFullName }}
+      </h2>
+      <span
+        class="text-xs font-semibold px-2 py-1 rounded-full shrink-0"
+        [class]="reservationStatus()?.classes"
+        >{{ reservationStatus()?.label }}</span
+      >
+      <span
+        class="text-xs font-semibold px-2 py-1 rounded-full shrink-0"
+        [class]="paymentStatus()?.classes"
+        >{{ paymentStatus()?.label }}</span
+      >
+    </div>
+    <p class="text-emerald-100/80 font-semibold">Kreirana: {{ createdAtLabel() }}</p>
+  </div>
+
+  <div class="flex gap-2 flex-wrap">
+    @for (stat of stats(); track stat.label) {
+    <div
+      class="flex items-center gap-2 rounded-lg px-2.5 py-1.5 flex-1 min-w-32 bg-emerald-900/80 text-emerald-100"
+    >
+      <ng-icon [name]="stat.icon" class="text-base self-center! text-emerald-400!"></ng-icon>
+      <div class="flex flex-col min-w-0">
+        <span class="text-sm font-semibold leading-tight truncate">{{ stat.value }}</span>
+        <span class="text-xs text-emerald-300">{{ stat.label }}</span>
+      </div>
+    </div>
+    }
+  </div>
+
+  <div class="flex flex-col gap-2 flex-1 min-h-0">
+    <h3 class="text-emerald-100 font-semibold">Projekti ({{ reservation.projects.length }})</h3>
+    <div class="relative flex-1 min-h-60">
+      <div class="absolute inset-0 flex flex-col gap-3 overflow-y-auto">
+        @for (project of reservation.projects; track project.id) {
+        <app-project-card [project]="project"></app-project-card>
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full mt-auto">
+    <app-button [fullWidth]="true" variant="secondary" icon="faSolidArrowsRotate"
+      >Promeni status</app-button
+    >
+    <app-button [fullWidth]="true" variant="primary" icon="faSolidTag">Ažuriraj cenu</app-button>
+    <app-button [fullWidth]="true" variant="primary" icon="faSolidCirclePlus"
+      >Registruj uplatu</app-button
+    >
+    <app-button [fullWidth]="true" variant="danger" icon="faSolidCircleMinus"
+      >Skini uplatu</app-button
+    >
+    <app-button class="sm:col-span-2" [fullWidth]="true" variant="ghost" icon="faSolidEye"
+      >Detalji rezervacije</app-button
+    >
+  </div>
+  } @else {
+  <div
+    class="flex flex-col items-center justify-center gap-3 text-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+  >
+    <div class="flex justify-center items-center bg-emerald-900 rounded-full h-14 w-14">
+      <ng-icon name="faSolidHandPointer" class="text-emerald-400! text-2xl self-center!"></ng-icon>
+    </div>
+    <p class="text-emerald-200 font-medium text-lg w-full">
+      Izaberite rezervaciju iz liste kako bi prikazali detalje
+    </p>
+  </div>
+  }
+</div>
