@@ -8,6 +8,7 @@ import {
 } from '@ng-icons/font-awesome/solid';
 import { StatsCard } from '../../../../../shared/stats-card/stats-card';
 import { ReservationStatus } from '../../../../reservations';
+import { SubjectService } from '../../../../subjects';
 import { ProjectReservationsList } from '../../../components/project-reservations-list/project-reservations-list';
 import { ProjectQueryParams } from '../../../models/project-query-params';
 import { ProjectReservationItem } from '../../../models/project-reservation-item';
@@ -31,10 +32,12 @@ import { ProjectReservationDetails } from '../../components/project-reservation-
 })
 export class ProjectsPage {
   private projectService = inject(ProjectService);
+  private subjectService = inject(SubjectService);
 
   protected queryParams = signal<ProjectQueryParams>({
     pageNumber: 1,
     pageSize: 15,
+    subjectIds: [],
     projectTypes: [],
     reservationStatuses: [],
     showOnlyDeletedStudents: false,
@@ -46,6 +49,9 @@ export class ProjectsPage {
     this.projectsSummarySource,
   );
 
+  private subjectsLookupSource = this.subjectService.getSubjectsLookupQuery();
+
+  subjectsLookupData = computed(() => this.subjectsLookupSource.data() ?? []);
   projectsSummaryData = computed(() => this.projectsSummarySource.data());
   reservationsData = computed(() => this.reservationsSource.data());
   projectsSummaryPending = computed(() => this.projectsSummarySource.isPending());
@@ -56,6 +62,10 @@ export class ProjectsPage {
 
   onReservationSelected(reservation: ProjectReservationItem | undefined) {
     this.selectedReservation.set(reservation);
+  }
+
+  onSubjectIdsChange(subjectIds: number[]) {
+    this.queryParams.update((params) => ({ ...params, pageNumber: 1, subjectIds }));
   }
 
   onProjectTypesChange(projectTypes: ProjectType[]) {

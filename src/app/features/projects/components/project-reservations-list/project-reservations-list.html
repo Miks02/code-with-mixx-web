@@ -28,6 +28,13 @@
       </button>
 
       <app-filter-menu
+        placeholder="Predmet"
+        [options]="subjectOptions()"
+        [selected]="selectedSubjectOptions()"
+        (selectedChanged)="onSubjectsChanged($event)"
+      ></app-filter-menu>
+
+      <app-filter-menu
         placeholder="Tip projekta"
         [options]="projectTypes"
         [selected]="selectedProjectTypes()"

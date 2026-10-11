@@ -12,6 +12,7 @@ import { Button } from '../../../../shared/button/button';
 import { FilterMenu } from '../../../../shared/filter-menu/filter-menu';
 import { Skeleton } from '../../../../shared/skeleton/skeleton';
 import { ReservationStatus } from '../../../reservations';
+import { SubjectLookupItem } from '../../../subjects';
 import { ProjectReservationItem } from '../../models/project-reservation-item';
 import { ProjectType } from '../../models/project-type';
 import { ProjectReservationCard } from '../project-reservation-card/project-reservation-card';
@@ -40,6 +41,8 @@ const CONFLICTING_RESERVATION_STATUSES: Record<ReservationStatus, ReservationSta
 export class ProjectReservationsList {
   pagedReservations = input.required<PagedResult<ProjectReservationItem> | undefined>();
   selectedReservationId = input<number | undefined>(undefined);
+  subjects = input<SubjectLookupItem[]>([]);
+  selectedSubjectIds = input<number[]>([]);
   selectedProjectTypes = input<ProjectType[]>([]);
   selectedReservationStatuses = input<ReservationStatus[]>([]);
   showOnlyDeletedStudents = input<boolean>(false);
@@ -50,10 +53,16 @@ export class ProjectReservationsList {
 
   reservationSelected = output<ProjectReservationItem | undefined>();
   pageChanged = output<number>();
+  subjectIdsChanged = output<number[]>();
   projectTypesChanged = output<ProjectType[]>();
   reservationStatusesChanged = output<ReservationStatus[]>();
   deletedStudentsToggled = output<boolean>();
   openCreationForm = output<void>();
+
+  subjectOptions = computed<Record<string, string>>(() =>
+    Object.fromEntries(this.subjects().map((subject) => [subject.id, subject.subjectName])),
+  );
+  selectedSubjectOptions = computed(() => this.selectedSubjectIds().map(String));
 
   reservations = computed(() => this.pagedReservations()?.items);
   skeletonItems = computed(() => Array.from({ length: 6 }));
@@ -77,6 +86,10 @@ export class ProjectReservationsList {
 
   onReservationSelected(reservation: ProjectReservationItem | undefined) {
     this.reservationSelected.emit(reservation);
+  }
+
+  onSubjectsChanged(subjectIds: string[]) {
+    this.subjectIdsChanged.emit(subjectIds.map(Number));
   }
 
   onProjectTypesChanged(projectTypes: ProjectType[]) {
