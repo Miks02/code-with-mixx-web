@@ -1,0 +1,60 @@
+<div class="grid grid-cols-1 lg:grid-cols-5 lg:grid-rows-3 w-full lg:h-full gap-4">
+  <app-project-reservations-list
+    class="min-w-0 lg:col-span-3 lg:row-span-2"
+    [pagedReservations]="reservationsData()"
+    [selectedReservationId]="selectedReservation()?.id"
+    [selectedProjectTypes]="queryParams().projectTypes"
+    [selectedReservationStatuses]="queryParams().reservationStatuses"
+    [showOnlyDeletedStudents]="queryParams().showOnlyDeletedStudents"
+    [isPending]="reservationsPending()"
+    [isFetching]="reservationsFetching()"
+    (reservationSelected)="onReservationSelected($event)"
+    (projectTypesChanged)="onProjectTypesChange($event)"
+    (reservationStatusesChanged)="onReservationStatusesChange($event)"
+    (deletedStudentsToggled)="onDeletedStudentsToggle($event)"
+    (pageChanged)="onPageChange($event)"
+  ></app-project-reservations-list>
+
+  <app-project-reservation-details
+    class="min-w-0 lg:col-span-2 lg:row-span-3"
+    [reservation]="selectedReservation()"
+  ></app-project-reservation-details>
+
+  <div class="min-w-0 lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <app-stats-card
+      title="Projekti"
+      icon="faSolidDiagramProject"
+      iconBackground="sky"
+      description="Ukupno"
+      [value]="projectsSummaryData()?.totalProjects"
+      [isPending]="projectsSummaryPending()"
+    ></app-stats-card>
+
+    <app-stats-card
+      title="Aktivni"
+      icon="faSolidBarsProgress"
+      iconBackground="emerald"
+      description="Projekti u izradi"
+      [value]="projectsSummaryData()?.activeProjects"
+      [isPending]="projectsSummaryPending()"
+    ></app-stats-card>
+
+    <app-stats-card
+      title="Na čekanju"
+      icon="faSolidHourglassHalf"
+      iconBackground="amber"
+      description="Projekti koji još nisu počeli"
+      [value]="projectsSummaryData()?.pendingProjects"
+      [isPending]="projectsSummaryPending()"
+    ></app-stats-card>
+
+    <app-stats-card
+      title="Završeni"
+      icon="faSolidCircleCheck"
+      iconBackground="violet"
+      description="Završeni projekti"
+      [value]="projectsSummaryData()?.completedProjects"
+      [isPending]="projectsSummaryPending()"
+    ></app-stats-card>
+  </div>
+</div>
