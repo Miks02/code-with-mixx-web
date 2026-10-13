@@ -1,0 +1,27 @@
+<div class="flex flex-col gap-2 w-full">
+  @if (label() || showValue()) {
+    <div class="flex items-center justify-between gap-3 text-sm">
+      @if (label()) {
+        <label [for]="inputId" class="text-emerald-300">{{ label() }}</label>
+      }
+      @if (showValue()) {
+        <span class="ml-auto font-bold text-emerald-300">{{ value() }}{{ unit() }}</span>
+      }
+    </div>
+  }
+
+  <input
+    type="range"
+    class="slider"
+    [id]="inputId"
+    [min]="minValue()"
+    [max]="maxValue()"
+    [step]="step()"
+    [value]="value()"
+    [disabled]="disabled()"
+    [style.--slider-fill]="fillRatio()"
+    [attr.aria-label]="label() ? null : ariaLabel()"
+    (input)="onInput($event)"
+    (blur)="touch.emit()"
+  />
+</div>
