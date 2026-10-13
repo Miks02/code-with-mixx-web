@@ -10,4 +10,7 @@ export type ProjectItem = {
   reservedAt: string;
   startDate: string;
   endDate: string;
+  githubLink: string | null,
+  downloadLink: string | null,
+  notes: string[]
 };
