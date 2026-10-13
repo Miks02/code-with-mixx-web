@@ -1,10 +1,10 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { provideIcons } from '@ng-icons/core';
 import {
-  faSolidBarsProgress,
-  faSolidCircleCheck,
-  faSolidDiagramProject,
-  faSolidHourglassHalf,
+    faSolidBarsProgress,
+    faSolidCircleCheck,
+    faSolidDiagramProject,
+    faSolidHourglassHalf,
 } from '@ng-icons/font-awesome/solid';
 import { StatsCard } from '../../../../../shared/stats-card/stats-card';
 import { ReservationStatus } from '../../../../reservations';
@@ -33,6 +33,7 @@ import { ProjectReservationDetails } from '../../components/project-reservation-
 export class ProjectsPage {
   private projectService = inject(ProjectService);
   private subjectService = inject(SubjectService);
+
 
   protected queryParams = signal<ProjectQueryParams>({
     pageNumber: 1,
@@ -83,4 +84,6 @@ export class ProjectsPage {
   onPageChange(pageNumber: number) {
     this.queryParams.update((params) => ({ ...params, pageNumber }));
   }
+
+
 }

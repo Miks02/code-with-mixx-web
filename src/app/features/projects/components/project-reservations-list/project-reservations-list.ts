@@ -1,4 +1,4 @@
-import { Component, computed, input, output } from '@angular/core';
+import { Component, computed, inject, input, output } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
   faSolidChevronLeft,
@@ -16,6 +16,7 @@ import { SubjectLookupItem } from '../../../subjects';
 import { ProjectReservationItem } from '../../models/project-reservation-item';
 import { ProjectType } from '../../models/project-type';
 import { ProjectReservationCard } from '../project-reservation-card/project-reservation-card';
+import { Router } from '@angular/router';
 
 const CONFLICTING_RESERVATION_STATUSES: Record<ReservationStatus, ReservationStatus[]> = {
   [ReservationStatus.Confirmed]: [ReservationStatus.Cancelled],
@@ -48,6 +49,8 @@ export class ProjectReservationsList {
   showOnlyDeletedStudents = input<boolean>(false);
   isPending = input<boolean>(false);
   isFetching = input<boolean>(false);
+
+  router = inject(Router);
 
   conflictingReservationStatuses = CONFLICTING_RESERVATION_STATUSES;
 
@@ -105,7 +108,7 @@ export class ProjectReservationsList {
   }
 
   onOpenCreationForm() {
-    this.openCreationForm.emit();
+    this.router.navigate(['admin/projects/create']);
   }
 
   onPreviousPage() {
