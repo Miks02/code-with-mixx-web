@@ -1,5 +1,5 @@
-<div class="grid grid-cols-3 w-full gap-4">
-  <div class="w-full flex justify-between flex-wrap col-span-3">
+<div class="grid grid-cols-1 lg:grid-cols-3 w-full gap-4 items-start">
+  <div class="w-full flex justify-between flex-wrap lg:col-span-3">
     <div class="flex gap-2 text-emerald-100 items-center">
       <a routerLink="/admin/projects" class="text-emerald-200">Projekti</a>
       <span>/</span>
@@ -12,14 +12,19 @@
     </app-button>
   </div>
 
-  <app-project-reservation-list-form
-    [subjectsLookup]="subjectsLookup()"
-    class="col-span-2"
-  ></app-project-reservation-list-form>
+  <div class="flex flex-col gap-4 min-w-0 lg:col-span-2">
+    <app-project-reservation-pricing></app-project-reservation-pricing>
 
-  <app-student-selection
-    [availableStudents]="availableStudents()"
-    [selectedStudent]="selectedStudent()"
-    (studentSelected)="onStudentSelected($event)"
-  ></app-student-selection>
+    <app-project-reservation-list-form
+      [subjectsLookup]="subjectsLookup()"
+    ></app-project-reservation-list-form>
+  </div>
+
+  <div class="min-w-0">
+    <app-student-selection
+      [availableStudents]="availableStudents()"
+      [selectedStudent]="selectedStudent()"
+      (studentSelected)="onStudentSelected($event)"
+    ></app-student-selection>
+  </div>
 </div>

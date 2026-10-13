@@ -1,0 +1,110 @@
+<div class="p-4 bg-emerald-950/80 rounded-lg shadow-lg flex flex-col gap-4">
+  <div class="flex w-full justify-between items-center">
+    <h2 class="text-xl text-emerald-100 font-semibold flex gap-2 items-center">Cena i status</h2>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div class="flex flex-col gap-2">
+      <p class="text-sm text-emerald-300 h-6 flex items-center">Status rezervacije</p>
+      <div class="flex flex-wrap gap-2">
+        @for (status of reservationStatuses; track status) {
+        <button
+          type="button"
+          (click)="onStatusSelected(status)"
+          [attr.aria-pressed]="reservationForm.reservationStatus().value() === status"
+          [class]="reservationForm.reservationStatus().value() === status
+            ? reservationStatusStyles[status].selectedClasses
+            : 'bg-emerald-900 text-emerald-100 hover:bg-emerald-800'"
+          class="flex items-center gap-2 rounded-lg px-3 py-2.5 font-semibold cursor-pointer active:scale-95 transition-200"
+        >
+          <span
+            [class]="reservationForm.reservationStatus().value() === status
+              ? 'bg-white'
+              : reservationStatusStyles[status].dotClasses"
+            class="w-2.5 h-2.5 rounded-full shrink-0"
+          ></span>
+          {{ reservationStatusStyles[status].label }}
+        </button>
+        }
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <div class="flex items-center justify-between gap-2 h-6">
+        <label for="reservation-total-price" class="text-sm text-emerald-300">
+          Ukupna cena (RSD)
+        </label>
+        <label class="flex items-center gap-2 text-sm text-emerald-100 cursor-pointer">
+          <input
+            type="checkbox"
+            [checked]="useProjectsSum()"
+            (change)="onUseProjectsSumChanged($event)"
+            class="peer sr-only"
+          />
+          <span
+            class="relative w-10 h-6 shrink-0 rounded-full bg-emerald-900 peer-checked:bg-emerald-500 peer-focus-visible:ring-2 peer-focus-visible:ring-emerald-200 transition-200 after:absolute after:top-1 after:left-1 after:w-4 after:h-4 after:rounded-full after:bg-white after:transition-transform after:duration-200 peer-checked:after:translate-x-4"
+          ></span>
+          Zbir projekata
+        </label>
+      </div>
+      @if (useProjectsSum()) {
+      <input
+        id="reservation-total-price"
+        type="number"
+        [value]="projectsSum()"
+        disabled
+        class="w-full rounded-lg bg-emerald-900/80 px-3 py-2.5 text-emerald-100 outline-none opacity-60 cursor-not-allowed scheme-dark"
+      />
+      <p class="text-sm text-emerald-100/70">Računa se automatski iz cena projekata.</p>
+      } @else {
+      <input
+        [formField]="reservationForm.totalPrice"
+        id="reservation-total-price"
+        type="number"
+        class="w-full rounded-lg bg-emerald-900/80 focus:bg-emerald-900 px-3 py-2.5 text-emerald-100 outline-none scheme-dark transition-200"
+      />
+      }
+      @if (reservationForm.totalPrice().errors().length) {
+      <p class="text-sm text-red-400">{{ reservationForm.totalPrice().errors()[0]?.message }}</p>
+      }
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <label for="reservation-paid-amount" class="text-sm text-emerald-300 h-6 flex items-center">
+        Plaćeno (RSD)
+      </label>
+      <input
+        [formField]="reservationForm.paidAmount"
+        id="reservation-paid-amount"
+        type="number"
+        class="w-full rounded-lg bg-emerald-900/80 focus:bg-emerald-900 px-3 py-2.5 text-emerald-100 outline-none scheme-dark transition-200"
+      />
+      @if (reservationForm.paidAmount().errors().length) {
+      <p class="text-sm text-red-400">{{ reservationForm.paidAmount().errors()[0]?.message }}</p>
+      }
+      <div class="flex flex-wrap gap-2">
+        <button
+          type="button"
+          (click)="onPaidShareSelected(0)"
+          class="rounded-lg px-3 py-1.5 text-sm font-semibold bg-emerald-900 text-emerald-100 hover:bg-emerald-800 cursor-pointer active:scale-95 transition-200"
+        >
+          Ništa
+        </button>
+        <button
+          type="button"
+          (click)="onPaidShareSelected(0.5)"
+          class="rounded-lg px-3 py-1.5 text-sm font-semibold bg-emerald-900 text-emerald-100 hover:bg-emerald-800 cursor-pointer active:scale-95 transition-200"
+        >
+          Avans 50%
+        </button>
+        <button
+          type="button"
+          (click)="onPaidShareSelected(1)"
+          class="rounded-lg px-3 py-1.5 text-sm font-semibold bg-emerald-900 text-emerald-100 hover:bg-emerald-800 cursor-pointer active:scale-95 transition-200"
+        >
+          Ceo iznos
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

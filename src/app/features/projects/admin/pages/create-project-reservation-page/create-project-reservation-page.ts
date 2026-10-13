@@ -10,9 +10,10 @@ import { ProjectReservationFormModel } from '../../../models/project-reservation
 import { ProjectFormService } from '../../../services/project-form-service';
 import { ProjectReservationListForm } from '../../components/project-reservation-list-form/project-reservation-list-form';
 import { StudentSelection } from '../../components/student-selection/student-selection';
+import { ProjectReservationPricing } from '../../components/project-reservation-pricing/project-reservation-pricing';
 
 @Component({
-  imports: [RouterLink, Button, NgIcon, StudentSelection, ProjectReservationListForm],
+  imports: [RouterLink, Button, NgIcon, StudentSelection, ProjectReservationListForm, ProjectReservationPricing],
   providers: [ProjectFormService],
   selector: 'app-create-project-reservation-page',
   styleUrl: './create-project-reservation-page.css',
