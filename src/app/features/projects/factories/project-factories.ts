@@ -8,13 +8,49 @@ import {
   required,
   validate,
 } from '@angular/forms/signals';
-import { ProjectReservationFormModel } from '../models/project-reservation-request';
+import { dateInputValue } from '../../../core/utilities/date-helpers';
+import { ReservationStatus } from '../../reservations';
+import {
+  ProjectItemFormModel,
+  ProjectReservationFormModel,
+} from '../models/project-reservation-request';
+import { ProjectType } from '../models/project-type';
 
-function isValidDate(date: string) {
+const DEFAULT_PROJECT_DURATION_DAYS = 7;
+
+export function createEmptyProject(): ProjectItemFormModel {
+  return {
+    id: 0,
+    subjectId: 0,
+    startDate: dateInputValue(),
+    subjectName: '',
+    endDate: dateInputValue(DEFAULT_PROJECT_DURATION_DAYS),
+    githubLink: '',
+    downloadLink: '',
+    price: 0,
+    progress: 0,
+    projectType: ProjectType.Seminar,
+    reservedAt: dateInputValue(),
+    notes: [],
+  };
+}
+
+export function createEmptyReservation(): ProjectReservationFormModel {
+  return {
+    studentId: '',
+    paidAmount: 0,
+    totalPrice: 0,
+    progress: 0,
+    reservationStatus: ReservationStatus.Confirmed,
+    projects: [createEmptyProject()],
+  };
+}
+
+function isValidDate(date: string): boolean {
   return !date || !Number.isNaN(Date.parse(date));
 }
 
-function isAfter(date: string, other: string) {
+function isAfter(date: string, other: string): boolean {
   if (!date || !other || !isValidDate(date) || !isValidDate(other)) return false;
 
   return Date.parse(date) > Date.parse(other);
@@ -27,12 +63,6 @@ export function createProjectReservationFormFactory(
     required(schemaPath.studentId, { message: 'Izaberite studenta.' });
     min(schemaPath.totalPrice, 0, { message: 'Ukupna cena rezervacije može biti najmanje 0 RSD.' })
     min(schemaPath.paidAmount, 0, { message: 'Vrednost mora biti 0 ili više' })
-    validate(schemaPath.paidAmount, ({ value, valueOf }) => {
-      if (value() > valueOf(schemaPath.totalPrice)) {
-        return { kind: 'paidOverTotal', message: 'Plaćeno ne može biti veće od ukupne cene' };
-      }
-      return null;
-    });
     minLength(schemaPath.projects, 1, { message: 'Rezervacija mora imati barem 1 projekat' });
     applyEach(schemaPath.projects, (project) => {
       min(project.subjectId, 1, { message: 'Izaberite predmet projekta.' });

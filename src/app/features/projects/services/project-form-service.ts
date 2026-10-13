@@ -3,48 +3,29 @@ import {
   ProjectItemFormModel,
   ProjectReservationFormModel,
 } from '../models/project-reservation-request';
-import { createProjectReservationFormFactory } from '../factories/project-factories';
-import { ReservationStatus } from '../../reservations';
-import { ProjectType } from '../models/project-type';
-import { dateInputValue } from '../../../core/utilities/date-helpers';
-
-const DEFAULT_PROJECT_DURATION_DAYS = 7;
+import {
+  createEmptyProject,
+  createEmptyReservation,
+  createProjectReservationFormFactory,
+} from '../factories/project-factories';
 
 @Service()
 export class ProjectFormService {
-  projects: WritableSignal<ProjectItemFormModel[]> = signal([]);
-
-  reservationModel: WritableSignal<ProjectReservationFormModel> = signal({
-    studentId: '',
-    paidAmount: 0,
-    totalPrice: 0,
-    progress: 0,
-    reservationStatus: ReservationStatus.Confirmed,
-    projects: [],
-  });
+  reservationModel: WritableSignal<ProjectReservationFormModel> =
+    signal(createEmptyReservation());
 
   reservationForm = createProjectReservationFormFactory(this.reservationModel);
 
   addProject() {
-    const newProject: ProjectItemFormModel = {
-      id: 0,
-      subjectId: 0,
-      startDate: dateInputValue(),
-      subjectName: '',
-      endDate: dateInputValue(DEFAULT_PROJECT_DURATION_DAYS),
-      githubLink: '',
-      downloadLink: '',
-      price: 0,
-      progress: 0,
-      projectType: ProjectType.Seminar,
-      reservedAt: dateInputValue(),
-      notes: [],
-    };
-
     this.reservationModel.update((prev) => ({
       ...prev,
-      projects: [...prev.projects, newProject],
+      projects: [...prev.projects, createEmptyProject()],
     }));
+  }
+
+  reset() {
+    this.reservationModel.set(createEmptyReservation());
+    this.reservationForm().reset();
   }
 
   removeProject(projectIndex: number) {
