@@ -1,5 +1,14 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, computed, inject, input } from '@angular/core';
+import {
+  afterNextRender,
+  Component,
+  computed,
+  ElementRef,
+  inject,
+  Injector,
+  input,
+  viewChild,
+} from '@angular/core';
 import { FormField } from '@angular/forms/signals';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
@@ -28,6 +37,9 @@ export class ProjectReservationListForm {
   subjectsLookup = input.required<SubjectLookupItem[] | undefined>();
 
   projectFormService = inject(ProjectFormService);
+  private injector = inject(Injector);
+
+  projectsContainer = viewChild.required<ElementRef<HTMLElement>>('projectsContainer');
 
   projects = computed(() => this.projectFormService.reservationModel().projects);
   projectsForm = this.projectFormService.reservationForm.projects;
@@ -37,11 +49,19 @@ export class ProjectReservationListForm {
   priceConverter = priceConverter;
 
   constructor() {
-    if (!this.projects().length) this.addProject();
+    if (!this.projects().length) this.projectFormService.addProject();
   }
 
   addProject() {
     this.projectFormService.addProject();
+
+    afterNextRender(
+      () => {
+        const container = this.projectsContainer().nativeElement;
+        container.scrollTo({ top: container.scrollHeight, behavior: 'smooth' });
+      },
+      { injector: this.injector },
+    );
   }
 
   removeProject(projectIndex: number) {
