@@ -52,7 +52,6 @@ import { ToastService } from '../../../../../core/services/toast-service';
 })
 export class SubjectsPage {
   private subjectService = inject(SubjectService);
-  private toastService = inject(ToastService);
 
   private searchTerm$ = new BehaviorSubject<string>('');
   private searchTerm = toSignal(this.searchTerm$.pipe(debounceTime(300)), { initialValue: '' });
