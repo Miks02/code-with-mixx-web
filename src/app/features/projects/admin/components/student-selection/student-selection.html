@@ -54,12 +54,12 @@
       />
     </div>
 
-    <div class="flex flex-wrap w-full gap-4 justify-center py-4 overflow-y-auto overflow-x-hidden">
+    <div class="grid grid-cols-1 md:grid-cols-2 w-full gap-4 py-4 px-1 overflow-y-auto overflow-x-hidden">
       @for(student of studentsList(); track student.id) {
       <div
         (click)="onStudentSelected(student)"
         [class]="selectedStudent()?.id === student.id ? 'outline-2 outline-amber-400' : 'outline-1 outline-emerald-200'"
-        class="flex items-center gap-4 w-80 md:w-[95%] shrink-0 p-4 rounded-lg shadow-md bg-emerald-800 cursor-pointer hover:bg-emerald-700 transition-200"
+        class="flex items-center gap-4 min-w-0 md:last:odd:col-span-2 p-4 rounded-lg shadow-md bg-emerald-800 cursor-pointer hover:bg-emerald-700 transition-200"
       >
         <div
           class="flex items-center justify-center shrink-0 rounded-full w-8 h-8 bg-amber-400 text-sm font-semibold text-emerald-950"
