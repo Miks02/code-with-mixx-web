@@ -27,6 +27,12 @@ export function createProjectReservationFormFactory(
     required(schemaPath.studentId, { message: 'Izaberite studenta.' });
     min(schemaPath.totalPrice, 0, { message: 'Ukupna cena rezervacije može biti najmanje 0 RSD.' })
     min(schemaPath.paidAmount, 0, { message: 'Vrednost mora biti 0 ili više' })
+    validate(schemaPath.paidAmount, ({ value, valueOf }) => {
+      if (value() > valueOf(schemaPath.totalPrice)) {
+        return { kind: 'paidOverTotal', message: 'Plaćeno ne može biti veće od ukupne cene' };
+      }
+      return null;
+    });
     minLength(schemaPath.projects, 1, { message: 'Rezervacija mora imati barem 1 projekat' });
     applyEach(schemaPath.projects, (project) => {
       min(project.subjectId, 1, { message: 'Izaberite predmet projekta.' });
