@@ -20,11 +20,12 @@
     ></app-project-reservation-list-form>
   </div>
 
-  <div class="min-w-0">
+  <div class="min-w-0 gap-4 flex flex-col">
     <app-student-selection
       [availableStudents]="availableStudents()"
       [selectedStudent]="selectedStudent()"
       (studentSelected)="onStudentSelected($event)"
     ></app-student-selection>
+    <app-project-reservation-summary></app-project-reservation-summary>
   </div>
 </div>
