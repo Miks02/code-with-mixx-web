@@ -1,0 +1,245 @@
+<ng-template #fieldError let-state>
+  @if (state.touched() && state.errors().length) {
+  <p class="text-sm text-red-400">{{ state.errors()[0]?.message }}</p>
+  }
+</ng-template>
+
+<div class="bg-emerald-950/80 p-4 rounded-lg shadow-lg">
+  <div class="flex w-full justify-between items-center">
+    <h2 class="text-xl text-emerald-100 font-semibold flex gap-2 items-center">
+      Projekti
+      <div
+        class="rounded-full bg-emerald-900 w-9 h-9 flex items-center justify-center shrink-0 text-base"
+      >
+        {{ projects().length }}
+      </div>
+    </h2>
+    <app-button (clicked)="addProject()" variant="secondary">
+      <ng-icon name="faSolidPlus" class="text-amber-900! text-lg"></ng-icon>
+      Dodaj projekat
+    </app-button>
+  </div>
+
+  @for (projectField of projectsForm; track $index; let i = $index) {
+  <div class="p-4 bg-emerald-800 rounded-lg shadow-lg mt-4 flex flex-col gap-4">
+    <div class="flex w-full justify-between items-center gap-4">
+      <div class="flex items-center gap-3 min-w-0">
+        <div
+          class="flex items-center justify-center shrink-0 rounded-full w-10 h-10 bg-emerald-500 font-semibold text-emerald-950"
+        >
+          {{ i + 1 }}
+        </div>
+        <div class="flex flex-col min-w-0">
+          <p class="text-lg text-emerald-100 font-semibold truncate">
+            {{ projectField.subjectName().value() || 'Novi projekat' }}
+          </p>
+          <p class="text-sm text-emerald-200">
+            {{ projectTypeLabels[projectField.projectType().value()] }} · {{
+            priceConverter(projectField.price().value() || 0) }}
+          </p>
+        </div>
+      </div>
+
+      <app-button
+        (clicked)="removeProject(i)"
+        variant="danger"
+        icon="faSolidTrash"
+        [disabled]="projects().length <= 1"
+        aria-label="Ukloni projekat"
+      ></app-button>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="flex flex-col gap-1 md:col-span-2">
+        <div class="flex items-center justify-between gap-2">
+          <label [for]="'project-subject-' + i" class="text-sm text-emerald-300">Predmet</label>
+          <ng-container
+            *ngTemplateOutlet="fieldError; context: { $implicit: projectField.subjectId() }"
+          ></ng-container>
+        </div>
+        <select
+          [id]="'project-subject-' + i"
+          (change)="onSubjectChanged(i, $event)"
+          (blur)="projectField.subjectId().markAsTouched()"
+          class="w-full rounded-lg bg-emerald-950/80 px-3 py-2.5 text-emerald-100 outline-none focus:outline-1 focus:outline-emerald-300 scheme-dark cursor-pointer"
+        >
+          <option value="0" disabled [selected]="projectField.subjectId().value() === 0">
+            Izaberite predmet
+          </option>
+          @for (subject of subjectsLookup(); track subject.id) {
+          <option [value]="subject.id" [selected]="subject.id === projectField.subjectId().value()">
+            {{ subject.subjectName }}
+          </option>
+          }
+        </select>
+      </div>
+
+      <div class="flex flex-col gap-1">
+        <div class="flex items-center justify-between gap-2">
+          <label [for]="'project-price-' + i" class="text-sm text-emerald-300">Cena (RSD)</label>
+          <ng-container
+            *ngTemplateOutlet="fieldError; context: { $implicit: projectField.price() }"
+          ></ng-container>
+        </div>
+        <input
+          [formField]="projectField.price"
+          [id]="'project-price-' + i"
+          type="number"
+          class="w-full rounded-lg bg-emerald-950/80 px-3 py-2.5 text-emerald-100 outline-none focus:outline-1 focus:outline-emerald-300 scheme-dark"
+        />
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <p class="text-sm text-emerald-300">Tip projekta</p>
+      <div class="flex flex-wrap gap-2">
+        @for (projectType of projectTypes; track projectType) {
+        <button
+          type="button"
+          (click)="onProjectTypeChanged(i, projectType)"
+          [attr.aria-pressed]="projectField.projectType().value() === projectType"
+          [class]="projectField.projectType().value() === projectType
+            ? 'bg-emerald-500 text-emerald-950'
+            : 'bg-emerald-950/80 text-emerald-100 hover:bg-emerald-900'"
+          class="rounded-lg px-4 py-2.5 font-semibold cursor-pointer active:scale-95 transition-200"
+        >
+          {{ projectTypeLabels[projectType] }}
+        </button>
+        }
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="flex flex-col gap-1">
+        <label [for]="'project-start-' + i" class="text-sm text-emerald-300">Početak</label>
+        <input
+          [formField]="projectField.startDate"
+          [id]="'project-start-' + i"
+          type="date"
+          class="w-full rounded-lg bg-emerald-950/80 px-3 py-2.5 text-emerald-100 outline-none focus:outline-1 focus:outline-emerald-300 scheme-dark"
+        />
+        <ng-container
+          *ngTemplateOutlet="fieldError; context: { $implicit: projectField.startDate() }"
+        ></ng-container>
+      </div>
+
+      <div class="flex flex-col gap-1">
+        <label [for]="'project-end-' + i" class="text-sm text-emerald-300">Rok (kraj)</label>
+        <input
+          [formField]="projectField.endDate"
+          [id]="'project-end-' + i"
+          type="date"
+          class="w-full rounded-lg bg-emerald-950/80 px-3 py-2.5 text-emerald-100 outline-none focus:outline-1 focus:outline-emerald-300 scheme-dark"
+        />
+        <ng-container
+          *ngTemplateOutlet="fieldError; context: { $implicit: projectField.endDate() }"
+        ></ng-container>
+      </div>
+
+      <div class="flex flex-col gap-1">
+        <label [for]="'project-reserved-' + i" class="text-sm text-emerald-300">Rezervisano</label>
+        <input
+          [formField]="projectField.reservedAt"
+          [id]="'project-reserved-' + i"
+          type="date"
+          class="w-full rounded-lg bg-emerald-950/80 px-3 py-2.5 text-emerald-100 outline-none focus:outline-1 focus:outline-emerald-300 scheme-dark"
+        />
+        <ng-container
+          *ngTemplateOutlet="fieldError; context: { $implicit: projectField.reservedAt() }"
+        ></ng-container>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="flex flex-col gap-1">
+        <div class="flex items-center justify-between gap-2">
+          <label [for]="'project-github-' + i" class="text-sm text-emerald-300">
+            GitHub link <span class="text-emerald-100/50">(opciono)</span>
+          </label>
+          <ng-container
+            *ngTemplateOutlet="fieldError; context: { $implicit: projectField.githubLink() }"
+          ></ng-container>
+        </div>
+        <input
+          [formField]="projectField.githubLink"
+          [id]="'project-github-' + i"
+          type="url"
+          class="w-full rounded-lg bg-emerald-950/80 px-3 py-2.5 text-emerald-100 placeholder:text-emerald-100/50 outline-none focus:outline-1 focus:outline-emerald-300"
+          placeholder="https://github.com/..."
+        />
+      </div>
+
+      <div class="flex flex-col gap-1">
+        <div class="flex items-center justify-between gap-2">
+          <label [for]="'project-download-' + i" class="text-sm text-emerald-300">
+            Download link <span class="text-emerald-100/50">(opciono)</span>
+          </label>
+          <ng-container
+            *ngTemplateOutlet="fieldError; context: { $implicit: projectField.downloadLink() }"
+          ></ng-container>
+        </div>
+        <input
+          [formField]="projectField.downloadLink"
+          [id]="'project-download-' + i"
+          type="url"
+          class="w-full rounded-lg bg-emerald-950/80 px-3 py-2.5 text-emerald-100 placeholder:text-emerald-100/50 outline-none focus:outline-1 focus:outline-emerald-300"
+          placeholder="https://drive.google.com/..."
+        />
+      </div>
+    </div>
+
+    <app-slider label="Napredak" [formField]="projectField.progress"></app-slider>
+
+    <div class="flex flex-col gap-3 p-4 rounded-lg bg-emerald-900">
+      <div class="flex items-center justify-between">
+        <p class="flex items-center gap-2 text-emerald-100 font-semibold">
+          <ng-icon name="faSolidComment" class="text-emerald-300!"></ng-icon>
+          Beleške
+        </p>
+        <span class="rounded-full bg-emerald-950/80 px-3 py-0.5 text-sm text-emerald-100">
+          {{ projectField.notes().value().length }}
+        </span>
+      </div>
+
+      @for (noteField of projectField.notes; track $index; let n = $index) {
+      <div class="flex flex-col gap-1">
+        <div class="flex items-center gap-2">
+          <span class="w-6 shrink-0 text-right text-emerald-300 font-semibold">{{ n + 1 }}.</span>
+          <input
+            [formField]="noteField"
+            type="text"
+            [attr.aria-label]="'Beleška ' + (n + 1)"
+            class="w-full min-w-0 rounded-lg bg-emerald-950/80 px-3 py-2.5 text-emerald-100 outline-none focus:outline-1 focus:outline-emerald-300"
+          />
+          <button
+            type="button"
+            (click)="removeNote(i, n)"
+            aria-label="Ukloni belešku"
+            class="flex items-center justify-center shrink-0 w-10 h-10 rounded-lg bg-emerald-950/80 text-emerald-100 hover:bg-red-600 cursor-pointer active:scale-95 transition-200"
+          >
+            <ng-icon name="faSolidXmark"></ng-icon>
+          </button>
+        </div>
+        <div class="pl-8">
+          <ng-container
+            *ngTemplateOutlet="fieldError; context: { $implicit: noteField() }"
+          ></ng-container>
+        </div>
+      </div>
+      }
+
+      <div class="flex items-center gap-2 pl-8">
+        <input
+          #noteInput
+          type="text"
+          (keydown.enter)="addNote(i, noteInput)"
+          aria-label="Nova beleška"
+          class="w-full min-w-0 rounded-lg bg-emerald-950/40 px-3 py-2.5 text-emerald-100 placeholder:text-emerald-100/50 outline-none focus:outline-1 focus:outline-emerald-300"
+          placeholder="Nova beleška... (Enter za dodavanje)"
+        />
+        <app-button (clicked)="addNote(i, noteInput)" icon="faSolidPlus">Dodaj</app-button>
+      </div>
+    </div>
+  </div>
+  }
+</div>

@@ -1,6 +1,4 @@
-<div
-  class="p-4 flex flex-col gap-4 max-w-100 bg-emerald-950/80 rounded-lg backdrop-blur-xl shadow-lg"
->
+<div class="p-4 flex flex-col gap-4 bg-emerald-950/80 rounded-lg backdrop-blur-xl shadow-lg">
   <div class="flex w-full justify-between">
     <h2 class="text-xl text-emerald-100 font-semibold">Selekcija studenta</h2>
     <p class="text-emerald-200">Obavezno</p>
@@ -38,7 +36,7 @@
   </div>
   }
 
-  <div class="flex gap-2 flex-col w-full h-100">
+  <div class="flex gap-2 flex-col w-full h-60">
     <p class="text-emerald-100">Pretraga studenta</p>
     <div
       class="rounded-lg bg-emerald-950 px-4 py-3 flex gap-2 w-full items-center outline-1 outline-emerald-400 focus-within:outline-emerald-200 transition-200"
@@ -61,7 +59,7 @@
       <div
         (click)="onStudentSelected(student)"
         [class]="selectedStudent()?.id === student.id ? 'outline-2 outline-amber-400' : 'outline-1 outline-emerald-200'"
-        class="flex items-center gap-4 w-70 md:w-85 shrink-0 p-4 rounded-lg shadow-md bg-emerald-800 cursor-pointer hover:bg-emerald-700 transition-200"
+        class="flex items-center gap-4 w-80 md:w-[95%] shrink-0 p-4 rounded-lg shadow-md bg-emerald-800 cursor-pointer hover:bg-emerald-700 transition-200"
       >
         <div
           class="flex items-center justify-center shrink-0 rounded-full w-8 h-8 bg-amber-400 text-sm font-semibold text-emerald-950"

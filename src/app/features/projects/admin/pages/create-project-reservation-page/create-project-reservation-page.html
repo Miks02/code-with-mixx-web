@@ -1,5 +1,5 @@
-<div class="flex flex-col w-full gap-4">
-  <div class="w-full flex justify-between flex-wrap">
+<div class="grid grid-cols-3 w-full gap-4">
+  <div class="w-full flex justify-between flex-wrap col-span-3">
     <div class="flex gap-2 text-emerald-100 items-center">
       <a routerLink="/admin/projects" class="text-emerald-200">Projekti</a>
       <span>/</span>
@@ -11,6 +11,11 @@
       <span class="md:hidden">Nazad</span>
     </app-button>
   </div>
+
+  <app-project-reservation-list-form
+    [subjectsLookup]="subjectsLookup()"
+    class="col-span-2"
+  ></app-project-reservation-list-form>
 
   <app-student-selection
     [availableStudents]="availableStudents()"
