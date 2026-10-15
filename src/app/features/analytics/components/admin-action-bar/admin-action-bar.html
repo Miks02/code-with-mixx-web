@@ -12,9 +12,19 @@
   </div>
 
   <div class="flex gap-4 flex-wrap w-full mx-auto">
-    <app-button variant="ghost" icon="faSolidUserPlus" [loading]="false">Dodaj studenta</app-button>
+    <app-button
+      routerLink="/admin/students"
+      variant="ghost"
+      icon="faSolidUserPlus"
+      [loading]="false"
+      >Dodaj studenta</app-button
+    >
 
-    <app-button variant="ghost" icon="faSolidFileCirclePlus" [loading]="false"
+    <app-button
+      routerLink="/admin/projects/create"
+      variant="ghost"
+      icon="faSolidFileCirclePlus"
+      [loading]="false"
       >Dodaj projekat</app-button
     >
 
