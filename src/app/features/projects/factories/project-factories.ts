@@ -40,7 +40,6 @@ export function createEmptyReservation(): ProjectReservationFormModel {
     studentId: '',
     paidAmount: 0,
     totalPrice: 0,
-    progress: 0,
     reservationStatus: ReservationStatus.Confirmed,
     projects: [createEmptyProject()],
   };
@@ -92,6 +91,9 @@ export function createProjectReservationFormFactory(
       validate(project.reservedAt, ({ value, valueOf }) => {
         if (!isValidDate(value())) {
           return { kind: 'invalidDate', message: 'Datum rezervacije nije validan' };
+        }
+        if (value() > dateInputValue()) {
+          return { kind: 'futureDate', message: 'Rezervacija ne može biti u budućnosti' };
         }
         if (isAfter(value(), valueOf(project.endDate))) {
           return { kind: 'dateOrder', message: 'Rezervacija ne može biti posle roka' };

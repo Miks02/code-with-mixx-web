@@ -26,6 +26,6 @@
       [selectedStudent]="selectedStudent()"
       (studentSelected)="onStudentSelected($event)"
     ></app-student-selection>
-    <app-project-reservation-summary></app-project-reservation-summary>
+    <app-project-reservation-summary (submitClicked)="onSubmit()"></app-project-reservation-summary>
   </div>
 </div>
