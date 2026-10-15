@@ -1,16 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Service, Signal } from '@angular/core';
 import {
-  CreateQueryResult,
-  injectQuery,
-  keepPreviousData,
-  QueryClient,
+    CreateQueryResult,
+    injectMutation,
+    injectQuery,
+    keepPreviousData,
+    QueryClient,
 } from '@tanstack/angular-query-experimental';
 import { lastValueFrom } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { PagedResult } from '../../../core/models/paged-result';
 import { ProjectQueryParams } from '../models/project-query-params';
 import { ProjectReservationItem } from '../models/project-reservation-item';
+import { ProjectReservationRequest } from '../models/project-reservation-request';
 import { ProjectsSummary } from '../models/projects-summary';
 
 @Service()
@@ -56,4 +58,16 @@ export class ProjectService {
       enabled: queryResult.isSuccess(),
     }));
   }
+
+  createProjectReservationMutation = injectMutation(() => ({
+    mutationFn: (request: ProjectReservationRequest) =>
+      lastValueFrom(this.http.post(`${this.apiUrl}/admin/reservations/projects`, request)),
+    onSuccess: () => {
+      this.queryClient.invalidateQueries({
+        queryKey: ['paged-project-reservations'],
+        refetchType: 'none',
+      });
+      return this.queryClient.invalidateQueries({ queryKey: ['projects-summary'] });
+    },
+  }));
 }
