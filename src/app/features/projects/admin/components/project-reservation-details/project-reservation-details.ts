@@ -1,4 +1,4 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
   faSolidArrowsRotate,
@@ -23,6 +23,7 @@ import {
   RESERVATION_STATUS_META,
   StatusMeta,
 } from '../../../utilities/project-labels';
+import { Router } from '@angular/router';
 
 type ReservationStat = {
   icon: string;
@@ -53,6 +54,8 @@ type ReservationStat = {
 })
 export class ProjectReservationDetails {
   reservation = input<ProjectReservationItem>();
+
+  private router = inject(Router);
 
   reservationStatus = computed<StatusMeta | null>(() => {
     const reservation = this.reservation();
@@ -89,4 +92,8 @@ export class ProjectReservationDetails {
       { icon: 'faSolidGift', value: priceConverter(reservation.bonus), label: 'Bonus' },
     ];
   });
+
+  goToDetails(reservationId: number) {
+    return this.router.navigate([`admin/projects/details/${reservationId}`])
+  }
 }

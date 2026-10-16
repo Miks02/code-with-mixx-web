@@ -91,6 +91,12 @@ export const routes: Routes = [
             (c) => c.CreateProjectReservationPage,
           ),
       },
+      {
+        path: "projects/details/:id",
+        loadComponent: () => import("./features/projects/admin/pages/project-reservation-details-page/project-reservation-details-page").then(
+          (c) => c.ProjectReservationDetailsPage
+        )
+      }
     ],
   },
 ];

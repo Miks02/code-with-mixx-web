@@ -57,7 +57,12 @@
     <app-button [fullWidth]="true" variant="danger" icon="faSolidCircleMinus"
       >Skini uplatu</app-button
     >
-    <app-button class="sm:col-span-2" [fullWidth]="true" variant="ghost" icon="faSolidEye"
+    <app-button
+      (clicked)="goToDetails(reservation.id)"
+      class="sm:col-span-2"
+      [fullWidth]="true"
+      variant="ghost"
+      icon="faSolidEye"
       >Detalji rezervacije</app-button
     >
   </div>
