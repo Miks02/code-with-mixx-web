@@ -11,6 +11,7 @@ import { lastValueFrom } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { PagedResult } from '../../../core/models/paged-result';
 import { ProjectQueryParams } from '../models/project-query-params';
+import { ProjectReservationDetails } from '../models/project-reservation-details';
 import { ProjectReservationItem } from '../models/project-reservation-item';
 import { ProjectReservationRequest } from '../models/project-reservation-request';
 import { ProjectsSummary } from '../models/projects-summary';
@@ -59,7 +60,20 @@ export class ProjectService {
     }));
   }
 
-  createProjectReservationMutation = injectMutation(() => ({
+  getProjectReservationDetailsQuery(reservationId: Signal<number>) {
+    return injectQuery<ProjectReservationDetails>(() => ({
+      queryKey: ['project-reservation-details', reservationId()],
+      queryFn: () =>
+        lastValueFrom(
+          this.http.get<ProjectReservationDetails>(
+            `${this.apiUrl}/admin/reservations/projects/${reservationId()}`,
+          ),
+        ),
+      enabled: reservationId !== undefined
+    }));
+  }
+
+  createProjectReservationMutation =injectMutation(() => ({
     mutationFn: (request: ProjectReservationRequest) =>
       lastValueFrom(this.http.post(`${this.apiUrl}/admin/reservations/projects`, request)),
     onSuccess: () => {
