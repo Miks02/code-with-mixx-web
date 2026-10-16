@@ -41,20 +41,20 @@ export class ProjectReservationPricing {
   reservationStatuses = Object.values(ReservationStatus);
   reservationStatusStyles = RESERVATION_STATUSES;
 
-  useProjectsSum = signal<boolean>(true);
-  projectsSum = computed(() =>
-    this.projectFormService
-      .reservationModel()
-      .projects.reduce((sum, project) => sum + project.price, 0),
-  );
+  private projects = computed(() => this.projectFormService.reservationModel().projects);
 
-  constructor() {
-    effect(() => {
-      if (!this.useProjectsSum()) return;
+  private totalBasedOnProjectsPrice = computed(() => {
+    return this.projects()
+      .map((p) => p.price)
+      .reduce((p, curr) => p + curr);
+  });
 
-      this.reservationForm.totalPrice().value.set(this.projectsSum());
-    });
-  }
+  useProjectsSum = signal<boolean>(false);
+  projectsSum = computed(() => {
+    if (this.useProjectsSum()) return this.totalBasedOnProjectsPrice();
+
+    return this.reservationForm.totalPrice().value();
+  });
 
   onStatusSelected(status: ReservationStatus) {
     this.reservationForm.reservationStatus().value.set(status);
