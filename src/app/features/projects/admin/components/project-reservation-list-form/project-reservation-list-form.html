@@ -1,5 +1,5 @@
 <ng-template #fieldError let-state>
-  @if (state.touched() && state.errors().length) {
+  @if (state.touched() || state.dirty() && state.errors().length) {
   <p class="text-sm text-red-400">{{ state.errors()[0]?.message }}</p>
   }
 </ng-template>
@@ -19,7 +19,6 @@
       Dodaj projekat
     </app-button>
   </div>
-
   <div #projectsContainer class="mt-4 h-160 overflow-y-auto pr-2 flex flex-col gap-4">
   @for (projectField of projectsForm; track $index; let i = $index) {
   <div class="p-4 bg-emerald-800 rounded-lg shadow-lg shrink-0 flex flex-col gap-4">
