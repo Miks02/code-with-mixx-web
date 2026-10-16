@@ -1,14 +1,19 @@
 import { DatePipe } from '@angular/common';
 import { Component, computed, input } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { faSolidCalendarDays, faSolidCalendarPlus } from '@ng-icons/font-awesome/solid';
+import { faBrandGithub } from '@ng-icons/font-awesome/brands';
+import {
+  faSolidCalendarDays,
+  faSolidCalendarPlus,
+  faSolidDownload,
+} from '@ng-icons/font-awesome/solid';
 import { priceConverter } from '../../../../core/utilities/price-helpers';
 import { ProjectItem } from '../../models/project-item';
 import { PROJECT_TYPE_LABELS } from '../../utilities/project-labels';
 
 @Component({
   imports: [NgIcon, DatePipe],
-  providers: [provideIcons({ faSolidCalendarDays, faSolidCalendarPlus })],
+  providers: [provideIcons({ faSolidCalendarDays, faSolidCalendarPlus, faBrandGithub, faSolidDownload })],
   selector: 'app-project-card',
   styleUrl: './project-card.css',
   templateUrl: './project-card.html',

@@ -39,4 +39,31 @@
       }}</span>
     </div>
   </div>
+
+  @if (project().githubLink || project().downloadLink) {
+  <div class="flex flex-wrap gap-2">
+    @if (project().githubLink; as githubLink) {
+    <a
+      [href]="githubLink"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold bg-emerald-800 text-emerald-100 hover:bg-emerald-700 transition-200"
+    >
+      <ng-icon name="faBrandGithub" class="text-sm shrink-0"></ng-icon>
+      GitHub
+    </a>
+    }
+    @if (project().downloadLink; as downloadLink) {
+    <a
+      [href]="downloadLink"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold bg-emerald-800 text-emerald-100 hover:bg-emerald-700 transition-200"
+    >
+      <ng-icon name="faSolidDownload" class="text-sm shrink-0"></ng-icon>
+      Preuzmi
+    </a>
+    }
+  </div>
+  }
 </div>
