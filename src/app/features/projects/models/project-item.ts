@@ -1,3 +1,4 @@
+import { ProjectNote } from './project-note';
 import { ProjectType } from './project-type';
 
 export type ProjectItem = {
@@ -12,5 +13,5 @@ export type ProjectItem = {
   endDate: string;
   githubLink: string | null,
   downloadLink: string | null,
-  notes: string[]
+  notes: ProjectNote[]
 };

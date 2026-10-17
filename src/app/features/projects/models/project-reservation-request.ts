@@ -2,6 +2,7 @@ import { ReservationStatus } from '../../reservations';
 import { ProjectItem } from './project-item';
 
 export type ProjectReservationRequest = {
+  id: number,
   studentId: string,
   paidAmount: number,
   totalPrice: number,
@@ -15,5 +16,6 @@ export type ProjectItemFormModel = Omit<ProjectItem, 'githubLink' | 'downloadLin
 };
 
 export type ProjectReservationFormModel = Omit<ProjectReservationRequest, 'projects'> & {
-  projects: ProjectItemFormModel[];
+  projectsToDelete: number[],
+  projects: ProjectItemFormModel[]
 };
