@@ -77,13 +77,7 @@ export class ProjectService {
   createProjectReservationMutation = injectMutation(() => ({
     mutationFn: (request: ProjectReservationRequest) =>
       lastValueFrom(this.http.post(`${this.apiUrl}/admin/reservations/projects`, request)),
-    onSuccess: () => {
-      this.queryClient.invalidateQueries({
-        queryKey: ['paged-project-reservations'],
-        refetchType: 'none',
-      });
-      return this.queryClient.invalidateQueries({ queryKey: ['projects-summary'] });
-    },
+    onSuccess: () => this.invalidateQueries(),
   }));
 
   updateProjectReservationMutation = injectMutation(() => ({
@@ -91,12 +85,15 @@ export class ProjectService {
       lastValueFrom(
         this.http.put(`${this.apiUrl}/admin/reservations/projects/${request.id}`, request),
       ),
-    onSuccess: () => {
-      this.queryClient.invalidateQueries({
-        queryKey: ['paged-project-reservations'],
-        refetchType: 'none',
-      });
-      return this.queryClient.invalidateQueries({ queryKey: ['projects-summary'] });
-    },
+    onSuccess: () => this.invalidateQueries()
   }));
+
+  private invalidateQueries() {
+    this.queryClient.invalidateQueries({
+      queryKey: ['paged-project-reservations'],
+      refetchType: 'none',
+    });
+    this.queryClient.invalidateQueries({ queryKey: ['project-reservation-details'] });
+    return this.queryClient.invalidateQueries({ queryKey: ['projects-summary'] });
+  }
 }
