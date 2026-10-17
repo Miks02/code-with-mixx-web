@@ -206,7 +206,7 @@
         <div class="flex items-center gap-2">
           <span class="w-6 shrink-0 text-right text-emerald-300 font-semibold">{{ n + 1 }}.</span>
           <input
-            [formField]="noteField"
+            [formField]="noteField.content"
             type="text"
             [attr.aria-label]="'Beleška ' + (n + 1)"
             class="w-full min-w-0 rounded-lg bg-emerald-950/80 px-3 py-2.5 text-emerald-100 outline-none focus:outline-1 focus:outline-emerald-300"
@@ -222,7 +222,7 @@
         </div>
         <div class="pl-8">
           <ng-container
-            *ngTemplateOutlet="fieldError; context: { $implicit: noteField() }"
+            *ngTemplateOutlet="fieldError; context: { $implicit: noteField.content() }"
           ></ng-container>
         </div>
       </div>

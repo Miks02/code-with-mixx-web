@@ -38,9 +38,11 @@ export function createEmptyProject(): ProjectItemFormModel {
 
 export function createEmptyReservation(): ProjectReservationFormModel {
   return {
+    id: 0,
     studentId: '',
     paidAmount: 0,
     totalPrice: 0,
+    projectsToDelete: [],
     reservationStatus: ReservationStatus.Confirmed,
     projects: [createEmptyProject()],
   };
@@ -50,10 +52,12 @@ export function createReservationFormModel(
   details: ProjectReservationDetails,
 ): ProjectReservationFormModel {
   return {
+    id: details.id,
     studentId: details.studentId,
     paidAmount: details.paidAmount,
     totalPrice: details.totalPrice,
     reservationStatus: details.reservationStatus,
+    projectsToDelete: [],
     projects: details.projects.map((project) => ({
       id: project.id,
       subjectId: project.subjectId,
@@ -66,7 +70,7 @@ export function createReservationFormModel(
       endDate: project.endDate,
       githubLink: project.githubLink ?? '',
       downloadLink: project.downloadLink ?? '',
-      notes: project.notes.map((note) => note.content),
+      notes: project.notes,
     })),
   };
 }
@@ -132,8 +136,8 @@ export function createProjectReservationFormFactory(
       maxLength(project.downloadLink, 200, {
         message: 'Download link ne može imati više od 200 karaktera ',
       });
-      applyEach(project.notes, (notes) => {
-        required(notes, { message: 'Beleške ne mogu biti prazne' });
+      applyEach(project.notes, (note) => {
+        required(note.content, { message: 'Beleške ne mogu biti prazne' });
       });
     });
   });

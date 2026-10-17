@@ -11,8 +11,7 @@ import {
 
 @Service()
 export class ProjectFormService {
-  reservationModel: WritableSignal<ProjectReservationFormModel> =
-    signal(createEmptyReservation());
+  reservationModel: WritableSignal<ProjectReservationFormModel> = signal(createEmptyReservation());
 
   reservationForm = createProjectReservationFormFactory(this.reservationModel);
 
@@ -31,9 +30,14 @@ export class ProjectFormService {
   removeProject(projectIndex: number) {
     if (this.reservationModel().projects.length <= 1) return;
 
+    const projectToDelete = this.reservationModel().projects.find(
+      (_, index) => index === projectIndex,
+    )!;
+    
     this.reservationModel.update((prev) => ({
       ...prev,
       projects: prev.projects.filter((_, index) => index !== projectIndex),
+      projectsToDelete: [...prev.projectsToDelete, projectToDelete.id],
     }));
   }
 
@@ -48,7 +52,7 @@ export class ProjectFormService {
 
   addNote(projectIndex: number, note: string) {
     const notes = this.reservationModel().projects[projectIndex].notes;
-    this.updateProject(projectIndex, { notes: [...notes, note] });
+    this.updateProject(projectIndex, { notes: [...notes, { id: 0, content: note }] });
   }
 
   removeNote(projectIndex: number, noteIndex: number) {
