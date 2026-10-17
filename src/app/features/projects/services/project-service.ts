@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Service, Signal } from '@angular/core';
 import {
-    CreateQueryResult,
-    injectMutation,
-    injectQuery,
-    keepPreviousData,
-    QueryClient,
+  CreateQueryResult,
+  injectMutation,
+  injectQuery,
+  keepPreviousData,
+  QueryClient,
 } from '@tanstack/angular-query-experimental';
 import { lastValueFrom } from 'rxjs';
 import { environment } from '../../../../environments/environment';
@@ -15,6 +15,7 @@ import { ProjectReservationDetails } from '../models/project-reservation-details
 import { ProjectReservationItem } from '../models/project-reservation-item';
 import { ProjectReservationRequest } from '../models/project-reservation-request';
 import { ProjectsSummary } from '../models/projects-summary';
+import { UpdateProjectReservationRequest } from '../models/update-project-reservation-request';
 
 @Service()
 export class ProjectService {
@@ -69,13 +70,27 @@ export class ProjectService {
             `${this.apiUrl}/admin/reservations/projects/${reservationId()}`,
           ),
         ),
-      enabled: reservationId !== undefined
+      enabled: reservationId !== undefined,
     }));
   }
 
-  createProjectReservationMutation =injectMutation(() => ({
+  createProjectReservationMutation = injectMutation(() => ({
     mutationFn: (request: ProjectReservationRequest) =>
       lastValueFrom(this.http.post(`${this.apiUrl}/admin/reservations/projects`, request)),
+    onSuccess: () => {
+      this.queryClient.invalidateQueries({
+        queryKey: ['paged-project-reservations'],
+        refetchType: 'none',
+      });
+      return this.queryClient.invalidateQueries({ queryKey: ['projects-summary'] });
+    },
+  }));
+
+  updateProjectReservationMutation = injectMutation(() => ({
+    mutationFn: (request: UpdateProjectReservationRequest) =>
+      lastValueFrom(
+        this.http.put(`${this.apiUrl}/admin/reservations/projects/${request.id}`, request),
+      ),
     onSuccess: () => {
       this.queryClient.invalidateQueries({
         queryKey: ['paged-project-reservations'],
