@@ -78,6 +78,7 @@ export class CreateProjectReservationPage {
     return submit(this.reservationForm, async () => {
       const model = this.reservationModel();
       const request: ProjectReservationRequest = {
+        id: 0,
         studentId: model.studentId,
         paidAmount: model.paidAmount,
         totalPrice: model.totalPrice,
@@ -89,6 +90,7 @@ export class CreateProjectReservationPage {
           reservedAt: project.reservedAt,
           githubLink: project.githubLink || null,
           downloadLink: project.downloadLink || null,
+          notes: project.notes
         })),
       };
 
