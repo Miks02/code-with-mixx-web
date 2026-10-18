@@ -1,0 +1,112 @@
+<div
+  animate.enter="backdrop-in"
+  (click)="onClose()"
+  class="fixed inset-0 z-1000 bg-emerald-900/60 backdrop-blur-xs"
+></div>
+
+<div
+  animate.enter="modal-in"
+  class="flex flex-col p-4 gap-6 w-[calc(100%-2rem)] max-w-md max-h-[calc(100dvh-2rem)] overflow-y-auto bg-emerald-200 rounded-xl z-1000 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 shadow-lg"
+>
+  <div class="flex items-start justify-between gap-4">
+    <div class="flex flex-col gap-1">
+      <p class="text-xl font-semibold text-emerald-900">Skidanje uplate</p>
+      <p class="text-sm text-emerald-900/70">Unesi iznos koji se skida sa uplaćenog.</p>
+    </div>
+    <button
+      type="button"
+      aria-label="Zatvori"
+      (click)="onClose()"
+      class="text-2xl text-red-900 cursor-pointer hover:opacity-70 active:opacity-50 transition-200"
+    >
+      <ng-icon name="faSolidXmark"></ng-icon>
+    </button>
+  </div>
+
+  <div class="grid grid-cols-3 gap-2">
+    @for (item of summary(); track item.label) {
+    <div class="flex flex-col rounded-lg px-3 py-2 bg-emerald-300/60 min-w-0">
+      <span class="text-xs text-emerald-900/70">{{ item.label }}</span>
+      <span class="text-sm font-semibold text-emerald-900 truncate" [title]="item.value"
+        >{{ item.value }}</span
+      >
+    </div>
+    }
+  </div>
+
+  <form class="flex flex-col gap-4" (submit)="$event.preventDefault(); onSubmit()">
+    <div class="flex flex-col gap-1.5">
+      <div class="flex items-baseline justify-between gap-2 px-1">
+        <label for="subtractAmount" class="text-sm font-semibold text-emerald-900 shrink-0"
+          >Iznos za skidanje *</label
+        >
+        @if ((paymentForm.amount().touched() || paymentForm.amount().dirty()) &&
+        paymentForm.amount().errors().length) {
+        <p
+          class="text-xs text-red-600 text-right truncate"
+          [title]="paymentForm.amount().errors()[0]?.message"
+        >
+          {{ paymentForm.amount().errors()[0]?.message }}
+        </p>
+        }
+      </div>
+      <div
+        class="flex items-center gap-3 bg-emerald-700 rounded-lg shadow-lg px-4 py-3 focus-within:ring-2 focus-within:ring-amber-500 transition-200"
+        [class.ring-2]="paymentForm.amount().touched() && paymentForm.amount().errors().length"
+        [class.ring-red-400]="
+          (paymentForm.amount().touched() || paymentForm.amount().dirty()) &&  paymentForm.amount().errors().length
+        "
+      >
+        <ng-icon class="shrink-0 text-emerald-100!" name="faSolidMoneyBillWave"></ng-icon>
+        <input
+          [formField]="paymentForm.amount"
+          type="number"
+          id="subtractAmount"
+          class="w-full border-none outline-none bg-transparent text-white caret-white placeholder:text-emerald-100/50 scheme-dark"
+          placeholder="0"
+        />
+        <span class="shrink-0 text-sm font-semibold text-emerald-100/70">RSD</span>
+      </div>
+      <div class="flex items-center justify-between gap-2 px-1">
+        <p class="text-xs text-emerald-900/70">
+          @if (exceedsPaidAmount()) {
+          <span class="text-red-600"
+            >Iznos je veći od uplaćenog ({{ paidAmount().toLocaleString('sr-RS') }} RSD).</span
+          >
+          } @else if (bonusAfterSubtract()) { Iznos ostaje uplaćen u celosti. Preostali bonus:
+          <span class="font-semibold text-emerald-700"
+            >{{ bonusAfterSubtract().toLocaleString('sr-RS') }} RSD</span
+          >
+          } @else { Nakon skidanja preostaje:
+          <span class="font-semibold text-emerald-900"
+            >{{ remainingAfterSubtract().toLocaleString('sr-RS') }} RSD</span
+          >
+          }
+        </p>
+        @if (paidAmount() > 0) {
+        <button
+          type="button"
+          (click)="fillPaidAmount()"
+          class="text-xs font-semibold text-emerald-800 underline underline-offset-2 cursor-pointer hover:opacity-70 active:opacity-50 transition-200"
+        >
+          Skini celu uplatu
+        </button>
+        }
+      </div>
+    </div>
+    <button type="submit" class="hidden"></button>
+  </form>
+
+  <div class="self-end flex gap-2">
+    <app-button size="sm" variant="secondary" (click)="onClose()">Odustani</app-button>
+    <app-button
+      size="sm"
+      variant="danger"
+      icon="faSolidCircleMinus"
+      [loading]="subtractPaymentMutation.isPending()"
+      (click)="onSubmit()"
+    >
+      Potvrdi
+    </app-button>
+  </div>
+</div>
