@@ -1,7 +1,8 @@
-import { Component, computed, inject, input, signal, WritableSignal } from '@angular/core';
+import { Component, computed, inject, input, output, signal, WritableSignal } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
   faSolidArrowsRotate,
+  faSolidBoxArchive,
   faSolidCircleMinus,
   faSolidCirclePlus,
   faSolidCoins,
@@ -11,7 +12,6 @@ import {
   faSolidHourglassHalf,
   faSolidMoneyBillWave,
   faSolidPercent,
-  faSolidTag,
 } from '@ng-icons/font-awesome/solid';
 import { dateConverter } from '../../../../../core/utilities/date-helpers';
 import { priceConverter } from '../../../../../core/utilities/price-helpers';
@@ -37,6 +37,7 @@ type ReservationStat = {
   providers: [
     provideIcons({
       faSolidArrowsRotate,
+      faSolidBoxArchive,
       faSolidCircleMinus,
       faSolidCirclePlus,
       faSolidCoins,
@@ -46,7 +47,6 @@ type ReservationStat = {
       faSolidHourglassHalf,
       faSolidMoneyBillWave,
       faSolidPercent,
-      faSolidTag,
     }),
   ],
   selector: 'app-project-reservation-details',
@@ -55,6 +55,9 @@ type ReservationStat = {
 })
 export class ProjectReservationDetails {
   reservation = input<ProjectReservationItem>();
+  isArchiving = input<boolean>(false);
+  archiveReservation = output<number>();
+  restoreReservation = output<number>();
 
   private router = inject(Router);
 
@@ -100,6 +103,14 @@ export class ProjectReservationDetails {
 
   goToDetails(reservationId: number) {
     return this.router.navigate([`admin/projects/details/${reservationId}`])
+  }
+
+  onArchive(reservationId: number) {
+    this.archiveReservation.emit(reservationId);
+  }
+
+  onRestore(reservationId: number) {
+    this.restoreReservation.emit(reservationId);
   }
 
   openModal(type: ReservationModalType) {

@@ -13,7 +13,16 @@
         [attr.aria-pressed]="showOnlyDeletedStudents()"
         (click)="onDeletedStudentsToggle()"
       >
-        Obrisani studenti
+
+      </app-button>
+      <app-button
+        variant="ghost"
+        size="sm"
+        icon="faSolidBoxArchive"
+        [class]="showOnlyDeletedReservations() ? 'hidden xl:inline-flex self-center bg-emerald-700 rounded-lg' : 'hidden xl:inline-flex self-center'"
+        [attr.aria-pressed]="showOnlyDeletedReservations()"
+        (click)="onDeletedReservationsToggle()"
+      >
       </app-button>
 
       <button

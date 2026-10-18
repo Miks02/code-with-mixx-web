@@ -40,5 +40,6 @@ export type ProjectReservationDetails = {
   notes: string | null;
   createdAt: string;
   updatedAt: string | null;
+  deletedAt: string | null;
   projects: ProjectDetailsItem[];
 };

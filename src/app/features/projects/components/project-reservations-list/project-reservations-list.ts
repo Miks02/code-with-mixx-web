@@ -1,6 +1,7 @@
 import { Component, computed, inject, input, output } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
+  faSolidBoxArchive,
   faSolidChevronLeft,
   faSolidChevronRight,
   faSolidPlus,
@@ -28,6 +29,7 @@ const CONFLICTING_RESERVATION_STATUSES: Record<ReservationStatus, ReservationSta
   imports: [ProjectReservationCard, Button, FilterMenu, NgIcon, Skeleton],
   providers: [
     provideIcons({
+      faSolidBoxArchive,
       faSolidChevronLeft,
       faSolidChevronRight,
       faSolidPlus,
@@ -47,6 +49,7 @@ export class ProjectReservationsList {
   selectedProjectTypes = input<ProjectType[]>([]);
   selectedReservationStatuses = input<ReservationStatus[]>([]);
   showOnlyDeletedStudents = input<boolean>(false);
+  showOnlyDeletedReservations = input<boolean>(false);
   isPending = input<boolean>(false);
   isFetching = input<boolean>(false);
 
@@ -59,6 +62,7 @@ export class ProjectReservationsList {
   subjectIdsChanged = output<number[]>();
   projectTypesChanged = output<ProjectType[]>();
   reservationStatusesChanged = output<ReservationStatus[]>();
+  deletedReservationsToggled = output<boolean>();
   deletedStudentsToggled = output<boolean>();
   openCreationForm = output<void>();
 
@@ -101,6 +105,10 @@ export class ProjectReservationsList {
 
   onReservationStatusesChanged(reservationStatuses: ReservationStatus[]) {
     this.reservationStatusesChanged.emit(reservationStatuses);
+  }
+
+  onDeletedReservationsToggle() {
+    this.deletedReservationsToggled.emit(!this.showOnlyDeletedReservations());
   }
 
   onDeletedStudentsToggle() {

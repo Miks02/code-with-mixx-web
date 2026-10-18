@@ -12,5 +12,6 @@ export type ProjectReservationItem = {
   discountRate: number;
   bonus: number;
   createdAt: string;
+  deletedAt: string | null;
   projects: ProjectItem[];
 };

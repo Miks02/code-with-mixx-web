@@ -7,11 +7,13 @@
     [selectedSubjectIds]="queryParams().subjectIds"
     [selectedProjectTypes]="queryParams().projectTypes"
     [selectedReservationStatuses]="queryParams().reservationStatuses"
+    [showOnlyDeletedReservations]="queryParams().showOnlyDeletedReservations"
     [showOnlyDeletedStudents]="queryParams().showOnlyDeletedStudents"
     [isPending]="reservationsPending()"
     [isFetching]="reservationsFetching()"
     (reservationSelected)="onReservationSelected($event)"
     (subjectIdsChanged)="onSubjectIdsChange($event)"
+    (deletedReservationsToggled)="onDeletedReservationsToggle($event)"
     (projectTypesChanged)="onProjectTypesChange($event)"
     (reservationStatusesChanged)="onReservationStatusesChange($event)"
     (deletedStudentsToggled)="onDeletedStudentsToggle($event)"
@@ -21,6 +23,9 @@
   <app-project-reservation-details
     class="min-w-0 lg:col-span-2 lg:row-span-3"
     [reservation]="selectedReservation()"
+    [isArchiving]="isArchiving()"
+    (archiveReservation)="onArchiveReservation($event)"
+    (restoreReservation)="onRestoreReservation($event)"
   ></app-project-reservation-details>
 
   <div class="min-w-0 lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 gap-4">

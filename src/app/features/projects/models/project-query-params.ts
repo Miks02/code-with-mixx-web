@@ -7,5 +7,6 @@ export type ProjectQueryParams = {
   subjectIds: number[];
   projectTypes: ProjectType[];
   reservationStatuses: ReservationStatus[];
+  showOnlyDeletedReservations: boolean;
   showOnlyDeletedStudents: boolean;
 };

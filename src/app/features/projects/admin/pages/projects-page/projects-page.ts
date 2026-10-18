@@ -6,6 +6,10 @@ import {
     faSolidDiagramProject,
     faSolidHourglassHalf,
 } from '@ng-icons/font-awesome/solid';
+import { currentDate } from '../../../../../core/utilities/date-helpers';
+import { ToastService } from '../../../../../core/services/toast-service';
+import { DialogService } from '../../../../../core/services/dialog-service';
+import { DialogResult } from '../../../../../core/components/dialog/dialog';
 import { StatsCard } from '../../../../../shared/stats-card/stats-card';
 import { ReservationStatus } from '../../../../reservations';
 import { SubjectService } from '../../../../subjects';
@@ -33,7 +37,8 @@ import { ProjectReservationDetails } from '../../components/project-reservation-
 export class ProjectsPage {
   private projectService = inject(ProjectService);
   private subjectService = inject(SubjectService);
-
+  private toastService = inject(ToastService);
+  private dialogService = inject(DialogService);
 
   protected queryParams = signal<ProjectQueryParams>({
     pageNumber: 1,
@@ -41,6 +46,7 @@ export class ProjectsPage {
     subjectIds: [],
     projectTypes: [],
     reservationStatuses: [],
+    showOnlyDeletedReservations: false,
     showOnlyDeletedStudents: false,
   });
 
@@ -58,11 +64,56 @@ export class ProjectsPage {
   projectsSummaryPending = computed(() => this.projectsSummarySource.isPending());
   reservationsPending = computed(() => this.reservationsSource.isPending());
   reservationsFetching = computed(() => this.reservationsSource.isFetching());
+  isArchiving = computed(
+    () =>
+      this.projectService.archiveProjectReservationMutation.isPending() ||
+      this.projectService.restoreProjectReservationMutation.isPending(),
+  );
 
   protected readonly selectedReservation = signal<ProjectReservationItem | undefined>(undefined);
 
   onReservationSelected(reservation: ProjectReservationItem | undefined) {
     this.selectedReservation.set(reservation);
+  }
+
+  async onArchiveReservation(reservationId: number) {
+    const result = await this.dialogService.showDialog({
+      title: 'Arhiviranje rezervacije',
+      message: `Da li ste sigurni da želite da arhivirate rezervaciju studenta „${this.selectedReservation()?.studentFullName}”?`,
+    });
+
+    if (result !== DialogResult.Confirmed) return;
+
+    this.projectService.archiveProjectReservationMutation.mutate(reservationId, {
+      onSuccess: () => this.updateSelectedReservationDeletedAt(reservationId, currentDate()),
+      onError: () =>
+        this.toastService.showError(
+          'Došlo je do greške prilikom arhiviranja rezervacije. Pokušajte ponovo kasnije.',
+        ),
+    });
+  }
+
+  async onRestoreReservation(reservationId: number) {
+    const result = await this.dialogService.showDialog({
+      title: 'Vraćanje rezervacije',
+      message: `Da li ste sigurni da želite da vratite rezervaciju studenta „${this.selectedReservation()?.studentFullName}” iz arhive?`,
+    });
+
+    if (result !== DialogResult.Confirmed) return;
+
+    this.projectService.restoreProjectReservationMutation.mutate(reservationId, {
+      onSuccess: () => this.updateSelectedReservationDeletedAt(reservationId, null),
+      onError: () =>
+        this.toastService.showError(
+          'Došlo je do greške prilikom vraćanja rezervacije. Pokušajte ponovo kasnije.',
+        ),
+    });
+  }
+
+  private updateSelectedReservationDeletedAt(reservationId: number, deletedAt: string | null) {
+    this.selectedReservation.update((reservation) =>
+      reservation?.id === reservationId ? { ...reservation, deletedAt } : reservation,
+    );
   }
 
   onSubjectIdsChange(subjectIds: number[]) {
@@ -75,6 +126,10 @@ export class ProjectsPage {
 
   onReservationStatusesChange(reservationStatuses: ReservationStatus[]) {
     this.queryParams.update((params) => ({ ...params, pageNumber: 1, reservationStatuses }));
+  }
+
+  onDeletedReservationsToggle(showOnlyDeletedReservations: boolean) {
+    this.queryParams.update((params) => ({ ...params, pageNumber: 1, showOnlyDeletedReservations }));
   }
 
   onDeletedStudentsToggle(showOnlyDeletedStudents: boolean) {

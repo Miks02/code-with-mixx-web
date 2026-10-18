@@ -50,7 +50,25 @@
     <app-button [fullWidth]="true" variant="secondary" icon="faSolidArrowsRotate"
       >Promeni status</app-button
     >
-    <app-button [fullWidth]="true" variant="primary" icon="faSolidTag">Ažuriraj cenu</app-button>
+    @if (!reservation.deletedAt) {
+    <app-button
+      (clicked)="onArchive(reservation.id)"
+      [fullWidth]="true"
+      [loading]="isArchiving()"
+      variant="danger"
+      icon="faSolidBoxArchive"
+      >Arhiviraj rezervaciju</app-button
+    >
+    } @else {
+    <app-button
+      (clicked)="onRestore(reservation.id)"
+      [fullWidth]="true"
+      [loading]="isArchiving()"
+      variant="secondary"
+      icon="faSolidBoxArchive"
+      >Vrati iz arhive</app-button
+    >
+    }
     <app-button
       (clicked)="openModal('register-payment')"
       [fullWidth]="true"
@@ -61,7 +79,7 @@
     <app-button
       (clicked)="openModal('subtract-payment')"
       [fullWidth]="true"
-      variant="danger"
+      variant="primary"
       icon="faSolidCircleMinus"
       >Skini uplatu</app-button
     >
