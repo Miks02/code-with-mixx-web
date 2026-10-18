@@ -58,7 +58,11 @@
       icon="faSolidCirclePlus"
       >Registruj uplatu</app-button
     >
-    <app-button [fullWidth]="true" variant="danger" icon="faSolidCircleMinus"
+    <app-button
+      (clicked)="openModal('subtract-payment')"
+      [fullWidth]="true"
+      variant="danger"
+      icon="faSolidCircleMinus"
       >Skini uplatu</app-button
     >
     <app-button
@@ -92,4 +96,11 @@
   [paidAmount]="reservation.paidAmount"
   (closed)="closeModal()"
 ></app-register-payment-modal>
+} @case ('subtract-payment') {
+<app-subtract-payment-modal
+  [reservationId]="reservation.id"
+  [totalPrice]="reservation.totalPrice"
+  [paidAmount]="reservation.paidAmount"
+  (closed)="closeModal()"
+></app-subtract-payment-modal>
 } } } }
