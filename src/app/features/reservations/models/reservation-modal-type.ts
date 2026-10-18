@@ -1,0 +1,1 @@
+export type ReservationModalType = "register-payment" | 'subtract-payment' | 'update-status'
