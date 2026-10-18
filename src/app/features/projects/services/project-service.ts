@@ -16,6 +16,7 @@ import { ProjectReservationItem } from '../models/project-reservation-item';
 import { ProjectReservationRequest } from '../models/project-reservation-request';
 import { ProjectsSummary } from '../models/projects-summary';
 import { UpdateProjectReservationRequest } from '../models/update-project-reservation-request';
+import { projectReservationKeys } from '../../reservations';
 
 @Service()
 export class ProjectService {
@@ -30,12 +31,12 @@ export class ProjectService {
     const params = queryParams();
 
     return injectQuery<ProjectsSummary>(() => ({
-      queryKey: ['projects-summary', params],
+      queryKey: projectReservationKeys.summary(params),
       queryFn: async () => {
         const response = await lastValueFrom(this.http.get<ProjectsSummary>(url, { params }));
 
         this.queryClient.setQueryData(
-          ['paged-project-reservations', params],
+          projectReservationKeys.page(queryParams()),
           response.reservations,
         );
 
@@ -51,7 +52,7 @@ export class ProjectService {
     const url = `${this.apiUrl}/admin/reservations/projects`;
 
     return injectQuery<PagedResult<ProjectReservationItem>>(() => ({
-      queryKey: ['paged-project-reservations', queryParams()],
+      queryKey: projectReservationKeys.page(queryParams()),
       queryFn: () =>
         lastValueFrom(
           this.http.get<PagedResult<ProjectReservationItem>>(url, { params: queryParams() }),
@@ -63,7 +64,7 @@ export class ProjectService {
 
   getProjectReservationDetailsQuery(reservationId: Signal<number>) {
     return injectQuery<ProjectReservationDetails>(() => ({
-      queryKey: ['project-reservation-details', reservationId()],
+      queryKey: projectReservationKeys.detail(reservationId()),
       queryFn: () =>
         lastValueFrom(
           this.http.get<ProjectReservationDetails>(
@@ -85,7 +86,7 @@ export class ProjectService {
       lastValueFrom(
         this.http.put(`${this.apiUrl}/admin/reservations/projects/${request.id}`, request),
       ),
-    onSuccess: () => this.invalidateQueries(),
+    onSuccess: (_, request) => this.invalidateQueries(request.id),
   }));
 
   archiveProjectReservationMutation = injectMutation(() => ({
@@ -93,10 +94,7 @@ export class ProjectService {
       lastValueFrom(
         this.http.post(`${this.apiUrl}/admin/reservations/projects/${reservationId}/archive`, {}),
       ),
-    onSuccess: () =>
-      this.queryClient.invalidateQueries({
-        queryKey: ['paged-project-reservations'],
-      }),
+    onSuccess: (_, reservationId) => this.invalidateQueries(reservationId),
   }));
 
   restoreProjectReservationMutation = injectMutation(() => ({
@@ -104,18 +102,19 @@ export class ProjectService {
       lastValueFrom(
         this.http.post(`${this.apiUrl}/admin/reservations/projects/${reservationId}/restore`, {}),
       ),
-    onSuccess: () =>
-      this.queryClient.invalidateQueries({
-        queryKey: ['paged-project-reservations'],
-      }),
+    onSuccess: (_, reservationId) => this.invalidateQueries(reservationId),
   }));
 
-  private invalidateQueries() {
+  private invalidateQueries(reservationId?: number) {
     this.queryClient.invalidateQueries({
-      queryKey: ['paged-project-reservations'],
+      queryKey: projectReservationKeys.pages(),
       refetchType: 'none',
     });
-    this.queryClient.invalidateQueries({ queryKey: ['project-reservation-details'] });
-    return this.queryClient.invalidateQueries({ queryKey: ['projects-summary'] });
+    if (reservationId !== undefined) {
+      this.queryClient.invalidateQueries({
+        queryKey: projectReservationKeys.detail(reservationId),
+      });
+    }
+    return this.queryClient.invalidateQueries({ queryKey: projectReservationKeys.summaries() });
   }
 }

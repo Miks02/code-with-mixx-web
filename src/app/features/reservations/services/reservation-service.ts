@@ -5,10 +5,12 @@ import { lastValueFrom } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { PaymentRequest } from '../models/payment-request';
 import { UpdateStatusRequest } from '../models/update-status-request';
+import { projectReservationKeys } from '../utilities/reservation-keys';
 
 @Service()
 export class ReservationService {
   private http = inject(HttpClient);
+  private queryClient = inject(QueryClient);
 
   private apiUrl = environment.apiUrl;
 
@@ -22,6 +24,7 @@ export class ReservationService {
           },
         ),
       ),
+    onSuccess: (_, request) => this.invalidateQueries(request.reservationId),
   }));
 
   subtractPaymentMutation = injectMutation(() => ({
@@ -34,6 +37,7 @@ export class ReservationService {
           },
         ),
       ),
+    onSuccess: (_, request) => this.invalidateQueries(request.reservationId),
   }));
 
   updateStatusMutation = injectMutation(() => ({
@@ -43,5 +47,17 @@ export class ReservationService {
           reservationStatus: request.reservationStatus,
         }),
       ),
+    onSuccess: (_, request) => this.invalidateQueries(request.reservationId),
   }));
+
+  private invalidateQueries(reservationId: number) {
+    this.queryClient.invalidateQueries({
+      queryKey: projectReservationKeys.pages(),
+      refetchType: 'none',
+    });
+    this.queryClient.invalidateQueries({
+      queryKey: projectReservationKeys.detail(reservationId),
+    });
+    return this.queryClient.invalidateQueries({ queryKey: projectReservationKeys.summaries() });
+  }
 }
