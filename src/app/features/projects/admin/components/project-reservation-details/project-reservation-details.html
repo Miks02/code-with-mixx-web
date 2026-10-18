@@ -51,7 +51,11 @@
       >Promeni status</app-button
     >
     <app-button [fullWidth]="true" variant="primary" icon="faSolidTag">Ažuriraj cenu</app-button>
-    <app-button [fullWidth]="true" variant="primary" icon="faSolidCirclePlus"
+    <app-button
+      (clicked)="openModal('register-payment')"
+      [fullWidth]="true"
+      variant="primary"
+      icon="faSolidCirclePlus"
       >Registruj uplatu</app-button
     >
     <app-button [fullWidth]="true" variant="danger" icon="faSolidCircleMinus"
@@ -79,3 +83,13 @@
   </div>
   }
 </div>
+
+@if (reservation(); as reservation) { @if (isReservationModalVisible()) { @switch
+(reservationModal()) { @case ('register-payment') {
+<app-register-payment-modal
+  [reservationId]="reservation.id"
+  [totalPrice]="reservation.totalPrice"
+  [paidAmount]="reservation.paidAmount"
+  (closed)="closeModal()"
+></app-register-payment-modal>
+} } } }

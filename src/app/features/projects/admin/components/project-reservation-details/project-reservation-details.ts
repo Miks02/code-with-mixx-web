@@ -1,4 +1,4 @@
-import { Component, computed, inject, input } from '@angular/core';
+import { Component, computed, inject, input, signal, WritableSignal } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
   faSolidArrowsRotate,
@@ -24,6 +24,7 @@ import {
   StatusMeta,
 } from '../../../utilities/project-labels';
 import { Router } from '@angular/router';
+import { RegisterPaymentModal, ReservationModalType } from '../../../../reservations';
 
 type ReservationStat = {
   icon: string;
@@ -32,7 +33,7 @@ type ReservationStat = {
 };
 
 @Component({
-  imports: [NgIcon, Button, ProjectCard],
+  imports: [NgIcon, Button, ProjectCard, RegisterPaymentModal],
   providers: [
     provideIcons({
       faSolidArrowsRotate,
@@ -56,6 +57,10 @@ export class ProjectReservationDetails {
   reservation = input<ProjectReservationItem>();
 
   private router = inject(Router);
+
+  reservationModal: WritableSignal<ReservationModalType | null> = signal(null);
+
+  isReservationModalVisible = computed(() => this.reservationModal() !== null);
 
   reservationStatus = computed<StatusMeta | null>(() => {
     const reservation = this.reservation();
@@ -95,5 +100,13 @@ export class ProjectReservationDetails {
 
   goToDetails(reservationId: number) {
     return this.router.navigate([`admin/projects/details/${reservationId}`])
+  }
+
+  openModal(type: ReservationModalType) {
+    this.reservationModal.set(type);
+  }
+
+  closeModal() {
+    this.reservationModal.set(null);
   }
 }
