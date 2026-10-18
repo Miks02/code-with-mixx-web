@@ -4,6 +4,7 @@ import { injectMutation, QueryClient } from '@tanstack/angular-query-experimenta
 import { lastValueFrom } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { PaymentRequest } from '../models/payment-request';
+import { UpdateStatusRequest } from '../models/update-status-request';
 
 @Service()
 export class ReservationService {
@@ -32,6 +33,15 @@ export class ReservationService {
             amount: request.amount,
           },
         ),
+      ),
+  }));
+
+  updateStatusMutation = injectMutation(() => ({
+    mutationFn: (request: UpdateStatusRequest) =>
+      lastValueFrom(
+        this.http.patch(`${this.apiUrl}/admin/reservations/${request.reservationId}/status`, {
+          reservationStatus: request.reservationStatus,
+        }),
       ),
   }));
 }

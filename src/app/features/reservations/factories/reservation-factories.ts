@@ -1,6 +1,8 @@
 import { Signal, WritableSignal } from '@angular/core';
 import { form, min, required, validate } from '@angular/forms/signals';
 import { PaymentFormModel } from '../models/payment-request';
+import { ReservationStatus } from '../models/reservation-status';
+import { UpdateStatusFormModel } from '../models/update-status-request';
 
 export function createRegisterPaymentForm(request: WritableSignal<PaymentFormModel>) {
   return form(request, (schemaPath) => {
@@ -22,5 +24,23 @@ export function createSubtractPaymentForm(request: WritableSignal<PaymentFormMod
       }
       return null; 
     })
+  });
+}
+
+export function createUpdateStatusForm(
+  request: WritableSignal<UpdateStatusFormModel>,
+  currentStatus: Signal<ReservationStatus>,
+) {
+  return form(request, (schemaPath) => {
+    required(schemaPath.reservationStatus, { message: 'Izaberite status rezervacije.' });
+    validate(schemaPath.reservationStatus, ({ value }) => {
+      if (value() === currentStatus()) {
+        return {
+          kind: 'sameStatus',
+          message: 'Izabrani status je isti kao trenutni.',
+        };
+      }
+      return null;
+    });
   });
 }
