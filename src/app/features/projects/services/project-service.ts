@@ -85,7 +85,29 @@ export class ProjectService {
       lastValueFrom(
         this.http.put(`${this.apiUrl}/admin/reservations/projects/${request.id}`, request),
       ),
-    onSuccess: () => this.invalidateQueries()
+    onSuccess: () => this.invalidateQueries(),
+  }));
+
+  archiveProjectReservationMutation = injectMutation(() => ({
+    mutationFn: (reservationId: number) =>
+      lastValueFrom(
+        this.http.post(`${this.apiUrl}/admin/reservations/projects/${reservationId}/archive`, {}),
+      ),
+    onSuccess: () =>
+      this.queryClient.invalidateQueries({
+        queryKey: ['paged-project-reservations'],
+      }),
+  }));
+
+  restoreProjectReservationMutation = injectMutation(() => ({
+    mutationFn: (reservationId: number) =>
+      lastValueFrom(
+        this.http.post(`${this.apiUrl}/admin/reservations/projects/${reservationId}/restore`, {}),
+      ),
+    onSuccess: () =>
+      this.queryClient.invalidateQueries({
+        queryKey: ['paged-project-reservations'],
+      }),
   }));
 
   private invalidateQueries() {
