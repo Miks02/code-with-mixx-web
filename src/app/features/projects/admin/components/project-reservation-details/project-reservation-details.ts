@@ -24,7 +24,12 @@ import {
   StatusMeta,
 } from '../../../utilities/project-labels';
 import { Router } from '@angular/router';
-import { RegisterPaymentModal, ReservationModalType, SubtractPaymentModal } from '../../../../reservations';
+import {
+  RegisterPaymentModal,
+  ReservationModalType,
+  SubtractPaymentModal,
+  UpdateStatusModal,
+} from '../../../../reservations';
 
 type ReservationStat = {
   icon: string;
@@ -33,7 +38,14 @@ type ReservationStat = {
 };
 
 @Component({
-  imports: [NgIcon, Button, ProjectCard, RegisterPaymentModal, SubtractPaymentModal],
+  imports: [
+    NgIcon,
+    Button,
+    ProjectCard,
+    RegisterPaymentModal,
+    SubtractPaymentModal,
+    UpdateStatusModal,
+  ],
   providers: [
     provideIcons({
       faSolidArrowsRotate,

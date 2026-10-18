@@ -47,7 +47,11 @@
   </div>
 
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full mt-auto">
-    <app-button [fullWidth]="true" variant="secondary" icon="faSolidArrowsRotate"
+    <app-button
+      (clicked)="openModal('update-status')"
+      [fullWidth]="true"
+      variant="secondary"
+      icon="faSolidArrowsRotate"
       >Promeni status</app-button
     >
     @if (!reservation.deletedAt) {
@@ -121,4 +125,10 @@
   [paidAmount]="reservation.paidAmount"
   (closed)="closeModal()"
 ></app-subtract-payment-modal>
+} @case ('update-status') {
+<app-update-status-modal
+  [reservationId]="reservation.id"
+  [currentStatus]="reservation.reservationStatus"
+  (closed)="closeModal()"
+></app-update-status-modal>
 } } } }
