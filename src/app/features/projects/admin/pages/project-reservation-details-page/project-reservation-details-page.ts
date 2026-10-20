@@ -112,6 +112,7 @@ export class ProjectReservationDetailsPage {
           githubLink: project.githubLink || null,
           downloadLink: project.downloadLink || null,
           notes: project.notes,
+          notesToDelete: project.notesToDelete,
         })),
       };
 

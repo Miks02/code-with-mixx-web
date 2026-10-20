@@ -65,7 +65,10 @@ export class ProjectReservationPricing {
   }
 
   onPaidShareSelected(share: number) {
-    const totalPrice = Number(this.reservationForm.totalPrice().value()) || 0;
+    const totalPrice = this.useProjectsSum()
+      ? this.projectsSum()
+      : Number(this.reservationForm.totalPrice().value()) || 0;
+    
     this.reservationForm.paidAmount().value.set(Math.round(totalPrice * share));
   }
 }

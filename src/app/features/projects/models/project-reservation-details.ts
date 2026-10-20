@@ -23,6 +23,7 @@ export type ProjectDetailsItem = {
   createdAt: string;
   updatedAt: string | null;
   notes: ProjectNoteDetails[];
+  notesToDelete: number[];
 };
 
 export type ProjectReservationDetails = {

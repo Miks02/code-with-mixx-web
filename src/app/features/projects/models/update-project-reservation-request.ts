@@ -8,5 +8,9 @@ export type UpdateProjectReservationRequest = {
   totalPrice: number,
   reservationStatus: ReservationStatus,
   projectsToDelete: number[],
-  projects: ProjectItem[]
+  projects: UpdateProjectItem[]
+}
+
+export type UpdateProjectItem = ProjectItem & {
+  notesToDelete: number[]
 }

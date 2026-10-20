@@ -33,6 +33,7 @@ export function createEmptyProject(): ProjectItemFormModel {
     projectType: ProjectType.Seminar,
     reservedAt: dateInputValue(),
     notes: [],
+    notesToDelete: [],
   };
 }
 
@@ -71,6 +72,7 @@ export function createReservationFormModel(
       githubLink: project.githubLink ?? '',
       downloadLink: project.downloadLink ?? '',
       notes: project.notes,
+      notesToDelete: []
     })),
   };
 }

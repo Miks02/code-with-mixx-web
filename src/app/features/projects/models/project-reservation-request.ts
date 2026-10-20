@@ -12,7 +12,8 @@ export type ProjectReservationRequest = {
 
 export type ProjectItemFormModel = Omit<ProjectItem, 'githubLink' | 'downloadLink'> & {
   githubLink: string,
-  downloadLink: string
+  downloadLink: string,
+  notesToDelete: number[]
 };
 
 export type ProjectReservationFormModel = Omit<ProjectReservationRequest, 'projects'> & {
