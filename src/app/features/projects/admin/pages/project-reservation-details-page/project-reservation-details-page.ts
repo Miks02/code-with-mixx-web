@@ -1,35 +1,19 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
+import { submit } from '@angular/forms/signals';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ToastService } from '../../../../../core/services/toast-service';
 import { Button } from '../../../../../shared/button/button';
 import { StudentLookup, StudentService } from '../../../../students';
 import { SubjectService } from '../../../../subjects';
 import { createReservationFormModel } from '../../../factories/project-factories';
+import { UpdateProjectReservationRequest } from '../../../models/update-project-reservation-request';
 import { ProjectFormService } from '../../../services/project-form-service';
 import { ProjectService } from '../../../services/project-service';
+import { PROJECT_RESERVATION_ERROR_MESSAGES } from '../../../utilities/project-error-messages';
 import { ProjectReservationListForm } from '../../components/project-reservation-list-form/project-reservation-list-form';
 import { ProjectReservationPricing } from '../../components/project-reservation-pricing/project-reservation-pricing';
 import { ProjectReservationSummary } from '../../components/project-reservation-summary/project-reservation-summary';
 import { StudentSelection } from '../../components/student-selection/student-selection';
-import { ProjectReservationRequest } from '../../../models/project-reservation-request';
-import { submit } from '@angular/forms/signals';
-import { ToastService } from '../../../../../core/services/toast-service';
-import { UpdateProjectReservationRequest } from '../../../models/update-project-reservation-request';
-
-const SERVER_ERROR_MESSAGES: Record<string, string> = {
-  'Student.NotFound': 'Izabrani student više ne postoji. Osvežite stranicu i izaberite drugog.',
-  'Subject.MultipleSubjectsMissing':
-    'Neki od izabranih predmeta više ne postoje. Osvežite stranicu i izaberite ponovo.',
-  'Reservation.NoProjectsProvided': 'Rezervacija mora imati barem jedan projekat.',
-  'Reservation.InvalidTotalPrice': 'Ukupna cena ne može biti negativna.',
-  'Reservation.InvalidAmount': 'Plaćeni iznos ne može biti negativan.',
-  'Project.NegativePrice': 'Cena projekta ne može biti negativna.',
-  'Project.InvalidProgress': 'Napredak projekta mora biti između 0 i 100.',
-  'Project.InvalidDateRange': 'Početak projekta ne može biti posle roka.',
-  'Project.InvalidReservationDate': 'Datum rezervacije ne može biti u budućnosti.',
-  'Project.GithubLinkIsTooLong': 'Github link ne može imati više od 200 karaktera.',
-  'Project.DownloadLinkIsTooLong': 'Download link ne može imati više od 200 karaktera.',
-  'Project.EmptyProjectNote': 'Beleške ne mogu biti prazne.',
-};
 
 @Component({
   imports: [
@@ -126,7 +110,7 @@ export class ProjectReservationDetailsPage {
           return;
         }
         this.toastService.showError(
-          SERVER_ERROR_MESSAGES[err?.error?.errorCode] ??
+          PROJECT_RESERVATION_ERROR_MESSAGES[err?.error?.errorCode] ??
             'Došlo je do greške prilikom ažuriranja rezervacije. Pokušajte ponovo kasnije.',
         );
       }
