@@ -58,6 +58,6 @@ export class ReservationService {
     this.queryClient.invalidateQueries({
       queryKey: projectReservationKeys.detail(reservationId),
     });
-    return this.queryClient.invalidateQueries({ queryKey: projectReservationKeys.summaries() });
+    return this.queryClient.invalidateQueries({ queryKey: projectReservationKeys.summary() });
   }
 }

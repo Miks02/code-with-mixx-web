@@ -28,18 +28,17 @@ export class ProjectService {
   getProjectsSummaryQuery(queryParams: Signal<ProjectQueryParams>) {
     const url = `${this.apiUrl}/admin/reservations/projects/summary`;
 
-    const params = queryParams();
-
     return injectQuery<ProjectsSummary>(() => ({
-      queryKey: projectReservationKeys.summary(params),
+      queryKey: projectReservationKeys.summary(),
       queryFn: async () => {
-        const response = await lastValueFrom(this.http.get<ProjectsSummary>(url, { params }));
+        const response = await lastValueFrom(
+          this.http.get<ProjectsSummary>(url, { params: queryParams() }),
+        );
 
         this.queryClient.setQueryData(
           projectReservationKeys.page(queryParams()),
           response.reservations,
         );
-
         return response;
       },
     }));
@@ -58,7 +57,7 @@ export class ProjectService {
           this.http.get<PagedResult<ProjectReservationItem>>(url, { params: queryParams() }),
         ),
       placeholderData: keepPreviousData,
-      enabled: queryResult.isSuccess(),
+      enabled: queryResult.isSuccess() && !queryResult.isFetching(),
     }));
   }
 
@@ -72,6 +71,7 @@ export class ProjectService {
           ),
         ),
       enabled: reservationId() !== undefined,
+      refetchOnWindowFocus: false
     }));
   }
 
@@ -115,6 +115,6 @@ export class ProjectService {
         queryKey: projectReservationKeys.detail(reservationId),
       });
     }
-    return this.queryClient.invalidateQueries({ queryKey: projectReservationKeys.summaries() });
+    return this.queryClient.invalidateQueries({ queryKey: projectReservationKeys.summary() });
   }
 }
