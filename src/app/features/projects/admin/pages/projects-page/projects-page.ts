@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, linkedSignal, signal } from '@angular/core';
 import { provideIcons } from '@ng-icons/core';
 import {
     faSolidBarsProgress,
@@ -61,6 +61,7 @@ export class ProjectsPage {
   subjectsLookupData = computed(() => this.subjectsLookupSource.data() ?? []);
   projectsSummaryData = computed(() => this.projectsSummarySource.data());
   reservationsData = computed(() => this.reservationsSource.data());
+  
   projectsSummaryPending = computed(() => this.projectsSummarySource.isPending());
   reservationsPending = computed(() => this.reservationsSource.isPending());
   reservationsFetching = computed(() => this.reservationsSource.isFetching());
@@ -70,7 +71,11 @@ export class ProjectsPage {
       this.projectService.restoreProjectReservationMutation.isPending(),
   );
 
-  protected readonly selectedReservation = signal<ProjectReservationItem | undefined>(undefined);
+  selectedReservation = linkedSignal<ProjectReservationItem[], ProjectReservationItem | undefined>({
+    source: () => this.reservationsData()?.items ?? [],
+    computation: (options, previous) =>
+      options.find((o) => o.id === previous?.value?.id) ?? options[0],
+  });
 
   onReservationSelected(reservation: ProjectReservationItem | undefined) {
     this.selectedReservation.set(reservation);
@@ -85,7 +90,6 @@ export class ProjectsPage {
     if (result !== DialogResult.Confirmed) return;
 
     this.projectService.archiveProjectReservationMutation.mutate(reservationId, {
-      onSuccess: () => this.updateSelectedReservationDeletedAt(reservationId, currentDate()),
       onError: () =>
         this.toastService.showError(
           'Došlo je do greške prilikom arhiviranja rezervacije. Pokušajte ponovo kasnije.',
@@ -102,18 +106,11 @@ export class ProjectsPage {
     if (result !== DialogResult.Confirmed) return;
 
     this.projectService.restoreProjectReservationMutation.mutate(reservationId, {
-      onSuccess: () => this.updateSelectedReservationDeletedAt(reservationId, null),
       onError: () =>
         this.toastService.showError(
           'Došlo je do greške prilikom vraćanja rezervacije. Pokušajte ponovo kasnije.',
         ),
     });
-  }
-
-  private updateSelectedReservationDeletedAt(reservationId: number, deletedAt: string | null) {
-    this.selectedReservation.update((reservation) =>
-      reservation?.id === reservationId ? { ...reservation, deletedAt } : reservation,
-    );
   }
 
   onSubjectIdsChange(subjectIds: number[]) {
