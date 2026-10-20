@@ -71,7 +71,7 @@ export class ProjectService {
             `${this.apiUrl}/admin/reservations/projects/${reservationId()}`,
           ),
         ),
-      enabled: reservationId !== undefined,
+      enabled: reservationId() !== undefined,
     }));
   }
 
