@@ -2,7 +2,13 @@ import { Component, computed, input, output } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { faSolidSpinner } from '@ng-icons/font-awesome/solid';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'ghost';
+export type ButtonVariant =
+  | 'primary'
+  | 'secondary'
+  | 'danger'
+  | 'ghost'
+  | 'ghost-light'
+  | 'ghost-danger';
 export type ButtonSize = 'sm' | 'md' | 'lg';
 
 @Component({
@@ -34,6 +40,8 @@ export class Button {
       secondary: 'bg-yellow-600 text-white hover:bg-yellow-800 shadow-lg',
       danger: 'bg-red-600 text-white hover:bg-red-500 shadow-lg',
       ghost: 'text-emerald-100 hover:opacity-70 hover:backdrop-blur-xl border border-emerald-200',
+      'ghost-light': 'text-emerald-900 border border-emerald-700 hover:bg-emerald-300/60',
+      'ghost-danger': 'text-red-700 border border-red-600 hover:bg-red-100/60',
     };
     return variants[this.variant()];
   });
