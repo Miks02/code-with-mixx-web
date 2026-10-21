@@ -2,6 +2,7 @@ import { Component, computed, inject, input, output, signal } from '@angular/cor
 import { FormField, submit } from '@angular/forms/signals';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
+  faSolidCalendarDays,
   faSolidCirclePlus,
   faSolidMoneyBillWave,
   faSolidXmark,
@@ -12,11 +13,13 @@ import { Button } from '../../../../../shared/button/button';
 import { createRegisterPaymentForm } from '../../../factories/reservation-factories';
 import { PaymentFormModel } from '../../../models/payment-request';
 import { ReservationService } from '../../../services/reservation-service';
+import { dateTimeInputValue } from '../../../../../core/utilities/date-helpers';
 
 @Component({
   imports: [NgIcon, Button, FormField],
   providers: [
     provideIcons({
+      faSolidCalendarDays,
       faSolidCirclePlus,
       faSolidMoneyBillWave,
       faSolidXmark,
@@ -37,7 +40,10 @@ export class RegisterPaymentModal {
 
   remainingAmount = computed(() => Math.max(0, this.totalPrice() - this.paidAmount()));
 
-  paymentModel = signal<PaymentFormModel>({ amount: 0 });
+  paymentModel = signal<PaymentFormModel>({
+    amount: 0,
+    transactionDate: dateTimeInputValue(),
+  });
   paymentForm = createRegisterPaymentForm(this.paymentModel);
   registerPaymentMutation = this.reservationService.registerPaymentMutation;
 
@@ -60,8 +66,13 @@ export class RegisterPaymentModal {
   totalPaid = computed(() => this.paidAmount() + this.paymentModel().amount)
 
   fillRemaining() {
-    this.paymentModel.set({ amount: this.remainingAmount() });
+    this.paymentModel.update((model) => ({ ...model, amount: this.remainingAmount() }));
     this.paymentForm.amount().markAsTouched();
+  }
+
+  fillTransactionDate() {
+    this.paymentModel.update((model) => ({ ...model, transactionDate: dateTimeInputValue() }));
+    this.paymentForm.transactionDate().markAsTouched();
   }
 
   onClose() {
@@ -77,6 +88,7 @@ export class RegisterPaymentModal {
         await this.registerPaymentMutation.mutateAsync({
           reservationId: this.reservationId(),
           amount: this.paymentModel().amount,
+          transactionDate: new Date(this.paymentModel().transactionDate).toISOString(),
         });
         this.toastService.showSuccess(
           `Uplata od ${priceConverter(this.paymentModel().amount)} je uspešno registrovana.`,

@@ -2,6 +2,7 @@ import { Component, computed, inject, input, output, signal } from '@angular/cor
 import { FormField, submit } from '@angular/forms/signals';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
+  faSolidCalendarDays,
   faSolidCircleMinus,
   faSolidMoneyBillWave,
   faSolidXmark,
@@ -12,11 +13,13 @@ import { Button } from '../../../../../shared/button/button';
 import { createSubtractPaymentForm } from '../../../factories/reservation-factories';
 import { PaymentFormModel } from '../../../models/payment-request';
 import { ReservationService } from '../../../services/reservation-service';
+import { dateTimeInputValue } from '../../../../../core/utilities/date-helpers';
 
 @Component({
   imports: [NgIcon, Button, FormField],
   providers: [
     provideIcons({
+      faSolidCalendarDays,
       faSolidCircleMinus,
       faSolidMoneyBillWave,
       faSolidXmark,
@@ -37,7 +40,10 @@ export class SubtractPaymentModal {
 
   remainingAmount = computed(() => Math.max(0, this.totalPrice() - this.paidAmount()));
 
-  paymentModel = signal<PaymentFormModel>({ amount: 0 });
+  paymentModel = signal<PaymentFormModel>({
+    amount: 0,
+    transactionDate: dateTimeInputValue(),
+  });
   paymentForm = createSubtractPaymentForm(this.paymentModel, this.paidAmount);
   subtractPaymentMutation = this.reservationService.subtractPaymentMutation;
 
@@ -62,8 +68,13 @@ export class SubtractPaymentModal {
   bonusAfterSubtract = computed(() => Math.max(0, this.paidAfterSubtract() - this.totalPrice()));
 
   fillPaidAmount() {
-    this.paymentModel.set({ amount: this.paidAmount() });
+    this.paymentModel.update((model) => ({ ...model, amount: this.paidAmount() }));
     this.paymentForm.amount().markAsTouched();
+  }
+
+  fillTransactionDate() {
+    this.paymentModel.update((model) => ({ ...model, transactionDate: dateTimeInputValue() }));
+    this.paymentForm.transactionDate().markAsTouched();
   }
 
   onClose() {
@@ -76,6 +87,7 @@ export class SubtractPaymentModal {
         await this.subtractPaymentMutation.mutateAsync({
           reservationId: this.reservationId(),
           amount: this.paymentModel().amount,
+          transactionDate: new Date(this.paymentModel().transactionDate).toISOString()
         });
         this.toastService.showSuccess(
           `Uplata od ${priceConverter(this.paymentModel().amount)} je uspešno skinuta.`,
