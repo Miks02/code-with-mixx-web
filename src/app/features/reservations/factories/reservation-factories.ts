@@ -1,8 +1,9 @@
 import { Signal, WritableSignal } from '@angular/core';
-import { form, min, required, validate } from '@angular/forms/signals';
+import { form, min, minLength, required, validate } from '@angular/forms/signals';
 import { PaymentFormModel } from '../models/payment-request';
 import { ReservationStatus } from '../models/reservation-status';
 import { UpdateStatusFormModel } from '../models/update-status-request';
+import { PaymentType } from '../../payments';
 
 export function createRegisterPaymentForm(request: WritableSignal<PaymentFormModel>) {
   return form(request, (schemaPath) => {
@@ -12,20 +13,35 @@ export function createRegisterPaymentForm(request: WritableSignal<PaymentFormMod
   });
 }
 
-export function createSubtractPaymentForm(request: WritableSignal<PaymentFormModel>, paidAmount: Signal<number>) {
+export function createSubtractPaymentForm(
+  request: WritableSignal<PaymentFormModel>,
+  paidAmount: Signal<number>,
+) {
   return form(request, (schemaPath) => {
     required(schemaPath.amount, { message: 'Unesite iznos koji se skida.' });
     required(schemaPath.transactionDate, { message: 'Unesite datum transakcije.' });
+    required(schemaPath.paymentType, { message: 'Izaberite vrstu transakcije.' });
+    validate(schemaPath.paymentType, ({ value }) => {
+      if (value() == PaymentType.payment) {
+        return {
+          kind: 'paymentTypeInvalid',
+          message: 'Transakcija mora biti tipa \'Povraćaj novca\' ili \'Poništenje\'.',
+        };
+      }
+      return null;
+    });
+    required(schemaPath.note, { message: 'Unesite beleške.' });
+    minLength(schemaPath.note, 20, { message: 'Beleške moraju imati najmanje 20 karaktera.' });
     min(schemaPath.amount, 1, { message: 'Iznos mora biti najmanje 1 RSD.' });
-    validate(schemaPath.amount, ({value}) => {
+    validate(schemaPath.amount, ({ value }) => {
       if (value() > paidAmount()) {
         return {
-          kind: "cantBeNegative",
-          message: 'Nije moguće skinuti više od ukupno uplaćenog iznosa.'
-        }
+          kind: 'cantBeNegative',
+          message: 'Nije moguće skinuti više od ukupno uplaćenog iznosa.',
+        };
       }
-      return null; 
-    })
+      return null;
+    });
   });
 }
 

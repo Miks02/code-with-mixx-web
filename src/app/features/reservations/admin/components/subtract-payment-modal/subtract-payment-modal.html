@@ -140,19 +140,63 @@
         </button>
       </div>
     </div>
+    <div class="flex flex-col col-span-2 gap-1.5 w-full">
+      <div class="flex items-baseline justify-between gap-2 px-1">
+        <label for="note" class="text-sm font-semibold text-emerald-900 shrink-0"
+          >Beleške (opciono)</label
+        >
+        @if ((paymentForm.note().touched() || paymentForm.note().dirty()) &&
+        paymentForm.note().errors().length) {
+        <p
+          class="text-xs text-red-600 text-right truncate"
+          [title]="paymentForm.note().errors()[0]?.message"
+        >
+          {{ paymentForm.note().errors()[0]?.message }}
+        </p>
+        }
+      </div>
+      <div
+        class="flex items-center gap-3 bg-emerald-700 rounded-lg shadow-lg px-4 py-3 focus-within:ring-2 focus-within:ring-amber-500 transition-200"
+        [class.ring-2]="paymentForm.note().touched() && paymentForm.note().errors().length"
+        [class.ring-red-400]="
+          (paymentForm.note().touched() || paymentForm.note().dirty()) &&  paymentForm.note().errors().length
+        "
+      >
+        <ng-icon class="shrink-0 text-emerald-100!" name="faSolidMoneyBillWave"></ng-icon>
+        <textarea
+          [formField]="paymentForm.note"
+          id="note"
+          class="w-full border-none outline-none bg-transparent text-white caret-white placeholder:text-emerald-100/50 scheme-dark"
+          placeholder="Beleške..."
+        ></textarea>
+      </div>
+    </div>
     <button type="submit" class="hidden"></button>
   </form>
 
-  <div class="self-end flex gap-2">
-    <app-button size="sm" variant="secondary" (click)="onClose()">Odustani</app-button>
-    <app-button
-      size="sm"
-      variant="danger"
-      icon="faSolidCircleMinus"
-      [loading]="subtractPaymentMutation.isPending()"
-      (click)="onSubmit()"
-    >
-      Potvrdi
-    </app-button>
+  <div class="flex w-full justify-between">
+    <div class="flex gap-2">
+      @for (option of paymentTypeOptions; track option.value) {
+      <app-button
+        size="sm"
+        [variant]="paymentModel().paymentType === option.value ? 'primary' : 'ghost-light'"
+        (clicked)="selectPaymentType(option.value)"
+      >
+        {{ option.label }}
+      </app-button>
+      }
+    </div>
+    <div class="flex gap-2">
+      <app-button size="sm" variant="secondary" (click)="onClose()">Odustani</app-button>
+      <app-button
+        size="sm"
+        variant="danger"
+        icon="faSolidCircleMinus"
+        [loading]="subtractPaymentMutation.isPending()"
+        (click)="onSubmit()"
+      >
+        Potvrdi
+      </app-button>
+    </div>
   </div>
 </div>

@@ -14,6 +14,7 @@ import { createRegisterPaymentForm } from '../../../factories/reservation-factor
 import { PaymentFormModel } from '../../../models/payment-request';
 import { ReservationService } from '../../../services/reservation-service';
 import { dateTimeInputValue } from '../../../../../core/utilities/date-helpers';
+import { PaymentType } from '../../../../payments';
 
 @Component({
   imports: [NgIcon, Button, FormField],
@@ -43,6 +44,8 @@ export class RegisterPaymentModal {
   paymentModel = signal<PaymentFormModel>({
     amount: 0,
     transactionDate: dateTimeInputValue(),
+    note: '',
+    paymentType: PaymentType.payment
   });
   paymentForm = createRegisterPaymentForm(this.paymentModel);
   registerPaymentMutation = this.reservationService.registerPaymentMutation;
@@ -89,6 +92,8 @@ export class RegisterPaymentModal {
           reservationId: this.reservationId(),
           amount: this.paymentModel().amount,
           transactionDate: new Date(this.paymentModel().transactionDate).toISOString(),
+          note: this.paymentModel().note || null,
+          paymentType: this.paymentModel().paymentType,
         });
         this.toastService.showSuccess(
           `Uplata od ${priceConverter(this.paymentModel().amount)} je uspešno registrovana.`,

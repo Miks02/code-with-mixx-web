@@ -14,6 +14,7 @@ import { createSubtractPaymentForm } from '../../../factories/reservation-factor
 import { PaymentFormModel } from '../../../models/payment-request';
 import { ReservationService } from '../../../services/reservation-service';
 import { dateTimeInputValue } from '../../../../../core/utilities/date-helpers';
+import { PaymentType } from '../../../../payments';
 
 @Component({
   imports: [NgIcon, Button, FormField],
@@ -43,6 +44,8 @@ export class SubtractPaymentModal {
   paymentModel = signal<PaymentFormModel>({
     amount: 0,
     transactionDate: dateTimeInputValue(),
+    note: '',
+    paymentType: PaymentType.reversal
   });
   paymentForm = createSubtractPaymentForm(this.paymentModel, this.paidAmount);
   subtractPaymentMutation = this.reservationService.subtractPaymentMutation;
@@ -72,6 +75,16 @@ export class SubtractPaymentModal {
     this.paymentForm.amount().markAsTouched();
   }
 
+  paymentTypeOptions = [
+    { label: 'Storniranje', value: PaymentType.reversal },
+    { label: 'Povraćaj novca', value: PaymentType.refund },
+  ];
+
+  selectPaymentType(paymentType: PaymentType) {
+    this.paymentModel.update((model) => ({ ...model, paymentType }));
+    this.paymentForm.paymentType().markAsTouched();
+  }
+
   fillTransactionDate() {
     this.paymentModel.update((model) => ({ ...model, transactionDate: dateTimeInputValue() }));
     this.paymentForm.transactionDate().markAsTouched();
@@ -87,7 +100,9 @@ export class SubtractPaymentModal {
         await this.subtractPaymentMutation.mutateAsync({
           reservationId: this.reservationId(),
           amount: this.paymentModel().amount,
-          transactionDate: new Date(this.paymentModel().transactionDate).toISOString()
+          transactionDate: new Date(this.paymentModel().transactionDate).toISOString(),
+          note: this.paymentModel().note || null,
+          paymentType: this.paymentModel().paymentType,
         });
         this.toastService.showSuccess(
           `Uplata od ${priceConverter(this.paymentModel().amount)} je uspešno skinuta.`,

@@ -35,6 +35,13 @@ const PAYMENT_TYPE_META: Record<PaymentType, PaymentTypeMeta> = {
     iconClasses: 'bg-red-700 text-red-100',
     amountClasses: 'text-red-700',
   },
+  [PaymentType.refund]: {
+    label: 'Povraćaj novca',
+    icon: 'faSolidCircleMinus',
+    sign: '−',
+    iconClasses: 'bg-red-700 text-red-100',
+    amountClasses: 'text-red-700',
+  },
 };
 
 @Component({
