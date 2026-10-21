@@ -9,6 +9,16 @@ export function dateConverter(date: string) {
   return newDate;
 }
 
+export function dateTimeConverter(date: string) {
+  return new Date(date).toLocaleString('sr-Latn-RS', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+}
+
 export function dateInputValue(daysFromToday = 0) {
   const date = new Date();
   date.setDate(date.getDate() + daysFromToday);
@@ -17,6 +27,14 @@ export function dateInputValue(daysFromToday = 0) {
   const day = String(date.getDate()).padStart(2, '0');
 
   return `${date.getFullYear()}-${month}-${day}`;
+}
+
+export function dateTimeInputValue(date = new Date()) {
+  const pad = (value: number) => String(value).padStart(2, '0');
+
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(
+    date.getHours(),
+  )}:${pad(date.getMinutes())}`;
 }
 
 export function currentDate() {
