@@ -1,4 +1,5 @@
 export enum PaymentType {
   payment = 'Payment',
-  reversal = 'Reversal'
+  reversal = 'Reversal',
+  refund = 'Refund',
 }
