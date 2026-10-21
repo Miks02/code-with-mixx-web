@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, signal } from '@angular/core';
+import { Component, computed, inject, input, signal } from '@angular/core';
 import { FormField } from '@angular/forms/signals';
 import { ReservationStatus } from '../../../../reservations';
 import { ProjectFormService } from '../../../services/project-form-service';
@@ -37,6 +37,8 @@ export class ProjectReservationPricing {
   projectFormService = inject(ProjectFormService);
 
   reservationForm = this.projectFormService.reservationForm;
+
+  disablePaidAmount = input<boolean>(false);
 
   reservationStatuses = Object.values(ReservationStatus);
   reservationStatusStyles = RESERVATION_STATUSES;

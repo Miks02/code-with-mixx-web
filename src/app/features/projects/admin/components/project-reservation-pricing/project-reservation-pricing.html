@@ -72,6 +72,15 @@
       <label for="reservation-paid-amount" class="text-sm text-emerald-300 h-6 flex items-center">
         Plaćeno (RSD)
       </label>
+      @if (disablePaidAmount()) {
+      <input
+        id="reservation-paid-amount"
+        type="number"
+        [value]="reservationForm.paidAmount().value()"
+        disabled
+        class="w-full rounded-lg bg-emerald-900/80 px-3 py-2.5 text-emerald-100 outline-none opacity-60 cursor-not-allowed scheme-dark"
+      />
+      } @else {
       <input
         [formField]="reservationForm.paidAmount"
         id="reservation-paid-amount"
@@ -104,6 +113,7 @@
           Ceo iznos
         </button>
       </div>
+      }
     </div>
   </div>
 </div>

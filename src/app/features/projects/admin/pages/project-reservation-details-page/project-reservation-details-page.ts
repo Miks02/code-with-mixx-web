@@ -84,7 +84,6 @@ export class ProjectReservationDetailsPage {
       const request: UpdateProjectReservationRequest = {
         id: model.id,
         studentId: model.studentId,
-        paidAmount: model.paidAmount,
         totalPrice: model.totalPrice,
         reservationStatus: model.reservationStatus,
         projectsToDelete: model.projectsToDelete,
