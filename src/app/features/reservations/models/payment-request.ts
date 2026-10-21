@@ -11,3 +11,5 @@ export type PaymentRequest = {
 export type PaymentFormModel = Omit<PaymentRequest, 'reservationId' | 'note'> & {
   note: string
 };
+
+export type RegisterPaymentFormModel = Omit<PaymentFormModel, 'paymentType'>;

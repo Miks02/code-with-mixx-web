@@ -1,14 +1,15 @@
 import { Signal, WritableSignal } from '@angular/core';
 import { form, min, minLength, required, validate } from '@angular/forms/signals';
-import { PaymentFormModel } from '../models/payment-request';
+import { PaymentFormModel, RegisterPaymentFormModel } from '../models/payment-request';
 import { ReservationStatus } from '../models/reservation-status';
 import { UpdateStatusFormModel } from '../models/update-status-request';
 import { PaymentType } from '../../payments';
 
-export function createRegisterPaymentForm(request: WritableSignal<PaymentFormModel>) {
+export function createRegisterPaymentForm(request: WritableSignal<RegisterPaymentFormModel>) {
   return form(request, (schemaPath) => {
     required(schemaPath.amount, { message: 'Unesite iznos uplate.' });
     required(schemaPath.transactionDate, { message: 'Unesite datum transakcije.' });
+    minLength(schemaPath.note, 20, { message: 'Beleške moraju imati najmanje 20 karaktera.' });
     min(schemaPath.amount, 1, { message: 'Iznos uplate mora biti najmanje 1 RSD.' });
   });
 }

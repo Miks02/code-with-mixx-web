@@ -5,13 +5,14 @@ import {
   faSolidCalendarDays,
   faSolidCirclePlus,
   faSolidMoneyBillWave,
+  faSolidNoteSticky,
   faSolidXmark,
 } from '@ng-icons/font-awesome/solid';
 import { ToastService } from '../../../../../core/services/toast-service';
 import { priceConverter } from '../../../../../core/utilities/price-helpers';
 import { Button } from '../../../../../shared/button/button';
 import { createRegisterPaymentForm } from '../../../factories/reservation-factories';
-import { PaymentFormModel } from '../../../models/payment-request';
+import { RegisterPaymentFormModel } from '../../../models/payment-request';
 import { ReservationService } from '../../../services/reservation-service';
 import { dateTimeInputValue } from '../../../../../core/utilities/date-helpers';
 import { PaymentType } from '../../../../payments';
@@ -23,6 +24,7 @@ import { PaymentType } from '../../../../payments';
       faSolidCalendarDays,
       faSolidCirclePlus,
       faSolidMoneyBillWave,
+      faSolidNoteSticky,
       faSolidXmark,
     }),
   ],
@@ -41,11 +43,10 @@ export class RegisterPaymentModal {
 
   remainingAmount = computed(() => Math.max(0, this.totalPrice() - this.paidAmount()));
 
-  paymentModel = signal<PaymentFormModel>({
+  paymentModel = signal<RegisterPaymentFormModel>({
     amount: 0,
     transactionDate: dateTimeInputValue(),
     note: '',
-    paymentType: PaymentType.payment
   });
   paymentForm = createRegisterPaymentForm(this.paymentModel);
   registerPaymentMutation = this.reservationService.registerPaymentMutation;
@@ -73,6 +74,13 @@ export class RegisterPaymentModal {
     this.paymentForm.amount().markAsTouched();
   }
 
+  showNote = signal(false);
+
+  toggleNote() {
+    if (this.showNote()) this.paymentModel.update((model) => ({ ...model, note: '' }));
+    this.showNote.update((show) => !show);
+  }
+
   fillTransactionDate() {
     this.paymentModel.update((model) => ({ ...model, transactionDate: dateTimeInputValue() }));
     this.paymentForm.transactionDate().markAsTouched();
@@ -93,7 +101,7 @@ export class RegisterPaymentModal {
           amount: this.paymentModel().amount,
           transactionDate: new Date(this.paymentModel().transactionDate).toISOString(),
           note: this.paymentModel().note || null,
-          paymentType: this.paymentModel().paymentType,
+          paymentType: PaymentType.payment,
         });
         this.toastService.showSuccess(
           `Uplata od ${priceConverter(this.paymentModel().amount)} je uspešno registrovana.`,
