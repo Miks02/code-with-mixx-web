@@ -1,5 +1,7 @@
 export const reservationKeys = {
   all: ['reservations'] as const,
+  payments: (reservationId: number) => [...reservationKeys.all, 'payments', reservationId] as const,
+  allPayments: () => [...reservationKeys.all, 'payments'] as const,
 };
 
 export const projectReservationKeys = {
