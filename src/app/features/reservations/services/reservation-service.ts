@@ -1,11 +1,13 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Service } from '@angular/core';
-import { injectMutation, QueryClient } from '@tanstack/angular-query-experimental';
+import { inject, Service, Signal } from '@angular/core';
+import { injectMutation, injectQuery, QueryClient } from '@tanstack/angular-query-experimental';
 import { lastValueFrom } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { PaymentRequest } from '../models/payment-request';
+import { ReservationPaymentHistory } from '../models/reservation-payment-history';
 import { UpdateStatusRequest } from '../models/update-status-request';
 import { projectReservationKeys } from '../utilities/reservation-keys';
+import { reservationKeys } from '../utilities/reservation-keys';
 
 @Service()
 export class ReservationService {
@@ -14,14 +16,26 @@ export class ReservationService {
 
   private apiUrl = environment.apiUrl;
 
+  getPaymentHistoryForReservationQuery(reservationId: Signal<number>, enabled: Signal<boolean>) {
+    return injectQuery(() => ({
+      queryKey: reservationKeys.payments(reservationId()),
+      queryFn: () =>
+        lastValueFrom(
+          this.http.get<ReservationPaymentHistory>(
+            `${this.apiUrl}/reservations/${reservationId()}/payments`,
+          ),
+        ),
+      enabled: enabled() && reservationId() > 0,
+    }));
+  }
+
   registerPaymentMutation = injectMutation(() => ({
     mutationFn: (request: PaymentRequest) =>
       lastValueFrom(
         this.http.post(
-          `${this.apiUrl}/admin/reservations/${request.reservationId}/payments/submit`,
-          {
-            amount: request.amount,
-          },
+          `${this.apiUrl}/admin/reservations/${request.reservationId}/payments/register`,
+
+          request,
         ),
       ),
     onSuccess: (_, request) => this.invalidateQueries(request.reservationId),
@@ -32,9 +46,7 @@ export class ReservationService {
       lastValueFrom(
         this.http.post(
           `${this.apiUrl}/admin/reservations/${request.reservationId}/payments/subtract`,
-          {
-            amount: request.amount,
-          },
+          request,
         ),
       ),
     onSuccess: (_, request) => this.invalidateQueries(request.reservationId),
@@ -58,6 +70,7 @@ export class ReservationService {
     this.queryClient.invalidateQueries({
       queryKey: projectReservationKeys.detail(reservationId),
     });
+    this.queryClient.invalidateQueries({ queryKey: reservationKeys.payments(reservationId) });
     return this.queryClient.invalidateQueries({ queryKey: projectReservationKeys.summary() });
   }
 }

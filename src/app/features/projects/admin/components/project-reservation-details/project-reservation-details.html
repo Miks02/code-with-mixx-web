@@ -48,6 +48,14 @@
 
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full mt-auto">
     <app-button
+      (clicked)="openModal('payment-history')"
+      [fullWidth]="true"
+      variant="ghost"
+      icon="faSolidMoneyBill1"
+      class="sm:col-span-2"
+      >Pregled uplata</app-button
+    >
+    <app-button
       (clicked)="openModal('update-status')"
       [fullWidth]="true"
       variant="secondary"
@@ -131,4 +139,10 @@
   [currentStatus]="reservation.reservationStatus"
   (closed)="closeModal()"
 ></app-update-status-modal>
+} @case ('payment-history') {
+<app-reservation-payment-history-modal
+  [paymentHistory]="paymentHistory()"
+  [isLoading]="isPaymentHistoryLoading()"
+  (closed)="closeModal()"
+></app-reservation-payment-history-modal>
 } } } }

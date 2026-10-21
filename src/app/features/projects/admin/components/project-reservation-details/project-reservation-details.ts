@@ -10,6 +10,7 @@ import {
   faSolidGift,
   faSolidHandPointer,
   faSolidHourglassHalf,
+  faSolidMoneyBill1,
   faSolidMoneyBillWave,
   faSolidPercent,
 } from '@ng-icons/font-awesome/solid';
@@ -27,6 +28,8 @@ import { Router } from '@angular/router';
 import {
   RegisterPaymentModal,
   ReservationModalType,
+  ReservationPaymentHistoryModal,
+  ReservationService,
   SubtractPaymentModal,
   UpdateStatusModal,
 } from '../../../../reservations';
@@ -43,6 +46,7 @@ type ReservationStat = {
     Button,
     ProjectCard,
     RegisterPaymentModal,
+    ReservationPaymentHistoryModal,
     SubtractPaymentModal,
     UpdateStatusModal,
   ],
@@ -59,6 +63,7 @@ type ReservationStat = {
       faSolidHourglassHalf,
       faSolidMoneyBillWave,
       faSolidPercent,
+      faSolidMoneyBill1
     }),
   ],
   selector: 'app-project-reservation-details',
@@ -72,10 +77,19 @@ export class ProjectReservationDetails {
   restoreReservation = output<number>();
 
   private router = inject(Router);
+  private reservationService = inject(ReservationService);
 
   reservationModal: WritableSignal<ReservationModalType | null> = signal(null);
 
   isReservationModalVisible = computed(() => this.reservationModal() !== null);
+
+  private reservationId = computed(() => this.reservation()?.id ?? 0);
+  private paymentHistoryQuery = this.reservationService.getPaymentHistoryForReservationQuery(
+    this.reservationId,
+    computed(() => this.reservationModal() === 'payment-history'),
+  );
+  paymentHistory = computed(() => this.paymentHistoryQuery.data());
+  isPaymentHistoryLoading = this.paymentHistoryQuery.isLoading;
 
   reservationStatus = computed<StatusMeta | null>(() => {
     const reservation = this.reservation();

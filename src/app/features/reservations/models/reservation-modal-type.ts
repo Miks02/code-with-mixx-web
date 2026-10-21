@@ -1,1 +1,1 @@
-export type ReservationModalType = "register-payment" | 'subtract-payment' | 'update-status'
+export type ReservationModalType = "register-payment" | 'subtract-payment' | 'update-status' | 'payment-history'

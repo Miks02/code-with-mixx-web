@@ -1,15 +1,14 @@
 import { Component, computed, inject, linkedSignal, signal } from '@angular/core';
 import { provideIcons } from '@ng-icons/core';
 import {
-    faSolidBarsProgress,
-    faSolidCircleCheck,
-    faSolidDiagramProject,
-    faSolidHourglassHalf,
+  faSolidBarsProgress,
+  faSolidCircleCheck,
+  faSolidDiagramProject,
+  faSolidHourglassHalf,
 } from '@ng-icons/font-awesome/solid';
-import { currentDate } from '../../../../../core/utilities/date-helpers';
-import { ToastService } from '../../../../../core/services/toast-service';
-import { DialogService } from '../../../../../core/services/dialog-service';
 import { DialogResult } from '../../../../../core/components/dialog/dialog';
+import { DialogService } from '../../../../../core/services/dialog-service';
+import { ToastService } from '../../../../../core/services/toast-service';
 import { StatsCard } from '../../../../../shared/stats-card/stats-card';
 import { ReservationStatus } from '../../../../reservations';
 import { SubjectService } from '../../../../subjects';
