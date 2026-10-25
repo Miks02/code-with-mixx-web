@@ -38,7 +38,7 @@ export class ProjectReservationPricing {
 
   reservationForm = this.projectFormService.reservationForm;
 
-  disablePaidAmount = input<boolean>(false);
+  totalPaid = input<number>();
 
   reservationStatuses = Object.values(ReservationStatus);
   reservationStatusStyles = RESERVATION_STATUSES;
@@ -64,13 +64,5 @@ export class ProjectReservationPricing {
 
   onUseProjectsSumChanged(event: Event) {
     this.useProjectsSum.set((event.target as HTMLInputElement).checked);
-  }
-
-  onPaidShareSelected(share: number) {
-    const totalPrice = this.useProjectsSum()
-      ? this.projectsSum()
-      : Number(this.reservationForm.totalPrice().value()) || 0;
-    
-    this.reservationForm.paidAmount().value.set(Math.round(totalPrice * share));
   }
 }

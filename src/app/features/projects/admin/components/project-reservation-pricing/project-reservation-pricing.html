@@ -3,7 +3,10 @@
     <h2 class="text-xl text-emerald-100 font-semibold flex gap-2 items-center">Cena i status</h2>
   </div>
 
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+  <div
+    [class]="totalPaid() === undefined ? 'md:grid-cols-2' : 'md:grid-cols-3'"
+    class="grid grid-cols-1 gap-4"
+  >
     <div class="flex flex-col gap-2">
       <p class="text-sm text-emerald-300 h-6 flex items-center">Status rezervacije</p>
       <div class="flex flex-wrap gap-2">
@@ -68,52 +71,20 @@
       }
     </div>
 
+    @if (totalPaid() !== undefined) {
     <div class="flex flex-col gap-2">
       <label for="reservation-paid-amount" class="text-sm text-emerald-300 h-6 flex items-center">
         Plaćeno (RSD)
       </label>
-      @if (disablePaidAmount()) {
       <input
         id="reservation-paid-amount"
         type="number"
-        [value]="reservationForm.paidAmount().value()"
+        [value]="totalPaid()"
         disabled
         class="w-full rounded-lg bg-emerald-900/80 px-3 py-2.5 text-emerald-100 outline-none opacity-60 cursor-not-allowed scheme-dark"
       />
-      } @else {
-      <input
-        [formField]="reservationForm.paidAmount"
-        id="reservation-paid-amount"
-        type="number"
-        class="w-full rounded-lg bg-emerald-900/80 focus:bg-emerald-900 px-3 py-2.5 text-emerald-100 outline-none scheme-dark transition-200"
-      />
-      @if (reservationForm.paidAmount().errors().length) {
-      <p class="text-sm text-red-400">{{ reservationForm.paidAmount().errors()[0]?.message }}</p>
-      }
-      <div class="flex flex-wrap gap-2">
-        <button
-          type="button"
-          (click)="onPaidShareSelected(0)"
-          class="rounded-lg px-3 py-1.5 text-sm font-semibold bg-emerald-900 text-emerald-100 hover:bg-emerald-800 cursor-pointer active:scale-95 transition-200"
-        >
-          Ništa
-        </button>
-        <button
-          type="button"
-          (click)="onPaidShareSelected(0.5)"
-          class="rounded-lg px-3 py-1.5 text-sm font-semibold bg-emerald-900 text-emerald-100 hover:bg-emerald-800 cursor-pointer active:scale-95 transition-200"
-        >
-          50%
-        </button>
-        <button
-          type="button"
-          (click)="onPaidShareSelected(1)"
-          class="rounded-lg px-3 py-1.5 text-sm font-semibold bg-emerald-900 text-emerald-100 hover:bg-emerald-800 cursor-pointer active:scale-95 transition-200"
-        >
-          Ceo iznos
-        </button>
-      </div>
-      }
+      <p class="text-sm text-emerald-100/70">Menja se isključivo kroz uplate.</p>
     </div>
+    }
   </div>
 </div>

@@ -13,7 +13,9 @@
   </div>
 
   <div class="flex flex-col gap-4 min-w-0 lg:col-span-2">
-    <app-project-reservation-pricing [disablePaidAmount]="true"></app-project-reservation-pricing>
+    <app-project-reservation-pricing
+      [totalPaid]="reservationDetails()?.paidAmount ?? 0"
+    ></app-project-reservation-pricing>
 
     <app-project-reservation-list-form
       [subjectsLookup]="subjectsLookup()"
@@ -26,6 +28,9 @@
       [selectedStudent]="selectedStudent()"
       (studentSelected)="onStudentSelected($event)"
     ></app-student-selection>
-    <app-project-reservation-summary (submitClicked)="onSubmit()"></app-project-reservation-summary>
+    <app-project-reservation-summary
+      [totalPaid]="reservationDetails()?.paidAmount ?? 0"
+      (submitClicked)="onSubmit()"
+    ></app-project-reservation-summary>
   </div>
 </div>

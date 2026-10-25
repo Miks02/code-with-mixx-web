@@ -1,4 +1,4 @@
-import { Component, computed, inject, output } from '@angular/core';
+import { Component, computed, inject, input, output } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { faSolidCheck, faSolidCircleCheck, faSolidCircleXmark } from '@ng-icons/font-awesome/solid';
 import { priceConverter } from '../../../../../core/utilities/price-helpers';
@@ -27,6 +27,7 @@ type SummaryCheck = {
   templateUrl: './project-reservation-summary.html',
 })
 export class ProjectReservationSummary {
+  totalPaid = input<number>(0);
   submitClicked = output<void>();
 
   projectFormService = inject(ProjectFormService);
@@ -39,7 +40,6 @@ export class ProjectReservationSummary {
 
   projects = computed(() => this.reservationModel().projects);
   totalPrice = computed(() => this.reservationModel().totalPrice || 0);
-  paidAmount = computed(() => this.reservationModel().paidAmount || 0);
   projectsSum = computed(() => this.projects().reduce((sum, project) => sum + project.price, 0));
 
   discountRate = computed(() => {
@@ -49,11 +49,11 @@ export class ProjectReservationSummary {
     return Math.round(((projectsSum - this.totalPrice()) / projectsSum) * 10000) / 100;
   });
 
-  bonus = computed(() => Math.max(0, this.paidAmount() - this.totalPrice()));
+  bonus = computed(() => Math.max(0, this.totalPaid() - this.totalPrice()));
 
   paymentStatus = computed(() => {
-    if (this.paidAmount() <= 0) return PAYMENT_STATUS_META[PaymentStatus.Pending];
-    if (this.paidAmount() < this.totalPrice())
+    if (this.totalPaid() <= 0) return PAYMENT_STATUS_META[PaymentStatus.Pending];
+    if (this.totalPaid() < this.totalPrice())
       return PAYMENT_STATUS_META[PaymentStatus.PartiallyPaid];
 
     return PAYMENT_STATUS_META[PaymentStatus.Paid];
@@ -62,10 +62,10 @@ export class ProjectReservationSummary {
   stats = computed<SummaryStat[]>(() => {
     let stats: SummaryStat[] = [
       { label: 'Ukupna cena', value: priceConverter(this.totalPrice()) },
-      { label: 'Plaćeno', value: priceConverter(this.paidAmount()) },
+      { label: 'Plaćeno', value: priceConverter(this.totalPaid()) },
       {
         label: 'Preostalo',
-        value: priceConverter(Math.max(0, this.totalPrice() - this.paidAmount())),
+        value: priceConverter(Math.max(0, this.totalPrice() - this.totalPaid())),
       },
     ];
 
@@ -79,10 +79,10 @@ export class ProjectReservationSummary {
       stats = stats.filter((s) => s.label !== 'Ukupna cena');
       stats.push({ label: 'Ukupna cena', value: 'Besplatno' });
     }
-    if (this.paidAmount() === 0) {
+    if (this.totalPaid() === 0) {
       stats = stats.filter((s) => s.label !== 'Plaćeno');
     }
-    if (this.paidAmount() >= this.totalPrice()) {
+    if (this.totalPaid() >= this.totalPrice()) {
       stats = stats.filter((s) => s.label !== 'Preostalo');
     }
 

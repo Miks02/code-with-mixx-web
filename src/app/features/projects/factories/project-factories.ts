@@ -41,7 +41,6 @@ export function createEmptyReservation(): ProjectReservationFormModel {
   return {
     id: 0,
     studentId: '',
-    paidAmount: 0,
     totalPrice: 0,
     projectsToDelete: [],
     reservedAt: '',
@@ -56,7 +55,6 @@ export function createReservationFormModel(
   return {
     id: details.id,
     studentId: details.studentId,
-    paidAmount: details.paidAmount,
     totalPrice: details.totalPrice,
     reservationStatus: details.reservationStatus,
     reservedAt: details.reservedAt ?? '',
@@ -101,7 +99,6 @@ export function createProjectReservationFormFactory(
   return form(request, (schemaPath) => {
     required(schemaPath.studentId, { message: 'Izaberite studenta.' });
     min(schemaPath.totalPrice, 0, { message: 'Ukupna cena rezervacije može biti najmanje 0 RSD.' });
-    min(schemaPath.paidAmount, 0, { message: 'Vrednost mora biti 0 ili više' });
     required(schemaPath.reservedAt, { message: 'Unesite datum rezervisanja' });
     validate(schemaPath.reservedAt, ({ value }) => {
       if (!isValidDate(value())) {

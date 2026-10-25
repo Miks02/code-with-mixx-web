@@ -4,7 +4,6 @@ import { ProjectItem } from './project-item';
 export type ProjectReservationRequest = {
   id: number,
   studentId: string,
-  paidAmount: number,
   totalPrice: number,
   reservationStatus: ReservationStatus,
   reservedAt: string,

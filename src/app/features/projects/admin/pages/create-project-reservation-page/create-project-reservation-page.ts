@@ -65,7 +65,6 @@ export class CreateProjectReservationPage {
       const request: ProjectReservationRequest = {
         id: 0,
         studentId: model.studentId,
-        paidAmount: model.paidAmount,
         totalPrice: model.totalPrice,
         reservedAt: model.reservedAt,
         reservationStatus: model.reservationStatus,
