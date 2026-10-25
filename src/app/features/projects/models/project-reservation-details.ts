@@ -37,6 +37,7 @@ export type ProjectReservationDetails = {
   totalPrice: number;
   paidAmount: number;
   discountRate: number;
+  reservedAt: string;
   bonus: number;
   notes: string | null;
   createdAt: string;

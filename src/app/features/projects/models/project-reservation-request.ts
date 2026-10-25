@@ -7,6 +7,7 @@ export type ProjectReservationRequest = {
   paidAmount: number,
   totalPrice: number,
   reservationStatus: ReservationStatus,
+  reservedAt: string,
   projects: ProjectItem[]
 };
 

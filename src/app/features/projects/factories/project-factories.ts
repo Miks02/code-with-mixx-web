@@ -44,6 +44,7 @@ export function createEmptyReservation(): ProjectReservationFormModel {
     paidAmount: 0,
     totalPrice: 0,
     projectsToDelete: [],
+    reservedAt: '',
     reservationStatus: ReservationStatus.Confirmed,
     projects: [createEmptyProject()],
   };
@@ -58,6 +59,7 @@ export function createReservationFormModel(
     paidAmount: details.paidAmount,
     totalPrice: details.totalPrice,
     reservationStatus: details.reservationStatus,
+    reservedAt: details.reservedAt ?? '',
     projectsToDelete: [],
     projects: details.projects.map((project) => ({
       id: project.id,
@@ -72,7 +74,7 @@ export function createReservationFormModel(
       githubLink: project.githubLink ?? '',
       downloadLink: project.downloadLink ?? '',
       notes: project.notes,
-      notesToDelete: []
+      notesToDelete: [],
     })),
   };
 }
@@ -87,6 +89,12 @@ function isAfter(date: string, other: string): boolean {
   return Date.parse(date) > Date.parse(other);
 }
 
+function isBefore(date: string, other: string): boolean {
+  if (!date || !other || !isValidDate(date) || !isValidDate(other)) return false;
+
+  return Date.parse(date) < Date.parse(other);
+}
+
 export function createProjectReservationFormFactory(
   request: WritableSignal<ProjectReservationFormModel>,
 ) {
@@ -94,6 +102,16 @@ export function createProjectReservationFormFactory(
     required(schemaPath.studentId, { message: 'Izaberite studenta.' });
     min(schemaPath.totalPrice, 0, { message: 'Ukupna cena rezervacije može biti najmanje 0 RSD.' });
     min(schemaPath.paidAmount, 0, { message: 'Vrednost mora biti 0 ili više' });
+    required(schemaPath.reservedAt, { message: 'Unesite datum rezervisanja' });
+    validate(schemaPath.reservedAt, ({ value }) => {
+      if (!isValidDate(value())) {
+        return { kind: 'invalidDate', message: 'Datum rezervacije nije validan' };
+      }
+      if (value() > dateInputValue()) {
+        return { kind: 'futureDate', message: 'Datum rezervisanja ne može biti u budućnosti' };
+      }
+      return null;
+    });
     minLength(schemaPath.projects, 1, { message: 'Rezervacija mora imati barem 1 projekat' });
     applyEach(schemaPath.projects, (project) => {
       min(project.subjectId, 1, { message: 'Izaberite predmet projekta.' });
@@ -108,6 +126,9 @@ export function createProjectReservationFormFactory(
         }
         if (isAfter(value(), valueOf(project.endDate))) {
           return { kind: 'dateOrder', message: 'Početak ne može biti posle roka' };
+        }
+        if (isBefore(value(), request().reservedAt)) {
+          return { kind: 'dateOrder', message: 'Početak ne može biti pre datuma rezervisanja' };
         }
         return null;
       });
@@ -125,7 +146,10 @@ export function createProjectReservationFormFactory(
           return { kind: 'invalidDate', message: 'Datum rezervacije nije validan' };
         }
         if (value() > dateInputValue()) {
-          return { kind: 'futureDate', message: 'Datum rezervisanja ne može biti u budućnosti' };
+          return {
+            kind: 'futureDate',
+            message: 'Datum rezervisanja projekta ne može biti u budućnosti',
+          };
         }
         if (isAfter(value(), valueOf(project.endDate))) {
           return { kind: 'dateOrder', message: 'Rezervacija ne može biti posle roka' };

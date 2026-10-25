@@ -87,6 +87,7 @@ export class ProjectReservationDetailsPage {
         totalPrice: model.totalPrice,
         reservationStatus: model.reservationStatus,
         projectsToDelete: model.projectsToDelete,
+        reservedAt: model.reservedAt,
         projects: model.projects.map((project) => ({
           ...project,
           startDate: project.startDate,

@@ -67,6 +67,7 @@ export class CreateProjectReservationPage {
         studentId: model.studentId,
         paidAmount: model.paidAmount,
         totalPrice: model.totalPrice,
+        reservedAt: model.reservedAt,
         reservationStatus: model.reservationStatus,
         projects: model.projects.map((project) => ({
           ...project,
