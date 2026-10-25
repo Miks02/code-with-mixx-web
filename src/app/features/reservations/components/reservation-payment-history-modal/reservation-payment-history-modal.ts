@@ -1,4 +1,4 @@
-import { Component, computed, input, output } from '@angular/core';
+import { Component, computed, input, output, signal } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
   faSolidCircleMinus,
@@ -62,8 +62,13 @@ export class ReservationPaymentHistoryModal {
   paymentHistory = input<ReservationPaymentHistory>();
   isLoading = input.required<boolean>();
   closed = output<void>();
+  expandedNoteId = signal<number | null>(null);
 
   skeletonRows = [0, 1, 2];
+
+  toggleNote(paymentId: number) {
+    this.expandedNoteId.update((id) => (id === paymentId ? null : paymentId));
+  }
 
   payments = computed(() =>
     [...(this.paymentHistory()?.payments ?? [])].map((payment) => ({

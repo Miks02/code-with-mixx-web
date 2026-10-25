@@ -6,5 +6,6 @@ export type PaymentTransactionItem = {
   amount: number,
   transactionDate: string,
   paymentType: PaymentType,
+  note: string | null,
   createdAt: string,
 }
