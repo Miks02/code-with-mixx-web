@@ -15,6 +15,20 @@
     }
   </div>
 
+  <form class="flex flex-col gap-1">
+    <label for="reservationDate" class="text-sm text-emerald-300">Datum rezervisanja</label>
+    <input
+      id="reservationDate"
+      [formField]="reservationForm.reservedAt"
+      type="date"
+      class="w-full rounded-lg bg-emerald-950/80 px-3 py-2.5 text-emerald-100 outline-none focus:outline-1 focus:outline-emerald-300 scheme-dark"
+    />
+    @if (reservationForm.reservedAt().touched() || reservationForm.reservedAt().dirty() &&
+    reservationForm.reservedAt().errors().length) {
+    <p class="text-sm text-red-400">{{ reservationForm.reservedAt().errors()[0]?.message }}</p>
+    }
+  </form>
+
   <div class="flex flex-col gap-2">
     <p class="text-emerald-100 font-semibold">Projekti ({{ projects().length }})</p>
     <div class="flex flex-col gap-2 max-h-62 overflow-y-auto pr-2">

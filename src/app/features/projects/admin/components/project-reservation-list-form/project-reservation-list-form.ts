@@ -1,27 +1,26 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
-  afterNextRender,
-  Component,
-  computed,
-  ElementRef,
-  inject,
-  Injector,
-  input,
-  viewChild,
+    afterNextRender,
+    Component,
+    computed,
+    ElementRef,
+    inject,
+    Injector,
+    input,
+    viewChild,
 } from '@angular/core';
 import { FormField } from '@angular/forms/signals';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
-  faSolidComment,
-  faSolidPlus,
-  faSolidTrash,
-  faSolidXmark,
+    faSolidComment,
+    faSolidPlus,
+    faSolidTrash,
+    faSolidXmark,
 } from '@ng-icons/font-awesome/solid';
 import { priceConverter } from '../../../../../core/utilities/price-helpers';
 import { Button } from '../../../../../shared/button/button';
 import { Slider } from '../../../../../shared/slider/slider';
 import { SubjectLookupItem } from '../../../../subjects';
-import { ProjectItemFormModel } from '../../../models/project-reservation-request';
 import { ProjectType } from '../../../models/project-type';
 import { ProjectFormService } from '../../../services/project-form-service';
 import { PROJECT_TYPE_LABELS } from '../../../utilities/project-labels';

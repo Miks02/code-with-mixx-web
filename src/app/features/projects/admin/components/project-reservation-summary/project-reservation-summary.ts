@@ -6,6 +6,7 @@ import { Button } from '../../../../../shared/button/button';
 import { PaymentStatus } from '../../../../reservations';
 import { ProjectFormService } from '../../../services/project-form-service';
 import { PAYMENT_STATUS_META, PROJECT_TYPE_LABELS } from '../../../utilities/project-labels';
+import { FormField } from '@angular/forms/signals';
 
 type SummaryStat = {
   label: string;
@@ -19,7 +20,7 @@ type SummaryCheck = {
 };
 
 @Component({
-  imports: [Button, NgIcon],
+  imports: [Button, NgIcon, FormField],
   providers: [provideIcons({ faSolidCheck, faSolidCircleCheck, faSolidCircleXmark })],
   selector: 'app-project-reservation-summary',
   styleUrl: './project-reservation-summary.css',
@@ -110,7 +111,7 @@ export class ProjectReservationSummary {
       invalidLabel: 'Svi projekti moraju imati izabrani predmet.',
     },
   ]);
-  
+
   onSubmitClicked() {
     this.submitClicked.emit();
   }
