@@ -43,7 +43,7 @@ export function createEmptyReservation(): ProjectReservationFormModel {
     studentId: '',
     totalPrice: 0,
     projectsToDelete: [],
-    reservedAt: '',
+    reservedAt: dateInputValue(),
     reservationStatus: ReservationStatus.Confirmed,
     projects: [createEmptyProject()],
   };
