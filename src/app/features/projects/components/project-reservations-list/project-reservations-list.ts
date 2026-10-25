@@ -12,7 +12,7 @@ import { PagedResult } from '../../../../core/models/paged-result';
 import { Button } from '../../../../shared/button/button';
 import { FilterMenu } from '../../../../shared/filter-menu/filter-menu';
 import { Skeleton } from '../../../../shared/skeleton/skeleton';
-import { ReservationStatus } from '../../../reservations';
+import { PaymentStatus, ReservationStatus } from '../../../reservations';
 import { SubjectLookupItem } from '../../../subjects';
 import { ProjectReservationItem } from '../../models/project-reservation-item';
 import { ProjectType } from '../../models/project-type';
@@ -48,6 +48,7 @@ export class ProjectReservationsList {
   selectedSubjectIds = input<number[]>([]);
   selectedProjectTypes = input<ProjectType[]>([]);
   selectedReservationStatuses = input<ReservationStatus[]>([]);
+  selectedPaymentStatuses = input<PaymentStatus[]>([]);
   showOnlyDeletedStudents = input<boolean>(false);
   showOnlyDeletedReservations = input<boolean>(false);
   isPending = input<boolean>(false);
@@ -62,6 +63,7 @@ export class ProjectReservationsList {
   subjectIdsChanged = output<number[]>();
   projectTypesChanged = output<ProjectType[]>();
   reservationStatusesChanged = output<ReservationStatus[]>();
+  paymentStatusesChanged = output<PaymentStatus[]>();
   deletedReservationsToggled = output<boolean>();
   deletedStudentsToggled = output<boolean>();
   openCreationForm = output<void>();
@@ -91,6 +93,14 @@ export class ProjectReservationsList {
     [ReservationStatus.Cancelled]: 'Otkazane',
   };
 
+  paymentStatuses: Record<PaymentStatus, string> = {
+    [PaymentStatus.Pending]: 'Na čekanju',
+    [PaymentStatus.Paid]: 'Plaćeno',
+    [PaymentStatus.PartiallyPaid]: 'Delimično plaćeno',
+    [PaymentStatus.Overdue]: 'Kasni uplata',
+    [PaymentStatus.Refunded]: 'Povraćen novac',
+  };
+
   onReservationSelected(reservation: ProjectReservationItem | undefined) {
     this.reservationSelected.emit(reservation);
   }
@@ -105,6 +115,10 @@ export class ProjectReservationsList {
 
   onReservationStatusesChanged(reservationStatuses: ReservationStatus[]) {
     this.reservationStatusesChanged.emit(reservationStatuses);
+  }
+
+  onPaymentStatusesChanged(paymentStatuses: PaymentStatus[]) {
+    this.paymentStatusesChanged.emit(paymentStatuses);
   }
 
   onDeletedReservationsToggle() {

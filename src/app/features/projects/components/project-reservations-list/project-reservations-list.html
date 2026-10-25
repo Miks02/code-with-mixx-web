@@ -13,7 +13,6 @@
         [attr.aria-pressed]="showOnlyDeletedStudents()"
         (click)="onDeletedStudentsToggle()"
       >
-
       </app-button>
       <app-button
         variant="ghost"
@@ -51,11 +50,17 @@
       ></app-filter-menu>
 
       <app-filter-menu
-        placeholder="Status"
+        placeholder="Status rezervacije"
         [options]="reservationStatuses"
         [conflictingOptions]="conflictingReservationStatuses"
         [selected]="selectedReservationStatuses()"
         (selectedChanged)="onReservationStatusesChanged($event)"
+      ></app-filter-menu>
+      <app-filter-menu
+        placeholder="Status plaćanja"
+        [options]="paymentStatuses"
+        [selected]="selectedPaymentStatuses()"
+        (selectedChanged)="onPaymentStatusesChanged($event)"
       ></app-filter-menu>
 
       <app-button
@@ -66,7 +71,6 @@
         aria-label="Dodaj projekat"
         (clicked)="onOpenCreationForm()"
       >
-        Dodaj
       </app-button>
 
       <button

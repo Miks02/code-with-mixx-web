@@ -10,7 +10,7 @@ import { DialogResult } from '../../../../../core/components/dialog/dialog';
 import { DialogService } from '../../../../../core/services/dialog-service';
 import { ToastService } from '../../../../../core/services/toast-service';
 import { StatsCard } from '../../../../../shared/stats-card/stats-card';
-import { ReservationStatus } from '../../../../reservations';
+import { PaymentStatus, ReservationStatus } from '../../../../reservations';
 import { SubjectService } from '../../../../subjects';
 import { ProjectReservationsList } from '../../../components/project-reservations-list/project-reservations-list';
 import { ProjectQueryParams } from '../../../models/project-query-params';
@@ -44,6 +44,7 @@ export class ProjectsPage {
     pageSize: 15,
     subjectIds: [],
     projectTypes: [],
+    paymentStatuses: [],
     reservationStatuses: [],
     showOnlyDeletedReservations: false,
     showOnlyDeletedStudents: false,
@@ -122,6 +123,10 @@ export class ProjectsPage {
 
   onReservationStatusesChange(reservationStatuses: ReservationStatus[]) {
     this.queryParams.update((params) => ({ ...params, pageNumber: 1, reservationStatuses }));
+  }
+
+  onPaymentStatusesChange(paymentStatuses: PaymentStatus[]) {
+    this.queryParams.update((params) => ({ ...params, pageNumber: 1, paymentStatuses }));
   }
 
   onDeletedReservationsToggle(showOnlyDeletedReservations: boolean) {

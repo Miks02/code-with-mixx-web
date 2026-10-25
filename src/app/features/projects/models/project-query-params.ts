@@ -1,5 +1,5 @@
 import { ProjectType } from './project-type';
-import { ReservationStatus } from '../../reservations';
+import { PaymentStatus, ReservationStatus } from '../../reservations';
 
 export type ProjectQueryParams = {
   pageNumber: number;
@@ -7,6 +7,7 @@ export type ProjectQueryParams = {
   subjectIds: number[];
   projectTypes: ProjectType[];
   reservationStatuses: ReservationStatus[];
+  paymentStatuses: PaymentStatus[];
   showOnlyDeletedReservations: boolean;
   showOnlyDeletedStudents: boolean;
 };
