@@ -9,7 +9,7 @@ import {
 import { dateTimeConverter } from '../../../../core/utilities/date-helpers';
 import { priceConverter } from '../../../../core/utilities/price-helpers';
 import { Button } from '../../../../shared/button/button';
-import { PaymentType } from '../../../payments';
+import { PaymentType } from '../../models/payment-type';
 import { ReservationPaymentHistory } from '../../models/reservation-payment-history';
 
 type PaymentTypeMeta = {

@@ -25,14 +25,13 @@ import {
   StatusMeta,
 } from '../../../utilities/project-labels';
 import { Router } from '@angular/router';
+import { ReservationModalType, UpdateStatusModal } from '../../../../reservations';
 import {
+  PaymentService,
   RegisterPaymentModal,
-  ReservationModalType,
   ReservationPaymentHistoryModal,
-  ReservationService,
   SubtractPaymentModal,
-  UpdateStatusModal,
-} from '../../../../reservations';
+} from '../../../../payments';
 
 type ReservationStat = {
   icon: string;
@@ -77,14 +76,14 @@ export class ProjectReservationDetails {
   restoreReservation = output<number>();
 
   private router = inject(Router);
-  private reservationService = inject(ReservationService);
+  private paymentService = inject(PaymentService);
 
   reservationModal: WritableSignal<ReservationModalType | null> = signal(null);
 
   isReservationModalVisible = computed(() => this.reservationModal() !== null);
 
   private reservationId = computed(() => this.reservation()?.id ?? 0);
-  private paymentHistoryQuery = this.reservationService.getPaymentHistoryForReservationQuery(
+  private paymentHistoryQuery = this.paymentService.getPaymentHistoryForReservationQuery(
     this.reservationId,
     computed(() => this.reservationModal() === 'payment-history'),
   );

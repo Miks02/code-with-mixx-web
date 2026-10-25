@@ -3,37 +3,35 @@ import { FormField, submit } from '@angular/forms/signals';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
   faSolidCalendarDays,
-  faSolidCirclePlus,
+  faSolidCircleMinus,
   faSolidMoneyBillWave,
-  faSolidNoteSticky,
   faSolidXmark,
 } from '@ng-icons/font-awesome/solid';
 import { ToastService } from '../../../../../core/services/toast-service';
 import { priceConverter } from '../../../../../core/utilities/price-helpers';
 import { Button } from '../../../../../shared/button/button';
-import { createRegisterPaymentForm } from '../../../factories/reservation-factories';
-import { RegisterPaymentFormModel } from '../../../models/payment-request';
-import { ReservationService } from '../../../services/reservation-service';
+import { createSubtractPaymentForm } from '../../../factories/payment-factories';
+import { PaymentFormModel } from '../../../models/payment-request';
+import { PaymentService } from '../../../services/payment-service';
 import { dateTimeInputValue } from '../../../../../core/utilities/date-helpers';
-import { PaymentType } from '../../../../payments';
+import { PaymentType } from '../../../models/payment-type';
 
 @Component({
   imports: [NgIcon, Button, FormField],
   providers: [
     provideIcons({
       faSolidCalendarDays,
-      faSolidCirclePlus,
+      faSolidCircleMinus,
       faSolidMoneyBillWave,
-      faSolidNoteSticky,
       faSolidXmark,
     }),
   ],
-  selector: 'app-register-payment-modal',
-  styleUrl: './register-payment-modal.css',
-  templateUrl: './register-payment-modal.html',
+  selector: 'app-subtract-payment-modal',
+  styleUrl: './subtract-payment-modal.css',
+  templateUrl: './subtract-payment-modal.html',
 })
-export class RegisterPaymentModal {
-  private reservationService = inject(ReservationService);
+export class SubtractPaymentModal {
+  private paymentService = inject(PaymentService);
   private toastService = inject(ToastService);
 
   reservationId = input.required<number>();
@@ -43,13 +41,14 @@ export class RegisterPaymentModal {
 
   remainingAmount = computed(() => Math.max(0, this.totalPrice() - this.paidAmount()));
 
-  paymentModel = signal<RegisterPaymentFormModel>({
+  paymentModel = signal<PaymentFormModel>({
     amount: 0,
     transactionDate: dateTimeInputValue(),
     note: '',
+    paymentType: PaymentType.reversal
   });
-  paymentForm = createRegisterPaymentForm(this.paymentModel);
-  registerPaymentMutation = this.reservationService.registerPaymentMutation;
+  paymentForm = createSubtractPaymentForm(this.paymentModel, this.paidAmount);
+  subtractPaymentMutation = this.paymentService.subtractPaymentMutation;
 
   summary = computed(() => {
     const cards = [
@@ -64,21 +63,26 @@ export class RegisterPaymentModal {
     return cards;
   });
 
-  remainingAfterPayment = computed(() =>
-    Math.max(0, this.remainingAmount() - this.paymentModel().amount),
-  );
-  totalPaid = computed(() => this.paidAmount() + this.paymentModel().amount)
+  exceedsPaidAmount = computed(() => this.paymentModel().amount > this.paidAmount());
+  paidAfterSubtract = computed(() => Math.max(0, this.paidAmount() - this.paymentModel().amount));
+  remainingAfterSubtract = computed(() => Math.max(0, this.totalPrice() - this.paidAfterSubtract()));
 
-  fillRemaining() {
-    this.paymentModel.update((model) => ({ ...model, amount: this.remainingAmount() }));
+  currentBonus = computed(() => Math.max(0, this.paidAmount() - this.totalPrice()));
+  bonusAfterSubtract = computed(() => Math.max(0, this.paidAfterSubtract() - this.totalPrice()));
+
+  fillPaidAmount() {
+    this.paymentModel.update((model) => ({ ...model, amount: this.paidAmount() }));
     this.paymentForm.amount().markAsTouched();
   }
 
-  showNote = signal(false);
+  paymentTypeOptions = [
+    { label: 'Storniranje', value: PaymentType.reversal },
+    { label: 'Povraćaj novca', value: PaymentType.refund },
+  ];
 
-  toggleNote() {
-    if (this.showNote()) this.paymentModel.update((model) => ({ ...model, note: '' }));
-    this.showNote.update((show) => !show);
+  selectPaymentType(paymentType: PaymentType) {
+    this.paymentModel.update((model) => ({ ...model, paymentType }));
+    this.paymentForm.paymentType().markAsTouched();
   }
 
   fillTransactionDate() {
@@ -90,28 +94,25 @@ export class RegisterPaymentModal {
     this.closed.emit();
   }
 
-  currentBonus = computed(() => Math.max(0, this.paidAmount() - this.totalPrice()));
-  extraBonus = computed(() => Math.max(0, this.totalPaid() - this.totalPrice() - this.currentBonus()));
-
   onSubmit() {
     return submit(this.paymentForm, async () => {
       try {
-        await this.registerPaymentMutation.mutateAsync({
+        await this.subtractPaymentMutation.mutateAsync({
           reservationId: this.reservationId(),
           amount: this.paymentModel().amount,
           transactionDate: new Date(this.paymentModel().transactionDate).toISOString(),
           note: this.paymentModel().note || null,
-          paymentType: PaymentType.payment,
+          paymentType: this.paymentModel().paymentType,
         });
         this.toastService.showSuccess(
-          `Uplata od ${priceConverter(this.paymentModel().amount)} je uspešno registrovana.`,
+          `Uplata od ${priceConverter(this.paymentModel().amount)} je uspešno skinuta.`,
         );
         this.closed.emit();
 
         return [];
       } catch {
         this.toastService.showError(
-          'Došlo je do greške prilikom registracije uplate. Pokušajte ponovo kasnije.',
+          'Došlo je do greške prilikom skidanja uplate. Pokušajte ponovo kasnije.',
         );
         return;
       }

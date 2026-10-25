@@ -2,7 +2,8 @@ import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ToastService } from '../../../../../core/services/toast-service';
 import { priceConverter } from '../../../../../core/utilities/price-helpers';
-import { ReservationService } from '../../../services/reservation-service';
+import { PaymentType } from '../../../models/payment-type';
+import { PaymentService } from '../../../services/payment-service';
 import { SubtractPaymentModal } from './subtract-payment-modal';
 
 describe('SubtractPaymentModal', () => {
@@ -26,7 +27,12 @@ describe('SubtractPaymentModal', () => {
   }
 
   function setAmount(amount: number) {
-    component.paymentModel.set({ amount });
+    component.paymentModel.update((model) => ({ ...model, amount }));
+    fixture.detectChanges();
+  }
+
+  function setNote(note = 'Storniranje pogrešno unete uplate.') {
+    component.paymentModel.update((model) => ({ ...model, note }));
     fixture.detectChanges();
   }
 
@@ -36,7 +42,7 @@ describe('SubtractPaymentModal', () => {
     await TestBed.configureTestingModule({
       imports: [SubtractPaymentModal],
       providers: [
-        { provide: ReservationService, useValue: { subtractPaymentMutation } },
+        { provide: PaymentService, useValue: { subtractPaymentMutation } },
         { provide: ToastService, useValue: toastService },
       ],
     }).compileComponents();
@@ -136,6 +142,7 @@ describe('SubtractPaymentModal', () => {
     });
 
     it('should be valid for amount within paid amount', () => {
+      setNote();
       setAmount(6000);
 
       expect(component.paymentForm().valid()).toBe(true);
@@ -164,6 +171,7 @@ describe('SubtractPaymentModal', () => {
     beforeEach(() => {
       closedSpy = vi.fn();
       component.closed.subscribe(closedSpy);
+      setNote();
     });
 
     it('should subtract payment, show success toast and close', async () => {
@@ -175,6 +183,9 @@ describe('SubtractPaymentModal', () => {
       expect(subtractPaymentMutation.mutateAsync).toHaveBeenCalledWith({
         reservationId: 7,
         amount: 2000,
+        transactionDate: new Date(component.paymentModel().transactionDate).toISOString(),
+        note: 'Storniranje pogrešno unete uplate.',
+        paymentType: PaymentType.reversal,
       });
       expect(toastService.showSuccess).toHaveBeenCalledWith(
         `Uplata od ${priceConverter(2000)} je uspešno skinuta.`,

@@ -1,4 +1,4 @@
-import { PaymentTransactionItem } from "../../payments";
+import { PaymentTransactionItem } from "./payment-transaction-item";
 
 export type ReservationPaymentHistory = {
   reservationId: number,

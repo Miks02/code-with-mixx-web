@@ -1,4 +1,4 @@
-import { PaymentType } from "../../payments";
+import { PaymentType } from "./payment-type";
 
 export type PaymentRequest = {
   reservationId: number,
