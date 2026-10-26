@@ -44,3 +44,19 @@ export function currentDate() {
     day: 'numeric',
   });
 }
+
+export function isValidDate(date: string): boolean {
+  return !date || !Number.isNaN(Date.parse(date));
+}
+
+export function isAfter(date: string, other: string): boolean {
+  if (!date || !other || !isValidDate(date) || !isValidDate(other)) return false;
+
+  return Date.parse(date) > Date.parse(other);
+}
+
+export function isBefore(date: string, other: string): boolean {
+  if (!date || !other || !isValidDate(date) || !isValidDate(other)) return false;
+
+  return Date.parse(date) < Date.parse(other);
+}

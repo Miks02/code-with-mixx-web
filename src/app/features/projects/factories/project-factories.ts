@@ -10,7 +10,7 @@ import {
   required,
   validate,
 } from '@angular/forms/signals';
-import { dateInputValue } from '../../../core/utilities/date-helpers';
+import { dateInputValue, isAfter, isBefore, isValidDate } from '../../../core/utilities/date-helpers';
 import { ReservationStatus } from '../../reservations';
 import { ProjectDetails } from '../models/project-details';
 import { ProjectReservationDetails } from '../models/project-reservation-details';
@@ -79,22 +79,6 @@ export function createReservationFormModel(
       notesToDelete: [],
     })),
   };
-}
-
-function isValidDate(date: string): boolean {
-  return !date || !Number.isNaN(Date.parse(date));
-}
-
-function isAfter(date: string, other: string): boolean {
-  if (!date || !other || !isValidDate(date) || !isValidDate(other)) return false;
-
-  return Date.parse(date) > Date.parse(other);
-}
-
-function isBefore(date: string, other: string): boolean {
-  if (!date || !other || !isValidDate(date) || !isValidDate(other)) return false;
-
-  return Date.parse(date) < Date.parse(other);
 }
 
 export function createProjectReservationFormFactory(
