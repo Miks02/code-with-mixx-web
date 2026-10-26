@@ -142,9 +142,7 @@
     </div>
     <div class="flex flex-col col-span-2 gap-1.5 w-full">
       <div class="flex items-baseline justify-between gap-2 px-1">
-        <label for="note" class="text-sm font-semibold text-emerald-900 shrink-0"
-          >Beleške (opciono)</label
-        >
+        <label for="note" class="text-sm font-semibold text-emerald-900 shrink-0">Beleške *</label>
         @if ((paymentForm.note().touched() || paymentForm.note().dirty()) &&
         paymentForm.note().errors().length) {
         <p
