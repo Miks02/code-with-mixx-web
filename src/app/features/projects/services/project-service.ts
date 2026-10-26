@@ -71,7 +71,7 @@ export class ProjectService {
           ),
         ),
       enabled: reservationId() !== undefined,
-      refetchOnWindowFocus: false
+      refetchOnWindowFocus: false,
     }));
   }
 
@@ -102,6 +102,12 @@ export class ProjectService {
       lastValueFrom(
         this.http.post(`${this.apiUrl}/admin/reservations/projects/${reservationId}/restore`, {}),
       ),
+    onSuccess: (_, reservationId) => this.invalidateQueries(reservationId),
+  }));
+
+  deleteProjectReservationMutation = injectMutation(() => ({
+    mutationFn: (reservationId: number) =>
+      lastValueFrom(this.http.delete(`${this.apiUrl}/admin/reservations/${reservationId}`)),
     onSuccess: (_, reservationId) => this.invalidateQueries(reservationId),
   }));
 
