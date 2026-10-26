@@ -13,5 +13,6 @@ export type ProjectReservationItem = {
   bonus: number;
   createdAt: string;
   deletedAt: string | null;
+  isHardDeletable: boolean;
   projects: ProjectItem[];
 };

@@ -13,6 +13,7 @@ import {
   faSolidMoneyBill1,
   faSolidMoneyBillWave,
   faSolidPercent,
+  faSolidTrash,
 } from '@ng-icons/font-awesome/solid';
 import { dateConverter } from '../../../../../core/utilities/date-helpers';
 import { priceConverter } from '../../../../../core/utilities/price-helpers';
@@ -62,7 +63,8 @@ type ReservationStat = {
       faSolidHourglassHalf,
       faSolidMoneyBillWave,
       faSolidPercent,
-      faSolidMoneyBill1
+      faSolidMoneyBill1,
+      faSolidTrash
     }),
   ],
   selector: 'app-project-reservation-details',
@@ -74,6 +76,7 @@ export class ProjectReservationDetails {
   isArchiving = input<boolean>(false);
   archiveReservation = output<number>();
   restoreReservation = output<number>();
+  deleteReservation = output<number>();  
 
   private router = inject(Router);
   private paymentService = inject(PaymentService);
@@ -136,6 +139,10 @@ export class ProjectReservationDetails {
 
   onRestore(reservationId: number) {
     this.restoreReservation.emit(reservationId);
+  }
+
+  onDelete(reservationId: number) {
+    this.deleteReservation.emit(reservationId);
   }
 
   openModal(type: ReservationModalType) {

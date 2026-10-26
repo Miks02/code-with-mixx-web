@@ -68,7 +68,8 @@ export class ProjectsPage {
   isArchiving = computed(
     () =>
       this.projectService.archiveProjectReservationMutation.isPending() ||
-      this.projectService.restoreProjectReservationMutation.isPending(),
+      this.projectService.restoreProjectReservationMutation.isPending() ||
+      this.projectService.deleteProjectReservationMutation.isPending(),
   );
 
   selectedReservation = linkedSignal<ProjectReservationItem[], ProjectReservationItem | undefined>({
@@ -90,6 +91,10 @@ export class ProjectsPage {
     if (result !== DialogResult.Confirmed) return;
 
     this.projectService.archiveProjectReservationMutation.mutate(reservationId, {
+      onSuccess: () =>
+        this.toastService.showSuccess(
+          'Rezervacija je uspešno arhivirana.',
+        ),
       onError: () =>
         this.toastService.showError(
           'Došlo je do greške prilikom arhiviranja rezervacije. Pokušajte ponovo kasnije.',
@@ -106,10 +111,41 @@ export class ProjectsPage {
     if (result !== DialogResult.Confirmed) return;
 
     this.projectService.restoreProjectReservationMutation.mutate(reservationId, {
+      onSuccess: () =>
+        this.toastService.showSuccess(
+          'Rezervacija je uspešno vraćena iz arhive.',
+        ),
       onError: () =>
         this.toastService.showError(
           'Došlo je do greške prilikom vraćanja rezervacije. Pokušajte ponovo kasnije.',
         ),
+    });
+  }
+
+  async onDeleteReservation(reservationId: number) {
+    const result = await this.dialogService.showDialog({
+      title: 'Brisanje rezervacije',
+      message: `Da li ste sigurni da želite da obrišete rezervaciju studenta „${this.selectedReservation()?.studentFullName}”?`,
+    });
+
+    if (result !== DialogResult.Confirmed) return;
+
+    this.projectService.deleteProjectReservationMutation.mutate(reservationId, {
+      onSuccess: () =>
+        this.toastService.showSuccess(
+          'Rezervacija je uspešno obrisana.',
+        ),
+      onError: (err: any) => {
+        if (err?.error?.errorCode === "Reservation.RequiresHistoryRetention") {
+          this.toastService.showError(
+            'Rezervacija ne može biti trajno obrisana jer zahteva čuvanje istorije.',
+          )
+          return;
+        }
+        this.toastService.showError(
+          'Došlo je do greške prilikom brisanja rezervacije. Pokušajte ponovo kasnije.',
+        )
+      }
     });
   }
 
