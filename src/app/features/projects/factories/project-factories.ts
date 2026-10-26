@@ -1,7 +1,9 @@
-import { WritableSignal } from '@angular/core';
+import { Signal, WritableSignal } from '@angular/core';
 import {
   applyEach,
+  disabled,
   form,
+  max,
   maxLength,
   min,
   minLength,
@@ -10,12 +12,14 @@ import {
 } from '@angular/forms/signals';
 import { dateInputValue } from '../../../core/utilities/date-helpers';
 import { ReservationStatus } from '../../reservations';
+import { ProjectDetails } from '../models/project-details';
 import { ProjectReservationDetails } from '../models/project-reservation-details';
 import {
   ProjectItemFormModel,
   ProjectReservationFormModel,
 } from '../models/project-reservation-request';
 import { ProjectType } from '../models/project-type';
+import { UpdateProjectFormModel } from '../models/update-project-request';
 
 const DEFAULT_PROJECT_DURATION_DAYS = 7;
 
@@ -71,7 +75,7 @@ export function createReservationFormModel(
       endDate: project.endDate,
       githubLink: project.githubLink ?? '',
       downloadLink: project.downloadLink ?? '',
-      notes: project.notes,
+      notes: project.notes.map((note) => ({ ...note })),
       notesToDelete: [],
     })),
   };
@@ -162,6 +166,40 @@ export function createProjectReservationFormFactory(
       applyEach(project.notes, (note) => {
         required(note.content, { message: 'Beleške ne mogu biti prazne' });
       });
+    });
+  });
+}
+
+export function createUpdateProjectFormModel(project?: ProjectDetails): UpdateProjectFormModel {
+  return {
+    price: project?.price ?? 0,
+    progress: project?.progress ?? 0,
+    githubLink: project?.githubLink ?? '',
+    downloadLink: project?.downloadLink ?? '',
+    notes: project?.notes.map(({ id, content }) => ({ id, content })) ?? [],
+    notesToDelete: [],
+  };
+}
+
+export function createUpdateProjectForm(
+  request: WritableSignal<UpdateProjectFormModel>,
+  isReadOnly: Signal<boolean>,
+) {
+  return form(request, (schemaPath) => {
+    disabled(schemaPath, { when: () => isReadOnly() });
+    required(schemaPath.price, { message: 'Unesite cenu projekta.' });
+    min(schemaPath.price, 0, { message: 'Cena ne može biti manja od 0 RSD.' });
+    min(schemaPath.progress, 0, { message: 'Napredak ne može biti manji od 0%.' });
+    max(schemaPath.progress, 100, { message: 'Napredak ne može biti veći od 100%.' });
+    maxLength(schemaPath.githubLink, 200, {
+      message: 'Github link ne može imati više od 200 karaktera',
+    });
+    maxLength(schemaPath.downloadLink, 200, {
+      message: 'Download link ne može imati više od 200 karaktera',
+    });
+    applyEach(schemaPath.notes, (note) => {
+      required(note.content, { message: 'Beleške ne mogu biti prazne' });
+      maxLength(note.content, 500, { message: 'Beleška ne može imati više od 500 karaktera' });
     });
   });
 }

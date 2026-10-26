@@ -60,19 +60,15 @@ export class ProjectFormService {
   }
 
   removeNote(projectIndex: number, noteIndex: number) {
-    const notes = this.reservationModel().projects[projectIndex].notes;
-    if (notes.length < 1) return;
-
-    const noteToDelete = this.reservationModel().projects[projectIndex].notes[noteIndex];
+    const project = this.reservationModel().projects[projectIndex];
+    const noteToDelete = project?.notes[noteIndex];
     if (!noteToDelete) return;
 
-    this.reservationModel.update((prev) => ({
-      ...prev,
-      projects: prev.projects.map((project) => ({
-        ...project,
-        notes: project.notes.filter((note) => note.id !== noteToDelete.id),
-        notesToDelete: [...project.notesToDelete, noteToDelete.id],
-      })),
-    }));
+    this.updateProject(projectIndex, {
+      notes: project.notes.filter((_, index) => index !== noteIndex),
+      notesToDelete: noteToDelete.id
+        ? [...project.notesToDelete, noteToDelete.id]
+        : project.notesToDelete,
+    });
   }
 }

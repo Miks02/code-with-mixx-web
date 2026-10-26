@@ -14,5 +14,9 @@ export type ProjectReservationItem = {
   createdAt: string;
   deletedAt: string | null;
   isHardDeletable: boolean;
-  projects: ProjectItem[];
+  projects: ProjectListItem[];
+};
+
+export type ProjectListItem = Omit<ProjectItem, 'notes'> & {
+  notesCount: number;
 };
