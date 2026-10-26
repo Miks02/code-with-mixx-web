@@ -12,4 +12,6 @@ export const projectReservationKeys = {
     [...projectReservationKeys.pages(), params] as const,
   details: () => [...projectReservationKeys.all, 'details'] as const,
   detail: (id: number) => [...projectReservationKeys.details(), id] as const,
+  items: () => [...projectReservationKeys.all, 'items'] as const,
+  item: (projectId: number) => [...projectReservationKeys.items(), projectId] as const,
 };

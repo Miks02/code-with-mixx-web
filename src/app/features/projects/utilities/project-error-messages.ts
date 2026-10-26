@@ -12,4 +12,9 @@ export const PROJECT_RESERVATION_ERROR_MESSAGES: Record<string, string> = {
   'Project.GithubLinkIsTooLong': 'Github link ne može imati više od 200 karaktera.',
   'Project.DownloadLinkIsTooLong': 'Download link ne može imati više od 200 karaktera.',
   'Project.EmptyProjectNote': 'Beleške ne mogu biti prazne.',
+  'Project.NotFound': 'Projekat više ne postoji. Osvežite stranicu.',
+  'Project.NoteNotFound': 'Neka od beleški više ne postoji. Osvežite stranicu i pokušajte ponovo.',
+  'Project.CantUpdateAnArchivedProject': 'Nije moguće izmeniti arhiviran projekat.',
+  'Reservation.CantUpdateAnArchivedReservation':
+    'Nije moguće izmeniti projekat iz arhivirane rezervacije.',
 };
