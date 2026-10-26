@@ -34,7 +34,7 @@ const RESERVATION_STATUSES: Record<ReservationStatus, ReservationStatusStyle> = 
   templateUrl: './project-reservation-pricing.html',
 })
 export class ProjectReservationPricing {
-  projectFormService = inject(ProjectFormService);
+  private projectFormService = inject(ProjectFormService);
 
   reservationForm = this.projectFormService.reservationForm;
 

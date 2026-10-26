@@ -60,7 +60,7 @@
     >
     @if(reservation.isHardDeletable) {
     <app-button
-      (clicked)="onArchive(reservation.id)"
+      (clicked)="onDelete(reservation.id)"
       class="sm:col-span-2"
       [fullWidth]="true"
       [loading]="isArchiving()"
@@ -98,6 +98,14 @@
       icon="faSolidCircleMinus"
       >Skini uplatu</app-button
     >
+    <app-button
+      (clicked)="goToDetails(reservation.id)"
+      class="sm:col-span-2"
+      [fullWidth]="true"
+      variant="ghost"
+      icon="faSolidEye"
+      >Detalji rezervacije</app-button
+    >
     } @else {
     <app-button
       (clicked)="onRestore(reservation.id)"
@@ -109,15 +117,6 @@
       >Vrati iz arhive</app-button
     >
     }
-
-    <app-button
-      (clicked)="goToDetails(reservation.id)"
-      class="sm:col-span-2"
-      [fullWidth]="true"
-      variant="ghost"
-      icon="faSolidEye"
-      >Detalji rezervacije</app-button
-    >
   </div>
   } @else {
   <div
