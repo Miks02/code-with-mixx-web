@@ -10,11 +10,13 @@ import {
 import { lastValueFrom } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { PagedResult } from '../../../core/models/paged-result';
+import { ProjectDetails } from '../models/project-details';
 import { ProjectQueryParams } from '../models/project-query-params';
 import { ProjectReservationDetails } from '../models/project-reservation-details';
 import { ProjectReservationItem } from '../models/project-reservation-item';
 import { ProjectReservationRequest } from '../models/project-reservation-request';
 import { ProjectsSummary } from '../models/projects-summary';
+import { UpdateProjectPayload } from '../models/update-project-request';
 import { UpdateProjectReservationRequest } from '../models/update-project-reservation-request';
 import { projectReservationKeys } from '../../reservations';
 
@@ -75,6 +77,20 @@ export class ProjectService {
     }));
   }
 
+  getProjectDetailsQuery(projectId: Signal<number>) {
+    return injectQuery<ProjectDetails>(() => ({
+      queryKey: projectReservationKeys.item(projectId()),
+      queryFn: () =>
+        lastValueFrom(
+          this.http.get<ProjectDetails>(
+            `${this.apiUrl}/admin/reservations/projects/items/${projectId()}`,
+          ),
+        ),
+      enabled: projectId() > 0,
+      refetchOnWindowFocus: false,
+    }));
+  }
+
   createProjectReservationMutation = injectMutation(() => ({
     mutationFn: (request: ProjectReservationRequest) =>
       lastValueFrom(this.http.post(`${this.apiUrl}/admin/reservations/projects`, request)),
@@ -87,6 +103,14 @@ export class ProjectService {
         this.http.put(`${this.apiUrl}/admin/reservations/projects/${request.id}`, request),
       ),
     onSuccess: (_, request) => this.invalidateQueries(request.id),
+  }));
+
+  updateProjectMutation = injectMutation(() => ({
+    mutationFn: ({ projectId, request }: UpdateProjectPayload) =>
+      lastValueFrom(
+        this.http.patch(`${this.apiUrl}/admin/reservations/projects/items/${projectId}`, request),
+      ),
+    onSuccess: (_, { reservationId }) => this.invalidateQueries(reservationId),
   }));
 
   archiveProjectReservationMutation = injectMutation(() => ({
@@ -121,6 +145,7 @@ export class ProjectService {
         queryKey: projectReservationKeys.detail(reservationId),
       });
     }
+    this.queryClient.invalidateQueries({ queryKey: projectReservationKeys.items() });
     return this.queryClient.invalidateQueries({ queryKey: projectReservationKeys.summary() });
   }
 }
