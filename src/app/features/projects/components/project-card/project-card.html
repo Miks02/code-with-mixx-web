@@ -1,4 +1,12 @@
-<div class="p-3 rounded-lg bg-emerald-900/80 flex flex-col gap-2.5">
+<div
+  role="button"
+  tabindex="0"
+  [attr.aria-label]="'Detalji projekta ' + project().subjectName"
+  (click)="onClick()"
+  (keydown.enter)="onClick()"
+  (keydown.space)="$event.preventDefault(); onClick()"
+  class="p-3 rounded-lg bg-emerald-900/80 hover:bg-emerald-800/80 flex flex-col gap-2.5 active:scale-95 transition-200 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-emerald-300"
+>
   <div class="flex items-center justify-between gap-3 min-w-0">
     <div class="flex items-center gap-2 min-w-0">
       <p class="text-emerald-100 font-semibold truncate">{{ project().subjectName }}</p>
@@ -38,6 +46,11 @@
         project().reservedAt | date: 'dd.MM.yyyy'
       }}</span>
     </div>
+    <div class="flex items-center gap-1.5">
+      <ng-icon name="faSolidComment" class="text-emerald-400! self-center! shrink-0"></ng-icon>
+      <span>Beleške</span>
+      <span class="font-semibold text-emerald-100">{{ notesCount() }}</span>
+    </div>
   </div>
 
   @if (project().githubLink || project().downloadLink) {
@@ -45,6 +58,8 @@
     @if (project().githubLink; as githubLink) {
     <a
       [href]="githubLink"
+      (click)="$event.stopPropagation()"
+      (keydown.enter)="$event.stopPropagation()"
       target="_blank"
       rel="noopener noreferrer"
       class="flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold bg-emerald-800 text-emerald-100 hover:bg-emerald-700 transition-200"
@@ -56,6 +71,8 @@
     @if (project().downloadLink; as downloadLink) {
     <a
       [href]="downloadLink"
+      (click)="$event.stopPropagation()"
+      (keydown.enter)="$event.stopPropagation()"
       target="_blank"
       rel="noopener noreferrer"
       class="flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold bg-emerald-800 text-emerald-100 hover:bg-emerald-700 transition-200"

@@ -40,7 +40,10 @@
     <div class="relative flex-1 min-h-60">
       <div class="absolute inset-0 flex flex-col gap-3 overflow-y-auto">
         @for (project of reservation.projects; track project.id) {
-        <app-project-card [project]="project"></app-project-card>
+        <app-project-card
+          [project]="project"
+          (clicked)="openProjectModal(project.id)"
+        ></app-project-card>
         }
       </div>
     </div>
@@ -157,4 +160,10 @@
   [isLoading]="isPaymentHistoryLoading()"
   (closed)="closeModal()"
 ></app-reservation-payment-history-modal>
-} } } }
+} } } @if (editedProjectId(); as projectId) {
+<app-project-edit-modal
+  [projectId]="projectId"
+  [reservationId]="reservation.id"
+  (closed)="closeProjectModal()"
+></app-project-edit-modal>
+} }

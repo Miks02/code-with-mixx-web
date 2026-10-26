@@ -20,6 +20,7 @@ import { priceConverter } from '../../../../../core/utilities/price-helpers';
 import { Button } from '../../../../../shared/button/button';
 import { ProjectCard } from '../../../components/project-card/project-card';
 import { ProjectReservationItem } from '../../../models/project-reservation-item';
+import { ProjectEditModal } from '../project-edit-modal/project-edit-modal';
 import {
   PAYMENT_STATUS_META,
   RESERVATION_STATUS_META,
@@ -45,6 +46,7 @@ type ReservationStat = {
     NgIcon,
     Button,
     ProjectCard,
+    ProjectEditModal,
     RegisterPaymentModal,
     ReservationPaymentHistoryModal,
     SubtractPaymentModal,
@@ -151,5 +153,15 @@ export class ProjectReservationDetails {
 
   closeModal() {
     this.reservationModal.set(null);
+  }
+
+  editedProjectId = signal<number | null>(null);
+
+  openProjectModal(projectId: number) {
+    this.editedProjectId.set(projectId);
+  }
+
+  closeProjectModal() {
+    this.editedProjectId.set(null);
   }
 }
