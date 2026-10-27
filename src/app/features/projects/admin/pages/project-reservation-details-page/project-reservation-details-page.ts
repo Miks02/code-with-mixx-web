@@ -71,8 +71,6 @@ export class ProjectReservationDetailsPage {
       if (!details) return;
 
       this.reservationModel.set(createReservationFormModel(details));
-      console.log(this.reservationModel())
-      console.log(details);
     });
   }
 
