@@ -16,7 +16,7 @@ import {
   faSolidTrash,
 } from '@ng-icons/font-awesome/solid';
 import { priceConverter } from '../../../../../core/utilities/price-helpers';
-import { Button } from '../../../../../shared/button/button';
+import { Button } from '../../../../../shared/components/button/button';
 import { SrDatePipe } from '../../../../../shared/pipes/sr-date-pipe';
 import { ProjectCard } from '../../../components/project-card/project-card';
 import { ProjectReservationItem } from '../../../models/project-reservation-item';

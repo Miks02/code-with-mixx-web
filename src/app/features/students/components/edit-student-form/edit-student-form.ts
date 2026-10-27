@@ -16,7 +16,7 @@ import {
 import { AccountStatus } from '../../../../core/models/account-status';
 import { ToastService } from '../../../../core/services/toast-service';
 import { dateConverter } from '../../../../core/utilities/date-helpers';
-import { Button } from '../../../../shared/button/button';
+import { Button } from '../../../../shared/components/button/button';
 import { createUpdateStudentForm } from '../../factories/student-factories';
 import { StudentItem } from '../../models/student-item';
 import { UpdateStudentFormModel, UpdateStudentResponse } from '../../models/update-student-request';

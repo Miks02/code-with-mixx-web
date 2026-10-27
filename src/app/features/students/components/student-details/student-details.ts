@@ -22,7 +22,7 @@ import { AccountStatus } from '../../../../core/models/account-status';
 import { DialogService } from '../../../../core/services/dialog-service';
 import { ToastService } from '../../../../core/services/toast-service';
 import { dateConverter } from '../../../../core/utilities/date-helpers';
-import { Button } from '../../../../shared/button/button';
+import { Button } from '../../../../shared/components/button/button';
 import { StudentItem } from '../../models/student-item';
 import { StudentService } from '../../services/student-service';
 

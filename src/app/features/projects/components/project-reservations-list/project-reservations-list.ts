@@ -13,9 +13,9 @@ import {
   faSolidXmark,
 } from '@ng-icons/font-awesome/solid';
 import { PagedResult } from '../../../../core/models/paged-result';
-import { Button } from '../../../../shared/button/button';
-import { FilterMenu } from '../../../../shared/filter-menu/filter-menu';
-import { Skeleton } from '../../../../shared/skeleton/skeleton';
+import { Button } from '../../../../shared/components/button/button';
+import { FilterMenu } from '../../../../shared/components/filter-menu/filter-menu';
+import { Skeleton } from '../../../../shared/components/skeleton/skeleton';
 import {
   CONFLICTING_RESERVATION_STATUSES,
   PaymentStatus,

@@ -5,10 +5,10 @@ import {
     faSolidChevronRight
 } from '@ng-icons/font-awesome/solid';
 import { PagedResult } from '../../../../core/models/paged-result';
-import { Button } from '../../../../shared/button/button';
-import { SearchBar } from '../../../../shared/search-bar/search-bar';
-import { Skeleton } from '../../../../shared/skeleton/skeleton';
-import { SortMenu } from '../../../../shared/sort-menu/sort-menu';
+import { Button } from '../../../../shared/components/button/button';
+import { SearchBar } from '../../../../shared/components/search-bar/search-bar';
+import { Skeleton } from '../../../../shared/components/skeleton/skeleton';
+import { SortMenu } from '../../../../shared/components/sort-menu/sort-menu';
 import { SubjectItem } from '../../models/subject-item';
 import { SubjectSort } from '../../models/subject-sort';
 import { SubjectCard } from '../subject-card/subject-card';

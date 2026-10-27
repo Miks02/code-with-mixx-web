@@ -10,7 +10,7 @@ import {
   faSolidUserGraduate,
 } from '@ng-icons/font-awesome/solid';
 import { currentDate, dateConverter } from '../../../../../core/utilities/date-helpers';
-import { Button } from '../../../../../shared/button/button';
+import { Button } from '../../../../../shared/components/button/button';
 import { SubjectItem } from '../../../models/subject-item';
 import { SubjectService } from '../../../services/subject-service';
 import { DialogService } from '../../../../../core/services/dialog-service';

@@ -3,7 +3,7 @@ import { FormField, submit } from '@angular/forms/signals';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { faSolidCheck, faSolidKey, faSolidLock } from '@ng-icons/font-awesome/solid';
-import { Button } from '../../../../shared/button/button';
+import { Button } from '../../../../shared/components/button/button';
 import { createResetPasswordForm } from '../../factories/auth-factories';
 import { ResetPasswordBody } from '../../models/reset-password-body';
 import { ToastService } from '../../../../core/services/toast-service';

@@ -10,7 +10,7 @@ import {
   faSolidXmark,
 } from '@ng-icons/font-awesome/solid';
 import { ToastService } from '../../../../core/services/toast-service';
-import { Button } from '../../../../shared/button/button';
+import { Button } from '../../../../shared/components/button/button';
 import { createStudentForm } from '../../factories/student-factories';
 import { CreateStudentFormModel } from '../../models/create-student-request';
 import { StudentService } from '../../services/student-service';

@@ -20,7 +20,7 @@ Angular 22 standalone-component app (no NgModules), using the esbuild/Vite-based
 - `core/` — app-wide singletons and cross-cutting concerns: `guard/` (functional `CanActivateFn` guards), `services/`, `models/`, `utilities/`.
 - `features/<name>/` — domain features, each with its own `components/`, `pages/`, `models/`, and optionally `factories/` (e.g. `features/auth/`, `features/analytics/`).
 - `layouts/` — shell components composed into the route tree (`layouts/auth/auth-layout/` for guest-facing routes, `layouts/dashboard/dashboard-layout/` for authenticated routes, plus `header/`, `sidebar/`, `sidebar-link/`).
-- `shared/` — generic reusable presentational components (e.g. `shared/button/`), built with signal-based `input()`/`output()` APIs and Tailwind utility classes composed via `computed()`.
+- `shared/` — generic reusable building blocks: presentational components in `shared/components/` (e.g. `shared/components/button/`), built with signal-based `input()`/`output()` APIs and Tailwind utility classes composed via `computed()`; pipes in `shared/pipes/`.
 
 ### Routing & guards (`src/app/app.routes.ts`)
 Two lazy-loaded (`loadComponent`) top-level branches:

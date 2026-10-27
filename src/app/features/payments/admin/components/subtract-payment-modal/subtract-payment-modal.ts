@@ -9,7 +9,7 @@ import {
 } from '@ng-icons/font-awesome/solid';
 import { ToastService } from '../../../../../core/services/toast-service';
 import { priceConverter } from '../../../../../core/utilities/price-helpers';
-import { Button } from '../../../../../shared/button/button';
+import { Button } from '../../../../../shared/components/button/button';
 import { createSubtractPaymentForm } from '../../../factories/payment-factories';
 import { PaymentFormModel } from '../../../models/payment-request';
 import { PaymentService } from '../../../services/payment-service';

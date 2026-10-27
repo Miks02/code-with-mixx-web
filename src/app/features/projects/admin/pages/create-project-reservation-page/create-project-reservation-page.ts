@@ -2,7 +2,7 @@ import { Component, computed, inject } from '@angular/core';
 import { submit } from '@angular/forms/signals';
 import { Router, RouterLink } from '@angular/router';
 import { ToastService } from '../../../../../core/services/toast-service';
-import { Button } from '../../../../../shared/button/button';
+import { Button } from '../../../../../shared/components/button/button';
 import { StudentLookup, StudentService } from '../../../../students';
 import { SubjectService } from '../../../../subjects';
 import { createProjectReservationRequest } from '../../../factories/project-factories';

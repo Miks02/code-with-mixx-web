@@ -5,7 +5,7 @@ import { NgIcon, provideIcons } from '@ng-icons/core';
 import { faSolidKey, faSolidLock, faSolidUserCheck } from '@ng-icons/font-awesome/solid';
 import { AuthService } from '../../../../core/services/auth-service';
 import { ToastService } from '../../../../core/services/toast-service';
-import { Button } from '../../../../shared/button/button';
+import { Button } from '../../../../shared/components/button/button';
 import { createAccountActivationForm } from '../../factories/auth-factories';
 import { AccountActivationBody } from '../../models/account-activation-body';
 import { AccountActivationRequest } from '../../models/account-activation-request';

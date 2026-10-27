@@ -22,8 +22,8 @@ import {
   faSolidXmark,
 } from '@ng-icons/font-awesome/solid';
 import { ToastService } from '../../../../../core/services/toast-service';
-import { Button } from '../../../../../shared/button/button';
-import { Slider } from '../../../../../shared/slider/slider';
+import { Button } from '../../../../../shared/components/button/button';
+import { Slider } from '../../../../../shared/components/slider/slider';
 import {
   createUpdateProjectForm,
   createUpdateProjectFormModel,

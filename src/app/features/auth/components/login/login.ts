@@ -8,7 +8,7 @@ import {
   faSolidLock,
 } from '@ng-icons/font-awesome/solid';
 import { AuthService } from '../../../../core/services/auth-service';
-import { Button } from '../../../../shared/button/button';
+import { Button } from '../../../../shared/components/button/button';
 import { createLoginForm } from '../../factories/auth-factories';
 import { LoginRequest } from '../../models/login-request';
 

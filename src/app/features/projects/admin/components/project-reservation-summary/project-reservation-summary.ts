@@ -2,7 +2,7 @@ import { Component, computed, inject, input, output } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { faSolidCheck, faSolidCircleCheck, faSolidCircleXmark } from '@ng-icons/font-awesome/solid';
 import { priceConverter } from '../../../../../core/utilities/price-helpers';
-import { Button } from '../../../../../shared/button/button';
+import { Button } from '../../../../../shared/components/button/button';
 import { PaymentStatus } from '../../../../reservations';
 import { ProjectFormService } from '../../../services/project-form-service';
 import { PAYMENT_STATUS_META, PROJECT_TYPE_LABELS } from '../../../utilities/project-labels';

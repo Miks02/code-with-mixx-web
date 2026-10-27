@@ -18,8 +18,8 @@ import {
     faSolidXmark,
 } from '@ng-icons/font-awesome/solid';
 import { priceConverter } from '../../../../../core/utilities/price-helpers';
-import { Button } from '../../../../../shared/button/button';
-import { Slider } from '../../../../../shared/slider/slider';
+import { Button } from '../../../../../shared/components/button/button';
+import { Slider } from '../../../../../shared/components/slider/slider';
 import { SubjectLookupItem } from '../../../../subjects';
 import { ProjectType } from '../../../models/project-type';
 import { ProjectFormService } from '../../../services/project-form-service';

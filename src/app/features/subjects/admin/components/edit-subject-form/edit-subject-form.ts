@@ -10,7 +10,7 @@ import {
   faSolidUserGraduate,
   faSolidXmark,
 } from '@ng-icons/font-awesome/solid';
-import { Button } from '../../../../../shared/button/button';
+import { Button } from '../../../../../shared/components/button/button';
 import { SubjectService } from '../../../services/subject-service';
 import { createSubjectForm } from '../../factories/subject-factories';
 import { UpdateSubjectRequest } from '../../../models/update-subject-request';

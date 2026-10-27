@@ -5,7 +5,7 @@ import { NgIcon, provideIcons } from '@ng-icons/core';
 import { faSolidEnvelope, faSolidPaperPlane } from '@ng-icons/font-awesome/solid';
 import { AuthService } from '../../../../core/services/auth-service';
 import { ToastService } from '../../../../core/services/toast-service';
-import { Button } from '../../../../shared/button/button';
+import { Button } from '../../../../shared/components/button/button';
 import { createForgotPasswordForm } from '../../factories/auth-factories';
 import { ForgotPasswordRequest } from '../../models/forgot-password-request';
 

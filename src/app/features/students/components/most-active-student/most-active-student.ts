@@ -7,7 +7,7 @@ import {
   faSolidGraduationCap,
   faSolidTrophy,
 } from '@ng-icons/font-awesome/solid';
-import { Skeleton } from '../../../../shared/skeleton/skeleton';
+import { Skeleton } from '../../../../shared/components/skeleton/skeleton';
 import { StudentItem } from '../../models/student-item';
 
 type MostActiveStudentStat = {

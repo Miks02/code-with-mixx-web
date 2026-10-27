@@ -17,7 +17,7 @@ import {
   faSolidUserSlash,
   faSolidUserXmark,
 } from '@ng-icons/font-awesome/solid';
-import { StatsCard } from '../../../../shared/stats-card/stats-card';
+import { StatsCard } from '../../../../shared/components/stats-card/stats-card';
 import { MostActiveStudent } from '../../components/most-active-student/most-active-student';
 import { CreateStudentForm } from '../../components/create-student-form/create-student-form';
 import { EditStudentForm } from '../../components/edit-student-form/edit-student-form';

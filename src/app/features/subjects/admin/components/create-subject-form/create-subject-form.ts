@@ -2,7 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { FormField, submit } from '@angular/forms/signals';
 import { provideIcons } from '@ng-icons/core';
 import { faSolidCirclePlus } from '@ng-icons/font-awesome/solid';
-import { Button } from '../../../../../shared/button/button';
+import { Button } from '../../../../../shared/components/button/button';
 import { CreateSubjectRequest } from '../../../models/create-subject-request';
 import { SubjectService } from '../../../services/subject-service';
 import { createSubjectForm } from '../../factories/subject-factories';

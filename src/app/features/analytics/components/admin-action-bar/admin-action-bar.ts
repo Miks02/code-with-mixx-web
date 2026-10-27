@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NgIcon } from '@ng-icons/core';
-import { Button } from '../../../../shared/button/button';
+import { Button } from '../../../../shared/components/button/button';
 import { RouterLink } from '@angular/router';
 
 @Component({

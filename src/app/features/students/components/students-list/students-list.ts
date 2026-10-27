@@ -8,11 +8,11 @@ import {
   faSolidXmark,
 } from '@ng-icons/font-awesome/solid';
 import { PagedResult } from '../../../../core/models/paged-result';
-import { Button } from '../../../../shared/button/button';
-import { FilterMenu } from '../../../../shared/filter-menu/filter-menu';
-import { SearchBar } from '../../../../shared/search-bar/search-bar';
-import { Skeleton } from '../../../../shared/skeleton/skeleton';
-import { SortMenu } from '../../../../shared/sort-menu/sort-menu';
+import { Button } from '../../../../shared/components/button/button';
+import { FilterMenu } from '../../../../shared/components/filter-menu/filter-menu';
+import { SearchBar } from '../../../../shared/components/search-bar/search-bar';
+import { Skeleton } from '../../../../shared/components/skeleton/skeleton';
+import { SortMenu } from '../../../../shared/components/sort-menu/sort-menu';
 import { StudentFilter } from '../../models/student-filter';
 import { StudentItem } from '../../models/student-item';
 import { StudentSort } from '../../models/student-sort';

@@ -9,7 +9,7 @@ import {
 import { DialogResult } from '../../../../../core/components/dialog/dialog';
 import { DialogService } from '../../../../../core/services/dialog-service';
 import { ToastService } from '../../../../../core/services/toast-service';
-import { StatsCard } from '../../../../../shared/stats-card/stats-card';
+import { StatsCard } from '../../../../../shared/components/stats-card/stats-card';
 import { PaymentStatus, ReservationStatus } from '../../../../reservations';
 import { SubjectService } from '../../../../subjects';
 import { ProjectReservationsList } from '../../../components/project-reservations-list/project-reservations-list';

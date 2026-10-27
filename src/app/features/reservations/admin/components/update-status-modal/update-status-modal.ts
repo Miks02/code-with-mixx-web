@@ -5,7 +5,7 @@ import { faSolidArrowRight, faSolidArrowsRotate, faSolidXmark } from '@ng-icons/
 import { DialogResult } from '../../../../../core/components/dialog/dialog';
 import { DialogService } from '../../../../../core/services/dialog-service';
 import { ToastService } from '../../../../../core/services/toast-service';
-import { Button } from '../../../../../shared/button/button';
+import { Button } from '../../../../../shared/components/button/button';
 import { createUpdateStatusForm } from '../../../factories/reservation-factories';
 import { ReservationStatus } from '../../../models/reservation-status';
 import { UpdateStatusFormModel } from '../../../models/update-status-request';
