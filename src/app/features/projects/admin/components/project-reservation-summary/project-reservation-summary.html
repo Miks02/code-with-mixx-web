@@ -1,0 +1,102 @@
+<div class="p-4 bg-emerald-950/80 rounded-lg shadow-lg flex flex-col gap-4">
+  <div class="flex w-full justify-between items-center gap-2">
+    <h2 class="text-xl text-emerald-100 font-semibold flex gap-2 items-center">Rezime</h2>
+    <span [class]="paymentStatus().classes" class="rounded-full px-3 py-1 text-sm font-semibold">
+      {{ paymentStatus().label }}
+    </span>
+  </div>
+
+  <div class="grid grid-cols-2 gap-2">
+    @for (stat of stats(); track stat.label) {
+    <div class="flex flex-col min-w-0 rounded-lg bg-emerald-900 px-3 py-2">
+      <p class="text-lg text-emerald-100 font-semibold truncate">{{ stat.value }}</p>
+      <p class="text-sm text-emerald-200">{{ stat.label }}</p>
+    </div>
+    }
+  </div>
+
+  <form class="flex flex-col gap-1">
+    <label for="reservationDate" class="text-sm text-emerald-300">Datum rezervisanja</label>
+    <input
+      id="reservationDate"
+      [formField]="reservationForm.reservedAt"
+      type="date"
+      class="w-full rounded-lg bg-emerald-950/80 px-3 py-2.5 text-emerald-100 outline-none focus:outline-1 focus:outline-emerald-300 scheme-dark"
+    />
+    @if (reservationForm.reservedAt().touched() || reservationForm.reservedAt().dirty() &&
+    reservationForm.reservedAt().errors().length) {
+    <p class="text-sm text-red-400">{{ reservationForm.reservedAt().errors()[0]?.message }}</p>
+    }
+
+    <label for="reservationDescription" class="text-sm text-emerald-300 mt-2">Opis</label>
+    <textarea
+      id="reservationDescription"
+      [formField]="reservationForm.description"
+      rows="4"
+      placeholder="Opis rezervacije (opciono)"
+      class="w-full resize-y rounded-lg bg-emerald-950/80 px-3 py-2.5 text-emerald-100 placeholder:text-emerald-300/50 outline-none focus:outline-1 focus:outline-emerald-300"
+    ></textarea>
+    @if ((reservationForm.description().touched() || reservationForm.description().dirty()) &&
+    reservationForm.description().errors().length) {
+    <p class="text-sm text-red-400">{{ reservationForm.description().errors()[0]?.message }}</p>
+    }
+  </form>
+
+  <div class="flex flex-col gap-2">
+    <p class="text-emerald-100 font-semibold">Projekti ({{ projects().length }})</p>
+    <div class="flex flex-col gap-2 max-h-62 overflow-y-auto pr-2">
+      @for (project of projects(); track $index) {
+      <div class="flex flex-col gap-1 shrink-0 rounded-lg bg-emerald-900 px-3 py-2">
+        <div class="flex items-center justify-between gap-3">
+          <p class="text-emerald-100 font-semibold truncate">
+            {{ project.subjectName || 'Novi projekat' }}
+          </p>
+          <p class="text-emerald-100 font-semibold shrink-0">
+            {{ priceConverter(project.price || 0) }}
+          </p>
+        </div>
+        <div class="flex items-center justify-between gap-3 text-sm text-emerald-200">
+          <p>{{ projectTypeLabels[project.projectType] }} · {{ project.notes.length }} bel.</p>
+          <p>{{ project.progress }}%</p>
+        </div>
+        <div class="h-1.5 w-full rounded-full bg-emerald-950 overflow-hidden">
+          <div
+            class="h-full rounded-full bg-emerald-500 transition-200"
+            [style.width.%]="project.progress"
+          ></div>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+
+  <ul class="flex flex-col gap-2">
+    @for (check of checks(); track check.validLabel) {
+    <li
+      [class]="check.isValid ? 'text-emerald-100' : 'text-red-300'"
+      class="flex items-center gap-2"
+    >
+      <ng-icon
+        [name]="check.isValid ? 'faSolidCircleCheck' : 'faSolidCircleXmark'"
+        [class]="check.isValid ? 'text-emerald-400!' : 'text-red-400!'"
+        class="text-lg shrink-0"
+      ></ng-icon>
+      {{ check.isValid ? check.validLabel : check.invalidLabel }}
+    </li>
+    }
+  </ul>
+
+  <div class="flex flex-col gap-2">
+    <app-button
+      (clicked)="onSubmitClicked()"
+      icon="faSolidCheck"
+      [fullWidth]="true"
+      [disabled]="!reservationForm().valid()"
+    >
+      Sačuvaj
+    </app-button>
+    <app-button (clicked)="resetForm()" variant="ghost" [fullWidth]="true">
+      Poništi formu
+    </app-button>
+  </div>
+</div>

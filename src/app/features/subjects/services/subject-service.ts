@@ -1,23 +1,23 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Service, Signal } from '@angular/core';
 import {
-  CreateQueryResult,
-  injectMutation,
-  injectQuery,
-  keepPreviousData,
-  QueryClient,
+    CreateQueryResult,
+    injectMutation,
+    injectQuery,
+    keepPreviousData,
+    QueryClient,
 } from '@tanstack/angular-query-experimental';
 import { lastValueFrom } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { PagedResult } from '../../../core/models/paged-result';
 import { ProblemDetails } from '../../../core/models/problem-details';
+import { dateConverter } from '../../../core/utilities/date-helpers';
 import { CreateSubjectRequest } from '../models/create-subject-request';
 import { SubjectItem } from '../models/subject-item';
+import { SubjectLookupItem } from '../models/subject-lookup-item';
+import { SubjectSort } from '../models/subject-sort';
 import { SubjectsSummary } from '../models/subjects-summary';
 import { UpdateSubjectRequest } from '../models/update-subject-request';
-import { dateConverter } from '../../../core/utilities/date-helpers';
-import { SubjectSort } from '../models/subject-sort';
-import { Item } from 'three/examples/jsm/inspector/ui/Item.js';
 
 @Service()
 export class SubjectService {
@@ -104,6 +104,14 @@ export class SubjectService {
     }));
   }
 
+  getSubjectsLookupQuery() {
+    return injectQuery<SubjectLookupItem[]>(() => ({
+      queryKey: ['subjects-lookup'],
+      queryFn: () =>
+        lastValueFrom(this.http.get<SubjectLookupItem[]>(`${this.apiUrl}/subjects/lookup`)),
+    }));
+  }
+
   createSubjectMutation = injectMutation<
     Pick<SubjectItem, 'id' | 'subjectName' | 'subjectDescription' | 'createdAt'>,
     ProblemDetails,
@@ -158,6 +166,7 @@ export class SubjectService {
   }
 
   private invalidateSubjectQueries(): Promise<void> {
+    this.queryClient.invalidateQueries({ queryKey: ['subjects-lookup'] });
     this.queryClient.invalidateQueries({
       queryKey: ['paged-subjects-admin'],
       refetchType: 'none',

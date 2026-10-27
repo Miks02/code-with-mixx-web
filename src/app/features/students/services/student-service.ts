@@ -20,6 +20,7 @@ import {
   UpdateStudentRequest,
   UpdateStudentResponse,
 } from '../models/update-student-request';
+import { StudentLookup } from '../models/student-lookup';
 
 @Service()
 export class StudentService {
@@ -60,6 +61,12 @@ export class StudentService {
     }));
   }
 
+  getStudentsLookupQuery = injectQuery<StudentLookup[]>(() => ({
+    queryKey: ['students-lookup'],
+    queryFn: () =>
+      lastValueFrom(this.http.get<StudentLookup[]>(`${this.apiUrl}/admin/students/lookup`, {})),
+  }));
+
   createStudentMutation = injectMutation<void, ProblemDetails, CreateStudentFormModel>(() => ({
     mutationFn: (model: CreateStudentFormModel) => {
       const request: CreateStudentRequest = {
@@ -74,6 +81,13 @@ export class StudentService {
       return this.queryClient.invalidateQueries({ queryKey: ['students-summary'] });
     },
   }));
+
+  searchStudentsQuery(searchTerm: Signal<string>) {
+    return injectQuery(() => ({
+      queryKey: ['search-students', searchTerm()],
+      queryFn: () => lastValueFrom(this.http.get(`${this.apiUrl}/admin/students/search`))
+    }))
+  }
 
   updateStudentMutation = injectMutation<
     UpdateStudentResponse,

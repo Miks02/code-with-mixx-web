@@ -1,0 +1,77 @@
+<div class="p-4 flex flex-col gap-4 bg-emerald-950/80 rounded-lg backdrop-blur-xl shadow-lg">
+  <div class="flex w-full justify-between">
+    <h2 class="text-xl text-emerald-100 font-semibold">Selekcija studenta</h2>
+    <p class="text-emerald-200">Obavezno</p>
+  </div>
+
+  @if(selectedStudent(); as selected) {
+  <div
+    class="flex items-center gap-4 w-full p-4 rounded-lg bg-emerald-900 outline-1 outline-amber-400"
+  >
+    <div
+      class="flex items-center justify-center shrink-0 rounded-full w-12 h-12 bg-amber-400 text-lg font-semibold text-emerald-950"
+    >
+      {{ getInitials(selected.fullName) }}
+    </div>
+    <div class="flex flex-col min-w-0 flex-1">
+      <p class="text-lg text-emerald-100 font-semibold truncate">{{selected.fullName}}</p>
+      <p class="text-emerald-100/70 truncate">{{selected.email}}</p>
+    </div>
+    <button
+      type="button"
+      (click)="onStudentSelected(null)"
+      aria-label="Ukloni izabranog studenta"
+      class="flex items-center justify-center shrink-0 w-8 h-8 rounded-full text-emerald-200 hover:bg-emerald-800 hover:text-emerald-100 cursor-pointer active:scale-95 transition-200"
+    >
+      <ng-icon name="faSolidXmark"></ng-icon>
+    </button>
+  </div>
+  } @else {
+  <div class="flex w-full justify-center">
+    <p
+      class="text-emerald-100 font-semibold p-4 outline-emerald-100 w-full outline-1 text-center rounded-lg text-lg"
+    >
+      Izaberite studenta iz liste
+    </p>
+  </div>
+  }
+
+  <div class="flex gap-2 flex-col w-full h-60">
+    <p class="text-emerald-100">Pretraga studenta</p>
+    <div
+      class="rounded-lg bg-emerald-950 px-4 py-3 flex gap-2 w-full items-center outline-1 outline-emerald-400 focus-within:outline-emerald-200 transition-200"
+    >
+      <label for="search-student" class="flex items-center">
+        <ng-icon name="faSolidMagnifyingGlass" class="text-emerald-200! text-lg"></ng-icon>
+      </label>
+      <input
+        id="search-student"
+        name="search"
+        (input)="onSearchChanged($event)"
+        type="text"
+        class="w-full appearance-none outline-none border-none placeholder-emerald-200/60 text-emerald-100"
+        placeholder="Ime, email ili fakultet"
+      />
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 w-full gap-4 py-4 px-1 overflow-y-auto overflow-x-hidden">
+      @for(student of studentsList(); track student.id) {
+      <div
+        (click)="onStudentSelected(student)"
+        [class]="selectedStudent()?.id === student.id ? 'outline-2 outline-amber-400' : 'outline-1 outline-emerald-200'"
+        class="flex items-center gap-4 min-w-0 md:last:odd:col-span-2 p-4 rounded-lg shadow-md bg-emerald-800 cursor-pointer hover:bg-emerald-700 transition-200"
+      >
+        <div
+          class="flex items-center justify-center shrink-0 rounded-full w-8 h-8 bg-amber-400 text-sm font-semibold text-emerald-950"
+        >
+          {{ getInitials(student.fullName) }}
+        </div>
+        <div class="flex flex-col min-w-0">
+          <p class="text-lg text-emerald-100 truncate">{{student.fullName}}</p>
+          <p class="text-emerald-100/70 truncate">{{student.email}}</p>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+</div>

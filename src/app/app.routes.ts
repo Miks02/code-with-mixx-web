@@ -21,23 +21,35 @@ export const routes: Routes = [
       },
       {
         path: 'forgot-password',
-        loadComponent: () => import('./features/auth/components/forgot-password/forgot-password').then((c) => c.ForgotPassword),
+        loadComponent: () =>
+          import('./features/auth/components/forgot-password/forgot-password').then(
+            (c) => c.ForgotPassword,
+          ),
       },
       {
         canActivate: [resetPasswordGuardGuard],
         path: 'reset-password',
-        loadComponent: () => import('./features/auth/components/reset-password/reset-password').then((c) => c.ResetPassword),
+        loadComponent: () =>
+          import('./features/auth/components/reset-password/reset-password').then(
+            (c) => c.ResetPassword,
+          ),
       },
       {
         path: 'activate-account',
-        loadComponent: () => import('./features/auth/components/account-activation/account-activation').then((c) => c.AccountActivation),
+        loadComponent: () =>
+          import('./features/auth/components/account-activation/account-activation').then(
+            (c) => c.AccountActivation,
+          ),
       },
     ],
   },
   {
     path: 'admin',
     canActivate: [authGuard, adminGuard],
-    loadComponent: () => import('./layouts/dashboard/dashboard-layout/dashboard-layout').then((c) => c.DashboardLayout),
+    loadComponent: () =>
+      import('./layouts/dashboard/dashboard-layout/dashboard-layout').then(
+        (c) => c.DashboardLayout,
+      ),
     children: [
       {
         path: '',
@@ -46,16 +58,45 @@ export const routes: Routes = [
       },
       {
         path: 'analytics',
-        loadComponent: () => import('./features/analytics/pages/analytics-page/analytics-page').then((c) => c.AnalyticsPage),
+        loadComponent: () =>
+          import('./features/analytics/pages/analytics-page/analytics-page').then(
+            (c) => c.AnalyticsPage,
+          ),
       },
       {
         path: 'subjects',
-        loadComponent: () => import('./features/subjects/admin/pages/subjects-page/subjects-page').then((c) => c.SubjectsPage),
+        loadComponent: () =>
+          import('./features/subjects/admin/pages/subjects-page/subjects-page').then(
+            (c) => c.SubjectsPage,
+          ),
       },
       {
         path: 'students',
-        loadComponent: () => import('./features/students/pages/students-page/students-page').then((c) => c.StudentsPage),
+        loadComponent: () =>
+          import('./features/students/pages/students-page/students-page').then(
+            (c) => c.StudentsPage,
+          ),
       },
+      {
+        path: 'projects',
+        loadComponent: () =>
+          import('./features/projects/admin/pages/projects-page/projects-page').then(
+            (c) => c.ProjectsPage,
+          ),
+      },
+      {
+        path: 'projects/create',
+        loadComponent: () =>
+          import('./features/projects/admin/pages/create-project-reservation-page/create-project-reservation-page').then(
+            (c) => c.CreateProjectReservationPage,
+          ),
+      },
+      {
+        path: "projects/details/:id",
+        loadComponent: () => import("./features/projects/admin/pages/project-reservation-details-page/project-reservation-details-page").then(
+          (c) => c.ProjectReservationDetailsPage
+        )
+      }
     ],
   },
 ];
