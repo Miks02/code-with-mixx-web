@@ -8,7 +8,7 @@ import { SubjectService } from '../../../../subjects';
 import { createProjectReservationRequest } from '../../../factories/project-factories';
 import { ProjectFormService } from '../../../services/project-form-service';
 import { ProjectService } from '../../../services/project-service';
-import { PROJECT_RESERVATION_ERROR_MESSAGES } from '../../../utilities/project-error-messages';
+import { getProjectReservationErrorMessage } from '../../../utilities/project-error-messages';
 import { ProjectReservationListForm } from '../../components/project-reservation-list-form/project-reservation-list-form';
 import { ProjectReservationPricing } from '../../components/project-reservation-pricing/project-reservation-pricing';
 import { ProjectReservationSummary } from '../../components/project-reservation-summary/project-reservation-summary';
@@ -67,14 +67,12 @@ export class CreateProjectReservationPage {
         await this.createReservationMutation.mutateAsync(request);
         this.toastService.showSuccess('Rezervacija je uspešno kreirana.');
         this.router.navigateByUrl('/admin/projects');
-      } catch (err: any) {
-        if (err?.status === 400 && err?.error?.errors) {
-          this.toastService.showError('Podaci rezervacije nisu ispravni. Proverite polja forme.');
-          return;
-        }
+      } catch (err) {
         this.toastService.showError(
-          PROJECT_RESERVATION_ERROR_MESSAGES[err?.error?.errorCode] ??
+          getProjectReservationErrorMessage(
+            err,
             'Došlo je do greške prilikom kreiranja rezervacije. Pokušajte ponovo kasnije.',
+          ),
         );
       }
     });

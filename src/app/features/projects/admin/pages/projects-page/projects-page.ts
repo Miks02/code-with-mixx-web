@@ -17,6 +17,8 @@ import { ProjectQueryParams } from '../../../models/project-query-params';
 import { ProjectReservationItem } from '../../../models/project-reservation-item';
 import { ProjectType } from '../../../models/project-type';
 import { ProjectService } from '../../../services/project-service';
+import { PROJECT_RESERVATION_ERROR_MESSAGES } from '../../../utilities/project-error-messages';
+import { PROJECT_RESERVATION_TOAST_MESSAGES } from '../../../utilities/project-toast-messages';
 import { ProjectReservationDetails } from '../../components/project-reservation-details/project-reservation-details';
 
 @Component({
@@ -61,7 +63,7 @@ export class ProjectsPage {
   subjectsLookupData = computed(() => this.subjectsLookupSource.data() ?? []);
   projectsSummaryData = computed(() => this.projectsSummarySource.data());
   reservationsData = computed(() => this.reservationsSource.data());
-  
+
   projectsSummaryPending = computed(() => this.projectsSummarySource.isPending());
   reservationsPending = computed(() => this.reservationsSource.isPending());
   reservationsFetching = computed(() => this.reservationsSource.isFetching());
@@ -92,13 +94,8 @@ export class ProjectsPage {
 
     this.projectService.archiveProjectReservationMutation.mutate(reservationId, {
       onSuccess: () =>
-        this.toastService.showSuccess(
-          'Rezervacija je uspešno arhivirana.',
-        ),
-      onError: () =>
-        this.toastService.showError(
-          'Došlo je do greške prilikom arhiviranja rezervacije. Pokušajte ponovo kasnije.',
-        ),
+        this.toastService.showSuccess(PROJECT_RESERVATION_TOAST_MESSAGES.archiveSuccess),
+      onError: () => this.toastService.showError(PROJECT_RESERVATION_TOAST_MESSAGES.archiveError),
     });
   }
 
@@ -112,13 +109,8 @@ export class ProjectsPage {
 
     this.projectService.restoreProjectReservationMutation.mutate(reservationId, {
       onSuccess: () =>
-        this.toastService.showSuccess(
-          'Rezervacija je uspešno vraćena iz arhive.',
-        ),
-      onError: () =>
-        this.toastService.showError(
-          'Došlo je do greške prilikom vraćanja rezervacije. Pokušajte ponovo kasnije.',
-        ),
+        this.toastService.showSuccess(PROJECT_RESERVATION_TOAST_MESSAGES.restoreSuccess),
+      onError: () => this.toastService.showError(PROJECT_RESERVATION_TOAST_MESSAGES.restoreError),
     });
   }
 
@@ -132,20 +124,12 @@ export class ProjectsPage {
 
     this.projectService.deleteProjectReservationMutation.mutate(reservationId, {
       onSuccess: () =>
-        this.toastService.showSuccess(
-          'Rezervacija je uspešno obrisana.',
-        ),
-      onError: (err: any) => {
-        if (err?.error?.errorCode === "Reservation.RequiresHistoryRetention") {
-          this.toastService.showError(
-            'Rezervacija ne može biti trajno obrisana jer zahteva čuvanje istorije.',
-          )
-          return;
-        }
+        this.toastService.showSuccess(PROJECT_RESERVATION_TOAST_MESSAGES.deleteSuccess),
+      onError: (err: any) =>
         this.toastService.showError(
-          'Došlo je do greške prilikom brisanja rezervacije. Pokušajte ponovo kasnije.',
-        )
-      }
+          PROJECT_RESERVATION_ERROR_MESSAGES[err?.error?.errorCode] ??
+            PROJECT_RESERVATION_TOAST_MESSAGES.deleteError,
+        ),
     });
   }
 
@@ -166,7 +150,11 @@ export class ProjectsPage {
   }
 
   onDeletedReservationsToggle(showOnlyDeletedReservations: boolean) {
-    this.queryParams.update((params) => ({ ...params, pageNumber: 1, showOnlyDeletedReservations }));
+    this.queryParams.update((params) => ({
+      ...params,
+      pageNumber: 1,
+      showOnlyDeletedReservations,
+    }));
   }
 
   onDeletedStudentsToggle(showOnlyDeletedStudents: boolean) {
@@ -176,6 +164,4 @@ export class ProjectsPage {
   onPageChange(pageNumber: number) {
     this.queryParams.update((params) => ({ ...params, pageNumber }));
   }
-
-
 }
