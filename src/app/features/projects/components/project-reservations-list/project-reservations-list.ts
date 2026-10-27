@@ -22,6 +22,7 @@ import { ProjectReservationItem } from '../../models/project-reservation-item';
 import { ProjectType } from '../../models/project-type';
 import { ProjectReservationCard } from '../project-reservation-card/project-reservation-card';
 import { Router } from '@angular/router';
+import { PROJECT_TYPE_LABELS } from '../../utilities/project-labels';
 
 const CONFLICTING_RESERVATION_STATUSES: Record<ReservationStatus, ReservationStatus[]> = {
   [ReservationStatus.Confirmed]: [ReservationStatus.Cancelled],
@@ -89,10 +90,7 @@ export class ProjectReservationsList {
   hasPreviousPage = computed(() => this.pagedReservations()?.hasPreviousPage ?? false);
   hasNextPage = computed(() => this.pagedReservations()?.hasNextPage ?? false);
 
-  projectTypes: Record<ProjectType, string> = {
-    [ProjectType.Seminar]: 'Seminarski',
-    [ProjectType.Graduation]: 'Diplomski',
-  };
+  projectTypes = PROJECT_TYPE_LABELS;
 
   reservationStatuses: Record<ReservationStatus, string> = {
     [ReservationStatus.Confirmed]: 'Potvrđene',
