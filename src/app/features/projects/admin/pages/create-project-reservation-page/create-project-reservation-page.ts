@@ -5,10 +5,10 @@ import { ToastService } from '../../../../../core/services/toast-service';
 import { Button } from '../../../../../shared/button/button';
 import { StudentLookup, StudentService } from '../../../../students';
 import { SubjectService } from '../../../../subjects';
-import { ProjectReservationRequest } from '../../../models/project-reservation-request';
+import { createProjectReservationRequest } from '../../../factories/project-factories';
 import { ProjectFormService } from '../../../services/project-form-service';
 import { ProjectService } from '../../../services/project-service';
-import { PROJECT_RESERVATION_ERROR_MESSAGES } from '../../../utilities/project-error-messages';
+import { getProjectReservationErrorMessage } from '../../../utilities/project-error-messages';
 import { ProjectReservationListForm } from '../../components/project-reservation-list-form/project-reservation-list-form';
 import { ProjectReservationPricing } from '../../components/project-reservation-pricing/project-reservation-pricing';
 import { ProjectReservationSummary } from '../../components/project-reservation-summary/project-reservation-summary';
@@ -61,37 +61,18 @@ export class CreateProjectReservationPage {
 
   onSubmit() {
     return submit(this.reservationForm, async () => {
-      const model = this.reservationModel();
-      const request: ProjectReservationRequest = {
-        id: 0,
-        studentId: model.studentId,
-        totalPrice: model.totalPrice,
-        reservedAt: model.reservedAt,
-        description: model.description || null,
-        reservationStatus: model.reservationStatus,
-        projects: model.projects.map((project) => ({
-          ...project,
-          startDate: project.startDate,
-          endDate: project.endDate,
-          reservedAt: project.reservedAt,
-          githubLink: project.githubLink || null,
-          downloadLink: project.downloadLink || null,
-          notes: project.notes
-        })),
-      };
+      const request = createProjectReservationRequest(this.reservationModel());
 
       try {
         await this.createReservationMutation.mutateAsync(request);
         this.toastService.showSuccess('Rezervacija je uspešno kreirana.');
         this.router.navigateByUrl('/admin/projects');
-      } catch (err: any) {
-        if (err?.status === 400 && err?.error?.errors) {
-          this.toastService.showError('Podaci rezervacije nisu ispravni. Proverite polja forme.');
-          return;
-        }
+      } catch (err) {
         this.toastService.showError(
-          PROJECT_RESERVATION_ERROR_MESSAGES[err?.error?.errorCode] ??
+          getProjectReservationErrorMessage(
+            err,
             'Došlo je do greške prilikom kreiranja rezervacije. Pokušajte ponovo kasnije.',
+          ),
         );
       }
     });

@@ -22,9 +22,14 @@ import { ProjectReservationDetails } from '../models/project-reservation-details
 import {
   ProjectItemFormModel,
   ProjectReservationFormModel,
+  ProjectReservationRequest,
 } from '../models/project-reservation-request';
 import { ProjectType } from '../models/project-type';
 import { UpdateProjectFormModel } from '../models/update-project-request';
+import {
+  UpdateProjectItem,
+  UpdateProjectReservationRequest,
+} from '../models/update-project-reservation-request';
 
 const DEFAULT_PROJECT_DURATION_DAYS = 7;
 
@@ -85,6 +90,43 @@ export function createReservationFormModel(
       notes: project.notes.map((note) => ({ ...note })),
       notesToDelete: [],
     })),
+  };
+}
+
+function createProjectItemRequest(project: ProjectItemFormModel): UpdateProjectItem {
+  return {
+    ...project,
+    githubLink: project.githubLink || null,
+    downloadLink: project.downloadLink || null,
+  };
+}
+
+export function createProjectReservationRequest(
+  model: ProjectReservationFormModel,
+): ProjectReservationRequest {
+  return {
+    id: 0,
+    studentId: model.studentId,
+    totalPrice: model.totalPrice,
+    reservedAt: model.reservedAt,
+    description: model.description || null,
+    reservationStatus: model.reservationStatus,
+    projects: model.projects.map(createProjectItemRequest),
+  };
+}
+
+export function createUpdateProjectReservationRequest(
+  model: ProjectReservationFormModel,
+): UpdateProjectReservationRequest {
+  return {
+    id: model.id,
+    studentId: model.studentId,
+    totalPrice: model.totalPrice,
+    reservationStatus: model.reservationStatus,
+    description: model.description,
+    projectsToDelete: model.projectsToDelete,
+    reservedAt: model.reservedAt,
+    projects: model.projects.map(createProjectItemRequest),
   };
 }
 

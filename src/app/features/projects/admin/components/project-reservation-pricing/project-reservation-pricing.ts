@@ -1,31 +1,7 @@
 import { Component, computed, inject, input, signal } from '@angular/core';
 import { FormField } from '@angular/forms/signals';
-import { ReservationStatus } from '../../../../reservations';
+import { RESERVATION_STATUS_STYLES, ReservationStatus } from '../../../../reservations';
 import { ProjectFormService } from '../../../services/project-form-service';
-
-type ReservationStatusStyle = {
-  label: string;
-  dotClasses: string;
-  selectedClasses: string;
-};
-
-const RESERVATION_STATUSES: Record<ReservationStatus, ReservationStatusStyle> = {
-  [ReservationStatus.Confirmed]: {
-    label: 'Potvrđena',
-    dotClasses: 'bg-emerald-400',
-    selectedClasses: 'bg-emerald-600 text-white',
-  },
-  [ReservationStatus.Completed]: {
-    label: 'Završena',
-    dotClasses: 'bg-sky-400',
-    selectedClasses: 'bg-sky-700 text-white',
-  },
-  [ReservationStatus.Cancelled]: {
-    label: 'Otkazana',
-    dotClasses: 'bg-red-400',
-    selectedClasses: 'bg-red-700 text-white',
-  },
-};
 
 @Component({
   imports: [FormField],
@@ -41,7 +17,7 @@ export class ProjectReservationPricing {
   totalPaid = input<number>();
 
   reservationStatuses = Object.values(ReservationStatus);
-  reservationStatusStyles = RESERVATION_STATUSES;
+  reservationStatusStyles = RESERVATION_STATUS_STYLES;
 
   private projects = computed(() => this.projectFormService.reservationModel().projects);
 

@@ -17,4 +17,13 @@ export const PROJECT_RESERVATION_ERROR_MESSAGES: Record<string, string> = {
   'Project.CantUpdateAnArchivedProject': 'Nije moguće izmeniti arhiviran projekat.',
   'Reservation.CantUpdateAnArchivedReservation':
     'Nije moguće izmeniti projekat iz arhivirane rezervacije.',
+  'Reservation.RequiresHistoryRetention':
+    'Rezervacija ne može biti trajno obrisana jer zahteva čuvanje istorije.',
 };
+
+export function getProjectReservationErrorMessage(err: any, fallback: string): string {
+  if (err?.status === 400 && err?.error?.errors)
+    return 'Podaci rezervacije nisu ispravni. Proverite polja forme.';
+
+  return PROJECT_RESERVATION_ERROR_MESSAGES[err?.error?.errorCode] ?? fallback;
+}

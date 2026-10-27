@@ -10,30 +10,7 @@ import { createUpdateStatusForm } from '../../../factories/reservation-factories
 import { ReservationStatus } from '../../../models/reservation-status';
 import { UpdateStatusFormModel } from '../../../models/update-status-request';
 import { ReservationService } from '../../../services/reservation-service';
-
-type ReservationStatusStyle = {
-  label: string;
-  dotClasses: string;
-  selectedClasses: string;
-};
-
-const RESERVATION_STATUSES: Record<ReservationStatus, ReservationStatusStyle> = {
-  [ReservationStatus.Confirmed]: {
-    label: 'Potvrđena',
-    dotClasses: 'bg-emerald-500',
-    selectedClasses: 'bg-emerald-600 text-white',
-  },
-  [ReservationStatus.Completed]: {
-    label: 'Završena',
-    dotClasses: 'bg-sky-500',
-    selectedClasses: 'bg-sky-700 text-white',
-  },
-  [ReservationStatus.Cancelled]: {
-    label: 'Otkazana',
-    dotClasses: 'bg-red-500',
-    selectedClasses: 'bg-red-700 text-white',
-  },
-};
+import { RESERVATION_STATUS_STYLES } from '../../../utilities/reservation-labels';
 
 @Component({
   imports: [NgIcon, Button],
@@ -58,7 +35,7 @@ export class UpdateStatusModal {
   closed = output<void>();
 
   reservationStatuses = Object.values(ReservationStatus);
-  reservationStatusStyles = RESERVATION_STATUSES;
+  reservationStatusStyles = RESERVATION_STATUS_STYLES;
 
   statusModel = linkedSignal<UpdateStatusFormModel>(() => ({
     reservationStatus: this.currentStatus(),

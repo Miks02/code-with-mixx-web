@@ -16,18 +16,18 @@ import { PagedResult } from '../../../../core/models/paged-result';
 import { Button } from '../../../../shared/button/button';
 import { FilterMenu } from '../../../../shared/filter-menu/filter-menu';
 import { Skeleton } from '../../../../shared/skeleton/skeleton';
-import { PaymentStatus, ReservationStatus } from '../../../reservations';
+import {
+  CONFLICTING_RESERVATION_STATUSES,
+  PaymentStatus,
+  RESERVATION_STATUS_FILTER_LABELS,
+  ReservationStatus,
+} from '../../../reservations';
 import { SubjectLookupItem } from '../../../subjects';
 import { ProjectReservationItem } from '../../models/project-reservation-item';
 import { ProjectType } from '../../models/project-type';
 import { ProjectReservationCard } from '../project-reservation-card/project-reservation-card';
 import { Router } from '@angular/router';
-
-const CONFLICTING_RESERVATION_STATUSES: Record<ReservationStatus, ReservationStatus[]> = {
-  [ReservationStatus.Confirmed]: [ReservationStatus.Cancelled],
-  [ReservationStatus.Completed]: [ReservationStatus.Cancelled],
-  [ReservationStatus.Cancelled]: [ReservationStatus.Confirmed, ReservationStatus.Completed],
-};
+import { PROJECT_TYPE_LABELS } from '../../utilities/project-labels';
 
 @Component({
   imports: [ProjectReservationCard, Button, FilterMenu, NgIcon, Skeleton],
@@ -89,16 +89,9 @@ export class ProjectReservationsList {
   hasPreviousPage = computed(() => this.pagedReservations()?.hasPreviousPage ?? false);
   hasNextPage = computed(() => this.pagedReservations()?.hasNextPage ?? false);
 
-  projectTypes: Record<ProjectType, string> = {
-    [ProjectType.Seminar]: 'Seminarski',
-    [ProjectType.Graduation]: 'Diplomski',
-  };
+  projectTypes = PROJECT_TYPE_LABELS;
 
-  reservationStatuses: Record<ReservationStatus, string> = {
-    [ReservationStatus.Confirmed]: 'Potvrđene',
-    [ReservationStatus.Completed]: 'Završene',
-    [ReservationStatus.Cancelled]: 'Otkazane',
-  };
+  reservationStatuses = RESERVATION_STATUS_FILTER_LABELS;
 
   paymentStatuses: Record<PaymentStatus, string> = {
     [PaymentStatus.Pending]: 'Na čekanju',
