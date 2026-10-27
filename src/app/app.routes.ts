@@ -4,6 +4,8 @@ import { guestGuard } from './core/guard/guest-guard';
 import { adminGuard } from './core/guard/admin-guard';
 import { resetPasswordGuardGuard } from './core/guard/reset-password-guard-guard';
 
+export const pageTitle = (title: string) => `${title} • CodeWithMixx`;
+
 export const routes: Routes = [
   {
     path: '',
@@ -16,10 +18,12 @@ export const routes: Routes = [
         pathMatch: 'full',
       },
       {
+        title: pageTitle('Prijava'),
         path: 'login',
         loadComponent: () => import('./features/auth/components/login/login').then((c) => c.Login),
       },
       {
+        title: pageTitle('Zaboravljena lozinka'),
         path: 'forgot-password',
         loadComponent: () =>
           import('./features/auth/components/forgot-password/forgot-password').then(
@@ -27,6 +31,7 @@ export const routes: Routes = [
           ),
       },
       {
+        title: pageTitle('Reset lozinke'),
         canActivate: [resetPasswordGuardGuard],
         path: 'reset-password',
         loadComponent: () =>
@@ -35,6 +40,7 @@ export const routes: Routes = [
           ),
       },
       {
+        title: pageTitle('Aktivacija naloga'),
         path: 'activate-account',
         loadComponent: () =>
           import('./features/auth/components/account-activation/account-activation').then(
@@ -57,6 +63,7 @@ export const routes: Routes = [
         pathMatch: 'full',
       },
       {
+        title: pageTitle('Analitika'),
         path: 'analytics',
         loadComponent: () =>
           import('./features/analytics/pages/analytics-page/analytics-page').then(
@@ -64,6 +71,7 @@ export const routes: Routes = [
           ),
       },
       {
+        title: pageTitle('Predmeti'),
         path: 'subjects',
         loadComponent: () =>
           import('./features/subjects/admin/pages/subjects-page/subjects-page').then(
@@ -71,6 +79,7 @@ export const routes: Routes = [
           ),
       },
       {
+        title: pageTitle('Studenti'),
         path: 'students',
         loadComponent: () =>
           import('./features/students/pages/students-page/students-page').then(
@@ -78,6 +87,7 @@ export const routes: Routes = [
           ),
       },
       {
+        title: pageTitle('Projekti'),
         path: 'projects',
         loadComponent: () =>
           import('./features/projects/admin/pages/projects-page/projects-page').then(
@@ -85,6 +95,7 @@ export const routes: Routes = [
           ),
       },
       {
+        title: pageTitle('Nova rezervacija'),
         path: 'projects/create',
         loadComponent: () =>
           import('./features/projects/admin/pages/create-project-reservation-page/create-project-reservation-page').then(
@@ -92,11 +103,13 @@ export const routes: Routes = [
           ),
       },
       {
-        path: "projects/details/:id",
-        loadComponent: () => import("./features/projects/admin/pages/project-reservation-details-page/project-reservation-details-page").then(
-          (c) => c.ProjectReservationDetailsPage
-        )
-      }
+        title: pageTitle('Detalji rezervacije'),
+        path: 'projects/details/:id',
+        loadComponent: () =>
+          import('./features/projects/admin/pages/project-reservation-details-page/project-reservation-details-page').then(
+            (c) => c.ProjectReservationDetailsPage,
+          ),
+      },
     ],
   },
 ];
