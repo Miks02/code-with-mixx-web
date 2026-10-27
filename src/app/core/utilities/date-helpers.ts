@@ -1,10 +1,11 @@
 
-export function dateConverter(date: string) {
-  const newDate = new Date(date).toLocaleDateString('sr-Latn-RS', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
+export type DateFormatOptions = Pick<Intl.DateTimeFormatOptions, 'year' | 'month' | 'day'>;
+
+export function dateConverter(
+  date: string,
+  { year = 'numeric', month = 'long', day = 'numeric' }: DateFormatOptions = {},
+) {
+  const newDate = new Date(date).toLocaleDateString('sr-Latn-RS', { year, month, day });
 
   return newDate;
 }
