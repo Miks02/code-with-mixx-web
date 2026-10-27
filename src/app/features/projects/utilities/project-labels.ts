@@ -22,11 +22,11 @@ export const RESERVATION_STATUS_META: Record<ReservationStatus, StatusMeta> = {
 
 export const PAYMENT_STATUS_META: Record<PaymentStatus, StatusMeta> = {
   [PaymentStatus.Pending]: { label: 'Čeka uplatu', classes: 'bg-amber-900/60 text-amber-100' },
-  [PaymentStatus.Paid]: { label: 'Plaćeno', classes: 'bg-emerald-900/80 text-emerald-100' },
+  [PaymentStatus.Paid]: { label: 'Plaćeno', classes: 'bg-emerald-950/80 text-emerald-100' },
   [PaymentStatus.PartiallyPaid]: {
     label: 'Delimično plaćeno',
     classes: 'bg-sky-900/60 text-sky-100',
   },
-  [PaymentStatus.Overdue]: { label: 'Kasni uplata', classes: 'bg-red-950/60 text-red-100' },
-  [PaymentStatus.Refunded]: { label: 'Refundirano', classes: 'bg-orange-950/60 text-orange-100' },
+  [PaymentStatus.Overdue]: { label: 'Kasni uplata', classes: 'bg-red-900/60 text-red-100' },
+  [PaymentStatus.Refunded]: { label: 'Refundirano', classes: 'bg-violet-900/60 text-violet-100' },
 };

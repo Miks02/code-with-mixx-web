@@ -110,6 +110,11 @@ export class ProjectReservationDetails {
     return reservation ? dateConverter(reservation.createdAt) : '';
   });
 
+  deletedAtLabel = computed(() => {
+    const reservation = this.reservation();
+    return reservation ? dateConverter(reservation.deletedAt ?? '') : '';
+  });
+
   stats = computed<ReservationStat[]>(() => {
     const reservation = this.reservation();
     if (!reservation) {

@@ -18,7 +18,12 @@
         >{{ paymentStatus()?.label }}</span
       >
     </div>
-    <p class="text-emerald-100/80 font-semibold">Kreirana: {{ createdAtLabel() }}</p>
+    <div class="flex flex-col gap-2">
+      @if(reservation.deletedAt) {
+      <p class="text-amber-100/80 font-semibold">Arhivirano: {{ deletedAtLabel() }}</p>
+      }
+      <p class="text-emerald-100/80 font-semibold">Kreirano: {{ createdAtLabel() }}</p>
+    </div>
   </div>
 
   <div class="flex gap-2 flex-wrap">
@@ -40,7 +45,9 @@
     <h3 class="text-emerald-100 font-semibold">Opis</h3>
     <p
       class="rounded-lg bg-emerald-900/80 px-3 py-2 text-sm text-emerald-100 whitespace-pre-line wrap-break-word max-h-32 overflow-y-auto"
-    >{{ reservation.description }}</p>
+    >
+      {{ reservation.description }}
+    </p>
   </div>
   }
 
