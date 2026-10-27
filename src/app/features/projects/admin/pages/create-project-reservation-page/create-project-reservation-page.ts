@@ -5,7 +5,7 @@ import { ToastService } from '../../../../../core/services/toast-service';
 import { Button } from '../../../../../shared/button/button';
 import { StudentLookup, StudentService } from '../../../../students';
 import { SubjectService } from '../../../../subjects';
-import { ProjectReservationRequest } from '../../../models/project-reservation-request';
+import { createProjectReservationRequest } from '../../../factories/project-factories';
 import { ProjectFormService } from '../../../services/project-form-service';
 import { ProjectService } from '../../../services/project-service';
 import { PROJECT_RESERVATION_ERROR_MESSAGES } from '../../../utilities/project-error-messages';
@@ -61,24 +61,7 @@ export class CreateProjectReservationPage {
 
   onSubmit() {
     return submit(this.reservationForm, async () => {
-      const model = this.reservationModel();
-      const request: ProjectReservationRequest = {
-        id: 0,
-        studentId: model.studentId,
-        totalPrice: model.totalPrice,
-        reservedAt: model.reservedAt,
-        description: model.description || null,
-        reservationStatus: model.reservationStatus,
-        projects: model.projects.map((project) => ({
-          ...project,
-          startDate: project.startDate,
-          endDate: project.endDate,
-          reservedAt: project.reservedAt,
-          githubLink: project.githubLink || null,
-          downloadLink: project.downloadLink || null,
-          notes: project.notes
-        })),
-      };
+      const request = createProjectReservationRequest(this.reservationModel());
 
       try {
         await this.createReservationMutation.mutateAsync(request);
