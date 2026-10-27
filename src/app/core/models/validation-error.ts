@@ -1,5 +1,5 @@
 export type ValidationError = {
-    errors: { [key: string]: string[]},
+    errors: Record<string, string[]>,
     status: number,
     title: string
 }

@@ -1,14 +1,12 @@
 import { Component, computed, signal, inject, effect } from '@angular/core';
-import { AccountStatus } from '@core/models/account-status';
 import { StudentFilter } from '@features/students/models/student-filter';
 import { StudentItem } from '@features/students/models/student-item';
 import { StudentSort } from '@features/students/models/student-sort';
-import { StudentsSummary } from '@features/students/models/students-summary';
 import { StudentsList } from '@features/students/components/students-list/students-list';
 import { StudentDetails } from '@features/students/components/student-details/student-details';
 import { StudentQueryParams } from '@features/students/models/student-query-params';
 import { StudentService } from '@features/students/services/student-service';
-import { BehaviorSubject, debounceTime, tap } from 'rxjs';
+import { BehaviorSubject, debounceTime } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { provideIcons } from '@ng-icons/core';
 import {

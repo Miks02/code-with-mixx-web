@@ -9,7 +9,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `npm run watch` — dev build in watch mode
 - `npm test` — run unit tests (Vitest via Angular's native `@angular/build:unit-test` builder, not Karma/Jasmine — spec files use Jasmine-style `describe/it/expect` syntax, which Vitest supports)
 - Run a single test file: `npm test -- --include src/app/core/services/auth-service.spec.ts --watch=false`
-- No lint script/config exists in the repo (no ESLint). Formatting is via Prettier (`.prettierrc`: 100 print width, single quotes, Angular parser for `.html`).
+- `npm run lint` — ESLint via angular-eslint (`eslint.config.js`); `npx eslint src --fix` to autofix. Enforces `type` over `interface`, alias imports instead of `../../`, and module boundaries (shared/core must not import features/layouts; other features only via their `index.ts` barrel). Formatting is via Prettier (`.prettierrc`: 100 print width, single quotes, Angular parser for `.html`).
 - No e2e framework is configured.
 
 ## Architecture

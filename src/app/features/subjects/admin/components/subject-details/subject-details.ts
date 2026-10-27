@@ -70,7 +70,7 @@ export class SubjectDetails {
           ...this.subject()!,
           deletedAt: currentDate(),
         }),
-      onError: (err) =>
+      onError: () =>
         this.toastService.showError(
           'Došlo je do greške prilikom arhiviranja predmeta. Pokušajte ponovo kasnije.',
         ),

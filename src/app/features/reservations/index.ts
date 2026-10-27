@@ -4,6 +4,7 @@ export { UpdateStatusModal } from './admin/components/update-status-modal/update
 export { ReservationService } from './services/reservation-service'
 export type { ReservationModalType } from './models/reservation-modal-type'
 export { reservationKeys, projectReservationKeys } from './utilities/reservation-keys'
+export { invalidateReservationQueries } from './utilities/reservation-queries'
 export {
   RESERVATION_STATUS_STYLES,
   RESERVATION_STATUS_FILTER_LABELS,

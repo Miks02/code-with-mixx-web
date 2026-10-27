@@ -46,7 +46,7 @@ export class ResetPassword implements OnInit {
         await this.resetPasswordMutation.mutateAsync(request);
         this.toastSerivce.showSuccess('Lozinka je uspešno resetovana.');
         await this.router.navigate(['/login']);
-      } catch (error) {
+      } catch {
         this.toastSerivce.showError(
           'Došlo je do greške prilikom resetovanja lozinke. Token nije validan.',
         );

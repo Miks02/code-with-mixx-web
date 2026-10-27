@@ -123,7 +123,7 @@ export class AuthService {
   private beginCooldown() {
     this.cooldownDuration.set(60);
 
-    let interval = setInterval(() => {
+    const interval = setInterval(() => {
       this.cooldownDuration.update((duration) => duration - 1);
       if (this.cooldownDuration() === 0) clearInterval(interval);
     }, 1000);

@@ -7,6 +7,7 @@ import { CreateSubjectRequest } from '@features/subjects/models/create-subject-r
 import { SubjectService } from '@features/subjects/services/subject-service';
 import { createSubjectForm } from '@features/subjects/admin/factories/subject-factories';
 import { ToastService } from '@core/services/toast-service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   imports: [FormField, Button],
@@ -36,9 +37,8 @@ export class CreateSubjectForm {
         this.toastService.showSuccess('Predmet je uspešno dodat');
 
         return [];
-      } catch (err: any) {
-        console.error(err);
-        if (err.error.errorCode === 'Subject.AlreadyExists') {
+      } catch (err) {
+        if (err instanceof HttpErrorResponse && err.error.errorCode === 'Subject.AlreadyExists') {
           return {
             kind: 'server',
             message: 'Predmet sa ovim nazivom već postoji.',

@@ -3,8 +3,7 @@ import { inject, Service, Signal } from '@angular/core';
 import { injectMutation, injectQuery, QueryClient } from '@tanstack/angular-query-experimental';
 import { lastValueFrom } from 'rxjs';
 import { environment } from '@environments/environment';
-import { reservationKeys } from '@features/reservations/utilities/reservation-keys';
-import { invalidateReservationQueries } from '@features/reservations/utilities/reservation-queries';
+import { invalidateReservationQueries, reservationKeys } from '@features/reservations';
 import { PaymentRequest } from '../models/payment-request';
 import { ReservationPaymentHistory } from '../models/reservation-payment-history';
 

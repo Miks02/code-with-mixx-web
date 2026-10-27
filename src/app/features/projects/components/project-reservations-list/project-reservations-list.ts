@@ -6,7 +6,6 @@ import {
   faSolidChartDiagram,
   faSolidChevronLeft,
   faSolidChevronRight,
-  faSolidDiagramProject,
   faSolidMoneyBillTransfer,
   faSolidPlus,
   faSolidUserSlash,

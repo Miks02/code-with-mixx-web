@@ -21,7 +21,7 @@ export function createSubtractPaymentForm(
     required(schemaPath.transactionDate, { message: 'Unesite datum transakcije.' });
     required(schemaPath.paymentType, { message: 'Izaberite vrstu transakcije.' });
     validate(schemaPath.paymentType, ({ value }) => {
-      if (value() == PaymentType.payment) {
+      if (value() === PaymentType.payment) {
         return {
           kind: 'paymentTypeInvalid',
           message: 'Transakcija mora biti tipa \'Povraćaj novca\' ili \'Poništenje\'.',

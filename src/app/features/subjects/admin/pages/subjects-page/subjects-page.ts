@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, signal, WritableSignal } from '@angular/core';
+import { Component, computed, inject, signal, WritableSignal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { provideIcons } from '@ng-icons/core';
@@ -22,7 +22,6 @@ import { CreateSubjectForm } from '@features/subjects/admin/components/create-su
 import { EditSubjectForm } from '@features/subjects/admin/components/edit-subject-form/edit-subject-form';
 import { MostPopularSubject } from '@features/subjects/admin/components/most-popular-subject/most-popular-subject';
 import { SubjectDetails } from '@features/subjects/admin/components/subject-details/subject-details';
-import { ToastService } from '@core/services/toast-service';
 
 @Component({
   imports: [

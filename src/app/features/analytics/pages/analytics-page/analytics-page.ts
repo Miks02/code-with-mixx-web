@@ -1,5 +1,5 @@
 import { Component, signal, Signal } from '@angular/core';
-import { NgIcon, provideIcons } from '@ng-icons/core';
+import { provideIcons } from '@ng-icons/core';
 import {
   faSolidCalendarPlus,
   faSolidChalkboardUser,

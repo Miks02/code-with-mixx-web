@@ -1,5 +1,4 @@
 import {
-    Binding,
     ComponentRef,
     inject,
     inputBinding,
