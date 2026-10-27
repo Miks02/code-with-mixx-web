@@ -12,6 +12,8 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { AuthService } from '@core/services/auth-service';
 import { authInterceptor } from '@core/interceptors/auth-interceptor';
 import { timeZoneInterceptor } from '@core/interceptors/time-zone-interceptor';
+import { httpErrorInterceptor } from '@core/interceptors/http-error-interceptor';
+import { ProblemDetails } from '@core/models/problem-details';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -23,7 +25,7 @@ export const appConfig: ApplicationConfig = {
         defaultOptions: {
           queries: {
             staleTime: 5 * 60 * 1000,
-            retry: (failureCount, error: any) => {
+            retry: (failureCount, error) => {
               const errorStatus = error.status;
               if (errorStatus >= 400 && errorStatus < 500) return false;
               return failureCount < 3;
@@ -32,6 +34,6 @@ export const appConfig: ApplicationConfig = {
         },
       }),
     ),
-    provideHttpClient(withInterceptors([timeZoneInterceptor, authInterceptor])),
+    provideHttpClient(withInterceptors([timeZoneInterceptor, authInterceptor, httpErrorInterceptor])),
   ],
 };
