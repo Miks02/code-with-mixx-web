@@ -7,6 +7,7 @@ export type ProjectReservationRequest = {
   totalPrice: number,
   reservationStatus: ReservationStatus,
   reservedAt: string,
+  description: string | null,
   projects: ProjectItem[]
 };
 
@@ -16,7 +17,8 @@ export type ProjectItemFormModel = Omit<ProjectItem, 'githubLink' | 'downloadLin
   notesToDelete: number[]
 };
 
-export type ProjectReservationFormModel = Omit<ProjectReservationRequest, 'projects'> & {
+export type ProjectReservationFormModel = Omit<ProjectReservationRequest, 'projects' | 'description'> & {
+  description: string,
   projectsToDelete: number[],
   projects: ProjectItemFormModel[]
 };

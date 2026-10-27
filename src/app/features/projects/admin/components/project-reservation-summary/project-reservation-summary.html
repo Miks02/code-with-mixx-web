@@ -27,6 +27,19 @@
     reservationForm.reservedAt().errors().length) {
     <p class="text-sm text-red-400">{{ reservationForm.reservedAt().errors()[0]?.message }}</p>
     }
+
+    <label for="reservationDescription" class="text-sm text-emerald-300 mt-2">Opis</label>
+    <textarea
+      id="reservationDescription"
+      [formField]="reservationForm.description"
+      rows="4"
+      placeholder="Opis rezervacije (opciono)"
+      class="w-full resize-y rounded-lg bg-emerald-950/80 px-3 py-2.5 text-emerald-100 placeholder:text-emerald-300/50 outline-none focus:outline-1 focus:outline-emerald-300"
+    ></textarea>
+    @if ((reservationForm.description().touched() || reservationForm.description().dirty()) &&
+    reservationForm.description().errors().length) {
+    <p class="text-sm text-red-400">{{ reservationForm.description().errors()[0]?.message }}</p>
+    }
   </form>
 
   <div class="flex flex-col gap-2">

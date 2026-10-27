@@ -10,7 +10,12 @@ import {
   required,
   validate,
 } from '@angular/forms/signals';
-import { dateInputValue, isAfter, isBefore, isValidDate } from '../../../core/utilities/date-helpers';
+import {
+  dateInputValue,
+  isAfter,
+  isBefore,
+  isValidDate,
+} from '../../../core/utilities/date-helpers';
 import { ReservationStatus } from '../../reservations';
 import { ProjectDetails } from '../models/project-details';
 import { ProjectReservationDetails } from '../models/project-reservation-details';
@@ -48,6 +53,7 @@ export function createEmptyReservation(): ProjectReservationFormModel {
     totalPrice: 0,
     projectsToDelete: [],
     reservedAt: dateInputValue(),
+    description: '',
     reservationStatus: ReservationStatus.Confirmed,
     projects: [createEmptyProject()],
   };
@@ -62,6 +68,7 @@ export function createReservationFormModel(
     totalPrice: details.totalPrice,
     reservationStatus: details.reservationStatus,
     reservedAt: details.reservedAt ?? '',
+    description: '',
     projectsToDelete: [],
     projects: details.projects.map((project) => ({
       id: project.id,
@@ -96,6 +103,9 @@ export function createProjectReservationFormFactory(
         return { kind: 'futureDate', message: 'Datum rezervisanja ne može biti u budućnosti' };
       }
       return null;
+    });
+    maxLength(schemaPath.description, 500, {
+      message: 'Opis može imati najviše 500 karaktera',
     });
     minLength(schemaPath.projects, 1, { message: 'Rezervacija mora imati barem 1 projekat' });
     applyEach(schemaPath.projects, (project) => {
