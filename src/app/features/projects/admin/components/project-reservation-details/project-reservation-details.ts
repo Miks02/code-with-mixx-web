@@ -15,9 +15,9 @@ import {
   faSolidPercent,
   faSolidTrash,
 } from '@ng-icons/font-awesome/solid';
-import { dateConverter } from '../../../../../core/utilities/date-helpers';
 import { priceConverter } from '../../../../../core/utilities/price-helpers';
 import { Button } from '../../../../../shared/button/button';
+import { SrDatePipe } from '../../../../../shared/pipes/sr-date-pipe';
 import { ProjectCard } from '../../../components/project-card/project-card';
 import { ProjectReservationItem } from '../../../models/project-reservation-item';
 import { ProjectEditModal } from '../project-edit-modal/project-edit-modal';
@@ -51,6 +51,7 @@ type ReservationStat = {
     ReservationPaymentHistoryModal,
     SubtractPaymentModal,
     UpdateStatusModal,
+    SrDatePipe,
   ],
   providers: [
     provideIcons({
@@ -103,16 +104,6 @@ export class ProjectReservationDetails {
   paymentStatus = computed<StatusMeta | null>(() => {
     const reservation = this.reservation();
     return reservation ? PAYMENT_STATUS_META[reservation.paymentStatus] : null;
-  });
-
-  createdAtLabel = computed(() => {
-    const reservation = this.reservation();
-    return reservation ? dateConverter(reservation.createdAt) : '';
-  });
-
-  deletedAtLabel = computed(() => {
-    const reservation = this.reservation();
-    return reservation ? dateConverter(reservation.deletedAt ?? '') : '';
   });
 
   stats = computed<ReservationStat[]>(() => {
