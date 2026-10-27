@@ -7,8 +7,8 @@ import {
   faSolidGraduationCap,
   faSolidTrophy,
 } from '@ng-icons/font-awesome/solid';
-import { Skeleton } from '../../../../shared/components/skeleton/skeleton';
-import { StudentItem } from '../../models/student-item';
+import { Skeleton } from '@shared/components/skeleton/skeleton';
+import { StudentItem } from '@features/students/models/student-item';
 
 type MostActiveStudentStat = {
   icon: string;
@@ -42,7 +42,9 @@ export class MostActiveStudent {
 
   studentInitials = computed(() => {
     const student = this.student();
-    return student ? `${student.firstName.charAt(0)}${student.lastName.charAt(0)}`.toUpperCase() : '';
+    return student
+      ? `${student.firstName.charAt(0)}${student.lastName.charAt(0)}`.toUpperCase()
+      : '';
   });
 
   stats = computed<MostActiveStudentStat[]>(() => {

@@ -7,14 +7,14 @@ import {
   faSolidMoneyBillWave,
   faSolidXmark,
 } from '@ng-icons/font-awesome/solid';
-import { ToastService } from '../../../../../core/services/toast-service';
-import { priceConverter } from '../../../../../core/utilities/price-helpers';
-import { Button } from '../../../../../shared/components/button/button';
-import { createSubtractPaymentForm } from '../../../factories/payment-factories';
-import { PaymentFormModel } from '../../../models/payment-request';
-import { PaymentService } from '../../../services/payment-service';
-import { dateTimeInputValue } from '../../../../../core/utilities/date-helpers';
-import { PaymentType } from '../../../models/payment-type';
+import { ToastService } from '@core/services/toast-service';
+import { priceConverter } from '@core/utilities/price-helpers';
+import { Button } from '@shared/components/button/button';
+import { createSubtractPaymentForm } from '@features/payments/factories/payment-factories';
+import { PaymentFormModel } from '@features/payments/models/payment-request';
+import { PaymentService } from '@features/payments/services/payment-service';
+import { dateTimeInputValue } from '@core/utilities/date-helpers';
+import { PaymentType } from '@features/payments/models/payment-type';
 
 @Component({
   imports: [NgIcon, Button, FormField],
@@ -45,7 +45,7 @@ export class SubtractPaymentModal {
     amount: 0,
     transactionDate: dateTimeInputValue(),
     note: '',
-    paymentType: PaymentType.reversal
+    paymentType: PaymentType.reversal,
   });
   paymentForm = createSubtractPaymentForm(this.paymentModel, this.paidAmount);
   subtractPaymentMutation = this.paymentService.subtractPaymentMutation;
@@ -65,7 +65,9 @@ export class SubtractPaymentModal {
 
   exceedsPaidAmount = computed(() => this.paymentModel().amount > this.paidAmount());
   paidAfterSubtract = computed(() => Math.max(0, this.paidAmount() - this.paymentModel().amount));
-  remainingAfterSubtract = computed(() => Math.max(0, this.totalPrice() - this.paidAfterSubtract()));
+  remainingAfterSubtract = computed(() =>
+    Math.max(0, this.totalPrice() - this.paidAfterSubtract()),
+  );
 
   currentBonus = computed(() => Math.max(0, this.paidAmount() - this.totalPrice()));
   bonusAfterSubtract = computed(() => Math.max(0, this.paidAfterSubtract() - this.totalPrice()));

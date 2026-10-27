@@ -10,14 +10,14 @@ import {
   faSolidUserGraduate,
   faSolidUserPlus,
 } from '@ng-icons/font-awesome/solid';
-import { AdminActionBar } from '../../components/admin-action-bar/admin-action-bar';
-import { AnalyticsCard } from '../../components/analytics-card/analytics-card';
-import { FinanceChart } from '../../components/finance-chart/finance-chart';
-import { SubjectsChart } from '../../components/subjects-chart/subjects-chart';
-import { UpcomingClasses } from '../../components/upcoming-classes/upcoming-classes';
-import { UpcomingClass } from '../../models/upcoming-class-';
-import { UpcomingProject } from '../../models/upcoming-project';
-import { UpcomingProjects } from '../../components/upcoming-projects/upcoming-projects';
+import { AdminActionBar } from '@features/analytics/components/admin-action-bar/admin-action-bar';
+import { AnalyticsCard } from '@features/analytics/components/analytics-card/analytics-card';
+import { FinanceChart } from '@features/analytics/components/finance-chart/finance-chart';
+import { SubjectsChart } from '@features/analytics/components/subjects-chart/subjects-chart';
+import { UpcomingClasses } from '@features/analytics/components/upcoming-classes/upcoming-classes';
+import { UpcomingClass } from '@features/analytics/models/upcoming-class-';
+import { UpcomingProject } from '@features/analytics/models/upcoming-project';
+import { UpcomingProjects } from '@features/analytics/components/upcoming-projects/upcoming-projects';
 
 @Component({
   imports: [

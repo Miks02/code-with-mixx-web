@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { dateConverter, DateFormatOptions } from '../../core/utilities/date-helpers';
+import { dateConverter, DateFormatOptions } from '@core/utilities/date-helpers';
 
 @Pipe({
   name: 'srDate',

@@ -1,17 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Service, Signal } from '@angular/core';
 import {
-    CreateQueryResult,
-    injectMutation,
-    injectQuery,
-    keepPreviousData,
-    QueryClient,
+  CreateQueryResult,
+  injectMutation,
+  injectQuery,
+  keepPreviousData,
+  QueryClient,
 } from '@tanstack/angular-query-experimental';
 import { lastValueFrom } from 'rxjs';
-import { environment } from '../../../../environments/environment';
-import { PagedResult } from '../../../core/models/paged-result';
-import { ProblemDetails } from '../../../core/models/problem-details';
-import { dateConverter } from '../../../core/utilities/date-helpers';
+import { environment } from '@environments/environment';
+import { PagedResult } from '@core/models/paged-result';
+import { ProblemDetails } from '@core/models/problem-details';
+import { dateConverter } from '@core/utilities/date-helpers';
 import { CreateSubjectRequest } from '../models/create-subject-request';
 import { SubjectItem } from '../models/subject-item';
 import { SubjectLookupItem } from '../models/subject-lookup-item';

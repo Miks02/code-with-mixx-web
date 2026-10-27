@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { UpcomingClass } from '../../models/upcoming-class-';
+import { UpcomingClass } from '@features/analytics/models/upcoming-class-';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { DatePipe } from '@angular/common';
 import { faSolidCalendarXmark } from '@ng-icons/font-awesome/solid';

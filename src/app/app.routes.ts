@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
-import { authGuard } from './core/guard/auth-guard';
-import { guestGuard } from './core/guard/guest-guard';
-import { adminGuard } from './core/guard/admin-guard';
-import { resetPasswordGuardGuard } from './core/guard/reset-password-guard-guard';
+import { authGuard } from '@core/guard/auth-guard';
+import { guestGuard } from '@core/guard/guest-guard';
+import { adminGuard } from '@core/guard/admin-guard';
+import { resetPasswordGuardGuard } from '@core/guard/reset-password-guard-guard';
 
 export const pageTitle = (title: string) => `${title} • CodeWithMixx`;
 
@@ -10,7 +10,7 @@ export const routes: Routes = [
   {
     path: '',
     canActivate: [guestGuard],
-    loadComponent: () => import('./layouts/auth/auth-layout/auth-layout').then((c) => c.AuthLayout),
+    loadComponent: () => import('@layouts/auth/auth-layout/auth-layout').then((c) => c.AuthLayout),
     children: [
       {
         path: '',
@@ -20,13 +20,13 @@ export const routes: Routes = [
       {
         title: pageTitle('Prijava'),
         path: 'login',
-        loadComponent: () => import('./features/auth/components/login/login').then((c) => c.Login),
+        loadComponent: () => import('@features/auth/components/login/login').then((c) => c.Login),
       },
       {
         title: pageTitle('Zaboravljena lozinka'),
         path: 'forgot-password',
         loadComponent: () =>
-          import('./features/auth/components/forgot-password/forgot-password').then(
+          import('@features/auth/components/forgot-password/forgot-password').then(
             (c) => c.ForgotPassword,
           ),
       },
@@ -35,7 +35,7 @@ export const routes: Routes = [
         canActivate: [resetPasswordGuardGuard],
         path: 'reset-password',
         loadComponent: () =>
-          import('./features/auth/components/reset-password/reset-password').then(
+          import('@features/auth/components/reset-password/reset-password').then(
             (c) => c.ResetPassword,
           ),
       },
@@ -43,7 +43,7 @@ export const routes: Routes = [
         title: pageTitle('Aktivacija naloga'),
         path: 'activate-account',
         loadComponent: () =>
-          import('./features/auth/components/account-activation/account-activation').then(
+          import('@features/auth/components/account-activation/account-activation').then(
             (c) => c.AccountActivation,
           ),
       },
@@ -53,9 +53,7 @@ export const routes: Routes = [
     path: 'admin',
     canActivate: [authGuard, adminGuard],
     loadComponent: () =>
-      import('./layouts/dashboard/dashboard-layout/dashboard-layout').then(
-        (c) => c.DashboardLayout,
-      ),
+      import('@layouts/dashboard/dashboard-layout/dashboard-layout').then((c) => c.DashboardLayout),
     children: [
       {
         path: '',
@@ -66,7 +64,7 @@ export const routes: Routes = [
         title: pageTitle('Analitika'),
         path: 'analytics',
         loadComponent: () =>
-          import('./features/analytics/pages/analytics-page/analytics-page').then(
+          import('@features/analytics/pages/analytics-page/analytics-page').then(
             (c) => c.AnalyticsPage,
           ),
       },
@@ -74,7 +72,7 @@ export const routes: Routes = [
         title: pageTitle('Predmeti'),
         path: 'subjects',
         loadComponent: () =>
-          import('./features/subjects/admin/pages/subjects-page/subjects-page').then(
+          import('@features/subjects/admin/pages/subjects-page/subjects-page').then(
             (c) => c.SubjectsPage,
           ),
       },
@@ -82,7 +80,7 @@ export const routes: Routes = [
         title: pageTitle('Studenti'),
         path: 'students',
         loadComponent: () =>
-          import('./features/students/pages/students-page/students-page').then(
+          import('@features/students/pages/students-page/students-page').then(
             (c) => c.StudentsPage,
           ),
       },
@@ -90,7 +88,7 @@ export const routes: Routes = [
         title: pageTitle('Projekti'),
         path: 'projects',
         loadComponent: () =>
-          import('./features/projects/admin/pages/projects-page/projects-page').then(
+          import('@features/projects/admin/pages/projects-page/projects-page').then(
             (c) => c.ProjectsPage,
           ),
       },
@@ -98,7 +96,7 @@ export const routes: Routes = [
         title: pageTitle('Nova rezervacija'),
         path: 'projects/create',
         loadComponent: () =>
-          import('./features/projects/admin/pages/create-project-reservation-page/create-project-reservation-page').then(
+          import('@features/projects/admin/pages/create-project-reservation-page/create-project-reservation-page').then(
             (c) => c.CreateProjectReservationPage,
           ),
       },
@@ -106,7 +104,7 @@ export const routes: Routes = [
         title: pageTitle('Detalji rezervacije'),
         path: 'projects/details/:id',
         loadComponent: () =>
-          import('./features/projects/admin/pages/project-reservation-details-page/project-reservation-details-page').then(
+          import('@features/projects/admin/pages/project-reservation-details-page/project-reservation-details-page').then(
             (c) => c.ProjectReservationDetailsPage,
           ),
       },

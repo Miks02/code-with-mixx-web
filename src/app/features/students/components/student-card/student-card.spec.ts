@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AccountStatus } from '../../../../core/models/account-status';
-import { StudentItem } from '../../models/student-item';
+import { AccountStatus } from '@core/models/account-status';
+import { StudentItem } from '@features/students/models/student-item';
 import { StudentCard } from './student-card';
 
 const STUDENT: StudentItem = {

@@ -12,13 +12,13 @@ import {
   take,
   tap,
 } from 'rxjs';
-import { environment } from '../../../environments/environment';
-import { LoginRequest } from '../../features/auth/models/login-request';
+import { environment } from '@environments/environment';
+import { LoginRequest } from '@features/auth/models/login-request';
 import { ProblemDetails } from '../models/problem-details';
 import { UserDetails } from '../models/user-details';
-import { ForgotPasswordRequest } from '../../features/auth/models/forgot-password-request';
-import { ResetPasswordRequest } from '../../features/auth/models/reset-password-request';
-import { AccountActivationRequest } from '../../features/auth/models/account-activation-request';
+import { ForgotPasswordRequest } from '@features/auth/models/forgot-password-request';
+import { ResetPasswordRequest } from '@features/auth/models/reset-password-request';
+import { AccountActivationRequest } from '@features/auth/models/account-activation-request';
 
 export const SKIP_AUTH_RETRY = new HttpContextToken<boolean>(() => false);
 @Service()

@@ -7,10 +7,10 @@ import {
   faSolidEnvelope,
   faSolidLock,
 } from '@ng-icons/font-awesome/solid';
-import { AuthService } from '../../../../core/services/auth-service';
-import { Button } from '../../../../shared/components/button/button';
-import { createLoginForm } from '../../factories/auth-factories';
-import { LoginRequest } from '../../models/login-request';
+import { AuthService } from '@core/services/auth-service';
+import { Button } from '@shared/components/button/button';
+import { createLoginForm } from '@features/auth/factories/auth-factories';
+import { LoginRequest } from '@features/auth/models/login-request';
 
 @Component({
   imports: [NgIcon, FormField, Button, RouterLink],

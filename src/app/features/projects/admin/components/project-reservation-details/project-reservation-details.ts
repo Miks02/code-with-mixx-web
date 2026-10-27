@@ -15,25 +15,25 @@ import {
   faSolidPercent,
   faSolidTrash,
 } from '@ng-icons/font-awesome/solid';
-import { priceConverter } from '../../../../../core/utilities/price-helpers';
-import { Button } from '../../../../../shared/components/button/button';
-import { SrDatePipe } from '../../../../../shared/pipes/sr-date-pipe';
-import { ProjectCard } from '../../../components/project-card/project-card';
-import { ProjectReservationItem } from '../../../models/project-reservation-item';
+import { priceConverter } from '@core/utilities/price-helpers';
+import { Button } from '@shared/components/button/button';
+import { SrDatePipe } from '@shared/pipes/sr-date-pipe';
+import { ProjectCard } from '@features/projects/components/project-card/project-card';
+import { ProjectReservationItem } from '@features/projects/models/project-reservation-item';
 import { ProjectEditModal } from '../project-edit-modal/project-edit-modal';
 import {
   PAYMENT_STATUS_META,
   RESERVATION_STATUS_META,
   StatusMeta,
-} from '../../../utilities/project-labels';
+} from '@features/projects/utilities/project-labels';
 import { Router } from '@angular/router';
-import { ReservationModalType, UpdateStatusModal } from '../../../../reservations';
+import { ReservationModalType, UpdateStatusModal } from '@features/reservations';
 import {
   PaymentService,
   RegisterPaymentModal,
   ReservationPaymentHistoryModal,
   SubtractPaymentModal,
-} from '../../../../payments';
+} from '@features/payments';
 
 type ReservationStat = {
   icon: string;
@@ -67,7 +67,7 @@ type ReservationStat = {
       faSolidMoneyBillWave,
       faSolidPercent,
       faSolidMoneyBill1,
-      faSolidTrash
+      faSolidTrash,
     }),
   ],
   selector: 'app-project-reservation-details',
@@ -79,7 +79,7 @@ export class ProjectReservationDetails {
   isArchiving = input<boolean>(false);
   archiveReservation = output<number>();
   restoreReservation = output<number>();
-  deleteReservation = output<number>();  
+  deleteReservation = output<number>();
 
   private router = inject(Router);
   private paymentService = inject(PaymentService);
@@ -128,7 +128,7 @@ export class ProjectReservationDetails {
   });
 
   goToDetails(reservationId: number) {
-    return this.router.navigate([`admin/projects/details/${reservationId}`])
+    return this.router.navigate([`admin/projects/details/${reservationId}`]);
   }
 
   onArchive(reservationId: number) {

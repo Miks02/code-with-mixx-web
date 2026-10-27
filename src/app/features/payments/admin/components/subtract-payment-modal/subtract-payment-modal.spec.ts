@@ -1,9 +1,9 @@
 import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ToastService } from '../../../../../core/services/toast-service';
-import { priceConverter } from '../../../../../core/utilities/price-helpers';
-import { PaymentType } from '../../../models/payment-type';
-import { PaymentService } from '../../../services/payment-service';
+import { ToastService } from '@core/services/toast-service';
+import { priceConverter } from '@core/utilities/price-helpers';
+import { PaymentType } from '@features/payments/models/payment-type';
+import { PaymentService } from '@features/payments/services/payment-service';
 import { SubtractPaymentModal } from './subtract-payment-modal';
 
 describe('SubtractPaymentModal', () => {

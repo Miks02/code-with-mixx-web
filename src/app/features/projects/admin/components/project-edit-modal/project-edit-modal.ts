@@ -21,17 +21,17 @@ import {
   faSolidPlus,
   faSolidXmark,
 } from '@ng-icons/font-awesome/solid';
-import { ToastService } from '../../../../../core/services/toast-service';
-import { Button } from '../../../../../shared/components/button/button';
-import { Slider } from '../../../../../shared/components/slider/slider';
+import { ToastService } from '@core/services/toast-service';
+import { Button } from '@shared/components/button/button';
+import { Slider } from '@shared/components/slider/slider';
 import {
   createUpdateProjectForm,
   createUpdateProjectFormModel,
-} from '../../../factories/project-factories';
-import { UpdateProjectFormModel } from '../../../models/update-project-request';
-import { ProjectService } from '../../../services/project-service';
-import { PROJECT_RESERVATION_ERROR_MESSAGES } from '../../../utilities/project-error-messages';
-import { PROJECT_TYPE_LABELS } from '../../../utilities/project-labels';
+} from '@features/projects/factories/project-factories';
+import { UpdateProjectFormModel } from '@features/projects/models/update-project-request';
+import { ProjectService } from '@features/projects/services/project-service';
+import { PROJECT_RESERVATION_ERROR_MESSAGES } from '@features/projects/utilities/project-error-messages';
+import { PROJECT_TYPE_LABELS } from '@features/projects/utilities/project-labels';
 
 @Component({
   imports: [NgIcon, Button, FormField, Slider],

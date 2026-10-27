@@ -3,12 +3,12 @@ import { FormField, submit } from '@angular/forms/signals';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { faSolidKey, faSolidLock, faSolidUserCheck } from '@ng-icons/font-awesome/solid';
-import { AuthService } from '../../../../core/services/auth-service';
-import { ToastService } from '../../../../core/services/toast-service';
-import { Button } from '../../../../shared/components/button/button';
-import { createAccountActivationForm } from '../../factories/auth-factories';
-import { AccountActivationBody } from '../../models/account-activation-body';
-import { AccountActivationRequest } from '../../models/account-activation-request';
+import { AuthService } from '@core/services/auth-service';
+import { ToastService } from '@core/services/toast-service';
+import { Button } from '@shared/components/button/button';
+import { createAccountActivationForm } from '@features/auth/factories/auth-factories';
+import { AccountActivationBody } from '@features/auth/models/account-activation-body';
+import { AccountActivationRequest } from '@features/auth/models/account-activation-request';
 
 @Component({
   imports: [NgIcon, FormField, Button, RouterLink],

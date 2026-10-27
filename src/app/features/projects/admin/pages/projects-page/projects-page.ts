@@ -6,20 +6,20 @@ import {
   faSolidDiagramProject,
   faSolidHourglassHalf,
 } from '@ng-icons/font-awesome/solid';
-import { DialogResult } from '../../../../../core/components/dialog/dialog';
-import { DialogService } from '../../../../../core/services/dialog-service';
-import { ToastService } from '../../../../../core/services/toast-service';
-import { StatsCard } from '../../../../../shared/components/stats-card/stats-card';
-import { PaymentStatus, ReservationStatus } from '../../../../reservations';
-import { SubjectService } from '../../../../subjects';
-import { ProjectReservationsList } from '../../../components/project-reservations-list/project-reservations-list';
-import { ProjectQueryParams } from '../../../models/project-query-params';
-import { ProjectReservationItem } from '../../../models/project-reservation-item';
-import { ProjectType } from '../../../models/project-type';
-import { ProjectService } from '../../../services/project-service';
-import { PROJECT_RESERVATION_ERROR_MESSAGES } from '../../../utilities/project-error-messages';
-import { PROJECT_RESERVATION_TOAST_MESSAGES } from '../../../utilities/project-toast-messages';
-import { ProjectReservationDetails } from '../../components/project-reservation-details/project-reservation-details';
+import { DialogResult } from '@core/components/dialog/dialog';
+import { DialogService } from '@core/services/dialog-service';
+import { ToastService } from '@core/services/toast-service';
+import { StatsCard } from '@shared/components/stats-card/stats-card';
+import { PaymentStatus, ReservationStatus } from '@features/reservations';
+import { SubjectService } from '@features/subjects';
+import { ProjectReservationsList } from '@features/projects/components/project-reservations-list/project-reservations-list';
+import { ProjectQueryParams } from '@features/projects/models/project-query-params';
+import { ProjectReservationItem } from '@features/projects/models/project-reservation-item';
+import { ProjectType } from '@features/projects/models/project-type';
+import { ProjectService } from '@features/projects/services/project-service';
+import { PROJECT_RESERVATION_ERROR_MESSAGES } from '@features/projects/utilities/project-error-messages';
+import { PROJECT_RESERVATION_TOAST_MESSAGES } from '@features/projects/utilities/project-toast-messages';
+import { ProjectReservationDetails } from '@features/projects/admin/components/project-reservation-details/project-reservation-details';
 
 @Component({
   imports: [ProjectReservationsList, ProjectReservationDetails, StatsCard],

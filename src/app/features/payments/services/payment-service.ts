@@ -2,9 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Service, Signal } from '@angular/core';
 import { injectMutation, injectQuery, QueryClient } from '@tanstack/angular-query-experimental';
 import { lastValueFrom } from 'rxjs';
-import { environment } from '../../../../environments/environment';
-import { reservationKeys } from '../../reservations/utilities/reservation-keys';
-import { invalidateReservationQueries } from '../../reservations/utilities/reservation-queries';
+import { environment } from '@environments/environment';
+import { reservationKeys } from '@features/reservations/utilities/reservation-keys';
+import { invalidateReservationQueries } from '@features/reservations/utilities/reservation-queries';
 import { PaymentRequest } from '../models/payment-request';
 import { ReservationPaymentHistory } from '../models/reservation-payment-history';
 
@@ -37,7 +37,8 @@ export class PaymentService {
           request,
         ),
       ),
-    onSuccess: (_, request) => invalidateReservationQueries(this.queryClient, request.reservationId),
+    onSuccess: (_, request) =>
+      invalidateReservationQueries(this.queryClient, request.reservationId),
   }));
 
   subtractPaymentMutation = injectMutation(() => ({
@@ -48,6 +49,7 @@ export class PaymentService {
           request,
         ),
       ),
-    onSuccess: (_, request) => invalidateReservationQueries(this.queryClient, request.reservationId),
+    onSuccess: (_, request) =>
+      invalidateReservationQueries(this.queryClient, request.reservationId),
   }));
 }

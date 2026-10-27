@@ -1,5 +1,5 @@
 import { ProjectType } from './project-type';
-import { PaymentStatus, ReservationStatus } from '../../reservations';
+import { PaymentStatus, ReservationStatus } from '@features/reservations';
 
 export type ProjectQueryParams = {
   pageNumber: number;

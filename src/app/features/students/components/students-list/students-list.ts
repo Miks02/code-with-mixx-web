@@ -7,15 +7,15 @@ import {
   faSolidUserSlash,
   faSolidXmark,
 } from '@ng-icons/font-awesome/solid';
-import { PagedResult } from '../../../../core/models/paged-result';
-import { Button } from '../../../../shared/components/button/button';
-import { FilterMenu } from '../../../../shared/components/filter-menu/filter-menu';
-import { SearchBar } from '../../../../shared/components/search-bar/search-bar';
-import { Skeleton } from '../../../../shared/components/skeleton/skeleton';
-import { SortMenu } from '../../../../shared/components/sort-menu/sort-menu';
-import { StudentFilter } from '../../models/student-filter';
-import { StudentItem } from '../../models/student-item';
-import { StudentSort } from '../../models/student-sort';
+import { PagedResult } from '@core/models/paged-result';
+import { Button } from '@shared/components/button/button';
+import { FilterMenu } from '@shared/components/filter-menu/filter-menu';
+import { SearchBar } from '@shared/components/search-bar/search-bar';
+import { Skeleton } from '@shared/components/skeleton/skeleton';
+import { SortMenu } from '@shared/components/sort-menu/sort-menu';
+import { StudentFilter } from '@features/students/models/student-filter';
+import { StudentItem } from '@features/students/models/student-item';
+import { StudentSort } from '@features/students/models/student-sort';
 import { StudentCard } from '../student-card/student-card';
 
 const CONFLICTING_FILTERS: Record<StudentFilter, StudentFilter[]> = {

@@ -9,9 +9,9 @@ import { provideTanStackQuery, QueryClient } from '@tanstack/angular-query-exper
 
 import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { AuthService } from './core/services/auth-service';
-import { authInterceptor } from './core/interceptors/auth-interceptor';
-import { timeZoneInterceptor } from './core/interceptors/time-zone-interceptor';
+import { AuthService } from '@core/services/auth-service';
+import { authInterceptor } from '@core/interceptors/auth-interceptor';
+import { timeZoneInterceptor } from '@core/interceptors/time-zone-interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [

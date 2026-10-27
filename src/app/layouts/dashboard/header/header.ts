@@ -1,8 +1,12 @@
 import { Component, inject, output } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { faSolidBars, faSolidBell, faSolidMagnifyingGlass, faSolidUser } from '@ng-icons/font-awesome/solid';
-import { AuthService } from '../../../core/services/auth-service';
-
+import {
+  faSolidBars,
+  faSolidBell,
+  faSolidMagnifyingGlass,
+  faSolidUser,
+} from '@ng-icons/font-awesome/solid';
+import { AuthService } from '@core/services/auth-service';
 
 @Component({
   imports: [NgIcon],
@@ -18,5 +22,4 @@ export class Header {
   onOpenSidebar() {
     this.toggleSidebar.emit();
   }
-
 }

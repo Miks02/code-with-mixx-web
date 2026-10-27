@@ -11,7 +11,7 @@ import {
   faSolidGear,
   faSolidUserGraduate,
 } from '@ng-icons/font-awesome/solid';
-import { AuthService } from '../../../core/services/auth-service';
+import { AuthService } from '@core/services/auth-service';
 
 @Component({
   imports: [SidebarLink, NgIcon],

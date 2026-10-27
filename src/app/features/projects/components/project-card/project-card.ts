@@ -8,9 +8,9 @@ import {
   faSolidComment,
   faSolidDownload,
 } from '@ng-icons/font-awesome/solid';
-import { priceConverter } from '../../../../core/utilities/price-helpers';
-import { ProjectListItem } from '../../models/project-reservation-item';
-import { PROJECT_TYPE_LABELS } from '../../utilities/project-labels';
+import { priceConverter } from '@core/utilities/price-helpers';
+import { ProjectListItem } from '@features/projects/models/project-reservation-item';
+import { PROJECT_TYPE_LABELS } from '@features/projects/utilities/project-labels';
 
 @Component({
   imports: [NgIcon, DatePipe],

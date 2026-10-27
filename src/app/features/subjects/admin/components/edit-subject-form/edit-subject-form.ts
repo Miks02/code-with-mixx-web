@@ -1,6 +1,6 @@
 import { Component, computed, inject, input, OnInit, output, signal } from '@angular/core';
-import { SubjectItem } from '../../../models/subject-item';
-import { dateConverter } from '../../../../../core/utilities/date-helpers';
+import { SubjectItem } from '@features/subjects/models/subject-item';
+import { dateConverter } from '@core/utilities/date-helpers';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
   faSolidCalendar,
@@ -10,12 +10,12 @@ import {
   faSolidUserGraduate,
   faSolidXmark,
 } from '@ng-icons/font-awesome/solid';
-import { Button } from '../../../../../shared/components/button/button';
-import { SubjectService } from '../../../services/subject-service';
-import { createSubjectForm } from '../../factories/subject-factories';
-import { UpdateSubjectRequest } from '../../../models/update-subject-request';
+import { Button } from '@shared/components/button/button';
+import { SubjectService } from '@features/subjects/services/subject-service';
+import { createSubjectForm } from '@features/subjects/admin/factories/subject-factories';
+import { UpdateSubjectRequest } from '@features/subjects/models/update-subject-request';
 import { FormField, submit } from '@angular/forms/signals';
-import { ToastService } from '../../../../../core/services/toast-service';
+import { ToastService } from '@core/services/toast-service';
 
 type SubjectStat = {
   icon: string;
@@ -109,16 +109,15 @@ export class EditSubjectForm implements OnInit {
   onSubmit() {
     submit(this.updateForm, async () => {
       try {
-         await this.subjectService.updateSubjectMutation.mutateAsync(this.requestModel(), {
-           onSuccess: (res) => {
-             this.updateForm().reset();
-             this.closeForm.emit();
-             this.updatedSubject.emit(res);
-           },
-         });
+        await this.subjectService.updateSubjectMutation.mutateAsync(this.requestModel(), {
+          onSuccess: (res) => {
+            this.updateForm().reset();
+            this.closeForm.emit();
+            this.updatedSubject.emit(res);
+          },
+        });
         return [];
-      }
-      catch (err: any) {
+      } catch (err: any) {
         if (err.error.errorCode === 'Subject.AlreadyExists') {
           return {
             kind: 'server',
@@ -126,10 +125,11 @@ export class EditSubjectForm implements OnInit {
             fieldTree: this.updateForm.subjectName,
           };
         }
-        this.toastService.showError('Došlo je do greške prilikom ažuriranja predmeta. Pokušajte ponovo kasnije.');
+        this.toastService.showError(
+          'Došlo je do greške prilikom ažuriranja predmeta. Pokušajte ponovo kasnije.',
+        );
         return;
       }
-    })
+    });
   }
-  
 }

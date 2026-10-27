@@ -1,7 +1,7 @@
 import { Component, effect, input, output, signal, WritableSignal } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { faSolidMagnifyingGlass, faSolidXmark } from '@ng-icons/font-awesome/solid';
-import { StudentLookup } from '../../../../students';
+import { StudentLookup } from '@features/students';
 
 @Component({
   imports: [NgIcon],
@@ -40,7 +40,7 @@ export class StudentSelection {
 
   onSearchChanged(searchTerm: Event) {
     const term = (searchTerm.target as HTMLInputElement).value.toLowerCase();
-    
+
     if (!this.availableStudents()) return;
 
     const newStudentList = this.availableStudents()!.filter(

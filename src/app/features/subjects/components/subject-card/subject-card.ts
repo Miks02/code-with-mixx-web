@@ -1,6 +1,6 @@
 import { Component, computed, input, output } from '@angular/core';
 import { NgIcon } from '@ng-icons/core';
-import { SubjectItem } from '../../models/subject-item';
+import { SubjectItem } from '@features/subjects/models/subject-item';
 
 @Component({
   imports: [NgIcon],

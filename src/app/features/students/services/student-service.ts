@@ -1,5 +1,5 @@
 import { inject, Service, Signal } from '@angular/core';
-import { environment } from '../../../../environments/environment';
+import { environment } from '@environments/environment';
 import { HttpClient } from '@angular/common/http';
 import {
   CreateQueryResult,
@@ -11,9 +11,9 @@ import {
 import { lastValueFrom } from 'rxjs';
 import { StudentQueryParams } from '../models/student-query-params';
 import { StudentsSummary } from '../models/students-summary';
-import { PagedResult } from '../../../core/models/paged-result';
+import { PagedResult } from '@core/models/paged-result';
 import { StudentItem } from '../models/student-item';
-import { ProblemDetails } from '../../../core/models/problem-details';
+import { ProblemDetails } from '@core/models/problem-details';
 import { CreateStudentFormModel, CreateStudentRequest } from '../models/create-student-request';
 import {
   UpdateStudentFormModel,
@@ -85,8 +85,8 @@ export class StudentService {
   searchStudentsQuery(searchTerm: Signal<string>) {
     return injectQuery(() => ({
       queryKey: ['search-students', searchTerm()],
-      queryFn: () => lastValueFrom(this.http.get(`${this.apiUrl}/admin/students/search`))
-    }))
+      queryFn: () => lastValueFrom(this.http.get(`${this.apiUrl}/admin/students/search`)),
+    }));
   }
 
   updateStudentMutation = injectMutation<

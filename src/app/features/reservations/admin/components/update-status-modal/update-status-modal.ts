@@ -2,15 +2,15 @@ import { Component, computed, inject, input, linkedSignal, output } from '@angul
 import { submit } from '@angular/forms/signals';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { faSolidArrowRight, faSolidArrowsRotate, faSolidXmark } from '@ng-icons/font-awesome/solid';
-import { DialogResult } from '../../../../../core/components/dialog/dialog';
-import { DialogService } from '../../../../../core/services/dialog-service';
-import { ToastService } from '../../../../../core/services/toast-service';
-import { Button } from '../../../../../shared/components/button/button';
-import { createUpdateStatusForm } from '../../../factories/reservation-factories';
-import { ReservationStatus } from '../../../models/reservation-status';
-import { UpdateStatusFormModel } from '../../../models/update-status-request';
-import { ReservationService } from '../../../services/reservation-service';
-import { RESERVATION_STATUS_STYLES } from '../../../utilities/reservation-labels';
+import { DialogResult } from '@core/components/dialog/dialog';
+import { DialogService } from '@core/services/dialog-service';
+import { ToastService } from '@core/services/toast-service';
+import { Button } from '@shared/components/button/button';
+import { createUpdateStatusForm } from '@features/reservations/factories/reservation-factories';
+import { ReservationStatus } from '@features/reservations/models/reservation-status';
+import { UpdateStatusFormModel } from '@features/reservations/models/update-status-request';
+import { ReservationService } from '@features/reservations/services/reservation-service';
+import { RESERVATION_STATUS_STYLES } from '@features/reservations/utilities/reservation-labels';
 
 @Component({
   imports: [NgIcon, Button],
@@ -77,19 +77,17 @@ export class UpdateStatusModal {
 
         return [];
       } catch (err: any) {
-        
         if (err?.error?.errorCode === 'Reservation.NotFound') {
           this.toastService.showError(
             'Rezervacija nije pronadjena. Ako je u arhivi, vratite je iz arhive kako bi promenili status.',
           );
           return;
         }
-        
+
         if (err?.error?.errorCode === 'Reservation.CantUpdateAnArchivedReservation') {
           this.toastService.showError('Nije moguće promeniti status arhivirane rezervacije.');
           return;
         }
-       
 
         this.toastService.showError(
           'Došlo je do greške prilikom promene statusa. Pokušajte ponovo kasnije.',

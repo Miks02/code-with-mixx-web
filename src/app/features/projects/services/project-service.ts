@@ -8,8 +8,8 @@ import {
   QueryClient,
 } from '@tanstack/angular-query-experimental';
 import { lastValueFrom } from 'rxjs';
-import { environment } from '../../../../environments/environment';
-import { PagedResult } from '../../../core/models/paged-result';
+import { environment } from '@environments/environment';
+import { PagedResult } from '@core/models/paged-result';
 import { ProjectDetails } from '../models/project-details';
 import { ProjectQueryParams } from '../models/project-query-params';
 import { ProjectReservationDetails } from '../models/project-reservation-details';
@@ -18,7 +18,7 @@ import { ProjectReservationRequest } from '../models/project-reservation-request
 import { ProjectsSummary } from '../models/projects-summary';
 import { UpdateProjectPayload } from '../models/update-project-request';
 import { UpdateProjectReservationRequest } from '../models/update-project-reservation-request';
-import { projectReservationKeys } from '../../reservations';
+import { projectReservationKeys } from '@features/reservations';
 
 @Service()
 export class ProjectService {

@@ -1,5 +1,5 @@
 import { Component, computed, signal } from '@angular/core';
-import { FinanceChart as FinanceChartModel } from '../../models/finance-chart';
+import { FinanceChart as FinanceChartModel } from '@features/analytics/models/finance-chart';
 import { ApexOptions } from 'apexcharts';
 import { NgApexchartsModule } from 'ng-apexcharts';
 

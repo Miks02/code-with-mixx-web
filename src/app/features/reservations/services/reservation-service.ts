@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
 import { injectMutation, QueryClient } from '@tanstack/angular-query-experimental';
 import { lastValueFrom } from 'rxjs';
-import { environment } from '../../../../environments/environment';
+import { environment } from '@environments/environment';
 import { UpdateStatusRequest } from '../models/update-status-request';
 import { invalidateReservationQueries } from '../utilities/reservation-queries';
 
@@ -20,6 +20,7 @@ export class ReservationService {
           reservationStatus: request.reservationStatus,
         }),
       ),
-    onSuccess: (_, request) => invalidateReservationQueries(this.queryClient, request.reservationId),
+    onSuccess: (_, request) =>
+      invalidateReservationQueries(this.queryClient, request.reservationId),
   }));
 }

@@ -22,6 +22,9 @@ Angular 22 standalone-component app (no NgModules), using the esbuild/Vite-based
 - `layouts/` — shell components composed into the route tree (`layouts/auth/auth-layout/` for guest-facing routes, `layouts/dashboard/dashboard-layout/` for authenticated routes, plus `header/`, `sidebar/`, `sidebar-link/`).
 - `shared/` — generic reusable building blocks: presentational components in `shared/components/` (e.g. `shared/components/button/`), built with signal-based `input()`/`output()` APIs and Tailwind utility classes composed via `computed()`; pipes in `shared/pipes/`.
 
+### Import aliases
+Path aliases are defined in `tsconfig.json` `paths`: `@core/*`, `@features/*`, `@layouts/*`, `@shared/*`, `@environments/*`. Convention: use an alias for anything outside the current module (a module = `core`, `shared`, `layouts`, or a single `features/<name>`), and for any import that would need `../../` or deeper; plain relative imports (`./`, `../`) only for nearby files within the same module.
+
 ### Routing & guards (`src/app/app.routes.ts`)
 Two lazy-loaded (`loadComponent`) top-level branches:
 - `''` → `AuthLayout`, guarded by `guestGuard`, child `login`.

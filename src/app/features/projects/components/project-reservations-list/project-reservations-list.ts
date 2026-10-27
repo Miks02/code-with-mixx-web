@@ -12,22 +12,22 @@ import {
   faSolidUserSlash,
   faSolidXmark,
 } from '@ng-icons/font-awesome/solid';
-import { PagedResult } from '../../../../core/models/paged-result';
-import { Button } from '../../../../shared/components/button/button';
-import { FilterMenu } from '../../../../shared/components/filter-menu/filter-menu';
-import { Skeleton } from '../../../../shared/components/skeleton/skeleton';
+import { PagedResult } from '@core/models/paged-result';
+import { Button } from '@shared/components/button/button';
+import { FilterMenu } from '@shared/components/filter-menu/filter-menu';
+import { Skeleton } from '@shared/components/skeleton/skeleton';
 import {
   CONFLICTING_RESERVATION_STATUSES,
   PaymentStatus,
   RESERVATION_STATUS_FILTER_LABELS,
   ReservationStatus,
-} from '../../../reservations';
-import { SubjectLookupItem } from '../../../subjects';
-import { ProjectReservationItem } from '../../models/project-reservation-item';
-import { ProjectType } from '../../models/project-type';
+} from '@features/reservations';
+import { SubjectLookupItem } from '@features/subjects';
+import { ProjectReservationItem } from '@features/projects/models/project-reservation-item';
+import { ProjectType } from '@features/projects/models/project-type';
 import { ProjectReservationCard } from '../project-reservation-card/project-reservation-card';
 import { Router } from '@angular/router';
-import { PROJECT_TYPE_LABELS } from '../../utilities/project-labels';
+import { PROJECT_TYPE_LABELS } from '@features/projects/utilities/project-labels';
 
 @Component({
   imports: [ProjectReservationCard, Button, FilterMenu, NgIcon, Skeleton],
@@ -41,7 +41,7 @@ import { PROJECT_TYPE_LABELS } from '../../utilities/project-labels';
       faSolidXmark,
       faSolidBook,
       faSolidChartDiagram,
-      faSolidMoneyBillTransfer
+      faSolidMoneyBillTransfer,
     }),
   ],
   selector: 'app-project-reservations-list',

@@ -1,29 +1,29 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
-    afterNextRender,
-    Component,
-    computed,
-    ElementRef,
-    inject,
-    Injector,
-    input,
-    viewChild,
+  afterNextRender,
+  Component,
+  computed,
+  ElementRef,
+  inject,
+  Injector,
+  input,
+  viewChild,
 } from '@angular/core';
 import { FormField } from '@angular/forms/signals';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
-    faSolidComment,
-    faSolidPlus,
-    faSolidTrash,
-    faSolidXmark,
+  faSolidComment,
+  faSolidPlus,
+  faSolidTrash,
+  faSolidXmark,
 } from '@ng-icons/font-awesome/solid';
-import { priceConverter } from '../../../../../core/utilities/price-helpers';
-import { Button } from '../../../../../shared/components/button/button';
-import { Slider } from '../../../../../shared/components/slider/slider';
-import { SubjectLookupItem } from '../../../../subjects';
-import { ProjectType } from '../../../models/project-type';
-import { ProjectFormService } from '../../../services/project-form-service';
-import { PROJECT_TYPE_LABELS } from '../../../utilities/project-labels';
+import { priceConverter } from '@core/utilities/price-helpers';
+import { Button } from '@shared/components/button/button';
+import { Slider } from '@shared/components/slider/slider';
+import { SubjectLookupItem } from '@features/subjects';
+import { ProjectType } from '@features/projects/models/project-type';
+import { ProjectFormService } from '@features/projects/services/project-form-service';
+import { PROJECT_TYPE_LABELS } from '@features/projects/utilities/project-labels';
 
 @Component({
   imports: [Button, NgIcon, FormField, Slider, NgTemplateOutlet],

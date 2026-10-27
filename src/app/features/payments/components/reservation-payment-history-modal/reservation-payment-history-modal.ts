@@ -6,11 +6,11 @@ import {
   faSolidClockRotateLeft,
   faSolidXmark,
 } from '@ng-icons/font-awesome/solid';
-import { dateTimeConverter } from '../../../../core/utilities/date-helpers';
-import { priceConverter } from '../../../../core/utilities/price-helpers';
-import { Button } from '../../../../shared/components/button/button';
-import { PaymentType } from '../../models/payment-type';
-import { ReservationPaymentHistory } from '../../models/reservation-payment-history';
+import { dateTimeConverter } from '@core/utilities/date-helpers';
+import { priceConverter } from '@core/utilities/price-helpers';
+import { Button } from '@shared/components/button/button';
+import { PaymentType } from '@features/payments/models/payment-type';
+import { ReservationPaymentHistory } from '@features/payments/models/reservation-payment-history';
 
 type PaymentTypeMeta = {
   label: string;

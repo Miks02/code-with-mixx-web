@@ -2,7 +2,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideTanStackQuery, QueryClient } from '@tanstack/angular-query-experimental';
-import { environment } from '../../../../../../environments/environment';
+import { environment } from '@environments/environment';
 import { ProjectEditModal } from './project-edit-modal';
 
 describe('ProjectEditModal with real ProjectService', () => {

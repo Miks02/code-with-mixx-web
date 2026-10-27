@@ -2,11 +2,11 @@ import { Component, inject, signal } from '@angular/core';
 import { FormField, submit } from '@angular/forms/signals';
 import { provideIcons } from '@ng-icons/core';
 import { faSolidCirclePlus } from '@ng-icons/font-awesome/solid';
-import { Button } from '../../../../../shared/components/button/button';
-import { CreateSubjectRequest } from '../../../models/create-subject-request';
-import { SubjectService } from '../../../services/subject-service';
-import { createSubjectForm } from '../../factories/subject-factories';
-import { ToastService } from '../../../../../core/services/toast-service';
+import { Button } from '@shared/components/button/button';
+import { CreateSubjectRequest } from '@features/subjects/models/create-subject-request';
+import { SubjectService } from '@features/subjects/services/subject-service';
+import { createSubjectForm } from '@features/subjects/admin/factories/subject-factories';
+import { ToastService } from '@core/services/toast-service';
 
 @Component({
   imports: [FormField, Button],

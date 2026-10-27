@@ -1,10 +1,10 @@
 import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { DialogResult } from '../../../../../core/components/dialog/dialog';
-import { DialogService } from '../../../../../core/services/dialog-service';
-import { ToastService } from '../../../../../core/services/toast-service';
-import { ReservationStatus } from '../../../models/reservation-status';
-import { ReservationService } from '../../../services/reservation-service';
+import { DialogResult } from '@core/components/dialog/dialog';
+import { DialogService } from '@core/services/dialog-service';
+import { ToastService } from '@core/services/toast-service';
+import { ReservationStatus } from '@features/reservations/models/reservation-status';
+import { ReservationService } from '@features/reservations/services/reservation-service';
 import { UpdateStatusModal } from './update-status-modal';
 
 describe('UpdateStatusModal', () => {

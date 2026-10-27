@@ -13,16 +13,16 @@ import {
   faSolidXmark,
 } from '@ng-icons/font-awesome/solid';
 import { BehaviorSubject, debounceTime } from 'rxjs';
-import { StatsCard } from '../../../../../shared/components/stats-card/stats-card';
-import { SubjectsList } from '../../../components/subjects-list/subjects-list';
-import { SubjectItem } from '../../../models/subject-item';
-import { SubjectSort } from '../../../models/subject-sort';
-import { SubjectService } from '../../../services/subject-service';
-import { CreateSubjectForm } from '../../components/create-subject-form/create-subject-form';
-import { EditSubjectForm } from '../../components/edit-subject-form/edit-subject-form';
-import { MostPopularSubject } from '../../components/most-popular-subject/most-popular-subject';
-import { SubjectDetails } from '../../components/subject-details/subject-details';
-import { ToastService } from '../../../../../core/services/toast-service';
+import { StatsCard } from '@shared/components/stats-card/stats-card';
+import { SubjectsList } from '@features/subjects/components/subjects-list/subjects-list';
+import { SubjectItem } from '@features/subjects/models/subject-item';
+import { SubjectSort } from '@features/subjects/models/subject-sort';
+import { SubjectService } from '@features/subjects/services/subject-service';
+import { CreateSubjectForm } from '@features/subjects/admin/components/create-subject-form/create-subject-form';
+import { EditSubjectForm } from '@features/subjects/admin/components/edit-subject-form/edit-subject-form';
+import { MostPopularSubject } from '@features/subjects/admin/components/most-popular-subject/most-popular-subject';
+import { SubjectDetails } from '@features/subjects/admin/components/subject-details/subject-details';
+import { ToastService } from '@core/services/toast-service';
 
 @Component({
   imports: [

@@ -9,11 +9,11 @@ import {
   faSolidUserPlus,
   faSolidXmark,
 } from '@ng-icons/font-awesome/solid';
-import { ToastService } from '../../../../core/services/toast-service';
-import { Button } from '../../../../shared/components/button/button';
-import { createStudentForm } from '../../factories/student-factories';
-import { CreateStudentFormModel } from '../../models/create-student-request';
-import { StudentService } from '../../services/student-service';
+import { ToastService } from '@core/services/toast-service';
+import { Button } from '@shared/components/button/button';
+import { createStudentForm } from '@features/students/factories/student-factories';
+import { CreateStudentFormModel } from '@features/students/models/create-student-request';
+import { StudentService } from '@features/students/services/student-service';
 
 const emptyStudentModel: CreateStudentFormModel = {
   firstName: '',

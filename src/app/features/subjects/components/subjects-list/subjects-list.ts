@@ -1,21 +1,18 @@
 import { Component, computed, input, output } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import {
-    faSolidChevronLeft,
-    faSolidChevronRight
-} from '@ng-icons/font-awesome/solid';
-import { PagedResult } from '../../../../core/models/paged-result';
-import { Button } from '../../../../shared/components/button/button';
-import { SearchBar } from '../../../../shared/components/search-bar/search-bar';
-import { Skeleton } from '../../../../shared/components/skeleton/skeleton';
-import { SortMenu } from '../../../../shared/components/sort-menu/sort-menu';
-import { SubjectItem } from '../../models/subject-item';
-import { SubjectSort } from '../../models/subject-sort';
+import { faSolidChevronLeft, faSolidChevronRight } from '@ng-icons/font-awesome/solid';
+import { PagedResult } from '@core/models/paged-result';
+import { Button } from '@shared/components/button/button';
+import { SearchBar } from '@shared/components/search-bar/search-bar';
+import { Skeleton } from '@shared/components/skeleton/skeleton';
+import { SortMenu } from '@shared/components/sort-menu/sort-menu';
+import { SubjectItem } from '@features/subjects/models/subject-item';
+import { SubjectSort } from '@features/subjects/models/subject-sort';
 import { SubjectCard } from '../subject-card/subject-card';
 
 @Component({
   imports: [SubjectCard, Button, SearchBar, SortMenu, NgIcon, Skeleton],
-  providers: [provideIcons({ faSolidChevronLeft, faSolidChevronRight})],
+  providers: [provideIcons({ faSolidChevronLeft, faSolidChevronRight })],
   selector: 'app-subjects-list',
   styleUrl: './subjects-list.css',
   templateUrl: './subjects-list.html',

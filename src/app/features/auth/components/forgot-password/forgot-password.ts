@@ -3,11 +3,11 @@ import { FormField, submit } from '@angular/forms/signals';
 import { RouterLink } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { faSolidEnvelope, faSolidPaperPlane } from '@ng-icons/font-awesome/solid';
-import { AuthService } from '../../../../core/services/auth-service';
-import { ToastService } from '../../../../core/services/toast-service';
-import { Button } from '../../../../shared/components/button/button';
-import { createForgotPasswordForm } from '../../factories/auth-factories';
-import { ForgotPasswordRequest } from '../../models/forgot-password-request';
+import { AuthService } from '@core/services/auth-service';
+import { ToastService } from '@core/services/toast-service';
+import { Button } from '@shared/components/button/button';
+import { createForgotPasswordForm } from '@features/auth/factories/auth-factories';
+import { ForgotPasswordRequest } from '@features/auth/models/forgot-password-request';
 
 @Component({
   imports: [NgIcon, FormField, Button, RouterLink],
@@ -19,7 +19,7 @@ import { ForgotPasswordRequest } from '../../models/forgot-password-request';
 export class ForgotPassword {
   private authService = inject(AuthService);
   private toastService = inject(ToastService);
-  
+
   messageWrapper = signal({
     title: '',
     text: '',
@@ -28,7 +28,7 @@ export class ForgotPassword {
   forgotPasswordModel = signal<ForgotPasswordRequest>({ email: '' });
   forgotPasswordForm = createForgotPasswordForm(this.forgotPasswordModel);
 
-  isOnCooldown = this.authService.isOnCooldown
+  isOnCooldown = this.authService.isOnCooldown;
   cooldownDuration = this.authService.cooldownDuration;
   getResetPasswordTokenMutation = this.authService.getResetPasswordTokenMutation;
   isPending = this.getResetPasswordTokenMutation.isPending;

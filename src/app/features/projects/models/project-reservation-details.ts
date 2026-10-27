@@ -1,4 +1,4 @@
-import { PaymentStatus, ReservationStatus } from '../../reservations';
+import { PaymentStatus, ReservationStatus } from '@features/reservations';
 import { ProjectType } from './project-type';
 
 export type ProjectNoteDetails = {

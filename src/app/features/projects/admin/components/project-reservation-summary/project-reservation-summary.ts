@@ -1,11 +1,14 @@
 import { Component, computed, inject, input, output } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { faSolidCheck, faSolidCircleCheck, faSolidCircleXmark } from '@ng-icons/font-awesome/solid';
-import { priceConverter } from '../../../../../core/utilities/price-helpers';
-import { Button } from '../../../../../shared/components/button/button';
-import { PaymentStatus } from '../../../../reservations';
-import { ProjectFormService } from '../../../services/project-form-service';
-import { PAYMENT_STATUS_META, PROJECT_TYPE_LABELS } from '../../../utilities/project-labels';
+import { priceConverter } from '@core/utilities/price-helpers';
+import { Button } from '@shared/components/button/button';
+import { PaymentStatus } from '@features/reservations';
+import { ProjectFormService } from '@features/projects/services/project-form-service';
+import {
+  PAYMENT_STATUS_META,
+  PROJECT_TYPE_LABELS,
+} from '@features/projects/utilities/project-labels';
 import { FormField } from '@angular/forms/signals';
 
 type SummaryStat = {

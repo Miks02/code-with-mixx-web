@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AccountStatus } from '../../../../core/models/account-status';
-import { dateConverter } from '../../../../core/utilities/date-helpers';
-import { StudentItem } from '../../models/student-item';
+import { AccountStatus } from '@core/models/account-status';
+import { dateConverter } from '@core/utilities/date-helpers';
+import { StudentItem } from '@features/students/models/student-item';
 import { StudentDetails } from './student-details';
 
 const baseStudent: StudentItem = {
@@ -71,9 +71,7 @@ describe('StudentDetails', () => {
     });
 
     it('should not render the invite button', () => {
-      const inviteButton = fixture.nativeElement.querySelector(
-        'button[title="Pošalji pozivnicu"]',
-      );
+      const inviteButton = fixture.nativeElement.querySelector('button[title="Pošalji pozivnicu"]');
       expect(inviteButton).toBeNull();
     });
 
@@ -142,9 +140,7 @@ describe('StudentDetails', () => {
     });
 
     it('should render the invite button next to the student name', () => {
-      const inviteButton = fixture.nativeElement.querySelector(
-        'button[title="Pošalji pozivnicu"]',
-      );
+      const inviteButton = fixture.nativeElement.querySelector('button[title="Pošalji pozivnicu"]');
       expect(inviteButton).not.toBeNull();
     });
   });
@@ -200,9 +196,7 @@ describe('StudentDetails', () => {
     });
 
     it('should not render the invite button', () => {
-      const inviteButton = fixture.nativeElement.querySelector(
-        'button[title="Pošalji pozivnicu"]',
-      );
+      const inviteButton = fixture.nativeElement.querySelector('button[title="Pošalji pozivnicu"]');
       expect(inviteButton).toBeNull();
     });
   });

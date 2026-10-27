@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { UpcomingProject } from '../../models/upcoming-project';
+import { UpcomingProject } from '@features/analytics/models/upcoming-project';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { DatePipe } from '@angular/common';
 import { faSolidCalendarXmark } from '@ng-icons/font-awesome/solid';
@@ -22,5 +22,4 @@ export class UpcomingProjects {
       .slice(0, 2)
       .join('');
   }
-  
 }

@@ -7,8 +7,8 @@ import {
   faSolidChalkboardUser,
   faSolidDiagramProject,
 } from '@ng-icons/font-awesome/solid';
-import { AccountStatus } from '../../../../core/models/account-status';
-import { StudentItem } from '../../models/student-item';
+import { AccountStatus } from '@core/models/account-status';
+import { StudentItem } from '@features/students/models/student-item';
 
 const BASE_CLASSES =
   'p-4 rounded-lg flex flex-col gap-2.5 active:scale-95 transition-200 cursor-pointer flex-1 grow';

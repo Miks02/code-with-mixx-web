@@ -10,13 +10,8 @@ import {
   required,
   validate,
 } from '@angular/forms/signals';
-import {
-  dateInputValue,
-  isAfter,
-  isBefore,
-  isValidDate,
-} from '../../../core/utilities/date-helpers';
-import { ReservationStatus } from '../../reservations';
+import { dateInputValue, isAfter, isBefore, isValidDate } from '@core/utilities/date-helpers';
+import { ReservationStatus } from '@features/reservations';
 import { ProjectDetails } from '../models/project-details';
 import { ProjectReservationDetails } from '../models/project-reservation-details';
 import {

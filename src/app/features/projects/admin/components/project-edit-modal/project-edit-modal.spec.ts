@@ -1,9 +1,9 @@
 import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ToastService } from '../../../../../core/services/toast-service';
-import { ProjectDetails } from '../../../models/project-details';
-import { ProjectType } from '../../../models/project-type';
-import { ProjectService } from '../../../services/project-service';
+import { ToastService } from '@core/services/toast-service';
+import { ProjectDetails } from '@features/projects/models/project-details';
+import { ProjectType } from '@features/projects/models/project-type';
+import { ProjectService } from '@features/projects/services/project-service';
 import { ProjectEditModal } from './project-edit-modal';
 
 describe('ProjectEditModal', () => {

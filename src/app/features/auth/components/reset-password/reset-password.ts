@@ -3,13 +3,13 @@ import { FormField, submit } from '@angular/forms/signals';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { faSolidCheck, faSolidKey, faSolidLock } from '@ng-icons/font-awesome/solid';
-import { Button } from '../../../../shared/components/button/button';
-import { createResetPasswordForm } from '../../factories/auth-factories';
-import { ResetPasswordBody } from '../../models/reset-password-body';
-import { ToastService } from '../../../../core/services/toast-service';
-import { AuthService } from '../../../../core/services/auth-service';
-import { ResetPasswordRequest } from '../../models/reset-password-request';
-  
+import { Button } from '@shared/components/button/button';
+import { createResetPasswordForm } from '@features/auth/factories/auth-factories';
+import { ResetPasswordBody } from '@features/auth/models/reset-password-body';
+import { ToastService } from '@core/services/toast-service';
+import { AuthService } from '@core/services/auth-service';
+import { ResetPasswordRequest } from '@features/auth/models/reset-password-request';
+
 @Component({
   imports: [NgIcon, FormField, Button, RouterLink],
   providers: [provideIcons({ faSolidCheck, faSolidKey, faSolidLock })],

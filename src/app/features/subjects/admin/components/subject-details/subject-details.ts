@@ -9,13 +9,13 @@ import {
   faSolidTrashCan,
   faSolidUserGraduate,
 } from '@ng-icons/font-awesome/solid';
-import { currentDate, dateConverter } from '../../../../../core/utilities/date-helpers';
-import { Button } from '../../../../../shared/components/button/button';
-import { SubjectItem } from '../../../models/subject-item';
-import { SubjectService } from '../../../services/subject-service';
-import { DialogService } from '../../../../../core/services/dialog-service';
-import { DialogResult } from '../../../../../core/components/dialog/dialog';
-import { ToastService } from '../../../../../core/services/toast-service';
+import { currentDate, dateConverter } from '@core/utilities/date-helpers';
+import { Button } from '@shared/components/button/button';
+import { SubjectItem } from '@features/subjects/models/subject-item';
+import { SubjectService } from '@features/subjects/services/subject-service';
+import { DialogService } from '@core/services/dialog-service';
+import { DialogResult } from '@core/components/dialog/dialog';
+import { ToastService } from '@core/services/toast-service';
 
 type SubjectStat = {
   icon: string;
@@ -70,7 +70,10 @@ export class SubjectDetails {
           ...this.subject()!,
           deletedAt: currentDate(),
         }),
-      onError: (err) => this.toastService.showError("Došlo je do greške prilikom arhiviranja predmeta. Pokušajte ponovo kasnije."),
+      onError: (err) =>
+        this.toastService.showError(
+          'Došlo je do greške prilikom arhiviranja predmeta. Pokušajte ponovo kasnije.',
+        ),
     });
   }
 
@@ -81,7 +84,10 @@ export class SubjectDetails {
           ...this.subject()!,
           deletedAt: null,
         }),
-      onError: () => this.toastService.showError("Došlo je do greške prilikom vraćanja predmeta. Pokušajte ponovo kasnije."),
+      onError: () =>
+        this.toastService.showError(
+          'Došlo je do greške prilikom vraćanja predmeta. Pokušajte ponovo kasnije.',
+        ),
     });
   }
 
@@ -98,7 +104,10 @@ export class SubjectDetails {
         this.toastService.showSuccess('Predmet je uspešno obrisan.');
         this.deleteSubject.emit();
       },
-      onError: () => this.toastService.showError("Došlo je do greške prilikom brisanja predmeta. Pokušajte ponovo kasnije."),
+      onError: () =>
+        this.toastService.showError(
+          'Došlo je do greške prilikom brisanja predmeta. Pokušajte ponovo kasnije.',
+        ),
     });
   }
 

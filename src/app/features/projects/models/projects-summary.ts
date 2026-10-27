@@ -1,4 +1,4 @@
-import { PagedResult } from '../../../core/models/paged-result';
+import { PagedResult } from '@core/models/paged-result';
 import { ProjectReservationItem } from './project-reservation-item';
 
 export type ProjectsSummary = {

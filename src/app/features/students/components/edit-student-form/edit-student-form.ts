@@ -13,14 +13,17 @@ import {
   faSolidUser,
   faSolidXmark,
 } from '@ng-icons/font-awesome/solid';
-import { AccountStatus } from '../../../../core/models/account-status';
-import { ToastService } from '../../../../core/services/toast-service';
-import { dateConverter } from '../../../../core/utilities/date-helpers';
-import { Button } from '../../../../shared/components/button/button';
-import { createUpdateStudentForm } from '../../factories/student-factories';
-import { StudentItem } from '../../models/student-item';
-import { UpdateStudentFormModel, UpdateStudentResponse } from '../../models/update-student-request';
-import { StudentService } from '../../services/student-service';
+import { AccountStatus } from '@core/models/account-status';
+import { ToastService } from '@core/services/toast-service';
+import { dateConverter } from '@core/utilities/date-helpers';
+import { Button } from '@shared/components/button/button';
+import { createUpdateStudentForm } from '@features/students/factories/student-factories';
+import { StudentItem } from '@features/students/models/student-item';
+import {
+  UpdateStudentFormModel,
+  UpdateStudentResponse,
+} from '@features/students/models/update-student-request';
+import { StudentService } from '@features/students/services/student-service';
 
 type StudentStat = {
   icon: string;

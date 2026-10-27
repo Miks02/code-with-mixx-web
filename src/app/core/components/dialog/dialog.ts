@@ -7,7 +7,7 @@ import {
   faSolidTriangleExclamation,
   faSolidXmark,
 } from '@ng-icons/font-awesome/solid';
-import { Button } from '../../../shared/components/button/button';
+import { Button } from '@shared/components/button/button';
 
 export enum DialogResult {
   Confirmed,

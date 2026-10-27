@@ -1,8 +1,8 @@
 import { Component, computed, input } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { faSolidCalendar, faSolidFire } from '@ng-icons/font-awesome/solid';
-import { Skeleton } from '../../../../../shared/components/skeleton/skeleton';
-import { SubjectItem } from '../../../models/subject-item';
+import { Skeleton } from '@shared/components/skeleton/skeleton';
+import { SubjectItem } from '@features/subjects/models/subject-item';
 
 @Component({
   imports: [NgIcon, Skeleton],

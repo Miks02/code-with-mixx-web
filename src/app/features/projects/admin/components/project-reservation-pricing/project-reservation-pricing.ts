@@ -1,7 +1,7 @@
 import { Component, computed, inject, input, signal } from '@angular/core';
 import { FormField } from '@angular/forms/signals';
-import { RESERVATION_STATUS_STYLES, ReservationStatus } from '../../../../reservations';
-import { ProjectFormService } from '../../../services/project-form-service';
+import { RESERVATION_STATUS_STYLES, ReservationStatus } from '@features/reservations';
+import { ProjectFormService } from '@features/projects/services/project-form-service';
 
 @Component({
   imports: [FormField],

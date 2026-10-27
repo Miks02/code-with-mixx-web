@@ -8,14 +8,14 @@ import {
   faSolidNoteSticky,
   faSolidXmark,
 } from '@ng-icons/font-awesome/solid';
-import { ToastService } from '../../../../../core/services/toast-service';
-import { priceConverter } from '../../../../../core/utilities/price-helpers';
-import { Button } from '../../../../../shared/components/button/button';
-import { createRegisterPaymentForm } from '../../../factories/payment-factories';
-import { RegisterPaymentFormModel } from '../../../models/payment-request';
-import { PaymentService } from '../../../services/payment-service';
-import { dateTimeInputValue } from '../../../../../core/utilities/date-helpers';
-import { PaymentType } from '../../../models/payment-type';
+import { ToastService } from '@core/services/toast-service';
+import { priceConverter } from '@core/utilities/price-helpers';
+import { Button } from '@shared/components/button/button';
+import { createRegisterPaymentForm } from '@features/payments/factories/payment-factories';
+import { RegisterPaymentFormModel } from '@features/payments/models/payment-request';
+import { PaymentService } from '@features/payments/services/payment-service';
+import { dateTimeInputValue } from '@core/utilities/date-helpers';
+import { PaymentType } from '@features/payments/models/payment-type';
 
 @Component({
   imports: [NgIcon, Button, FormField],
@@ -67,7 +67,7 @@ export class RegisterPaymentModal {
   remainingAfterPayment = computed(() =>
     Math.max(0, this.remainingAmount() - this.paymentModel().amount),
   );
-  totalPaid = computed(() => this.paidAmount() + this.paymentModel().amount)
+  totalPaid = computed(() => this.paidAmount() + this.paymentModel().amount);
 
   fillRemaining() {
     this.paymentModel.update((model) => ({ ...model, amount: this.remainingAmount() }));
@@ -91,7 +91,9 @@ export class RegisterPaymentModal {
   }
 
   currentBonus = computed(() => Math.max(0, this.paidAmount() - this.totalPrice()));
-  extraBonus = computed(() => Math.max(0, this.totalPaid() - this.totalPrice() - this.currentBonus()));
+  extraBonus = computed(() =>
+    Math.max(0, this.totalPaid() - this.totalPrice() - this.currentBonus()),
+  );
 
   onSubmit() {
     return submit(this.paymentForm, async () => {
