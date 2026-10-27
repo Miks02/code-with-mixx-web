@@ -29,6 +29,7 @@ export class FilterMenu<T extends string = string> {
   conflictingOptions = input<Record<T, T[]>>();
   selected = input<T[]>([]);
   placeholder = input<string>('Filteri');
+  icon = input<string>('fa-solid-filter');
 
   selectedChanged = output<T[]>();
 

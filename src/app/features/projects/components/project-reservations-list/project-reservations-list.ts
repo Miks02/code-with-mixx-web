@@ -1,9 +1,13 @@
 import { Component, computed, inject, input, output } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
+  faSolidBook,
   faSolidBoxArchive,
+  faSolidChartDiagram,
   faSolidChevronLeft,
   faSolidChevronRight,
+  faSolidDiagramProject,
+  faSolidMoneyBillTransfer,
   faSolidPlus,
   faSolidUserSlash,
   faSolidXmark,
@@ -35,6 +39,9 @@ const CONFLICTING_RESERVATION_STATUSES: Record<ReservationStatus, ReservationSta
       faSolidPlus,
       faSolidUserSlash,
       faSolidXmark,
+      faSolidBook,
+      faSolidChartDiagram,
+      faSolidMoneyBillTransfer
     }),
   ],
   selector: 'app-project-reservations-list',

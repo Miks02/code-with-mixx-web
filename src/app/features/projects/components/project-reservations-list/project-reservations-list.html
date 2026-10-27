@@ -37,6 +37,7 @@
 
       <app-filter-menu
         placeholder="Predmet"
+        [icon]="'faSolidBook'"
         [options]="subjectOptions()"
         [selected]="selectedSubjectOptions()"
         (selectedChanged)="onSubjectsChanged($event)"
@@ -51,6 +52,7 @@
 
       <app-filter-menu
         placeholder="Status rezervacije"
+        [icon]="'faSolidChartDiagram'"
         [options]="reservationStatuses"
         [conflictingOptions]="conflictingReservationStatuses"
         [selected]="selectedReservationStatuses()"
@@ -58,6 +60,7 @@
       ></app-filter-menu>
       <app-filter-menu
         placeholder="Status plaćanja"
+        [icon]="'faSolidMoneyBillTransfer'"
         [options]="paymentStatuses"
         [selected]="selectedPaymentStatuses()"
         (selectedChanged)="onPaymentStatusesChanged($event)"
