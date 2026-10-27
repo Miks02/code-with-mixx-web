@@ -31,6 +31,7 @@ export type ProjectReservationDetails = {
   studentId: string;
   studentFullName: string;
   studentEmail: string;
+  description: string | null;
   studentUniversity: string | null;
   reservationStatus: ReservationStatus;
   paymentStatus: PaymentStatus;

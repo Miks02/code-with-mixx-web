@@ -68,7 +68,7 @@ export function createReservationFormModel(
     totalPrice: details.totalPrice,
     reservationStatus: details.reservationStatus,
     reservedAt: details.reservedAt ?? '',
-    description: '',
+    description: details.description ?? '',
     projectsToDelete: [],
     projects: details.projects.map((project) => ({
       id: project.id,

@@ -71,6 +71,8 @@ export class ProjectReservationDetailsPage {
       if (!details) return;
 
       this.reservationModel.set(createReservationFormModel(details));
+      console.log(this.reservationModel())
+      console.log(details);
     });
   }
 
@@ -86,6 +88,7 @@ export class ProjectReservationDetailsPage {
         studentId: model.studentId,
         totalPrice: model.totalPrice,
         reservationStatus: model.reservationStatus,
+        description: model.description,
         projectsToDelete: model.projectsToDelete,
         reservedAt: model.reservedAt,
         projects: model.projects.map((project) => ({
