@@ -16,6 +16,7 @@ import { createSubjectForm } from '@features/subjects/admin/factories/subject-fa
 import { UpdateSubjectRequest } from '@features/subjects/models/update-subject-request';
 import { FormField, submit } from '@angular/forms/signals';
 import { ToastService } from '@core/services/toast-service';
+import { getErrorCode } from '@core/utilities/problem-details-helpers';
 
 type SubjectStat = {
   icon: string;
@@ -117,8 +118,8 @@ export class EditSubjectForm implements OnInit {
           },
         });
         return [];
-      } catch (err: any) {
-        if (err.error.errorCode === 'Subject.AlreadyExists') {
+      } catch (err) {
+        if (getErrorCode(err) === 'Subject.AlreadyExists') {
           return {
             kind: 'server',
             message: 'Predmet sa ovim nazivom već postoji.',

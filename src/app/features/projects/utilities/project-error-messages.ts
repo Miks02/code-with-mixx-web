@@ -1,3 +1,5 @@
+import { isProblemDetails } from '@core/utilities/problem-details-helpers';
+
 export const PROJECT_RESERVATION_ERROR_MESSAGES: Record<string, string> = {
   'Student.NotFound': 'Izabrani student više ne postoji. Osvežite stranicu i izaberite drugog.',
   'Subject.MultipleSubjectsMissing':
@@ -21,9 +23,11 @@ export const PROJECT_RESERVATION_ERROR_MESSAGES: Record<string, string> = {
     'Rezervacija ne može biti trajno obrisana jer zahteva čuvanje istorije.',
 };
 
-export function getProjectReservationErrorMessage(err: any, fallback: string): string {
-  if (err?.status === 400 && err?.error?.errors)
+export function getProjectReservationErrorMessage(err: unknown, fallback: string): string {
+  if (!isProblemDetails(err)) return fallback;
+
+  if (err.status === 400 && err.errors)
     return 'Podaci rezervacije nisu ispravni. Proverite polja forme.';
 
-  return PROJECT_RESERVATION_ERROR_MESSAGES[err?.error?.errorCode] ?? fallback;
+  return PROJECT_RESERVATION_ERROR_MESSAGES[err.errorCode] ?? fallback;
 }

@@ -165,7 +165,8 @@ describe('UpdateStatusModal', () => {
     it('should show archived error toast and stay open when reservation is archived', async () => {
       dialogService.showDialog.mockResolvedValue(DialogResult.Confirmed);
       updateStatusMutation.mutateAsync.mockRejectedValue({
-        error: { errorCode: 'Reservation.CantUpdateAnArchivedReservation' },
+        status: 409,
+        errorCode: 'Reservation.CantUpdateAnArchivedReservation',
       });
       setStatus(ReservationStatus.Completed);
 

@@ -159,8 +159,8 @@ export class StudentDetails {
         this.toastService.showSuccess('Nalog je uspešno aktiviran.');
         this.studentUpdated.emit({ ...this.student()!, accountStatus: AccountStatus.Active });
       },
-      onError: (err: any) => {
-        const errorCode = err?.error.errorCode;
+      onError: (err) => {
+        const errorCode = err.errorCode;
         if (errorCode === 'User.CannotChangeStatusForDeletedUser') {
           this.toastService.showInfo('Nalog je obrisan pa mu status ne može biti promenjen.');
           return;
@@ -190,8 +190,8 @@ export class StudentDetails {
         this.toastService.showSuccess('Nalog je uspešno deaktiviran.');
         this.studentUpdated.emit({ ...this.student()!, accountStatus: AccountStatus.Deactivated });
       },
-      onError: (err: any) => {
-        const errorCode = err?.error.errorCode;
+      onError: (err) => {
+        const errorCode = err.errorCode;
         if (errorCode === 'User.CannotChangeStatusForDeletedUser') {
           this.toastService.showInfo('Nalog je obrisan pa mu status ne može biti promenjen.');
           return;
@@ -214,8 +214,8 @@ export class StudentDetails {
       onSuccess: () => {
         this.toastService.showSuccess('Pozivnica je uspešno poslata.');
       },
-      onError: (err: any) => {
-        const errorCode = err?.error?.errorCode;
+      onError: (err) => {
+        const errorCode = err.errorCode;
         if (errorCode === 'User.NotFound') {
           this.toastService.showError('Došlo je do greške. Korisnik nije pronađen.');
           return;
@@ -257,8 +257,8 @@ export class StudentDetails {
         this.toastService.showSuccess('Student je uspešno obrisan.');
         this.studentDeleted.emit();
       },
-      onError: (err: any) => {
-        const errorCode = err?.error.errorCode;
+      onError: (err) => {
+        const errorCode = err.errorCode;
         if (errorCode === 'Student.NotFound') {
           this.toastService.showError('Došlo je do greške. Student nije pronađen.');
           return;

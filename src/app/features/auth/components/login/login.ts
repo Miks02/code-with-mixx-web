@@ -11,6 +11,7 @@ import { AuthService } from '@core/services/auth-service';
 import { Button } from '@shared/components/button/button';
 import { createLoginForm } from '@features/auth/factories/auth-factories';
 import { LoginRequest } from '@features/auth/models/login-request';
+import { getErrorCode } from '@core/utilities/problem-details-helpers';
 
 @Component({
   imports: [NgIcon, FormField, Button, RouterLink],
@@ -33,8 +34,8 @@ export class Login {
         await this.loginMutation.mutateAsync(this.loginModel());
         await this.router.navigate(['/admin/analytics']);
         return [];
-      } catch (err: any) {
-        if (err.error.errorCode === 'Auth.LoginFailed') {
+      } catch (err) {
+        if (getErrorCode(err) === 'Auth.LoginFailed') {
           return {
             kind: 'server',
             message: 'Prijava nije uspela. Proveri lozinku i email adresu.',

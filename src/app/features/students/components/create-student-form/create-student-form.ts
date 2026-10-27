@@ -14,6 +14,7 @@ import { Button } from '@shared/components/button/button';
 import { createStudentForm } from '@features/students/factories/student-factories';
 import { CreateStudentFormModel } from '@features/students/models/create-student-request';
 import { StudentService } from '@features/students/services/student-service';
+import { getErrorCode } from '@core/utilities/problem-details-helpers';
 
 const emptyStudentModel: CreateStudentFormModel = {
   firstName: '',
@@ -66,8 +67,8 @@ export class CreateStudentForm {
         this.closed.emit();
 
         return [];
-      } catch (err: any) {
-        if (err?.error?.errorCode === 'User.UsernameAlreadyExists') {
+      } catch (err) {
+        if (getErrorCode(err) === 'User.UsernameAlreadyExists') {
           return {
             kind: 'server',
             message: 'Korisnik sa ovom email adresom već postoji.',

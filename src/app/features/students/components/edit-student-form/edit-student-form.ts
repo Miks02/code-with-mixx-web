@@ -24,6 +24,7 @@ import {
   UpdateStudentResponse,
 } from '@features/students/models/update-student-request';
 import { StudentService } from '@features/students/services/student-service';
+import { getErrorCode } from '@core/utilities/problem-details-helpers';
 
 type StudentStat = {
   icon: string;
@@ -142,8 +143,8 @@ export class EditStudentForm implements OnInit {
         this.closeForm.emit();
 
         return [];
-      } catch (err: any) {
-        const errorCode = err?.error?.errorCode;
+      } catch (err) {
+        const errorCode = getErrorCode(err);
         if (errorCode === 'User.UsernameAlreadyExists') {
           return {
             kind: 'server',

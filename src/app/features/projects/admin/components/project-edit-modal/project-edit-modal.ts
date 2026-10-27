@@ -30,7 +30,7 @@ import {
 } from '@features/projects/factories/project-factories';
 import { UpdateProjectFormModel } from '@features/projects/models/update-project-request';
 import { ProjectService } from '@features/projects/services/project-service';
-import { PROJECT_RESERVATION_ERROR_MESSAGES } from '@features/projects/utilities/project-error-messages';
+import { getProjectReservationErrorMessage } from '@features/projects/utilities/project-error-messages';
 import { PROJECT_TYPE_LABELS } from '@features/projects/utilities/project-labels';
 
 @Component({
@@ -152,10 +152,12 @@ export class ProjectEditModal {
         this.closed.emit();
 
         return [];
-      } catch (err: any) {
+      } catch (err) {
         this.toastService.showError(
-          PROJECT_RESERVATION_ERROR_MESSAGES[err?.error?.errorCode] ??
+          getProjectReservationErrorMessage(
+            err,
             'Došlo je do greške prilikom ažuriranja projekta. Pokušajte ponovo kasnije.',
+          ),
         );
         return;
       }

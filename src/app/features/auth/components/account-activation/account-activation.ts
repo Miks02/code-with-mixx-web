@@ -9,6 +9,7 @@ import { Button } from '@shared/components/button/button';
 import { createAccountActivationForm } from '@features/auth/factories/auth-factories';
 import { AccountActivationBody } from '@features/auth/models/account-activation-body';
 import { AccountActivationRequest } from '@features/auth/models/account-activation-request';
+import { getErrorCode } from '@core/utilities/problem-details-helpers';
 
 @Component({
   imports: [NgIcon, FormField, Button, RouterLink],
@@ -46,8 +47,8 @@ export class AccountActivation implements OnInit {
         await this.activateAccountMutation.mutateAsync(request);
         this.toastService.showSuccess('Nalog je uspešno aktiviran. Sada se možeš prijaviti.');
         await this.router.navigate(['/login']);
-      } catch (err: any) {
-        const errorCode = err?.error?.errorCode;
+      } catch (err) {
+        const errorCode = getErrorCode(err);
         if (errorCode === 'User.NotFound') {
           this.toastService.showError('Korisnik nije pronađen. Proveri link iz pozivnice.');
           return [];

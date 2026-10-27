@@ -269,7 +269,8 @@ describe('ProjectEditModal', () => {
 
     it('should show mapped error message and stay open when mutation fails', async () => {
       updateProjectMutation.mutateAsync.mockRejectedValue({
-        error: { errorCode: 'Reservation.CantUpdateAnArchivedReservation' },
+        status: 409,
+        errorCode: 'Reservation.CantUpdateAnArchivedReservation',
       });
 
       await component.onSubmit();

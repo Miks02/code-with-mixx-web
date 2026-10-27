@@ -6,14 +6,12 @@ import {
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideTanStackQuery, QueryClient } from '@tanstack/angular-query-experimental';
-
 import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { AuthService } from '@core/services/auth-service';
 import { authInterceptor } from '@core/interceptors/auth-interceptor';
 import { timeZoneInterceptor } from '@core/interceptors/time-zone-interceptor';
 import { httpErrorInterceptor } from '@core/interceptors/http-error-interceptor';
-import { ProblemDetails } from '@core/models/problem-details';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -34,6 +32,8 @@ export const appConfig: ApplicationConfig = {
         },
       }),
     ),
-    provideHttpClient(withInterceptors([timeZoneInterceptor, authInterceptor, httpErrorInterceptor])),
+    provideHttpClient(
+      withInterceptors([timeZoneInterceptor, authInterceptor, httpErrorInterceptor]),
+    ),
   ],
 };

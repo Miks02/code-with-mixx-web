@@ -17,7 +17,7 @@ import { ProjectQueryParams } from '@features/projects/models/project-query-para
 import { ProjectReservationItem } from '@features/projects/models/project-reservation-item';
 import { ProjectType } from '@features/projects/models/project-type';
 import { ProjectService } from '@features/projects/services/project-service';
-import { PROJECT_RESERVATION_ERROR_MESSAGES } from '@features/projects/utilities/project-error-messages';
+import { getProjectReservationErrorMessage } from '@features/projects/utilities/project-error-messages';
 import { PROJECT_RESERVATION_TOAST_MESSAGES } from '@features/projects/utilities/project-toast-messages';
 import { ProjectReservationDetails } from '@features/projects/admin/components/project-reservation-details/project-reservation-details';
 
@@ -125,10 +125,9 @@ export class ProjectsPage {
     this.projectService.deleteProjectReservationMutation.mutate(reservationId, {
       onSuccess: () =>
         this.toastService.showSuccess(PROJECT_RESERVATION_TOAST_MESSAGES.deleteSuccess),
-      onError: (err: any) =>
+      onError: (err) =>
         this.toastService.showError(
-          PROJECT_RESERVATION_ERROR_MESSAGES[err?.error?.errorCode] ??
-            PROJECT_RESERVATION_TOAST_MESSAGES.deleteError,
+          getProjectReservationErrorMessage(err, PROJECT_RESERVATION_TOAST_MESSAGES.deleteError),
         ),
     });
   }

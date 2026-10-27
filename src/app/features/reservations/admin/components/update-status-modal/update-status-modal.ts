@@ -11,6 +11,7 @@ import { ReservationStatus } from '@features/reservations/models/reservation-sta
 import { UpdateStatusFormModel } from '@features/reservations/models/update-status-request';
 import { ReservationService } from '@features/reservations/services/reservation-service';
 import { RESERVATION_STATUS_STYLES } from '@features/reservations/utilities/reservation-labels';
+import { getErrorCode } from '@core/utilities/problem-details-helpers';
 
 @Component({
   imports: [NgIcon, Button],
@@ -76,15 +77,16 @@ export class UpdateStatusModal {
         this.closed.emit();
 
         return [];
-      } catch (err: any) {
-        if (err?.error?.errorCode === 'Reservation.NotFound') {
+      } catch (err) {
+        const errorCode = getErrorCode(err);
+        if (errorCode === 'Reservation.NotFound') {
           this.toastService.showError(
             'Rezervacija nije pronadjena. Ako je u arhivi, vratite je iz arhive kako bi promenili status.',
           );
           return;
         }
 
-        if (err?.error?.errorCode === 'Reservation.CantUpdateAnArchivedReservation') {
+        if (errorCode === 'Reservation.CantUpdateAnArchivedReservation') {
           this.toastService.showError('Nije moguće promeniti status arhivirane rezervacije.');
           return;
         }
