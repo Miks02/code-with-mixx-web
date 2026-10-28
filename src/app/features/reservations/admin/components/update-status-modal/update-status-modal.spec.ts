@@ -130,8 +130,7 @@ describe('UpdateStatusModal', () => {
 
       expect(dialogService.showDialog).toHaveBeenCalledWith({
         title: 'Promena statusa rezervacije',
-        message:
-          'Da li ste sigurni da želite da promenite status rezervacije iz „Potvrđena” u „Završena”?',
+        message: 'Da li sigurno želiš da promeniš status rezervacije iz „Potvrđena” u „Završena”?',
       });
     });
 

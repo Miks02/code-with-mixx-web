@@ -25,6 +25,7 @@ import { dateConverter } from '@core/utilities/date-helpers';
 import { Button } from '@shared/components/button/button';
 import { StudentItem } from '@features/students/models/student-item';
 import { StudentService } from '@features/students/services/student-service';
+import { getStudentErrorMessage } from '@features/students/utilities/student-error-messages';
 
 type StudentStat = {
   icon: string;
@@ -165,20 +166,12 @@ export class StudentDetails {
           this.toastService.showInfo('Nalog je obrisan pa mu status ne može biti promenjen.');
           return;
         }
-        if (errorCode === 'User.CannotActivateWithNullPassword') {
-          this.toastService.showError(
-            'Nalog ne može biti aktiviran jer korisnik nije postavio lozinku.',
-          );
-          return;
-        }
         if (errorCode === 'User.AlreadyActivated') {
           this.toastService.showInfo('Nalog je već aktivan.');
           return;
         }
-        if (errorCode === 'Student.NotFound') {
-          this.toastService.showError('Došlo je do greške. Student nije pronađen.');
-          return;
-        }
+        const message = getStudentErrorMessage(err);
+        if (message) this.toastService.showError(message);
       },
     });
   }
@@ -199,10 +192,8 @@ export class StudentDetails {
           this.toastService.showInfo('Nalog je već deaktiviran.');
           return;
         }
-        if (errorCode === 'Student.NotFound') {
-          this.toastService.showError('Došlo je do greške. Student nije pronađen.');
-          return;
-        }
+        const message = getStudentErrorMessage(err);
+        if (message) this.toastService.showError(message);
       },
     });
   }
@@ -213,25 +204,12 @@ export class StudentDetails {
         this.toastService.showSuccess('Pozivnica je uspešno poslata.');
       },
       onError: (err) => {
-        const errorCode = err.errorCode;
-        if (errorCode === 'User.NotFound') {
-          this.toastService.showError('Došlo je do greške. Korisnik nije pronađen.');
-          return;
-        }
-        if (errorCode === 'User.AccountDeactivated') {
-          this.toastService.showError(
-            'Nalog izabranog studenta je deaktiviran. Slanje pozivnice nije moguće.',
-          );
-          return;
-        }
-        if (errorCode === 'User.AlreadyActivated') {
+        if (err.errorCode === 'User.AlreadyActivated') {
           this.toastService.showInfo('Nalog je već aktiviran pa pozivnica nije potrebna.');
           return;
         }
-        if (errorCode === 'User.NotAStudent') {
-          this.toastService.showError('Pozivnica se može poslati samo studentu.');
-          return;
-        }
+        const message = getStudentErrorMessage(err);
+        if (message) this.toastService.showError(message);
       },
     });
   }
@@ -240,7 +218,7 @@ export class StudentDetails {
     const dialogMessage =
       this.student()?.totalReservations! > 0
         ? 'Izabrani student ima rezervacije i neće biti potpuno obrisan.'
-        : 'Da li ste sigurni da želite da obrišete ovog studenta?';
+        : 'Da li sigurno želiš da obrišeš ovog studenta?';
 
     const dialogResult = await this.dialogService.showDialog({
       title: 'Potvrda brisanja',
@@ -255,11 +233,8 @@ export class StudentDetails {
         this.studentDeleted.emit();
       },
       onError: (err) => {
-        const errorCode = err.errorCode;
-        if (errorCode === 'Student.NotFound') {
-          this.toastService.showError('Došlo je do greške. Student nije pronađen.');
-          return;
-        }
+        const message = getStudentErrorMessage(err);
+        if (message) this.toastService.showError(message);
       },
     });
   }

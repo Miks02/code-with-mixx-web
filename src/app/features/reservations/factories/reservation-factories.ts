@@ -8,7 +8,7 @@ export function createUpdateStatusForm(
   currentStatus: Signal<ReservationStatus>,
 ) {
   return form(request, (schemaPath) => {
-    required(schemaPath.reservationStatus, { message: 'Izaberite status rezervacije.' });
+    required(schemaPath.reservationStatus, { message: 'Izaberi status rezervacije.' });
     validate(schemaPath.reservationStatus, ({ value }) => {
       if (value() === currentStatus()) {
         return {

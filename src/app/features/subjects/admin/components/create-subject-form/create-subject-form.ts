@@ -8,6 +8,7 @@ import { SubjectService } from '@features/subjects/services/subject-service';
 import { createSubjectForm } from '@features/subjects/admin/factories/subject-factories';
 import { ToastService } from '@core/services/toast-service';
 import { getErrorCode } from '@core/utilities/problem-details-helpers';
+import { getSubjectErrorMessage } from '@features/subjects/utilities/subject-error-messages';
 
 @Component({
   imports: [FormField, Button],
@@ -45,6 +46,8 @@ export class CreateSubjectForm {
             fieldTree: this.subjectForm.subjectName,
           };
         }
+        const message = getSubjectErrorMessage(err);
+        if (message) this.toastService.showError(message);
         return;
       }
     });

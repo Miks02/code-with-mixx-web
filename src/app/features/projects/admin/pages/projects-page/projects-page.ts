@@ -87,7 +87,7 @@ export class ProjectsPage {
   async onArchiveReservation(reservationId: number) {
     const result = await this.dialogService.showDialog({
       title: 'Arhiviranje rezervacije',
-      message: `Da li ste sigurni da želite da arhivirate rezervaciju studenta „${this.selectedReservation()?.studentFullName}”?`,
+      message: `Da li sigurno želiš da arhiviraš rezervaciju studenta „${this.selectedReservation()?.studentFullName}”?`,
     });
 
     if (result !== DialogResult.Confirmed) return;
@@ -95,13 +95,17 @@ export class ProjectsPage {
     this.projectService.archiveProjectReservationMutation.mutate(reservationId, {
       onSuccess: () =>
         this.toastService.showSuccess(PROJECT_RESERVATION_TOAST_MESSAGES.archiveSuccess),
+      onError: (err) => {
+        const message = getProjectReservationErrorMessage(err);
+        if (message) this.toastService.showError(message);
+      },
     });
   }
 
   async onRestoreReservation(reservationId: number) {
     const result = await this.dialogService.showDialog({
       title: 'Vraćanje rezervacije',
-      message: `Da li ste sigurni da želite da vratite rezervaciju studenta „${this.selectedReservation()?.studentFullName}” iz arhive?`,
+      message: `Da li sigurno želiš da vratiš rezervaciju studenta „${this.selectedReservation()?.studentFullName}” iz arhive?`,
     });
 
     if (result !== DialogResult.Confirmed) return;
@@ -109,13 +113,17 @@ export class ProjectsPage {
     this.projectService.restoreProjectReservationMutation.mutate(reservationId, {
       onSuccess: () =>
         this.toastService.showSuccess(PROJECT_RESERVATION_TOAST_MESSAGES.restoreSuccess),
+      onError: (err) => {
+        const message = getProjectReservationErrorMessage(err);
+        if (message) this.toastService.showError(message);
+      },
     });
   }
 
   async onDeleteReservation(reservationId: number) {
     const result = await this.dialogService.showDialog({
       title: 'Brisanje rezervacije',
-      message: `Da li ste sigurni da želite da obrišete rezervaciju studenta „${this.selectedReservation()?.studentFullName}”?`,
+      message: `Da li sigurno želiš da obrišeš rezervaciju studenta „${this.selectedReservation()?.studentFullName}”?`,
     });
 
     if (result !== DialogResult.Confirmed) return;

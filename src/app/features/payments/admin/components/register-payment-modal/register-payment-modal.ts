@@ -16,6 +16,7 @@ import { RegisterPaymentFormModel } from '@features/payments/models/payment-requ
 import { PaymentService } from '@features/payments/services/payment-service';
 import { dateTimeInputValue } from '@core/utilities/date-helpers';
 import { PaymentType } from '@features/payments/models/payment-type';
+import { getPaymentErrorMessage } from '@features/payments/utilities/payment-error-messages';
 
 @Component({
   imports: [NgIcon, Button, FormField],
@@ -111,7 +112,9 @@ export class RegisterPaymentModal {
         this.closed.emit();
 
         return [];
-      } catch {
+      } catch (err) {
+        const message = getPaymentErrorMessage(err);
+        if (message) this.toastService.showError(message);
         return;
       }
     });

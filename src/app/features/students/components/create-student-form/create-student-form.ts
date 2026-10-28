@@ -15,6 +15,7 @@ import { createStudentForm } from '@features/students/factories/student-factorie
 import { CreateStudentFormModel } from '@features/students/models/create-student-request';
 import { StudentService } from '@features/students/services/student-service';
 import { getErrorCode } from '@core/utilities/problem-details-helpers';
+import { getStudentErrorMessage } from '@features/students/utilities/student-error-messages';
 
 const emptyStudentModel: CreateStudentFormModel = {
   firstName: '',
@@ -68,13 +69,16 @@ export class CreateStudentForm {
 
         return [];
       } catch (err) {
-        if (getErrorCode(err) === 'User.UsernameAlreadyExists') {
+        const errorCode = getErrorCode(err);
+        if (errorCode === 'User.UsernameAlreadyExists' || errorCode === 'User.EmailAlreadyExists') {
           return {
             kind: 'server',
             message: 'Korisnik sa ovom email adresom već postoji.',
             fieldTree: this.studentForm.email,
           };
         }
+        const message = getStudentErrorMessage(err);
+        if (message) this.toastService.showError(message);
         return;
       }
     });

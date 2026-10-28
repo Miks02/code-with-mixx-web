@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormField, submit } from '@angular/forms/signals';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
   faSolidArrowRightToBracket,
@@ -12,6 +12,8 @@ import { Button } from '@shared/components/button/button';
 import { createLoginForm } from '@features/auth/factories/auth-factories';
 import { LoginRequest } from '@features/auth/models/login-request';
 import { getErrorCode } from '@core/utilities/problem-details-helpers';
+import { ToastService } from '@core/services/toast-service';
+import { getAuthErrorMessage } from '@features/auth/utilities/auth-error-messages';
 
 @Component({
   imports: [NgIcon, FormField, Button, RouterLink],
@@ -24,6 +26,14 @@ export class Login {
   loginModel = signal<LoginRequest>({ email: '', password: '' });
   private authService = inject(AuthService);
   private router = inject(Router);
+  private activatedRoute = inject(ActivatedRoute);
+  private toastService = inject(ToastService);
+
+  constructor() {
+    if (this.activatedRoute.snapshot.queryParamMap.get('expired') === 'true') {
+      this.toastService.showInfo('Tvoja sesija je istekla. Prijavi se ponovo.');
+    }
+  }
 
   loginMutation = this.authService.loginMutation;
   loginForm = createLoginForm(this.loginModel);
@@ -41,6 +51,11 @@ export class Login {
             message: 'Prijava nije uspela. Proveri lozinku i email adresu.',
             fieldTree: this.loginForm.password,
           };
+        }
+        const message = getAuthErrorMessage(err);
+        if (message) {
+          this.toastService.showError(message);
+          return;
         }
         throw err;
       }

@@ -17,6 +17,7 @@ import { UpdateSubjectRequest } from '@features/subjects/models/update-subject-r
 import { FormField, submit } from '@angular/forms/signals';
 import { ToastService } from '@core/services/toast-service';
 import { getErrorCode } from '@core/utilities/problem-details-helpers';
+import { getSubjectErrorMessage } from '@features/subjects/utilities/subject-error-messages';
 
 type SubjectStat = {
   icon: string;
@@ -126,6 +127,8 @@ export class EditSubjectForm implements OnInit {
             fieldTree: this.updateForm.subjectName,
           };
         }
+        const message = getSubjectErrorMessage(err);
+        if (message) this.toastService.showError(message);
         return;
       }
     });

@@ -6,14 +6,14 @@ import * as THREE from 'three';
 import FOG from 'vanta/dist/vanta.fog.min';
 @Component({
   imports: [RouterOutlet, NgIcon],
-  providers: [provideIcons({faSolidArrowLeft})],
+  providers: [provideIcons({ faSolidArrowLeft })],
   selector: 'app-auth-layout',
   styleUrl: './auth-layout.css',
   templateUrl: './auth-layout.html',
 })
 export class AuthLayout {
   @ViewChild('vantaRef') vantaRef!: ElementRef<HTMLDivElement>;
-  private vantaEffect: any;
+  private vantaEffect: unknown;
 
   constructor() {
     THREE.ColorManagement.enabled = false;

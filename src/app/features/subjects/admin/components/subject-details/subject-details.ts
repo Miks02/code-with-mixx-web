@@ -16,6 +16,7 @@ import { SubjectService } from '@features/subjects/services/subject-service';
 import { DialogService } from '@core/services/dialog-service';
 import { DialogResult } from '@core/components/dialog/dialog';
 import { ToastService } from '@core/services/toast-service';
+import { getSubjectErrorMessage } from '@features/subjects/utilities/subject-error-messages';
 
 type SubjectStat = {
   icon: string;
@@ -70,6 +71,10 @@ export class SubjectDetails {
           ...this.subject()!,
           deletedAt: currentDate(),
         }),
+      onError: (err) => {
+        const message = getSubjectErrorMessage(err);
+        if (message) this.toastService.showError(message);
+      },
     });
   }
 
@@ -80,13 +85,17 @@ export class SubjectDetails {
           ...this.subject()!,
           deletedAt: null,
         }),
+      onError: (err) => {
+        const message = getSubjectErrorMessage(err);
+        if (message) this.toastService.showError(message);
+      },
     });
   }
 
   async onDelete() {
     const dialog = await this.dialogService.showDialog({
       title: 'Brisanje predmeta',
-      message: `Da li ste sigurni da želite da obrišete predmet „${this.subject()!.subjectName}”?`,
+      message: `Da li sigurno želiš da obrišeš predmet „${this.subject()!.subjectName}”?`,
     });
 
     if (dialog === DialogResult.Cancelled) return;
@@ -95,6 +104,10 @@ export class SubjectDetails {
       onSuccess: () => {
         this.toastService.showSuccess('Predmet je uspešno obrisan.');
         this.deleteSubject.emit();
+      },
+      onError: (err) => {
+        const message = getSubjectErrorMessage(err);
+        if (message) this.toastService.showError(message);
       },
     });
   }

@@ -47,7 +47,7 @@ describe('StudentDetails', () => {
     fixture.detectChanges();
 
     expect(fixture.nativeElement.textContent).toContain(
-      'Izaberite studenta iz liste kako bi prikazali detalje',
+      'Izaberi studenta iz liste da vidiš detalje',
     );
   });
 
