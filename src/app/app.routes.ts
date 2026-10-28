@@ -108,6 +108,14 @@ export const routes: Routes = [
             (c) => c.ProjectReservationDetailsPage,
           ),
       },
+      {
+        title: pageTitle('Časovi'),
+        path: 'classes',
+        loadComponent: () =>
+          import('@features/classes/admin/pages/classes-page/classes-page').then(
+            (c) => c.ClassesPage,
+          ),
+      }
     ],
   },
 ];

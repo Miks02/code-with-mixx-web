@@ -36,7 +36,7 @@ export class Sidebar {
     { name: 'Analitika', icon: 'faSolidChartArea', navigateTo: '/admin/analytics' },
     { name: 'Predmeti', icon: 'faSolidBook', navigateTo: '/admin/subjects' },
     { name: 'Studenti', icon: 'faSolidUserGraduate', navigateTo: '/admin/students' },
-    { name: 'Časovi', icon: 'faSolidCalendar', navigateTo: '/admin/lessons' },
+    { name: 'Časovi', icon: 'faSolidCalendar', navigateTo: '/admin/classes' },
     { name: 'Projekti', icon: 'faSolidFile', navigateTo: '/admin/projects' },
     { name: 'Podešavanje', icon: 'faSolidGear', navigateTo: '/admin/settings' },
   ];
