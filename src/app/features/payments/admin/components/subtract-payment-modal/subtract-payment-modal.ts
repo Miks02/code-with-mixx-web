@@ -113,9 +113,6 @@ export class SubtractPaymentModal {
 
         return [];
       } catch {
-        this.toastService.showError(
-          'Došlo je do greške prilikom skidanja uplate. Pokušajte ponovo kasnije.',
-        );
         return;
       }
     });

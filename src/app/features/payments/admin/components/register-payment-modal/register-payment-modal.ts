@@ -112,9 +112,6 @@ export class RegisterPaymentModal {
 
         return [];
       } catch {
-        this.toastService.showError(
-          'Došlo je do greške prilikom registracije uplate. Pokušajte ponovo kasnije.',
-        );
         return;
       }
     });

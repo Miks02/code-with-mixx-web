@@ -179,16 +179,14 @@ describe('UpdateStatusModal', () => {
       expect(closedSpy).not.toHaveBeenCalled();
     });
 
-    it('should show generic error toast and stay open on unknown error', async () => {
+    it('should leave the error toast to the interceptor and stay open on unknown error', async () => {
       dialogService.showDialog.mockResolvedValue(DialogResult.Confirmed);
       updateStatusMutation.mutateAsync.mockRejectedValue(new Error('fail'));
       setStatus(ReservationStatus.Completed);
 
       await component.onSubmit();
 
-      expect(toastService.showError).toHaveBeenCalledWith(
-        'Došlo je do greške prilikom promene statusa. Pokušajte ponovo kasnije.',
-      );
+      expect(toastService.showError).not.toHaveBeenCalled();
       expect(closedSpy).not.toHaveBeenCalled();
     });
   });

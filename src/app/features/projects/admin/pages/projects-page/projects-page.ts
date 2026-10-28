@@ -95,7 +95,6 @@ export class ProjectsPage {
     this.projectService.archiveProjectReservationMutation.mutate(reservationId, {
       onSuccess: () =>
         this.toastService.showSuccess(PROJECT_RESERVATION_TOAST_MESSAGES.archiveSuccess),
-      onError: () => this.toastService.showError(PROJECT_RESERVATION_TOAST_MESSAGES.archiveError),
     });
   }
 
@@ -110,7 +109,6 @@ export class ProjectsPage {
     this.projectService.restoreProjectReservationMutation.mutate(reservationId, {
       onSuccess: () =>
         this.toastService.showSuccess(PROJECT_RESERVATION_TOAST_MESSAGES.restoreSuccess),
-      onError: () => this.toastService.showError(PROJECT_RESERVATION_TOAST_MESSAGES.restoreError),
     });
   }
 
@@ -125,10 +123,10 @@ export class ProjectsPage {
     this.projectService.deleteProjectReservationMutation.mutate(reservationId, {
       onSuccess: () =>
         this.toastService.showSuccess(PROJECT_RESERVATION_TOAST_MESSAGES.deleteSuccess),
-      onError: (err) =>
-        this.toastService.showError(
-          getProjectReservationErrorMessage(err, PROJECT_RESERVATION_TOAST_MESSAGES.deleteError),
-        ),
+      onError: (err) => {
+        const message = getProjectReservationErrorMessage(err);
+        if (message) this.toastService.showError(message);
+      },
     });
   }
 

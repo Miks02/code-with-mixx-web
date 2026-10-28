@@ -126,9 +126,6 @@ export class EditSubjectForm implements OnInit {
             fieldTree: this.updateForm.subjectName,
           };
         }
-        this.toastService.showError(
-          'Došlo je do greške prilikom ažuriranja predmeta. Pokušajte ponovo kasnije.',
-        );
         return;
       }
     });

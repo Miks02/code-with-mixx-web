@@ -75,9 +75,6 @@ export class CreateStudentForm {
             fieldTree: this.studentForm.email,
           };
         }
-        this.toastService.showError(
-          'Došlo je do greške prilikom registracije studenta. Pokušajte ponovo kasnije.',
-        );
         return;
       }
     });

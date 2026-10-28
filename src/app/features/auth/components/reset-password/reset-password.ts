@@ -9,6 +9,7 @@ import { ResetPasswordBody } from '@features/auth/models/reset-password-body';
 import { ToastService } from '@core/services/toast-service';
 import { AuthService } from '@core/services/auth-service';
 import { ResetPasswordRequest } from '@features/auth/models/reset-password-request';
+import { getErrorCode } from '@core/utilities/problem-details-helpers';
 
 @Component({
   imports: [NgIcon, FormField, Button, RouterLink],
@@ -46,10 +47,12 @@ export class ResetPassword implements OnInit {
         await this.resetPasswordMutation.mutateAsync(request);
         this.toastSerivce.showSuccess('Lozinka je uspešno resetovana.');
         await this.router.navigate(['/login']);
-      } catch {
-        this.toastSerivce.showError(
-          'Došlo je do greške prilikom resetovanja lozinke. Token nije validan.',
-        );
+      } catch (err) {
+        if (getErrorCode(err) === 'Auth.InvalidPasswordResetToken') {
+          this.toastSerivce.showError(
+            'Došlo je do greške prilikom resetovanja lozinke. Token nije validan.',
+          );
+        }
       }
       return [];
     });

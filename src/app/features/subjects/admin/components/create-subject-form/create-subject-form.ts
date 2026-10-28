@@ -45,9 +45,6 @@ export class CreateSubjectForm {
             fieldTree: this.subjectForm.subjectName,
           };
         }
-        this.toastService.showError(
-          'Došlo je do greške prilikom kreiranja predmeta. Pokušajte ponovo kasnije.',
-        );
         return;
       }
     });

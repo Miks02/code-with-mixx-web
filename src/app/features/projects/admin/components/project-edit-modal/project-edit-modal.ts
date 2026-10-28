@@ -153,12 +153,8 @@ export class ProjectEditModal {
 
         return [];
       } catch (err) {
-        this.toastService.showError(
-          getProjectReservationErrorMessage(
-            err,
-            'Došlo je do greške prilikom ažuriranja projekta. Pokušajte ponovo kasnije.',
-          ),
-        );
+        const message = getProjectReservationErrorMessage(err);
+        if (message) this.toastService.showError(message);
         return;
       }
     });

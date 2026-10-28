@@ -179,7 +179,6 @@ export class StudentDetails {
           this.toastService.showError('Došlo je do greške. Student nije pronađen.');
           return;
         }
-        this.toastService.showError('Došlo je do neočekivane greške. Pokušajte ponovo kasnije.');
       },
     });
   }
@@ -204,7 +203,6 @@ export class StudentDetails {
           this.toastService.showError('Došlo je do greške. Student nije pronađen.');
           return;
         }
-        this.toastService.showError('Došlo je do neočekivane greške. Pokušajte ponovo kasnije.');
       },
     });
   }
@@ -234,7 +232,6 @@ export class StudentDetails {
           this.toastService.showError('Pozivnica se može poslati samo studentu.');
           return;
         }
-        this.toastService.showError('Došlo je do greške. Pozivnica nije poslata.');
       },
     });
   }
@@ -263,7 +260,6 @@ export class StudentDetails {
           this.toastService.showError('Došlo je do greške. Student nije pronađen.');
           return;
         }
-        this.toastService.showError('Došlo je do neočekivane greške. Pokušajte ponovo kasnije.');
       },
     });
   }

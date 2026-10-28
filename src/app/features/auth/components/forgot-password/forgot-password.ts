@@ -8,7 +8,6 @@ import { ToastService } from '@core/services/toast-service';
 import { Button } from '@shared/components/button/button';
 import { createForgotPasswordForm } from '@features/auth/factories/auth-factories';
 import { ForgotPasswordRequest } from '@features/auth/models/forgot-password-request';
-import { isProblemDetails } from '@core/utilities/problem-details-helpers';
 
 @Component({
   imports: [NgIcon, FormField, Button, RouterLink],
@@ -43,13 +42,8 @@ export class ForgotPassword {
           'Zahtev je uspešno poslat!',
           'Ako postoji nalog s tim emailom, biće ti poslat email za resetovanje lozinke.',
         );
-      } catch (err) {
-        if (isProblemDetails(err) && err.status === 429) {
-          this.toastService.showError('Previše zahteva. Pokušaj ponovo kasnije.', 'Greška 429');
-          return [];
-        }
-
-        this.toastService.showError('Došlo je do neočekivane greške. Pokušaj ponovo kasnije.');
+      } catch {
+        // No domain errors on this endpoint, generic ones are shown by httpErrorInterceptor
       }
 
       return [];

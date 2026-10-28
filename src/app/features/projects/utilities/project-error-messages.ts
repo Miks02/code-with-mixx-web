@@ -23,11 +23,11 @@ export const PROJECT_RESERVATION_ERROR_MESSAGES: Record<string, string> = {
     'Rezervacija ne može biti trajno obrisana jer zahteva čuvanje istorije.',
 };
 
-export function getProjectReservationErrorMessage(err: unknown, fallback: string): string {
-  if (!isProblemDetails(err)) return fallback;
+export function getProjectReservationErrorMessage(err: unknown): string | undefined {
+  if (!isProblemDetails(err)) return undefined;
 
   if (err.status === 400 && err.errors)
     return 'Podaci rezervacije nisu ispravni. Proverite polja forme.';
 
-  return PROJECT_RESERVATION_ERROR_MESSAGES[err.errorCode] ?? fallback;
+  return PROJECT_RESERVATION_ERROR_MESSAGES[err.errorCode];
 }

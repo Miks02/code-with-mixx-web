@@ -90,10 +90,6 @@ export class UpdateStatusModal {
           this.toastService.showError('Nije moguće promeniti status arhivirane rezervacije.');
           return;
         }
-
-        this.toastService.showError(
-          'Došlo je do greške prilikom promene statusa. Pokušajte ponovo kasnije.',
-        );
         return;
       }
     });

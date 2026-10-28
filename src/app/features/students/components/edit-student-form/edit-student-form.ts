@@ -156,9 +156,6 @@ export class EditStudentForm implements OnInit {
           this.toastService.showError('Došlo je do greške. Student nije pronađen.');
           return;
         }
-        this.toastService.showError(
-          'Došlo je do greške prilikom izmene studenta. Pokušajte ponovo kasnije.',
-        );
         return;
       }
     });

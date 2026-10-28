@@ -64,7 +64,6 @@ export class AccountActivation implements OnInit {
           );
           return [];
         }
-        this.toastService.showError('Došlo je do neočekivane greške. Pokušaj ponovo kasnije.');
       }
       return [];
     });

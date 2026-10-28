@@ -70,10 +70,6 @@ export class SubjectDetails {
           ...this.subject()!,
           deletedAt: currentDate(),
         }),
-      onError: () =>
-        this.toastService.showError(
-          'Došlo je do greške prilikom arhiviranja predmeta. Pokušajte ponovo kasnije.',
-        ),
     });
   }
 
@@ -84,10 +80,6 @@ export class SubjectDetails {
           ...this.subject()!,
           deletedAt: null,
         }),
-      onError: () =>
-        this.toastService.showError(
-          'Došlo je do greške prilikom vraćanja predmeta. Pokušajte ponovo kasnije.',
-        ),
     });
   }
 
@@ -104,10 +96,6 @@ export class SubjectDetails {
         this.toastService.showSuccess('Predmet je uspešno obrisan.');
         this.deleteSubject.emit();
       },
-      onError: () =>
-        this.toastService.showError(
-          'Došlo je do greške prilikom brisanja predmeta. Pokušajte ponovo kasnije.',
-        ),
     });
   }
 
