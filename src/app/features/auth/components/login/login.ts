@@ -31,6 +31,7 @@ export class Login {
 
   constructor() {
     if (this.activatedRoute.snapshot.queryParamMap.get('expired') === 'true') {
+      history.replaceState(null, '', location.pathname);
       this.toastService.showInfo('Tvoja sesija je istekla. Prijavi se ponovo.');
     }
   }
