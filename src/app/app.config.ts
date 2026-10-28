@@ -25,7 +25,7 @@ export const appConfig: ApplicationConfig = {
             staleTime: 5 * 60 * 1000,
             retry: (failureCount, error) => {
               const errorStatus = error.status;
-              if (errorStatus >= 400 && errorStatus < 500 && errorStatus !== 0) return false;
+              if (errorStatus === 0 || (errorStatus >= 400 && errorStatus < 500)) return false;
               return failureCount < 3;
             },
           },
