@@ -129,9 +129,9 @@ export function createProjectReservationFormFactory(
   request: WritableSignal<ProjectReservationFormModel>,
 ) {
   return form(request, (schemaPath) => {
-    required(schemaPath.studentId, { message: 'Izaberite studenta.' });
+    required(schemaPath.studentId, { message: 'Izaberi studenta.' });
     min(schemaPath.totalPrice, 0, { message: 'Ukupna cena rezervacije može biti najmanje 0 RSD.' });
-    required(schemaPath.reservedAt, { message: 'Unesite datum rezervisanja' });
+    required(schemaPath.reservedAt, { message: 'Unesi datum rezervisanja' });
     validate(schemaPath.reservedAt, ({ value }) => {
       if (!isValidDate(value())) {
         return { kind: 'invalidDate', message: 'Datum rezervacije nije validan' };
@@ -146,12 +146,12 @@ export function createProjectReservationFormFactory(
     });
     minLength(schemaPath.projects, 1, { message: 'Rezervacija mora imati barem 1 projekat' });
     applyEach(schemaPath.projects, (project) => {
-      min(project.subjectId, 1, { message: 'Izaberite predmet projekta.' });
-      required(project.price, { message: 'Unesite cenu projekta.' });
+      min(project.subjectId, 1, { message: 'Izaberi predmet projekta.' });
+      required(project.price, { message: 'Unesi cenu projekta.' });
       min(project.price, 0, { message: 'Cena ne može biti manja od 0 RSD.' });
-      required(project.startDate, { message: 'Unesite datum početka projekta' });
-      required(project.endDate, { message: 'Unesite datum završetka projekta' });
-      required(project.reservedAt, { message: 'Unesite datum rezervacije' });
+      required(project.startDate, { message: 'Unesi datum početka projekta' });
+      required(project.endDate, { message: 'Unesi datum završetka projekta' });
+      required(project.reservedAt, { message: 'Unesi datum rezervacije' });
       validate(project.startDate, ({ value, valueOf }) => {
         if (!isValidDate(value())) {
           return { kind: 'invalidDate', message: 'Datum početka nije validan' };
@@ -218,7 +218,7 @@ export function createUpdateProjectForm(
 ) {
   return form(request, (schemaPath) => {
     disabled(schemaPath, { when: () => isReadOnly() });
-    required(schemaPath.price, { message: 'Unesite cenu projekta.' });
+    required(schemaPath.price, { message: 'Unesi cenu projekta.' });
     min(schemaPath.price, 0, { message: 'Cena ne može biti manja od 0 RSD.' });
     min(schemaPath.progress, 0, { message: 'Napredak ne može biti manji od 0%.' });
     max(schemaPath.progress, 100, { message: 'Napredak ne može biti veći od 100%.' });

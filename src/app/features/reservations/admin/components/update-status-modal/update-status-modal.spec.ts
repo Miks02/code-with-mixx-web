@@ -130,8 +130,7 @@ describe('UpdateStatusModal', () => {
 
       expect(dialogService.showDialog).toHaveBeenCalledWith({
         title: 'Promena statusa rezervacije',
-        message:
-          'Da li ste sigurni da želite da promenite status rezervacije iz „Potvrđena” u „Završena”?',
+        message: 'Da li sigurno želiš da promeniš status rezervacije iz „Potvrđena” u „Završena”?',
       });
     });
 
@@ -165,7 +164,8 @@ describe('UpdateStatusModal', () => {
     it('should show archived error toast and stay open when reservation is archived', async () => {
       dialogService.showDialog.mockResolvedValue(DialogResult.Confirmed);
       updateStatusMutation.mutateAsync.mockRejectedValue({
-        error: { errorCode: 'Reservation.CantUpdateAnArchivedReservation' },
+        status: 409,
+        errorCode: 'Reservation.CantUpdateAnArchivedReservation',
       });
       setStatus(ReservationStatus.Completed);
 
@@ -178,16 +178,14 @@ describe('UpdateStatusModal', () => {
       expect(closedSpy).not.toHaveBeenCalled();
     });
 
-    it('should show generic error toast and stay open on unknown error', async () => {
+    it('should leave the error toast to the interceptor and stay open on unknown error', async () => {
       dialogService.showDialog.mockResolvedValue(DialogResult.Confirmed);
       updateStatusMutation.mutateAsync.mockRejectedValue(new Error('fail'));
       setStatus(ReservationStatus.Completed);
 
       await component.onSubmit();
 
-      expect(toastService.showError).toHaveBeenCalledWith(
-        'Došlo je do greške prilikom promene statusa. Pokušajte ponovo kasnije.',
-      );
+      expect(toastService.showError).not.toHaveBeenCalled();
       expect(closedSpy).not.toHaveBeenCalled();
     });
   });

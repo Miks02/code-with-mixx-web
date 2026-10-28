@@ -89,12 +89,8 @@ export class ProjectReservationDetailsPage {
         this.toastService.showSuccess('Rezervacija je uspešno ažurirana.');
         this.router.navigateByUrl('/admin/projects');
       } catch (err) {
-        this.toastService.showError(
-          getProjectReservationErrorMessage(
-            err,
-            'Došlo je do greške prilikom ažuriranja rezervacije. Pokušajte ponovo kasnije.',
-          ),
-        );
+        const message = getProjectReservationErrorMessage(err);
+        if (message) this.toastService.showError(message);
       }
     });
   }

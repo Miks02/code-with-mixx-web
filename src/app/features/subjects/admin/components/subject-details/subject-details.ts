@@ -16,6 +16,7 @@ import { SubjectService } from '@features/subjects/services/subject-service';
 import { DialogService } from '@core/services/dialog-service';
 import { DialogResult } from '@core/components/dialog/dialog';
 import { ToastService } from '@core/services/toast-service';
+import { getSubjectErrorMessage } from '@features/subjects/utilities/subject-error-messages';
 
 type SubjectStat = {
   icon: string;
@@ -70,10 +71,10 @@ export class SubjectDetails {
           ...this.subject()!,
           deletedAt: currentDate(),
         }),
-      onError: () =>
-        this.toastService.showError(
-          'Došlo je do greške prilikom arhiviranja predmeta. Pokušajte ponovo kasnije.',
-        ),
+      onError: (err) => {
+        const message = getSubjectErrorMessage(err);
+        if (message) this.toastService.showError(message);
+      },
     });
   }
 
@@ -84,17 +85,17 @@ export class SubjectDetails {
           ...this.subject()!,
           deletedAt: null,
         }),
-      onError: () =>
-        this.toastService.showError(
-          'Došlo je do greške prilikom vraćanja predmeta. Pokušajte ponovo kasnije.',
-        ),
+      onError: (err) => {
+        const message = getSubjectErrorMessage(err);
+        if (message) this.toastService.showError(message);
+      },
     });
   }
 
   async onDelete() {
     const dialog = await this.dialogService.showDialog({
       title: 'Brisanje predmeta',
-      message: `Da li ste sigurni da želite da obrišete predmet „${this.subject()!.subjectName}”?`,
+      message: `Da li sigurno želiš da obrišeš predmet „${this.subject()!.subjectName}”?`,
     });
 
     if (dialog === DialogResult.Cancelled) return;
@@ -104,10 +105,10 @@ export class SubjectDetails {
         this.toastService.showSuccess('Predmet je uspešno obrisan.');
         this.deleteSubject.emit();
       },
-      onError: () =>
-        this.toastService.showError(
-          'Došlo je do greške prilikom brisanja predmeta. Pokušajte ponovo kasnije.',
-        ),
+      onError: (err) => {
+        const message = getSubjectErrorMessage(err);
+        if (message) this.toastService.showError(message);
+      },
     });
   }
 

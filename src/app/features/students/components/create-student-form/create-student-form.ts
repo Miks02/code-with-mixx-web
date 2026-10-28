@@ -14,6 +14,8 @@ import { Button } from '@shared/components/button/button';
 import { createStudentForm } from '@features/students/factories/student-factories';
 import { CreateStudentFormModel } from '@features/students/models/create-student-request';
 import { StudentService } from '@features/students/services/student-service';
+import { getErrorCode } from '@core/utilities/problem-details-helpers';
+import { getStudentErrorMessage } from '@features/students/utilities/student-error-messages';
 
 const emptyStudentModel: CreateStudentFormModel = {
   firstName: '',
@@ -66,17 +68,17 @@ export class CreateStudentForm {
         this.closed.emit();
 
         return [];
-      } catch (err: any) {
-        if (err?.error?.errorCode === 'User.UsernameAlreadyExists') {
+      } catch (err) {
+        const errorCode = getErrorCode(err);
+        if (errorCode === 'User.UsernameAlreadyExists' || errorCode === 'User.EmailAlreadyExists') {
           return {
             kind: 'server',
             message: 'Korisnik sa ovom email adresom već postoji.',
             fieldTree: this.studentForm.email,
           };
         }
-        this.toastService.showError(
-          'Došlo je do greške prilikom registracije studenta. Pokušajte ponovo kasnije.',
-        );
+        const message = getStudentErrorMessage(err);
+        if (message) this.toastService.showError(message);
         return;
       }
     });

@@ -17,7 +17,7 @@ import { ProjectQueryParams } from '@features/projects/models/project-query-para
 import { ProjectReservationItem } from '@features/projects/models/project-reservation-item';
 import { ProjectType } from '@features/projects/models/project-type';
 import { ProjectService } from '@features/projects/services/project-service';
-import { PROJECT_RESERVATION_ERROR_MESSAGES } from '@features/projects/utilities/project-error-messages';
+import { getProjectReservationErrorMessage } from '@features/projects/utilities/project-error-messages';
 import { PROJECT_RESERVATION_TOAST_MESSAGES } from '@features/projects/utilities/project-toast-messages';
 import { ProjectReservationDetails } from '@features/projects/admin/components/project-reservation-details/project-reservation-details';
 
@@ -87,7 +87,7 @@ export class ProjectsPage {
   async onArchiveReservation(reservationId: number) {
     const result = await this.dialogService.showDialog({
       title: 'Arhiviranje rezervacije',
-      message: `Da li ste sigurni da želite da arhivirate rezervaciju studenta „${this.selectedReservation()?.studentFullName}”?`,
+      message: `Da li sigurno želiš da arhiviraš rezervaciju studenta „${this.selectedReservation()?.studentFullName}”?`,
     });
 
     if (result !== DialogResult.Confirmed) return;
@@ -95,14 +95,17 @@ export class ProjectsPage {
     this.projectService.archiveProjectReservationMutation.mutate(reservationId, {
       onSuccess: () =>
         this.toastService.showSuccess(PROJECT_RESERVATION_TOAST_MESSAGES.archiveSuccess),
-      onError: () => this.toastService.showError(PROJECT_RESERVATION_TOAST_MESSAGES.archiveError),
+      onError: (err) => {
+        const message = getProjectReservationErrorMessage(err);
+        if (message) this.toastService.showError(message);
+      },
     });
   }
 
   async onRestoreReservation(reservationId: number) {
     const result = await this.dialogService.showDialog({
       title: 'Vraćanje rezervacije',
-      message: `Da li ste sigurni da želite da vratite rezervaciju studenta „${this.selectedReservation()?.studentFullName}” iz arhive?`,
+      message: `Da li sigurno želiš da vratiš rezervaciju studenta „${this.selectedReservation()?.studentFullName}” iz arhive?`,
     });
 
     if (result !== DialogResult.Confirmed) return;
@@ -110,14 +113,17 @@ export class ProjectsPage {
     this.projectService.restoreProjectReservationMutation.mutate(reservationId, {
       onSuccess: () =>
         this.toastService.showSuccess(PROJECT_RESERVATION_TOAST_MESSAGES.restoreSuccess),
-      onError: () => this.toastService.showError(PROJECT_RESERVATION_TOAST_MESSAGES.restoreError),
+      onError: (err) => {
+        const message = getProjectReservationErrorMessage(err);
+        if (message) this.toastService.showError(message);
+      },
     });
   }
 
   async onDeleteReservation(reservationId: number) {
     const result = await this.dialogService.showDialog({
       title: 'Brisanje rezervacije',
-      message: `Da li ste sigurni da želite da obrišete rezervaciju studenta „${this.selectedReservation()?.studentFullName}”?`,
+      message: `Da li sigurno želiš da obrišeš rezervaciju studenta „${this.selectedReservation()?.studentFullName}”?`,
     });
 
     if (result !== DialogResult.Confirmed) return;
@@ -125,11 +131,10 @@ export class ProjectsPage {
     this.projectService.deleteProjectReservationMutation.mutate(reservationId, {
       onSuccess: () =>
         this.toastService.showSuccess(PROJECT_RESERVATION_TOAST_MESSAGES.deleteSuccess),
-      onError: (err: any) =>
-        this.toastService.showError(
-          PROJECT_RESERVATION_ERROR_MESSAGES[err?.error?.errorCode] ??
-            PROJECT_RESERVATION_TOAST_MESSAGES.deleteError,
-        ),
+      onError: (err) => {
+        const message = getProjectReservationErrorMessage(err);
+        if (message) this.toastService.showError(message);
+      },
     });
   }
 

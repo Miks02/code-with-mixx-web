@@ -7,7 +7,8 @@ import { CreateSubjectRequest } from '@features/subjects/models/create-subject-r
 import { SubjectService } from '@features/subjects/services/subject-service';
 import { createSubjectForm } from '@features/subjects/admin/factories/subject-factories';
 import { ToastService } from '@core/services/toast-service';
-import { HttpErrorResponse } from '@angular/common/http';
+import { getErrorCode } from '@core/utilities/problem-details-helpers';
+import { getSubjectErrorMessage } from '@features/subjects/utilities/subject-error-messages';
 
 @Component({
   imports: [FormField, Button],
@@ -38,16 +39,15 @@ export class CreateSubjectForm {
 
         return [];
       } catch (err) {
-        if (err instanceof HttpErrorResponse && err.error.errorCode === 'Subject.AlreadyExists') {
+        if (getErrorCode(err) === 'Subject.AlreadyExists') {
           return {
             kind: 'server',
             message: 'Predmet sa ovim nazivom već postoji.',
             fieldTree: this.subjectForm.subjectName,
           };
         }
-        this.toastService.showError(
-          'Došlo je do greške prilikom kreiranja predmeta. Pokušajte ponovo kasnije.',
-        );
+        const message = getSubjectErrorMessage(err);
+        if (message) this.toastService.showError(message);
         return;
       }
     });

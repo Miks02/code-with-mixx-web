@@ -9,6 +9,8 @@ import { Button } from '@shared/components/button/button';
 import { createAccountActivationForm } from '@features/auth/factories/auth-factories';
 import { AccountActivationBody } from '@features/auth/models/account-activation-body';
 import { AccountActivationRequest } from '@features/auth/models/account-activation-request';
+import { getErrorCode } from '@core/utilities/problem-details-helpers';
+import { getAuthErrorMessage } from '@features/auth/utilities/auth-error-messages';
 
 @Component({
   imports: [NgIcon, FormField, Button, RouterLink],
@@ -46,24 +48,14 @@ export class AccountActivation implements OnInit {
         await this.activateAccountMutation.mutateAsync(request);
         this.toastService.showSuccess('Nalog je uspešno aktiviran. Sada se možeš prijaviti.');
         await this.router.navigate(['/login']);
-      } catch (err: any) {
-        const errorCode = err?.error?.errorCode;
-        if (errorCode === 'User.NotFound') {
-          this.toastService.showError('Korisnik nije pronađen. Proveri link iz pozivnice.');
-          return [];
-        }
-        if (errorCode === 'User.AlreadyActivated') {
+      } catch (err) {
+        if (getErrorCode(err) === 'User.AlreadyActivated') {
           this.toastService.showInfo('Nalog je već aktiviran. Možeš se prijaviti.');
           await this.router.navigate(['/login']);
           return [];
         }
-        if (errorCode === 'Auth.InvalidInvitationToken') {
-          this.toastService.showError(
-            'Link za aktivaciju nije validan ili je istekao. Obrati se administratoru za novu pozivnicu.',
-          );
-          return [];
-        }
-        this.toastService.showError('Došlo je do neočekivane greške. Pokušaj ponovo kasnije.');
+        const message = getAuthErrorMessage(err);
+        if (message) this.toastService.showError(message);
       }
       return [];
     });

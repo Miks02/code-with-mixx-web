@@ -193,13 +193,13 @@ describe('SubtractPaymentModal', () => {
       expect(closedSpy).toHaveBeenCalledOnce();
     });
 
-    it('should show error toast and stay open when mutation fails', async () => {
+    it('should leave the error toast to the interceptor and stay open when mutation fails', async () => {
       subtractPaymentMutation.mutateAsync.mockRejectedValue(new Error('fail'));
       setAmount(2000);
 
       await component.onSubmit();
 
-      expect(toastService.showError).toHaveBeenCalled();
+      expect(toastService.showError).not.toHaveBeenCalled();
       expect(toastService.showSuccess).not.toHaveBeenCalled();
       expect(closedSpy).not.toHaveBeenCalled();
     });

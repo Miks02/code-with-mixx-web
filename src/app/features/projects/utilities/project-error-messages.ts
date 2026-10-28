@@ -1,7 +1,9 @@
+import { isProblemDetails } from '@core/utilities/problem-details-helpers';
+
 export const PROJECT_RESERVATION_ERROR_MESSAGES: Record<string, string> = {
-  'Student.NotFound': 'Izabrani student više ne postoji. Osvežite stranicu i izaberite drugog.',
+  'Student.NotFound': 'Izabrani student više ne postoji. Osveži stranicu i izaberi drugog.',
   'Subject.MultipleSubjectsMissing':
-    'Neki od izabranih predmeta više ne postoje. Osvežite stranicu i izaberite ponovo.',
+    'Neki od izabranih predmeta više ne postoje. Osveži stranicu i izaberi ponovo.',
   'Reservation.NoProjectsProvided': 'Rezervacija mora imati barem jedan projekat.',
   'Reservation.InvalidTotalPrice': 'Ukupna cena ne može biti negativna.',
   'Reservation.InvalidAmount': 'Plaćeni iznos ne može biti negativan.',
@@ -12,8 +14,9 @@ export const PROJECT_RESERVATION_ERROR_MESSAGES: Record<string, string> = {
   'Project.GithubLinkIsTooLong': 'Github link ne može imati više od 200 karaktera.',
   'Project.DownloadLinkIsTooLong': 'Download link ne može imati više od 200 karaktera.',
   'Project.EmptyProjectNote': 'Beleške ne mogu biti prazne.',
-  'Project.NotFound': 'Projekat više ne postoji. Osvežite stranicu.',
-  'Project.NoteNotFound': 'Neka od beleški više ne postoji. Osvežite stranicu i pokušajte ponovo.',
+  'Reservation.NotFound': 'Rezervacija više ne postoji. Osveži stranicu.',
+  'Project.NotFound': 'Projekat više ne postoji. Osveži stranicu.',
+  'Project.NoteNotFound': 'Neka od beleški više ne postoji. Osveži stranicu i pokušaj ponovo.',
   'Project.CantUpdateAnArchivedProject': 'Nije moguće izmeniti arhiviran projekat.',
   'Reservation.CantUpdateAnArchivedReservation':
     'Nije moguće izmeniti projekat iz arhivirane rezervacije.',
@@ -21,9 +24,11 @@ export const PROJECT_RESERVATION_ERROR_MESSAGES: Record<string, string> = {
     'Rezervacija ne može biti trajno obrisana jer zahteva čuvanje istorije.',
 };
 
-export function getProjectReservationErrorMessage(err: any, fallback: string): string {
-  if (err?.status === 400 && err?.error?.errors)
-    return 'Podaci rezervacije nisu ispravni. Proverite polja forme.';
+export function getProjectReservationErrorMessage(err: unknown): string | undefined {
+  if (!isProblemDetails(err)) return undefined;
 
-  return PROJECT_RESERVATION_ERROR_MESSAGES[err?.error?.errorCode] ?? fallback;
+  if (err.status === 400 && err.errors)
+    return 'Podaci rezervacije nisu ispravni. Proveri polja forme.';
+
+  return PROJECT_RESERVATION_ERROR_MESSAGES[err.errorCode];
 }

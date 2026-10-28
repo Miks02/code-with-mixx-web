@@ -24,6 +24,8 @@ import {
   UpdateStudentResponse,
 } from '@features/students/models/update-student-request';
 import { StudentService } from '@features/students/services/student-service';
+import { getErrorCode } from '@core/utilities/problem-details-helpers';
+import { getStudentErrorMessage } from '@features/students/utilities/student-error-messages';
 
 type StudentStat = {
   icon: string;
@@ -142,22 +144,17 @@ export class EditStudentForm implements OnInit {
         this.closeForm.emit();
 
         return [];
-      } catch (err: any) {
-        const errorCode = err?.error?.errorCode;
-        if (errorCode === 'User.UsernameAlreadyExists') {
+      } catch (err) {
+        const errorCode = getErrorCode(err);
+        if (errorCode === 'User.UsernameAlreadyExists' || errorCode === 'User.EmailAlreadyExists') {
           return {
             kind: 'server',
             message: 'Korisnik sa ovom email adresom već postoji.',
             fieldTree: this.updateForm.email,
           };
         }
-        if (errorCode === 'Student.NotFound') {
-          this.toastService.showError('Došlo je do greške. Student nije pronađen.');
-          return;
-        }
-        this.toastService.showError(
-          'Došlo je do greške prilikom izmene studenta. Pokušajte ponovo kasnije.',
-        );
+        const message = getStudentErrorMessage(err);
+        if (message) this.toastService.showError(message);
         return;
       }
     });

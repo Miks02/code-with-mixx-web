@@ -16,6 +16,8 @@ import { createSubjectForm } from '@features/subjects/admin/factories/subject-fa
 import { UpdateSubjectRequest } from '@features/subjects/models/update-subject-request';
 import { FormField, submit } from '@angular/forms/signals';
 import { ToastService } from '@core/services/toast-service';
+import { getErrorCode } from '@core/utilities/problem-details-helpers';
+import { getSubjectErrorMessage } from '@features/subjects/utilities/subject-error-messages';
 
 type SubjectStat = {
   icon: string;
@@ -117,17 +119,16 @@ export class EditSubjectForm implements OnInit {
           },
         });
         return [];
-      } catch (err: any) {
-        if (err.error.errorCode === 'Subject.AlreadyExists') {
+      } catch (err) {
+        if (getErrorCode(err) === 'Subject.AlreadyExists') {
           return {
             kind: 'server',
             message: 'Predmet sa ovim nazivom već postoji.',
             fieldTree: this.updateForm.subjectName,
           };
         }
-        this.toastService.showError(
-          'Došlo je do greške prilikom ažuriranja predmeta. Pokušajte ponovo kasnije.',
-        );
+        const message = getSubjectErrorMessage(err);
+        if (message) this.toastService.showError(message);
         return;
       }
     });

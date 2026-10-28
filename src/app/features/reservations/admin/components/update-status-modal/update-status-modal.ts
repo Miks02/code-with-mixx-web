@@ -11,6 +11,7 @@ import { ReservationStatus } from '@features/reservations/models/reservation-sta
 import { UpdateStatusFormModel } from '@features/reservations/models/update-status-request';
 import { ReservationService } from '@features/reservations/services/reservation-service';
 import { RESERVATION_STATUS_STYLES } from '@features/reservations/utilities/reservation-labels';
+import { getErrorCode } from '@core/utilities/problem-details-helpers';
 
 @Component({
   imports: [NgIcon, Button],
@@ -62,7 +63,7 @@ export class UpdateStatusModal {
 
       const result = await this.dialogService.showDialog({
         title: 'Promena statusa rezervacije',
-        message: `Da li ste sigurni da želite da promenite status rezervacije iz „${currentLabel}” u „${selectedLabel}”?`,
+        message: `Da li sigurno želiš da promeniš status rezervacije iz „${currentLabel}” u „${selectedLabel}”?`,
       });
 
       if (result !== DialogResult.Confirmed) return;
@@ -76,22 +77,19 @@ export class UpdateStatusModal {
         this.closed.emit();
 
         return [];
-      } catch (err: any) {
-        if (err?.error?.errorCode === 'Reservation.NotFound') {
+      } catch (err) {
+        const errorCode = getErrorCode(err);
+        if (errorCode === 'Reservation.NotFound') {
           this.toastService.showError(
-            'Rezervacija nije pronadjena. Ako je u arhivi, vratite je iz arhive kako bi promenili status.',
+            'Rezervacija nije pronadjena. Ako je u arhivi, vrati je iz arhive pa promeni status.',
           );
           return;
         }
 
-        if (err?.error?.errorCode === 'Reservation.CantUpdateAnArchivedReservation') {
+        if (errorCode === 'Reservation.CantUpdateAnArchivedReservation') {
           this.toastService.showError('Nije moguće promeniti status arhivirane rezervacije.');
           return;
         }
-
-        this.toastService.showError(
-          'Došlo je do greške prilikom promene statusa. Pokušajte ponovo kasnije.',
-        );
         return;
       }
     });

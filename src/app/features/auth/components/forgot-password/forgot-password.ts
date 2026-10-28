@@ -42,13 +42,8 @@ export class ForgotPassword {
           'Zahtev je uspešno poslat!',
           'Ako postoji nalog s tim emailom, biće ti poslat email za resetovanje lozinke.',
         );
-      } catch (err: any) {
-        if (err?.status === 429) {
-          this.toastService.showError('Previše zahteva. Pokušaj ponovo kasnije.', 'Greška 429');
-          return [];
-        }
-
-        this.toastService.showError('Došlo je do neočekivane greške. Pokušaj ponovo kasnije.');
+      } catch {
+        // No domain errors on this endpoint, generic ones are shown by httpErrorInterceptor
       }
 
       return [];
