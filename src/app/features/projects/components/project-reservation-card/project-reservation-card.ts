@@ -10,7 +10,8 @@ import {
 import { priceConverter } from '@core/utilities/price-helpers';
 import { ReservationStatus } from '@features/reservations';
 import { ProjectReservationItem } from '@features/projects/models/project-reservation-item';
-import { PAYMENT_STATUS_META } from '@features/projects/utilities/project-labels';
+import { PAYMENT_STATUS_META } from '@features/reservations';
+
 
 const BASE_CLASSES =
   'p-4 rounded-lg flex flex-col gap-2.5 active:scale-95 transition-200 cursor-pointer flex-1 grow';

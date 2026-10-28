@@ -25,7 +25,7 @@ import {
   PAYMENT_STATUS_META,
   RESERVATION_STATUS_META,
   StatusMeta,
-} from '@features/projects/utilities/project-labels';
+} from '@features/reservations';
 import { Router } from '@angular/router';
 import { ReservationModalType, UpdateStatusModal } from '@features/reservations';
 import {

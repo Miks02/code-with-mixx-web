@@ -9,5 +9,8 @@ export {
   RESERVATION_STATUS_STYLES,
   RESERVATION_STATUS_FILTER_LABELS,
   CONFLICTING_RESERVATION_STATUSES,
+  RESERVATION_STATUS_META,
+  PAYMENT_STATUS_META,
 } from './utilities/reservation-labels'
+export type { StatusMeta } from './utilities/reservation-labels'
 export type { ReservationStatusStyle } from './utilities/reservation-labels'
