@@ -3,7 +3,7 @@ export { ReservationStatus } from './models/reservation-status';
 export { UpdateStatusModal } from './admin/components/update-status-modal/update-status-modal'
 export { ReservationService } from './services/reservation-service'
 export type { ReservationModalType } from './models/reservation-modal-type'
-export { reservationKeys, projectReservationKeys } from './utilities/reservation-keys'
+export { reservationKeys, projectReservationKeys, classReservationKeys } from './utilities/reservation-keys'
 export { invalidateReservationQueries } from './utilities/reservation-queries'
 export {
   RESERVATION_STATUS_STYLES,
