@@ -1,8 +1,5 @@
 @if(showSidebar()) {
-<div
-  (click)="onCloseSidebar()"
-  class="fixed inset-0 backdrop-blur-xs z-40 md:hidden"
-></div>
+<div (click)="onCloseSidebar()" class="fixed inset-0 backdrop-blur-xs z-40 md:hidden"></div>
 }
 
 <aside
@@ -41,7 +38,7 @@
       >
         <button
           (click)="onLogout()"
-          class="flex gap-2 items-center font-semibold hover:ml-4 px-2 py-3 rounded-lg transition-200 cursor-pointer"
+          class="flex gap-2 items-center font-semibold hover:ml-4 px-2 py-3 rounded-lg transition-200 cursor-pointer w-full"
         >
           <ng-icon name="faSolidArrowRightFromBracket" class="text-xl text-red-100!"></ng-icon>
           <span class="text-lg text-red-100">Odjavi se</span>
