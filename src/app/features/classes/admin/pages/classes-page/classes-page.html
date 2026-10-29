@@ -20,6 +20,11 @@
     (pageChanged)="onPageChange($event)"
   ></app-class-reservations-list>
 
+  <app-class-reservation-details
+    class="min-w-0 lg:col-span-2 lg:row-span-3"
+    [reservation]="selectedReservation()"
+  ></app-class-reservation-details>
+
   <div class="min-w-0 lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
     <app-next-class-card
       class="sm:col-span-2 xl:col-span-1 xl:row-span-2"

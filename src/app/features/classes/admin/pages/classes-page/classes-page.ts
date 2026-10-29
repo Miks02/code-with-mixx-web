@@ -9,6 +9,7 @@ import {
 import { StatsCard } from '@shared/components/stats-card/stats-card';
 import { PaymentStatus, ReservationStatus } from '@features/reservations';
 import { SubjectService } from '@features/subjects';
+import { ClassReservationDetails } from '@features/classes/admin/components/class-reservation-details/class-reservation-details';
 import { NextClassCard } from '@features/classes/admin/components/next-class-card/next-class-card';
 import { ClassReservationsList } from '@features/classes/admin/components/class-reservations-list/class-reservations-list';
 import { ClassQueryParams } from '@features/classes/models/class-query-params';
@@ -17,7 +18,7 @@ import { ClassReservationSortBy } from '@features/classes/models/class-reservati
 import { ClassService } from '@features/classes/services/class-service';
 
 @Component({
-  imports: [ClassReservationsList, NextClassCard, StatsCard],
+  imports: [ClassReservationsList, ClassReservationDetails, NextClassCard, StatsCard],
   providers: [
     provideIcons({
       faSolidCalendarCheck,

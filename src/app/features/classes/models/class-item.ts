@@ -5,4 +5,5 @@ export type ClassItem = {
   price: number;
   startsAt: string;
   endsAt: string;
+  reservedAt: string;
 };
