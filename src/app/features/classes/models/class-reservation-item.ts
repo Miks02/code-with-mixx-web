@@ -11,7 +11,10 @@ export type ClassReservationItem = {
   paidAmount: number;
   discountRate: number;
   bonus: number;
+  description: string | null;
   createdAt: string;
+  deletedAt: string | null;
+  isHardDeletable: boolean;
   startsAt: string;
   endsAt: string;
   classes: ClassItem[];
