@@ -6,6 +6,9 @@ import {
   faSolidChalkboardUser,
   faSolidCircleCheck,
 } from '@ng-icons/font-awesome/solid';
+import { DialogResult } from '@core/components/dialog/dialog';
+import { DialogService } from '@core/services/dialog-service';
+import { ToastService } from '@core/services/toast-service';
 import { StatsCard } from '@shared/components/stats-card/stats-card';
 import { PaymentStatus, ReservationStatus } from '@features/reservations';
 import { SubjectService } from '@features/subjects';
@@ -16,6 +19,8 @@ import { ClassQueryParams } from '@features/classes/models/class-query-params';
 import { ClassReservationItem } from '@features/classes/models/class-reservation-item';
 import { ClassReservationSortBy } from '@features/classes/models/class-reservation-sort-by';
 import { ClassService } from '@features/classes/services/class-service';
+import { getClassReservationErrorMessage } from '@features/classes/utilities/class-error-messages';
+import { CLASS_RESERVATION_TOAST_MESSAGES } from '@features/classes/utilities/class-toast-messages';
 
 @Component({
   imports: [ClassReservationsList, ClassReservationDetails, NextClassCard, StatsCard],
@@ -34,6 +39,8 @@ import { ClassService } from '@features/classes/services/class-service';
 export class ClassesPage {
   private classService = inject(ClassService);
   private subjectService = inject(SubjectService);
+  private toastService = inject(ToastService);
+  private dialogService = inject(DialogService);
 
   protected queryParams = signal<ClassQueryParams>({
     pageNumber: 1,
@@ -61,6 +68,12 @@ export class ClassesPage {
   classesSummaryPending = computed(() => this.classesSummarySource.isPending());
   reservationsPending = computed(() => this.reservationsSource.isPending());
   reservationsFetching = computed(() => this.reservationsSource.isFetching());
+  isArchiving = computed(
+    () =>
+      this.classService.archiveClassReservationMutation.isPending() ||
+      this.classService.restoreClassReservationMutation.isPending() ||
+      this.classService.deleteClassReservationMutation.isPending(),
+  );
 
   selectedReservation = linkedSignal<ClassReservationItem[], ClassReservationItem | undefined>({
     source: () => this.reservationsData()?.items ?? [],
@@ -70,6 +83,60 @@ export class ClassesPage {
 
   onReservationSelected(reservation: ClassReservationItem | undefined) {
     this.selectedReservation.set(reservation);
+  }
+
+  async onArchiveReservation(reservationId: number) {
+    const result = await this.dialogService.showDialog({
+      title: 'Arhiviranje rezervacije',
+      message: `Da li sigurno želiš da arhiviraš rezervaciju studenta „${this.selectedReservation()?.studentFullName}”?`,
+    });
+
+    if (result !== DialogResult.Confirmed) return;
+
+    this.classService.archiveClassReservationMutation.mutate(reservationId, {
+      onSuccess: () =>
+        this.toastService.showSuccess(CLASS_RESERVATION_TOAST_MESSAGES.archiveSuccess),
+      onError: (err) => {
+        const message = getClassReservationErrorMessage(err);
+        if (message) this.toastService.showError(message);
+      },
+    });
+  }
+
+  async onRestoreReservation(reservationId: number) {
+    const result = await this.dialogService.showDialog({
+      title: 'Vraćanje rezervacije',
+      message: `Da li sigurno želiš da vratiš rezervaciju studenta „${this.selectedReservation()?.studentFullName}” iz arhive?`,
+    });
+
+    if (result !== DialogResult.Confirmed) return;
+
+    this.classService.restoreClassReservationMutation.mutate(reservationId, {
+      onSuccess: () =>
+        this.toastService.showSuccess(CLASS_RESERVATION_TOAST_MESSAGES.restoreSuccess),
+      onError: (err) => {
+        const message = getClassReservationErrorMessage(err);
+        if (message) this.toastService.showError(message);
+      },
+    });
+  }
+
+  async onDeleteReservation(reservationId: number) {
+    const result = await this.dialogService.showDialog({
+      title: 'Brisanje rezervacije',
+      message: `Da li sigurno želiš da obrišeš rezervaciju studenta „${this.selectedReservation()?.studentFullName}”?`,
+    });
+
+    if (result !== DialogResult.Confirmed) return;
+
+    this.classService.deleteClassReservationMutation.mutate(reservationId, {
+      onSuccess: () =>
+        this.toastService.showSuccess(CLASS_RESERVATION_TOAST_MESSAGES.deleteSuccess),
+      onError: (err) => {
+        const message = getClassReservationErrorMessage(err);
+        if (message) this.toastService.showError(message);
+      },
+    });
   }
 
   onSubjectIdsChange(subjectIds: number[]) {

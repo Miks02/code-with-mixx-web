@@ -3,6 +3,7 @@ import { inject, Service, Signal } from '@angular/core';
 import { environment } from '@environments/environment';
 import {
   CreateQueryResult,
+  injectMutation,
   injectQuery,
   keepPreviousData,
   QueryClient,
@@ -55,5 +56,41 @@ export class ClassService {
       placeholderData: keepPreviousData,
       enabled: queryResult.isSuccess() && !queryResult.isFetching(),
     }));
+  }
+
+  archiveClassReservationMutation = injectMutation(() => ({
+    mutationFn: (reservationId: number) =>
+      lastValueFrom(
+        this.http.post(`${this.apiUrl}/admin/reservations/classes/${reservationId}/archive`, {}),
+      ),
+    onSuccess: (_, reservationId) => this.invalidateQueries(reservationId),
+  }));
+
+  restoreClassReservationMutation = injectMutation(() => ({
+    mutationFn: (reservationId: number) =>
+      lastValueFrom(
+        this.http.post(`${this.apiUrl}/admin/reservations/classes/${reservationId}/restore`, {}),
+      ),
+    onSuccess: (_, reservationId) => this.invalidateQueries(reservationId),
+  }));
+
+  deleteClassReservationMutation = injectMutation(() => ({
+    mutationFn: (reservationId: number) =>
+      lastValueFrom(this.http.delete(`${this.apiUrl}/admin/reservations/${reservationId}`)),
+    onSuccess: (_, reservationId) => this.invalidateQueries(reservationId),
+  }));
+
+  private invalidateQueries(reservationId?: number) {
+    this.queryClient.invalidateQueries({
+      queryKey: classReservationKeys.pages(),
+      refetchType: 'none',
+    });
+    if (reservationId !== undefined) {
+      this.queryClient.invalidateQueries({
+        queryKey: classReservationKeys.detail(reservationId),
+      });
+    }
+    this.queryClient.invalidateQueries({ queryKey: classReservationKeys.items() });
+    return this.queryClient.invalidateQueries({ queryKey: classReservationKeys.summary() });
   }
 }
