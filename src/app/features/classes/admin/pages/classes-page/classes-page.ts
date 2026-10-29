@@ -1,6 +1,15 @@
 import { Component, computed, inject, linkedSignal, signal } from '@angular/core';
+import { provideIcons } from '@ng-icons/core';
+import {
+  faSolidCalendarCheck,
+  faSolidCalendarXmark,
+  faSolidChalkboardUser,
+  faSolidCircleCheck,
+} from '@ng-icons/font-awesome/solid';
+import { StatsCard } from '@shared/components/stats-card/stats-card';
 import { PaymentStatus, ReservationStatus } from '@features/reservations';
 import { SubjectService } from '@features/subjects';
+import { NextClassCard } from '@features/classes/admin/components/next-class-card/next-class-card';
 import { ClassReservationsList } from '@features/classes/admin/components/class-reservations-list/class-reservations-list';
 import { ClassQueryParams } from '@features/classes/models/class-query-params';
 import { ClassReservationItem } from '@features/classes/models/class-reservation-item';
@@ -8,7 +17,15 @@ import { ClassReservationSortBy } from '@features/classes/models/class-reservati
 import { ClassService } from '@features/classes/services/class-service';
 
 @Component({
-  imports: [ClassReservationsList],
+  imports: [ClassReservationsList, NextClassCard, StatsCard],
+  providers: [
+    provideIcons({
+      faSolidCalendarCheck,
+      faSolidCalendarXmark,
+      faSolidChalkboardUser,
+      faSolidCircleCheck,
+    }),
+  ],
   selector: 'app-classes-page',
   styleUrl: './classes-page.css',
   templateUrl: './classes-page.html',
