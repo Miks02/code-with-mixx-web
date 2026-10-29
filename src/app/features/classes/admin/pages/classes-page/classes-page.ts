@@ -1,11 +1,11 @@
 import { Component, computed, inject, linkedSignal, signal } from '@angular/core';
-import { PagedResult } from '@core/models/paged-result';
 import { PaymentStatus, ReservationStatus } from '@features/reservations';
 import { SubjectService } from '@features/subjects';
 import { ClassReservationsList } from '@features/classes/admin/components/class-reservations-list/class-reservations-list';
 import { ClassQueryParams } from '@features/classes/models/class-query-params';
 import { ClassReservationItem } from '@features/classes/models/class-reservation-item';
 import { ClassReservationSortBy } from '@features/classes/models/class-reservation-sort-by';
+import { ClassService } from '@features/classes/services/class-service';
 
 @Component({
   imports: [ClassReservationsList],
@@ -14,6 +14,7 @@ import { ClassReservationSortBy } from '@features/classes/models/class-reservati
   templateUrl: './classes-page.html',
 })
 export class ClassesPage {
+  private classService = inject(ClassService);
   private subjectService = inject(SubjectService);
 
   protected queryParams = signal<ClassQueryParams>({
@@ -27,14 +28,21 @@ export class ClassesPage {
     showOnlyDeletedStudents: false,
   });
 
+  private classesSummarySource = this.classService.getClassesSummaryQuery(this.queryParams);
+  private reservationsSource = this.classService.getPagedClassReservationsQuery(
+    this.queryParams,
+    this.classesSummarySource,
+  );
+
   private subjectsLookupSource = this.subjectService.getSubjectsLookupQuery();
 
   subjectsLookupData = computed(() => this.subjectsLookupSource.data() ?? []);
+  classesSummaryData = computed(() => this.classesSummarySource.data());
+  reservationsData = computed(() => this.reservationsSource.data());
 
-  // TODO: replace with ClassService query driven by queryParams
-  reservationsData = signal<PagedResult<ClassReservationItem> | undefined>(undefined);
-  reservationsPending = signal(false);
-  reservationsFetching = signal(false);
+  classesSummaryPending = computed(() => this.classesSummarySource.isPending());
+  reservationsPending = computed(() => this.reservationsSource.isPending());
+  reservationsFetching = computed(() => this.reservationsSource.isFetching());
 
   selectedReservation = linkedSignal<ClassReservationItem[], ClassReservationItem | undefined>({
     source: () => this.reservationsData()?.items ?? [],
