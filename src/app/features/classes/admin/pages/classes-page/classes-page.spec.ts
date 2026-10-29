@@ -1,4 +1,6 @@
+import { provideHttpClient } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideTanStackQuery, QueryClient } from '@tanstack/angular-query-experimental';
 import { ClassesPage } from './classes-page';
 
 describe('ClassesPage', () => {
@@ -8,6 +10,7 @@ describe('ClassesPage', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ClassesPage],
+      providers: [provideHttpClient(), provideTanStackQuery(new QueryClient())],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ClassesPage);
