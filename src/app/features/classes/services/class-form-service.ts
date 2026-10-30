@@ -1,6 +1,6 @@
 import { Service, signal, WritableSignal } from '@angular/core';
 import {
-  ClassItemRequest,
+  ClassItemFormModel,
   ClassReservationFormModel,
 } from '../models/create-class-reservation-request';
 import {
@@ -35,13 +35,19 @@ export class ClassFormService {
   removeClass(classIndex: number) {
     if (this.reservationModel().classes.length <= 1) return;
 
+    const classToDelete = this.reservationModel().classes[classIndex];
+    if (!classToDelete) return;
+
     this.reservationModel.update((prev) => ({
       ...prev,
       classes: prev.classes.filter((_, index) => index !== classIndex),
+      classesToDelete: classToDelete.id
+        ? [...prev.classesToDelete, classToDelete.id]
+        : prev.classesToDelete,
     }));
   }
 
-  updateClass(classIndex: number, changes: Partial<ClassItemRequest>) {
+  updateClass(classIndex: number, changes: Partial<ClassItemFormModel>) {
     this.reservationModel.update((prev) => ({
       ...prev,
       classes: prev.classes.map((classItem, index) =>
