@@ -3,7 +3,7 @@ import { submit } from '@angular/forms/signals';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ToastService } from '@core/services/toast-service';
 import { Button } from '@shared/components/button/button';
-import { StudentLookup, StudentService } from '@features/students';
+import { StudentLookup, StudentSelection, StudentService } from '@features/students';
 import { SubjectService } from '@features/subjects';
 import {
   createReservationFormModel,
@@ -15,7 +15,6 @@ import { getProjectReservationErrorMessage } from '@features/projects/utilities/
 import { ProjectReservationListForm } from '@features/projects/admin/components/project-reservation-list-form/project-reservation-list-form';
 import { ProjectReservationPricing } from '@features/projects/admin/components/project-reservation-pricing/project-reservation-pricing';
 import { ProjectReservationSummary } from '@features/projects/admin/components/project-reservation-summary/project-reservation-summary';
-import { StudentSelection } from '@features/projects/admin/components/student-selection/student-selection';
 
 @Component({
   imports: [
