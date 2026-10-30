@@ -16,6 +16,7 @@ import {
   isValidDate,
 } from '@core/utilities/date-helpers';
 import { ReservationStatus } from '@features/reservations';
+import { ClassReservationDetails } from '../models/class-reservation-details';
 import {
   ClassItemRequest,
   ClassReservationFormModel,
@@ -71,6 +72,32 @@ export function createEmptyClassReservation(): ClassReservationFormModel {
     description: '',
     reservationStatus: ReservationStatus.Confirmed,
     classes: [createEmptyClass()],
+  };
+}
+
+export function createClassReservationFormModel(
+  details: ClassReservationDetails,
+): ClassReservationFormModel {
+  return {
+    studentId: details.studentId,
+    totalPrice: details.totalPrice,
+    reservationStatus: details.reservationStatus,
+    // Backend details don't return the reservation date yet, so the earliest
+    // class reservation date is used to keep the form valid
+    reservedAt:
+      details.classes
+        .map((c) => c.reservedAt)
+        .sort()
+        .at(0) ?? dateInputValue(),
+    description: details.description ?? '',
+    classesToDelete: [],
+    classes: details.classes.map((c) => ({
+      subjectId: c.subjectId,
+      price: c.price,
+      startsAt: dateTimeInputValue(new Date(c.startsAt)),
+      endsAt: dateTimeInputValue(new Date(c.endsAt)),
+      reservedAt: c.reservedAt,
+    })),
   };
 }
 
