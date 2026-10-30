@@ -1,0 +1,145 @@
+<ng-template #fieldError let-state>
+  @if (state.touched() || (state.dirty() && state.errors().length)) {
+    <p class="text-sm text-red-400">{{ state.errors()[0]?.message }}</p>
+  }
+</ng-template>
+
+<div class="bg-emerald-950/80 p-4 rounded-lg shadow-lg">
+  <div class="flex w-full justify-between items-center">
+    <h2 class="text-xl text-emerald-100 font-semibold flex gap-2 items-center">
+      Časovi
+      <div
+        class="rounded-full bg-emerald-900 w-9 h-9 flex items-center justify-center shrink-0 text-base"
+      >
+        {{ classes().length }}
+      </div>
+    </h2>
+    <app-button (clicked)="addClass()" variant="secondary">
+      <ng-icon name="faSolidPlus" class="text-amber-900! text-lg"></ng-icon>
+      Dodaj čas
+    </app-button>
+  </div>
+  <div #classesContainer class="mt-4 h-160 overflow-y-auto pr-2 flex flex-col gap-4">
+    @for (classField of classesForm; track $index; let i = $index) {
+      <div class="p-4 bg-emerald-800 rounded-lg shadow-lg shrink-0 flex flex-col gap-4">
+        <div class="flex w-full justify-between items-center gap-4">
+          <div class="flex items-center gap-3 min-w-0">
+            <div
+              class="flex items-center justify-center shrink-0 rounded-full w-10 h-10 bg-emerald-500 font-semibold text-emerald-950"
+            >
+              {{ i + 1 }}
+            </div>
+            <div class="flex flex-col min-w-0">
+              <p class="text-lg text-emerald-100 font-semibold truncate">
+                {{ subjectName(classField.subjectId().value()) || 'Novi čas' }}
+              </p>
+              <p class="text-sm text-emerald-200">
+                @if (classField.startsAt().value() && classField.endsAt().value()) {
+                  {{ classField.startsAt().value() | srDate }} ·
+                  {{ timeConverter(classField.startsAt().value()) }} –
+                  {{ timeConverter(classField.endsAt().value()) }} ·
+                }
+                {{ priceConverter(classField.price().value() || 0) }}
+              </p>
+            </div>
+          </div>
+
+          <app-button
+            (clicked)="removeClass(i)"
+            variant="danger"
+            icon="faSolidTrash"
+            [disabled]="classes().length <= 1"
+            aria-label="Ukloni čas"
+          ></app-button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="flex flex-col gap-1 md:col-span-2">
+            <div class="flex items-center justify-between gap-2">
+              <label [for]="'class-subject-' + i" class="text-sm text-emerald-300">Predmet</label>
+              <ng-container
+                *ngTemplateOutlet="fieldError; context: { $implicit: classField.subjectId() }"
+              ></ng-container>
+            </div>
+            <select
+              [id]="'class-subject-' + i"
+              (change)="onSubjectChanged(i, $event)"
+              (blur)="classField.subjectId().markAsTouched()"
+              class="w-full rounded-lg bg-emerald-950/80 px-3 py-2.5 text-emerald-100 outline-none focus:outline-1 focus:outline-emerald-300 scheme-dark cursor-pointer"
+            >
+              <option value="0" disabled [selected]="classField.subjectId().value() === 0">
+                Izaberi predmet
+              </option>
+              @for (subject of subjectsLookup(); track subject.id) {
+                <option
+                  [value]="subject.id"
+                  [selected]="subject.id === classField.subjectId().value()"
+                >
+                  {{ subject.subjectName }}
+                </option>
+              }
+            </select>
+          </div>
+
+          <div class="flex flex-col gap-1">
+            <div class="flex items-center justify-between gap-2">
+              <label [for]="'class-price-' + i" class="text-sm text-emerald-300">Cena (RSD)</label>
+              <ng-container
+                *ngTemplateOutlet="fieldError; context: { $implicit: classField.price() }"
+              ></ng-container>
+            </div>
+            <input
+              [formField]="classField.price"
+              [id]="'class-price-' + i"
+              type="number"
+              class="w-full rounded-lg bg-emerald-950/80 px-3 py-2.5 text-emerald-100 outline-none focus:outline-1 focus:outline-emerald-300 scheme-dark"
+            />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="flex flex-col gap-1">
+            <label [for]="'class-start-' + i" class="text-sm text-emerald-300">Početak</label>
+            <input
+              [formField]="classField.startsAt"
+              [id]="'class-start-' + i"
+              type="datetime-local"
+              class="w-full rounded-lg bg-emerald-950/80 px-3 py-2.5 text-emerald-100 outline-none focus:outline-1 focus:outline-emerald-300 scheme-dark"
+            />
+            <ng-container
+              *ngTemplateOutlet="fieldError; context: { $implicit: classField.startsAt() }"
+            ></ng-container>
+          </div>
+
+          <div class="flex flex-col gap-1">
+            <label [for]="'class-end-' + i" class="text-sm text-emerald-300">Kraj</label>
+            <input
+              [formField]="classField.endsAt"
+              [id]="'class-end-' + i"
+              type="datetime-local"
+              class="w-full rounded-lg bg-emerald-950/80 px-3 py-2.5 text-emerald-100 outline-none focus:outline-1 focus:outline-emerald-300 scheme-dark"
+            />
+            <ng-container
+              *ngTemplateOutlet="fieldError; context: { $implicit: classField.endsAt() }"
+            ></ng-container>
+          </div>
+
+          <div class="flex flex-col gap-1">
+            <label [for]="'class-reserved-' + i" class="text-sm text-emerald-300"
+              >Rezervisano</label
+            >
+            <input
+              [formField]="classField.reservedAt"
+              [id]="'class-reserved-' + i"
+              type="date"
+              class="w-full rounded-lg bg-emerald-950/80 px-3 py-2.5 text-emerald-100 outline-none focus:outline-1 focus:outline-emerald-300 scheme-dark"
+            />
+            <ng-container
+              *ngTemplateOutlet="fieldError; context: { $implicit: classField.reservedAt() }"
+            ></ng-container>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

@@ -4,7 +4,10 @@ import { provideRouter, Router } from '@angular/router';
 import { ToastService } from '@core/services/toast-service';
 import { StudentLookup, StudentService } from '@features/students';
 import { SubjectLookupItem, SubjectService } from '@features/subjects';
+import { ProblemDetails } from '@core/models/problem-details';
 import { ClassFormService } from '@features/classes/services/class-form-service';
+import { ClassService } from '@features/classes/services/class-service';
+import { CLASS_RESERVATION_ERROR_MESSAGES } from '@features/classes/utilities/class-error-messages';
 import { CreateClassReservationPage } from './create-class-reservation-page';
 
 describe('CreateClassReservationPage', () => {
@@ -26,6 +29,13 @@ describe('CreateClassReservationPage', () => {
     getSubjectsLookupQuery: () => ({ data: signal(subjects), isFetching: signal(false) }),
   };
   const toastService = { showSuccess: vi.fn(), showError: vi.fn() };
+  const classService = {
+    createClassReservationMutation: { mutateAsync: vi.fn(), isPending: signal(false) },
+  };
+
+  function problem(errorCode: string, status = 409): ProblemDetails {
+    return { type: '', title: '', status, detail: '', errorCode };
+  }
 
   function text(): string {
     return fixture.nativeElement.textContent;
@@ -46,6 +56,7 @@ describe('CreateClassReservationPage', () => {
         { provide: StudentService, useValue: studentService },
         { provide: SubjectService, useValue: subjectService },
         { provide: ToastService, useValue: toastService },
+        { provide: ClassService, useValue: classService },
       ],
     }).compileComponents();
 
@@ -73,6 +84,7 @@ describe('CreateClassReservationPage', () => {
     expect(el.querySelector('a[href="/admin/classes"]')).not.toBeNull();
     expect(el.querySelector('app-student-selection')).not.toBeNull();
     expect(el.querySelector('app-class-reservation-pricing')).not.toBeNull();
+    expect(el.querySelector('app-class-reservation-list-form')).not.toBeNull();
     expect(el.querySelector('app-class-reservation-summary')).not.toBeNull();
   });
 
@@ -105,20 +117,69 @@ describe('CreateClassReservationPage', () => {
   });
 
   describe('submit', () => {
-    it('should not save an invalid reservation', async () => {
+    const mutateAsync = classService.createClassReservationMutation.mutateAsync;
+
+    it('should not send an invalid reservation', async () => {
       await component.onSubmit();
 
+      expect(mutateAsync).not.toHaveBeenCalled();
       expect(toastService.showSuccess).not.toHaveBeenCalled();
       expect(router.navigateByUrl).not.toHaveBeenCalled();
     });
 
-    it('should show a success toast and go back to classes for a valid reservation', async () => {
+    it('should send the request built from the form', async () => {
+      mutateAsync.mockResolvedValue(undefined);
+      makeValid();
+      formService.reservationForm.description().value.set('');
+
+      await component.onSubmit();
+
+      const model = formService.reservationModel();
+      expect(mutateAsync).toHaveBeenCalledWith({
+        studentId: 'student-1',
+        totalPrice: null,
+        reservedAt: model.reservedAt,
+        description: null,
+        reservationStatus: model.reservationStatus,
+        classes: model.classes.map((c) => ({
+          ...c,
+          startsAt: new Date(c.startsAt).toISOString(),
+          endsAt: new Date(c.endsAt).toISOString(),
+        })),
+      });
+    });
+
+    it('should show a success toast and go back to classes after saving', async () => {
+      mutateAsync.mockResolvedValue(undefined);
       makeValid();
 
       await component.onSubmit();
 
       expect(toastService.showSuccess).toHaveBeenCalledWith('Rezervacija je uspešno kreirana.');
       expect(router.navigateByUrl).toHaveBeenCalledWith('/admin/classes');
+    });
+
+    it('should show the message for a known error code and stay on the page', async () => {
+      mutateAsync.mockRejectedValue(problem('Reservation.ClassesOverlap', 400));
+      makeValid();
+
+      await component.onSubmit();
+
+      expect(toastService.showError).toHaveBeenCalledWith(
+        CLASS_RESERVATION_ERROR_MESSAGES['Reservation.ClassesOverlap'],
+      );
+      expect(toastService.showSuccess).not.toHaveBeenCalled();
+      expect(router.navigateByUrl).not.toHaveBeenCalled();
+    });
+
+    it('should not toast an error the interceptor already handles', async () => {
+      mutateAsync.mockRejectedValue(problem('General.InternalServerError', 500));
+      makeValid();
+
+      await component.onSubmit();
+
+      expect(toastService.showError).not.toHaveBeenCalled();
+      expect(router.navigateByUrl).not.toHaveBeenCalled();
     });
   });
 });

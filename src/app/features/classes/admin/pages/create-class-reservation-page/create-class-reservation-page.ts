@@ -7,11 +7,21 @@ import { StudentLookup, StudentSelection, StudentService } from '@features/stude
 import { SubjectService } from '@features/subjects';
 import { createClassReservationRequest } from '@features/classes/factories/class-factories';
 import { ClassFormService } from '@features/classes/services/class-form-service';
+import { ClassService } from '@features/classes/services/class-service';
+import { getClassReservationErrorMessage } from '@features/classes/utilities/class-error-messages';
+import { ClassReservationListForm } from '@features/classes/admin/components/class-reservation-list-form/class-reservation-list-form';
 import { ClassReservationPricing } from '@features/classes/admin/components/class-reservation-pricing/class-reservation-pricing';
 import { ClassReservationSummary } from '@features/classes/admin/components/class-reservation-summary/class-reservation-summary';
 
 @Component({
-  imports: [RouterLink, Button, StudentSelection, ClassReservationPricing, ClassReservationSummary],
+  imports: [
+    RouterLink,
+    Button,
+    StudentSelection,
+    ClassReservationListForm,
+    ClassReservationPricing,
+    ClassReservationSummary,
+  ],
   providers: [ClassFormService],
   selector: 'app-create-class-reservation-page',
   styleUrl: './create-class-reservation-page.css',
@@ -21,6 +31,7 @@ export class CreateClassReservationPage {
   studentService = inject(StudentService);
   subjectService = inject(SubjectService);
   classFormService = inject(ClassFormService);
+  classService = inject(ClassService);
   toastService = inject(ToastService);
   router = inject(Router);
 
@@ -28,6 +39,7 @@ export class CreateClassReservationPage {
   reservationForm = this.classFormService.reservationForm;
 
   private availableStudentsQuery = this.studentService.getStudentsLookupQuery;
+  private createReservationMutation = this.classService.createClassReservationMutation;
 
   areStudentsFetching = this.availableStudentsQuery.isFetching;
   availableStudents = computed(() => this.availableStudentsQuery.data());
@@ -50,11 +62,14 @@ export class CreateClassReservationPage {
     return submit(this.reservationForm, async () => {
       const request = createClassReservationRequest(this.reservationModel());
 
-      // TODO: call createClassReservationMutation once it exists in ClassService
-      // and handle errors with getClassReservationErrorMessage
-      void request;
-      this.toastService.showSuccess('Rezervacija je uspešno kreirana.');
-      this.router.navigateByUrl('/admin/classes');
+      try {
+        await this.createReservationMutation.mutateAsync(request);
+        this.toastService.showSuccess('Rezervacija je uspešno kreirana.');
+        this.router.navigateByUrl('/admin/classes');
+      } catch (err) {
+        const message = getClassReservationErrorMessage(err);
+        if (message) this.toastService.showError(message);
+      }
     });
   }
 }
