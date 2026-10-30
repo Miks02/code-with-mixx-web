@@ -28,10 +28,11 @@ import {
   UpdateClassItemRequest,
   UpdateClassReservationRequest,
 } from '../models/update-class-reservation-request';
-
-const MAX_CLASS_DURATION_MINUTES = 45;
-const MAX_BREAK_BETWEEN_CLASSES_MINUTES = 60;
-const DEFAULT_CLASS_PRICE = 1300;
+import {
+  DEFAULT_CLASS_PRICE,
+  MAX_BREAK_BETWEEN_CLASSES_MINUTES,
+  MAX_CLASS_DURATION_MINUTES,
+} from '../utilities/class-constants';
 
 const MINUTE_MS = 60 * 1000;
 

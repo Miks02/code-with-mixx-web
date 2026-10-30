@@ -1,4 +1,5 @@
 import { isProblemDetails } from '@core/utilities/problem-details-helpers';
+import { MAX_BREAK_BETWEEN_CLASSES_MINUTES, MAX_CLASS_DURATION_MINUTES } from './class-constants';
 
 export const CLASS_RESERVATION_ERROR_MESSAGES: Record<string, string> = {
   'Student.NotFound': 'Izabrani student više ne postoji. Osveži stranicu i izaberi drugog.',
@@ -9,7 +10,7 @@ export const CLASS_RESERVATION_ERROR_MESSAGES: Record<string, string> = {
   'Reservation.NotAClassReservation': 'Izabrana rezervacija nije rezervacija časova.',
   'Reservation.NoClassesProvided': 'Rezervacija mora imati barem jedan čas.',
   'Reservation.ClassesOverlap': 'Časovi se ne smeju preklapati.',
-  'Reservation.BreakDurationExceeded': 'Pauza između časova ne može biti duža od 60 minuta.',
+  'Reservation.BreakDurationExceeded': `Pauza između časova ne može biti duža od ${MAX_BREAK_BETWEEN_CLASSES_MINUTES} minuta.`,
   'Reservation.InvalidTotalPrice': 'Ukupna cena ne može biti negativna.',
   'Reservation.InvalidAmount': 'Plaćeni iznos ne može biti negativan.',
   'Reservation.InvalidReservedAt': 'Datum rezervacije ne može biti prazan ni u budućnosti.',
@@ -22,7 +23,7 @@ export const CLASS_RESERVATION_ERROR_MESSAGES: Record<string, string> = {
   'Class.NotFound': 'Čas više ne postoji. Osveži stranicu.',
   'Class.InvalidSchedule': 'Početak časa mora biti pre njegovog kraja.',
   'Class.InvalidPrice': 'Cena časa mora biti veća od 0 RSD.',
-  'Class.InvalidDuration': 'Čas ne može trajati duže od 45 minuta.',
+  'Class.InvalidDuration': `Čas ne može trajati duže od ${MAX_CLASS_DURATION_MINUTES} minuta.`,
   'Class.InvalidReservationDate': 'Datum rezervacije mora biti pre početka časa.',
   'Class.AlreadyDeleted': 'Čas je već arhiviran. Osveži stranicu i pokušaj ponovo.',
   'Class.NotArchived': 'Čas nije u arhivi. Osveži stranicu i pokušaj ponovo.',
