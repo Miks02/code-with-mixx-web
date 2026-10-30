@@ -1,0 +1,95 @@
+<div class="p-4 bg-emerald-950/80 rounded-lg shadow-lg flex flex-col gap-4">
+  <div class="flex w-full justify-between items-center">
+    <h2 class="text-xl text-emerald-100 font-semibold flex gap-2 items-center">Cena i status</h2>
+  </div>
+
+  <div
+    [class]="totalPaid() === undefined ? 'md:grid-cols-2' : 'md:grid-cols-3'"
+    class="grid grid-cols-1 gap-4"
+  >
+    <div class="flex flex-col gap-2">
+      <p class="text-sm text-emerald-300 h-6 flex items-center">Status rezervacije</p>
+      <div class="flex flex-wrap gap-2">
+        @for (status of reservationStatuses; track status) {
+          <button
+            type="button"
+            (click)="onStatusSelected(status)"
+            [attr.aria-pressed]="reservationForm.reservationStatus().value() === status"
+            [class]="
+              reservationForm.reservationStatus().value() === status
+                ? reservationStatusStyles[status].selectedClasses
+                : 'bg-emerald-900 text-emerald-100 hover:bg-emerald-800'
+            "
+            class="flex items-center gap-2 rounded-lg px-3 py-2.5 font-semibold cursor-pointer active:scale-95 transition-200"
+          >
+            <span
+              [class]="
+                reservationForm.reservationStatus().value() === status
+                  ? 'bg-white'
+                  : reservationStatusStyles[status].dotClasses
+              "
+              class="w-2.5 h-2.5 rounded-full shrink-0"
+            ></span>
+            {{ reservationStatusStyles[status].label }}
+          </button>
+        }
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <div class="flex items-center justify-between gap-2 h-6">
+        <label for="reservation-total-price" class="text-sm text-emerald-300">
+          Ukupna cena (RSD)
+        </label>
+        <label class="flex items-center gap-2 text-sm text-emerald-100 cursor-pointer">
+          <input
+            type="checkbox"
+            [checked]="useClassesSum()"
+            (change)="onUseClassesSumChanged($event)"
+            class="peer sr-only"
+          />
+          <span
+            class="relative w-10 h-6 shrink-0 rounded-full bg-emerald-900 peer-checked:bg-emerald-500 peer-focus-visible:ring-2 peer-focus-visible:ring-emerald-200 transition-200 after:absolute after:top-1 after:left-1 after:w-4 after:h-4 after:rounded-full after:bg-white after:transition-transform after:duration-200 peer-checked:after:translate-x-4"
+          ></span>
+          Zbir časova
+        </label>
+      </div>
+      @if (useClassesSum()) {
+        <input
+          id="reservation-total-price"
+          type="number"
+          [value]="classesSum()"
+          disabled
+          class="w-full rounded-lg bg-emerald-900/80 px-3 py-2.5 text-emerald-100 outline-none opacity-60 cursor-not-allowed scheme-dark"
+        />
+        <p class="text-sm text-emerald-100/70">Računa se automatski iz cena časova.</p>
+      } @else {
+        <input
+          [formField]="reservationForm.totalPrice"
+          id="reservation-total-price"
+          type="number"
+          class="w-full rounded-lg bg-emerald-900/80 focus:bg-emerald-900 px-3 py-2.5 text-emerald-100 outline-none scheme-dark transition-200"
+        />
+      }
+      @if (reservationForm.totalPrice().errors().length) {
+        <p class="text-sm text-red-400">{{ reservationForm.totalPrice().errors()[0]?.message }}</p>
+      }
+    </div>
+
+    @if (totalPaid() !== undefined) {
+      <div class="flex flex-col gap-2">
+        <label for="reservation-paid-amount" class="text-sm text-emerald-300 h-6 flex items-center">
+          Plaćeno (RSD)
+        </label>
+        <input
+          id="reservation-paid-amount"
+          type="number"
+          [value]="totalPaid()"
+          disabled
+          class="w-full rounded-lg bg-emerald-900/80 px-3 py-2.5 text-emerald-100 outline-none opacity-60 cursor-not-allowed scheme-dark"
+        />
+        <p class="text-sm text-emerald-100/70">Menja se isključivo kroz uplate.</p>
+      </div>
+    }
+  </div>
+</div>
