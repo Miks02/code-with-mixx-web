@@ -110,7 +110,11 @@ export function createClassReservationRequest(
     reservedAt: model.reservedAt,
     description: model.description || null,
     reservationStatus: model.reservationStatus,
-    classes: model.classes,
+    classes: model.classes.map((classItem) => ({
+      ...classItem,
+      startsAt: new Date(classItem.startsAt).toISOString(),
+      endsAt: new Date(classItem.endsAt).toISOString(),
+    })),
   };
 }
 
