@@ -1,4 +1,4 @@
-import { Component, computed, input, output } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { timeConverter } from '@core/utilities/date-helpers';
 import { priceConverter } from '@core/utilities/price-helpers';
 import { ClassItem } from '@features/classes/models/class-item';
@@ -20,13 +20,9 @@ import { SrDatePipe } from '@shared/pipes/sr-date-pipe';
 })
 export class ClassCard {
   class = input.required<ClassItem>();
-  clicked = output<void>();
 
   priceLabel = computed(() => priceConverter(this.class().price));
   startsAtLabel = computed(() => timeConverter(this.class().startsAt));
   endsAtLabel = computed(() => timeConverter(this.class().endsAt));
 
-  onClick() {
-    this.clicked.emit();
-  }
 }
