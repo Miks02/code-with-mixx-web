@@ -1,6 +1,7 @@
 import { WritableSignal } from '@angular/core';
 import {
   applyEach,
+  FieldTree,
   form,
   maxLength,
   min,
@@ -34,26 +35,24 @@ const DEFAULT_CLASS_PRICE = 1300;
 
 const MINUTE_MS = 60 * 1000;
 
-function minutesBetween(from: string, to: string) {
+function minutesBetween(from: string, to: string): number {
   return (Date.parse(to) - Date.parse(from)) / MINUTE_MS;
 }
 
-function hasValidSchedule(item: ClassItemRequest) {
+function hasValidSchedule(item: ClassItemRequest): boolean {
   return !!item.startsAt && !!item.endsAt && isValidDate(item.startsAt) && isValidDate(item.endsAt);
 }
 
-function findPreviousClass(classes: ClassItemRequest[], current: ClassItemRequest) {
+function findPreviousClass(
+  classes: ClassItemRequest[],
+  current: ClassItemRequest,
+): ClassItemRequest | undefined {
   const previous = classes[classes.indexOf(current) - 1];
   return previous && hasValidSchedule(previous) ? previous : undefined;
 }
 
-function earliestClassDate(classes: ClassItemRequest[]) {
-  const starts = classes
-    .filter(hasValidSchedule)
-    .map((c) => c.startsAt)
-    .sort();
-
-  return starts[0]?.slice(0, 10);
+function earliestClassDate(classes: ClassItemRequest[]): string | undefined {
+  return classes.find(hasValidSchedule)?.startsAt.slice(0, 10);
 }
 
 export function createEmptyClass(startsAt = new Date()): ClassItemFormModel {
@@ -144,7 +143,9 @@ export function createUpdateClassReservationRequest(
   };
 }
 
-export function createClassReservationForm(request: WritableSignal<ClassReservationFormModel>) {
+export function createClassReservationForm(
+  request: WritableSignal<ClassReservationFormModel>,
+): FieldTree<ClassReservationFormModel> {
   return form(request, (schemaPath) => {
     required(schemaPath.studentId, { message: 'Izaberi studenta.' });
     min(schemaPath.totalPrice, 0, { message: 'Ukupna cena rezervacije može biti najmanje 0 RSD.' });
