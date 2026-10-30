@@ -82,13 +82,7 @@ export function createClassReservationFormModel(
     studentId: details.studentId,
     totalPrice: details.totalPrice,
     reservationStatus: details.reservationStatus,
-    // Backend details don't return the reservation date yet, so the earliest
-    // class reservation date is used to keep the form valid
-    reservedAt:
-      details.classes
-        .map((c) => c.reservedAt)
-        .sort()
-        .at(0) ?? dateInputValue(),
+    reservedAt: details.reservedAt,
     description: details.description ?? '',
     classesToDelete: [],
     classes: details.classes.map((c) => ({

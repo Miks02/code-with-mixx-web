@@ -14,6 +14,7 @@ export type ClassReservationDetails = {
   discountRate: number;
   bonus: number;
   description: string | null;
+  reservedAt: string;
   createdAt: string;
   updatedAt: string | null;
   classes: ClassItem[];

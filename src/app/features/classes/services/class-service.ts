@@ -12,6 +12,7 @@ import { lastValueFrom } from 'rxjs';
 import { PagedResult } from '@core/models/paged-result';
 import { classReservationKeys } from '@features/reservations';
 import { ClassQueryParams } from '../models/class-query-params';
+import { ClassReservationDetails } from '../models/class-reservation-details';
 import { ClassReservationItem } from '../models/class-reservation-item';
 import { ClassesSummary } from '../models/classes-summary';
 import { CreateClassReservationRequest } from '../models/create-class-reservation-request';
@@ -56,6 +57,20 @@ export class ClassService {
         ),
       placeholderData: keepPreviousData,
       enabled: queryResult.isSuccess() && !queryResult.isFetching(),
+    }));
+  }
+
+  getClassReservationDetailsQuery(reservationId: Signal<number>) {
+    return injectQuery<ClassReservationDetails>(() => ({
+      queryKey: classReservationKeys.detail(reservationId()),
+      queryFn: () =>
+        lastValueFrom(
+          this.http.get<ClassReservationDetails>(
+            `${this.apiUrl}/admin/reservations/classes/${reservationId()}`,
+          ),
+        ),
+      enabled: reservationId() > 0,
+      refetchOnWindowFocus: false,
     }));
   }
 
