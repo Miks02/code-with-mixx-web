@@ -14,6 +14,7 @@ import { classReservationKeys } from '@features/reservations';
 import { ClassQueryParams } from '../models/class-query-params';
 import { ClassReservationItem } from '../models/class-reservation-item';
 import { ClassesSummary } from '../models/classes-summary';
+import { CreateClassReservationRequest } from '../models/create-class-reservation-request';
 
 @Service()
 export class ClassService {
@@ -57,6 +58,12 @@ export class ClassService {
       enabled: queryResult.isSuccess() && !queryResult.isFetching(),
     }));
   }
+
+  createClassReservationMutation = injectMutation(() => ({
+    mutationFn: (request: CreateClassReservationRequest) =>
+      lastValueFrom(this.http.post(`${this.apiUrl}/admin/reservations/classes`, request)),
+    onSuccess: () => this.invalidateQueries(),
+  }));
 
   archiveClassReservationMutation = injectMutation(() => ({
     mutationFn: (reservationId: number) =>
