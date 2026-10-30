@@ -46,7 +46,7 @@ type ReservationStat = {
     SubtractPaymentModal,
     UpdateStatusModal,
     SrDatePipe,
-    ClassCard
+    ClassCard,
   ],
   providers: [
     provideIcons({

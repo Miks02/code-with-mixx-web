@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PAYMENT_STATUS_META, PaymentStatus } from '@features/reservations';
 import { createEmptyClass } from '@features/classes/factories/class-factories';
-import { ClassItemRequest } from '@features/classes/models/create-class-reservation-request';
+import { ClassItemFormModel } from '@features/classes/models/create-class-reservation-request';
 import { ClassFormService } from '@features/classes/services/class-form-service';
 import { ClassReservationSummary } from './class-reservation-summary';
 
@@ -15,11 +15,11 @@ describe('ClassReservationSummary', () => {
     { id: 2, subjectName: 'Baze podataka' },
   ];
 
-  function createClass(changes: Partial<ClassItemRequest> = {}): ClassItemRequest {
+  function createClass(changes: Partial<ClassItemFormModel> = {}): ClassItemFormModel {
     return { ...createEmptyClass(), subjectId: 1, price: 1300, ...changes };
   }
 
-  function setClasses(classes: ClassItemRequest[], totalPrice: number | null = null) {
+  function setClasses(classes: ClassItemFormModel[], totalPrice: number | null = null) {
     formService.reservationModel.update((model) => ({ ...model, classes, totalPrice }));
     fixture.detectChanges();
   }
@@ -176,6 +176,60 @@ describe('ClassReservationSummary', () => {
       setClasses([]);
 
       expect(check('Rezervacija ima bar jedan čas').isValid).toBe(false);
+    });
+  });
+
+  describe('field errors', () => {
+    function errors(): string[] {
+      return Array.from(
+        fixture.nativeElement.querySelectorAll('form p.text-red-400') as NodeListOf<HTMLElement>,
+      ).map((p) => p.textContent?.trim() ?? '');
+    }
+
+    it('should not show errors for untouched fields', () => {
+      formService.reservationForm.reservedAt().value.set('2999-01-01');
+      fixture.detectChanges();
+
+      expect(errors()).toEqual([]);
+    });
+
+    it('should not render an error for a touched valid reservation date', () => {
+      formService.reservationForm.reservedAt().markAsTouched();
+      fixture.detectChanges();
+
+      expect(errors()).toEqual([]);
+    });
+
+    it('should show the reservation date error once touched', () => {
+      formService.reservationForm.reservedAt().value.set('2999-01-01');
+      formService.reservationForm.reservedAt().markAsTouched();
+      fixture.detectChanges();
+
+      expect(errors()).toEqual(['Datum rezervisanja ne može biti u budućnosti']);
+    });
+
+    it('should show the reservation date error once edited', () => {
+      const input: HTMLInputElement = fixture.nativeElement.querySelector('#reservationDate');
+      input.value = '2999-01-01';
+      input.dispatchEvent(new Event('input'));
+      fixture.detectChanges();
+
+      expect(errors()).toEqual(['Datum rezervisanja ne može biti u budućnosti']);
+    });
+
+    it('should not render an error for a touched valid description', () => {
+      formService.reservationForm.description().markAsTouched();
+      fixture.detectChanges();
+
+      expect(errors()).toEqual([]);
+    });
+
+    it('should show the description error once touched', () => {
+      formService.reservationForm.description().value.set('a'.repeat(501));
+      formService.reservationForm.description().markAsTouched();
+      fixture.detectChanges();
+
+      expect(errors()).toEqual(['Opis može imati najviše 500 karaktera']);
     });
   });
 

@@ -16,6 +16,10 @@
     <app-class-reservation-pricing
       [totalPaid]="reservationDetails()?.paidAmount ?? 0"
     ></app-class-reservation-pricing>
+
+    <app-class-reservation-list-form
+      [subjectsLookup]="subjectsLookup()"
+    ></app-class-reservation-list-form>
   </div>
 
   <div class="min-w-0 gap-4 flex flex-col">

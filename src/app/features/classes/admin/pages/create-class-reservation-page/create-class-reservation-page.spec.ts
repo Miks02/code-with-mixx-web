@@ -142,9 +142,11 @@ describe('CreateClassReservationPage', () => {
         description: null,
         reservationStatus: model.reservationStatus,
         classes: model.classes.map((c) => ({
-          ...c,
+          subjectId: c.subjectId,
+          price: c.price,
           startsAt: new Date(c.startsAt).toISOString(),
           endsAt: new Date(c.endsAt).toISOString(),
+          reservedAt: c.reservedAt,
         })),
       });
     });

@@ -1,77 +1,83 @@
 <div class="p-4 bg-emerald-950/70 rounded-lg shadow-lg w-full h-full backdrop-blur-lg">
   @if (isPending()) {
-  <div class="flex flex-col gap-3 justify-between h-full">
-    <div class="flex w-full justify-between items-center">
-      <app-skeleton width="45%" />
-      <app-skeleton variant="circular" width="2.25rem" />
-    </div>
-    <div class="flex gap-3 items-center">
-      <app-skeleton variant="circular" width="2.5rem" />
-      <div class="flex flex-col gap-2 flex-1 min-w-0">
-        <app-skeleton width="60%" />
-        <app-skeleton width="80%" />
+    <div class="flex flex-col gap-3 justify-between h-full">
+      <div class="flex w-full justify-between items-center">
+        <app-skeleton width="45%" />
+        <app-skeleton variant="circular" width="2.25rem" />
+      </div>
+      <div class="flex gap-3 items-center">
+        <app-skeleton variant="circular" width="2.5rem" />
+        <div class="flex flex-col gap-2 flex-1 min-w-0">
+          <app-skeleton width="60%" />
+          <app-skeleton width="80%" />
+        </div>
+      </div>
+      <div class="flex justify-between items-center">
+        <app-skeleton width="30%" height="2rem" />
+        <app-skeleton width="25%" />
       </div>
     </div>
-    <div class="flex justify-between items-center">
-      <app-skeleton width="30%" height="2rem" />
-      <app-skeleton width="25%" />
-    </div>
-  </div>
   } @else {
-  <div class="flex flex-col gap-3 justify-between h-full">
-    <div class="flex w-full justify-between">
-      <h2 class="text-lg md:text-xl font-bold text-emerald-100">Sledeći čas</h2>
-      <div class="p-2 self-center rounded-full flex items-center bg-orange-600/40">
-        <ng-icon name="faSolidForwardStep" class="text-emerald-100! text-xl"></ng-icon>
+    <div class="flex flex-col gap-3 justify-between h-full">
+      <div class="flex w-full justify-between">
+        <h2 class="text-lg md:text-xl font-bold text-emerald-100">Sledeći čas</h2>
+        <div class="p-2 self-center rounded-full flex items-center bg-orange-600/40">
+          <ng-icon name="faSolidForwardStep" class="text-emerald-100! text-xl"></ng-icon>
+        </div>
       </div>
-    </div>
 
-    @if (nextClass(); as nextClass) {
-    <div class="flex gap-3 items-center">
-      <div class="flex justify-center items-center rounded-full h-10 w-10 shrink-0 bg-emerald-500">
-        <span class="text-sm font-semibold text-emerald-950">{{ studentInitials() }}</span>
-      </div>
-      <div class="flex flex-col min-w-0 flex-1">
-        <p class="text-emerald-100 font-semibold truncate">{{ nextClass.studentFullName }}</p>
-        <p class="text-sm text-emerald-300 truncate">{{ nextClass.subjectName }}</p>
-      </div>
-    </div>
+      @if (nextClass(); as nextClass) {
+        <div class="flex gap-3 items-center">
+          <div
+            class="flex justify-center items-center rounded-full h-10 w-10 shrink-0 bg-emerald-500"
+          >
+            <span class="text-sm font-semibold text-emerald-950">{{ studentInitials() }}</span>
+          </div>
+          <div class="flex flex-col min-w-0 flex-1">
+            <p class="text-emerald-100 font-semibold truncate">{{ nextClass.studentFullName }}</p>
+            <p class="text-sm text-emerald-300 truncate">{{ nextClass.subjectName }}</p>
+          </div>
+        </div>
 
-    <div class="flex flex-col gap-1.5 border-t border-emerald-700/40 pt-2 text-xs text-emerald-300">
-      <div class="flex items-center gap-1.5">
-        <ng-icon
-          name="faSolidCalendarDay"
-          class="self-center! shrink-0 text-emerald-400!"
-        ></ng-icon>
-        <span class="font-semibold text-emerald-100">{{ startDate() }}</span>
-        <span
-          class="ml-auto text-xs font-semibold px-2 py-0.5 rounded-full bg-orange-600/40 text-emerald-100"
-          >{{ relativeDay() }}</span
+        <div
+          class="flex flex-col gap-1.5 border-t border-emerald-700/40 pt-2 text-xs text-emerald-300"
         >
-      </div>
-      <div class="flex items-center gap-1.5">
-        <ng-icon name="faSolidClock" class="self-center! shrink-0 text-emerald-400!"></ng-icon>
-        <span>Početak</span>
-        <span class="font-semibold text-emerald-100">{{ startTime() }}</span>
-      </div>
-      @if (nextClass.university) {
-      <div class="flex items-center gap-1.5 min-w-0">
-        <ng-icon
-          name="faSolidBuildingColumns"
-          class="self-center! shrink-0 text-emerald-400!"
-        ></ng-icon>
-        <span class="truncate">{{ nextClass.university }}</span>
-      </div>
+          <div class="flex items-center gap-1.5">
+            <ng-icon
+              name="faSolidCalendarDay"
+              class="self-center! shrink-0 text-emerald-400!"
+            ></ng-icon>
+            <span class="font-semibold text-emerald-100">{{ startDate() }}</span>
+            <span
+              class="ml-auto text-xs font-semibold px-2 py-0.5 rounded-full bg-orange-600/40 text-emerald-100"
+              >{{ relativeDay() }}</span
+            >
+          </div>
+          <div class="flex items-center gap-1.5">
+            <ng-icon name="faSolidClock" class="self-center! shrink-0 text-emerald-400!"></ng-icon>
+            <span>Početak</span>
+            <span class="font-semibold text-emerald-100">{{ startTime() }}</span>
+          </div>
+          @if (nextClass.university) {
+            <div class="flex items-center gap-1.5 min-w-0">
+              <ng-icon
+                name="faSolidBuildingColumns"
+                class="self-center! shrink-0 text-emerald-400!"
+              ></ng-icon>
+              <span class="truncate">{{ nextClass.university }}</span>
+            </div>
+          }
+        </div>
+      } @else {
+        <div class="flex flex-1 items-center gap-3 mx-auto">
+          <div
+            class="flex justify-center items-center bg-emerald-900 rounded-full h-10 w-10 shrink-0"
+          >
+            <ng-icon name="faSolidCalendarXmark" class="text-emerald-400! self-center!"></ng-icon>
+          </div>
+          <p class="text-emerald-200 font-medium">Nema zakazanih časova.</p>
+        </div>
       }
     </div>
-    } @else {
-    <div class="flex flex-1 items-center gap-3 mx-auto">
-      <div class="flex justify-center items-center bg-emerald-900 rounded-full h-10 w-10 shrink-0">
-        <ng-icon name="faSolidCalendarXmark" class="text-emerald-400! self-center!"></ng-icon>
-      </div>
-      <p class="text-emerald-200 font-medium">Nema zakazanih časova.</p>
-    </div>
-    }
-  </div>
   }
 </div>

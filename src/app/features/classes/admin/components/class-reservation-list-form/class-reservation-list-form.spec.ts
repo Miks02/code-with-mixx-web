@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SubjectLookupItem } from '@features/subjects';
 import { createEmptyClass } from '@features/classes/factories/class-factories';
-import { ClassItemRequest } from '@features/classes/models/create-class-reservation-request';
+import { ClassItemFormModel } from '@features/classes/models/create-class-reservation-request';
 import { ClassFormService } from '@features/classes/services/class-form-service';
 import { ClassReservationListForm } from './class-reservation-list-form';
 
@@ -15,7 +15,7 @@ describe('ClassReservationListForm', () => {
     { id: 2, subjectName: 'Baze podataka' },
   ];
 
-  function createClass(changes: Partial<ClassItemRequest> = {}): ClassItemRequest {
+  function createClass(changes: Partial<ClassItemFormModel> = {}): ClassItemFormModel {
     return {
       ...createEmptyClass(),
       subjectId: 1,
@@ -27,7 +27,7 @@ describe('ClassReservationListForm', () => {
     };
   }
 
-  function setClasses(classes: ClassItemRequest[]) {
+  function setClasses(classes: ClassItemFormModel[]) {
     formService.reservationModel.update((model) => ({
       ...model,
       reservedAt: '2026-10-20',
@@ -217,6 +217,15 @@ describe('ClassReservationListForm', () => {
       fixture.detectChanges();
 
       expect(text()).toContain('Izaberi predmet časa.');
+    });
+
+    it('should not render an empty error for a touched valid field', () => {
+      setClasses([createClass()]);
+
+      formService.reservationForm.classes[0].endsAt().markAsTouched();
+      fixture.detectChanges();
+
+      expect(fixture.nativeElement.querySelectorAll('p.text-red-400')).toHaveLength(0);
     });
 
     it('should not show errors for untouched fields', () => {

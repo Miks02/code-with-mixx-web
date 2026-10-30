@@ -1,4 +1,4 @@
-import { signal } from '@angular/core';
+import { Signal, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideRouter, Router } from '@angular/router';
 import { RouterTestingHarness } from '@angular/router/testing';
@@ -6,7 +6,11 @@ import { ToastService } from '@core/services/toast-service';
 import { StudentLookup, StudentService } from '@features/students';
 import { SubjectLookupItem, SubjectService } from '@features/subjects';
 import { ClassFormService } from '@features/classes/services/class-form-service';
-import { MOCK_CLASS_RESERVATION_DETAILS } from '@features/classes/utilities/class-mock-data';
+import { PaymentStatus, ReservationStatus } from '@features/reservations';
+import { ClassReservationDetails } from '@features/classes/models/class-reservation-details';
+import { ProblemDetails } from '@core/models/problem-details';
+import { ClassService } from '@features/classes/services/class-service';
+import { CLASS_RESERVATION_ERROR_MESSAGES } from '@features/classes/utilities/class-error-messages';
 import { ClassReservationDetailsPage } from './class-reservation-details-page';
 
 describe('ClassReservationDetailsPage', () => {
@@ -30,12 +34,53 @@ describe('ClassReservationDetailsPage', () => {
   };
   const toastService = { showSuccess: vi.fn(), showError: vi.fn() };
 
+  const DETAILS: ClassReservationDetails = {
+    id: 7,
+    studentId: '',
+    studentFullName: 'Marko Marković',
+    studentEmail: 'marko.markovic@example.com',
+    studentUniversity: null,
+    reservationStatus: ReservationStatus.Confirmed,
+    paymentStatus: PaymentStatus.PartiallyPaid,
+    totalPrice: 3900,
+    paidAmount: 1300,
+    discountRate: 0,
+    bonus: 0,
+    description: 'Priprema za kolokvijum iz OOP-a.',
+    reservedAt: '2026-10-18',
+    createdAt: '2026-10-18T09:00:00Z',
+    updatedAt: null,
+    classes: [
+      { startsAt: '2026-11-03T10:00:00', endsAt: '2026-11-03T10:45:00' },
+      { startsAt: '2026-11-03T10:50:00', endsAt: '2026-11-03T11:35:00' },
+      { startsAt: '2026-11-03T11:40:00', endsAt: '2026-11-03T12:25:00' },
+    ].map((times, index) => ({
+      id: index + 1,
+      subjectId: 1,
+      subjectName: 'Objektno orijentisano programiranje',
+      price: 1300,
+      reservedAt: '2026-10-20',
+      ...times,
+    })),
+  };
+
+  const details = signal<ClassReservationDetails | undefined>(undefined);
+  const classService = {
+    getClassReservationDetailsQuery: vi.fn((_: Signal<number>) => ({ data: details })),
+    updateClassReservationMutation: { mutateAsync: vi.fn(), isPending: signal(false) },
+  };
+
+  function problem(errorCode: string, status = 409): ProblemDetails {
+    return { type: '', title: '', status, detail: '', errorCode };
+  }
+
   function text(): string {
     return harness.routeNativeElement!.textContent ?? '';
   }
 
   beforeEach(async () => {
     vi.clearAllMocks();
+    details.set(DETAILS);
 
     TestBed.configureTestingModule({
       providers: [
@@ -45,6 +90,7 @@ describe('ClassReservationDetailsPage', () => {
         { provide: StudentService, useValue: studentService },
         { provide: SubjectService, useValue: subjectService },
         { provide: ToastService, useValue: toastService },
+        { provide: ClassService, useValue: classService },
       ],
     });
 
@@ -63,9 +109,20 @@ describe('ClassReservationDetailsPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should read the reservation id from the route', () => {
+  it('should query the details for the reservation id from the route', () => {
+    const [reservationId] = classService.getClassReservationDetailsQuery.mock.calls[0];
+
     expect(component.reservationId()).toBe(7);
-    expect(component.reservationDetails()?.id).toBe(7);
+    expect(reservationId()).toBe(7);
+  });
+
+  it('should keep the form as is while details are unavailable', () => {
+    formService.reservationForm.description().value.set('Izmenjen opis');
+
+    details.set(undefined);
+    harness.detectChanges();
+
+    expect(formService.reservationModel().description).toBe('Izmenjen opis');
   });
 
   it('should render the breadcrumb and the page sections', () => {
@@ -75,6 +132,7 @@ describe('ClassReservationDetailsPage', () => {
     expect(el.querySelector('a[href="/admin/classes"]')).not.toBeNull();
     expect(el.querySelector('app-student-selection')).not.toBeNull();
     expect(el.querySelector('app-class-reservation-pricing')).not.toBeNull();
+    expect(el.querySelector('app-class-reservation-list-form')).not.toBeNull();
     expect(el.querySelector('app-class-reservation-summary')).not.toBeNull();
   });
 
@@ -82,10 +140,10 @@ describe('ClassReservationDetailsPage', () => {
     it('should populate the form from the reservation details', () => {
       const model = formService.reservationModel();
 
-      expect(model.totalPrice).toBe(MOCK_CLASS_RESERVATION_DETAILS.totalPrice);
-      expect(model.reservationStatus).toBe(MOCK_CLASS_RESERVATION_DETAILS.reservationStatus);
-      expect(model.description).toBe(MOCK_CLASS_RESERVATION_DETAILS.description);
-      expect(model.classes).toHaveLength(MOCK_CLASS_RESERVATION_DETAILS.classes.length);
+      expect(model.totalPrice).toBe(DETAILS.totalPrice);
+      expect(model.reservationStatus).toBe(DETAILS.reservationStatus);
+      expect(model.description).toBe(DETAILS.description);
+      expect(model.classes).toHaveLength(DETAILS.classes.length);
       expect(model.classesToDelete).toEqual([]);
     });
 
@@ -99,8 +157,8 @@ describe('ClassReservationDetailsPage', () => {
       });
     });
 
-    it('should use the earliest class reservation date as the reservation date', () => {
-      expect(formService.reservationModel().reservedAt).toBe('2026-10-20');
+    it('should use the reservation date from the details', () => {
+      expect(formService.reservationModel().reservedAt).toBe('2026-10-18');
     });
 
     it('should show the paid amount from the details', () => {
@@ -108,11 +166,11 @@ describe('ClassReservationDetailsPage', () => {
         '#reservation-paid-amount',
       )!;
 
-      expect(paid.value).toBe(String(MOCK_CLASS_RESERVATION_DETAILS.paidAmount));
+      expect(paid.value).toBe(String(DETAILS.paidAmount));
     });
 
     it('should list the reservation classes in the summary', () => {
-      expect(text()).toContain(`Časovi (${MOCK_CLASS_RESERVATION_DETAILS.classes.length})`);
+      expect(text()).toContain(`Časovi (${DETAILS.classes.length})`);
       expect(text()).toContain('Objektno orijentisano programiranje');
     });
   });
@@ -128,20 +186,85 @@ describe('ClassReservationDetailsPage', () => {
   });
 
   describe('submit', () => {
-    it('should not save while no student is selected', async () => {
+    const mutateAsync = classService.updateClassReservationMutation.mutateAsync;
+
+    it('should not send the update while no student is selected', async () => {
       await component.onSubmit();
 
+      expect(mutateAsync).not.toHaveBeenCalled();
       expect(toastService.showSuccess).not.toHaveBeenCalled();
       expect(router.navigateByUrl).not.toHaveBeenCalled();
     });
 
-    it('should show a success toast and go back to classes for a valid reservation', async () => {
+    it('should send the update request built from the form', async () => {
+      mutateAsync.mockResolvedValue(undefined);
+      component.onStudentSelected(students[0]);
+      formService.removeClass(2);
+      formService.addClass();
+      formService.updateClass(2, { subjectId: 1 });
+
+      await component.onSubmit();
+
+      const [request] = mutateAsync.mock.calls[0];
+      expect(request).toMatchObject({
+        id: 7,
+        studentId: 'student-1',
+        totalPrice: DETAILS.totalPrice,
+        reservationStatus: DETAILS.reservationStatus,
+        description: DETAILS.description,
+        classesToDelete: [3],
+      });
+      expect(request.classes.map((c: { id: number }) => c.id)).toEqual([1, 2, 0]);
+      expect(request.classes[0]).toEqual({
+        id: 1,
+        subjectId: 1,
+        price: 1300,
+        startsAt: new Date('2026-11-03T10:00').toISOString(),
+        endsAt: new Date('2026-11-03T10:45').toISOString(),
+        reservedAt: '2026-10-20',
+      });
+    });
+
+    it('should send a null total price so the backend sums class prices', async () => {
+      mutateAsync.mockResolvedValue(undefined);
+      component.onStudentSelected(students[0]);
+      formService.reservationForm.totalPrice().value.set(null);
+
+      await component.onSubmit();
+
+      expect(mutateAsync.mock.calls[0][0].totalPrice).toBeNull();
+    });
+
+    it('should show a success toast and go back to classes after saving', async () => {
+      mutateAsync.mockResolvedValue(undefined);
       component.onStudentSelected(students[0]);
 
       await component.onSubmit();
 
       expect(toastService.showSuccess).toHaveBeenCalledWith('Rezervacija je uspešno ažurirana.');
       expect(router.navigateByUrl).toHaveBeenCalledWith('/admin/classes');
+    });
+
+    it('should show the message for a known error code and stay on the page', async () => {
+      mutateAsync.mockRejectedValue(problem('Reservation.CantUpdateAnArchivedReservation'));
+      component.onStudentSelected(students[0]);
+
+      await component.onSubmit();
+
+      expect(toastService.showError).toHaveBeenCalledWith(
+        CLASS_RESERVATION_ERROR_MESSAGES['Reservation.CantUpdateAnArchivedReservation'],
+      );
+      expect(router.navigateByUrl).not.toHaveBeenCalled();
+    });
+
+    it('should not toast an error the interceptor already handles', async () => {
+      mutateAsync.mockRejectedValue(problem('General.InternalServerError', 500));
+      component.onStudentSelected(students[0]);
+
+      await component.onSubmit();
+
+      expect(toastService.showError).not.toHaveBeenCalled();
+      expect(router.navigateByUrl).not.toHaveBeenCalled();
     });
   });
 });
