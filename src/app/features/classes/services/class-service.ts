@@ -16,6 +16,7 @@ import { ClassReservationDetails } from '../models/class-reservation-details';
 import { ClassReservationItem } from '../models/class-reservation-item';
 import { ClassesSummary } from '../models/classes-summary';
 import { CreateClassReservationRequest } from '../models/create-class-reservation-request';
+import { UpdateClassReservationRequest } from '../models/update-class-reservation-request';
 
 @Service()
 export class ClassService {
@@ -78,6 +79,14 @@ export class ClassService {
     mutationFn: (request: CreateClassReservationRequest) =>
       lastValueFrom(this.http.post(`${this.apiUrl}/admin/reservations/classes`, request)),
     onSuccess: () => this.invalidateQueries(),
+  }));
+
+  updateClassReservationMutation = injectMutation(() => ({
+    mutationFn: (request: UpdateClassReservationRequest) =>
+      lastValueFrom(
+        this.http.put(`${this.apiUrl}/admin/reservations/classes/${request.id}`, request),
+      ),
+    onSuccess: (_, request) => this.invalidateQueries(request.id),
   }));
 
   archiveClassReservationMutation = injectMutation(() => ({

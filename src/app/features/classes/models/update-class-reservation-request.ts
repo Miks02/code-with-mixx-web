@@ -1,13 +1,14 @@
 import { ReservationStatus } from '@features/reservations';
 import { ClassItem } from './class-item';
 
+export type UpdateClassItemRequest = Omit<ClassItem, 'subjectName'>;
+
 export type UpdateClassReservationRequest = {
   id: number;
   studentId: string;
-  paidAmount: number;
-  totalPrice: number;
+  totalPrice: number | null;
   reservationStatus: ReservationStatus;
   description: string | null;
   classesToDelete: number[];
-  classes: ClassItem[];
+  classes: UpdateClassItemRequest[];
 };

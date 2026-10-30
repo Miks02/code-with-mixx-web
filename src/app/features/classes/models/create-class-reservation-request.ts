@@ -12,7 +12,13 @@ export type CreateClassReservationRequest = {
   classes: ClassItemRequest[];
 };
 
-export type ClassReservationFormModel = Omit<CreateClassReservationRequest, 'description'> & {
+export type ClassItemFormModel = ClassItemRequest & { id: number };
+
+export type ClassReservationFormModel = Omit<
+  CreateClassReservationRequest,
+  'description' | 'classes'
+> & {
   description: string;
   classesToDelete: number[];
+  classes: ClassItemFormModel[];
 };

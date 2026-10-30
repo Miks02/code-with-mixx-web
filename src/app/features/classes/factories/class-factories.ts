@@ -18,10 +18,15 @@ import {
 import { ReservationStatus } from '@features/reservations';
 import { ClassReservationDetails } from '../models/class-reservation-details';
 import {
+  ClassItemFormModel,
   ClassItemRequest,
   ClassReservationFormModel,
   CreateClassReservationRequest,
 } from '../models/create-class-reservation-request';
+import {
+  UpdateClassItemRequest,
+  UpdateClassReservationRequest,
+} from '../models/update-class-reservation-request';
 
 const MAX_CLASS_DURATION_MINUTES = 45;
 const MAX_BREAK_BETWEEN_CLASSES_MINUTES = 60;
@@ -51,10 +56,11 @@ function earliestClassDate(classes: ClassItemRequest[]) {
   return starts[0]?.slice(0, 10);
 }
 
-export function createEmptyClass(startsAt = new Date()): ClassItemRequest {
+export function createEmptyClass(startsAt = new Date()): ClassItemFormModel {
   const endsAt = new Date(startsAt.getTime() + MAX_CLASS_DURATION_MINUTES * MINUTE_MS);
 
   return {
+    id: 0,
     subjectId: 0,
     price: DEFAULT_CLASS_PRICE,
     startsAt: dateTimeInputValue(startsAt),
@@ -82,10 +88,11 @@ export function createClassReservationFormModel(
     studentId: details.studentId,
     totalPrice: details.totalPrice,
     reservationStatus: details.reservationStatus,
-    reservedAt: details.reservedAt,
+    reservedAt: details.reservedAt ?? '',
     description: details.description ?? '',
     classesToDelete: [],
     classes: details.classes.map((c) => ({
+      id: c.id,
       subjectId: c.subjectId,
       price: c.price,
       startsAt: dateTimeInputValue(new Date(c.startsAt)),
@@ -93,6 +100,20 @@ export function createClassReservationFormModel(
       reservedAt: c.reservedAt,
     })),
   };
+}
+
+function createClassItemRequest(item: ClassItemFormModel): ClassItemRequest {
+  return {
+    subjectId: item.subjectId,
+    price: item.price,
+    startsAt: new Date(item.startsAt).toISOString(),
+    endsAt: new Date(item.endsAt).toISOString(),
+    reservedAt: item.reservedAt,
+  };
+}
+
+function createUpdateClassItemRequest(item: ClassItemFormModel): UpdateClassItemRequest {
+  return { id: item.id, ...createClassItemRequest(item) };
 }
 
 export function createClassReservationRequest(
@@ -104,11 +125,22 @@ export function createClassReservationRequest(
     reservedAt: model.reservedAt,
     description: model.description || null,
     reservationStatus: model.reservationStatus,
-    classes: model.classes.map((classItem) => ({
-      ...classItem,
-      startsAt: new Date(classItem.startsAt).toISOString(),
-      endsAt: new Date(classItem.endsAt).toISOString(),
-    })),
+    classes: model.classes.map(createClassItemRequest),
+  };
+}
+
+export function createUpdateClassReservationRequest(
+  reservationId: number,
+  model: ClassReservationFormModel,
+): UpdateClassReservationRequest {
+  return {
+    id: reservationId,
+    studentId: model.studentId,
+    totalPrice: model.totalPrice,
+    reservationStatus: model.reservationStatus,
+    description: model.description || null,
+    classesToDelete: model.classesToDelete,
+    classes: model.classes.map(createUpdateClassItemRequest),
   };
 }
 
@@ -117,14 +149,14 @@ export function createClassReservationForm(request: WritableSignal<ClassReservat
     required(schemaPath.studentId, { message: 'Izaberi studenta.' });
     min(schemaPath.totalPrice, 0, { message: 'Ukupna cena rezervacije može biti najmanje 0 RSD.' });
     required(schemaPath.reservedAt, { message: 'Unesi datum rezervisanja' });
-    validate(schemaPath.reservedAt, ({ value, valueOf }) => {
+    validate(schemaPath.reservedAt, ({ value }) => {
       if (!isValidDate(value())) {
         return { kind: 'invalidDate', message: 'Datum rezervacije nije validan' };
       }
       if (value() > dateInputValue()) {
         return { kind: 'futureDate', message: 'Datum rezervisanja ne može biti u budućnosti' };
       }
-      const firstClassDate = earliestClassDate(valueOf(schemaPath.classes));
+      const firstClassDate = earliestClassDate(request().classes);
       if (firstClassDate && value() > firstClassDate) {
         return { kind: 'dateOrder', message: 'Datum rezervisanja ne može biti posle prvog časa' };
       }
@@ -154,7 +186,7 @@ export function createClassReservationForm(request: WritableSignal<ClassReservat
         const current = valueOf(classItem);
         if (!hasValidSchedule(current)) return null;
 
-        const previous = findPreviousClass(valueOf(schemaPath.classes), current);
+        const previous = findPreviousClass(request().classes, current);
         if (!previous) return null;
 
         if (isBefore(current.startsAt, previous.startsAt)) {
@@ -202,7 +234,7 @@ export function createClassReservationForm(request: WritableSignal<ClassReservat
             message: 'Datum rezervisanja časa ne može biti u budućnosti',
           };
         }
-        if (isBefore(value(), valueOf(schemaPath.reservedAt))) {
+        if (isBefore(value(), request().reservedAt)) {
           return {
             kind: 'dateOrder',
             message: 'Datum rezervisanja časa ne može biti pre datuma rezervacije',
