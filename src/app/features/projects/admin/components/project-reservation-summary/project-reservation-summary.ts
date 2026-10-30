@@ -5,10 +5,8 @@ import { priceConverter } from '@core/utilities/price-helpers';
 import { Button } from '@shared/components/button/button';
 import { PaymentStatus } from '@features/reservations';
 import { ProjectFormService } from '@features/projects/services/project-form-service';
-import {
-  PAYMENT_STATUS_META,
-  PROJECT_TYPE_LABELS,
-} from '@features/projects/utilities/project-labels';
+import { PROJECT_TYPE_LABELS } from '@features/projects/utilities/project-labels';
+import { PAYMENT_STATUS_META } from '@features/reservations';
 import { FormField } from '@angular/forms/signals';
 
 type SummaryStat = {

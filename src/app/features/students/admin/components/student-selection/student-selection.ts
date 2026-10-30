@@ -1,7 +1,7 @@
 import { Component, effect, input, output, signal, WritableSignal } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { faSolidMagnifyingGlass, faSolidXmark } from '@ng-icons/font-awesome/solid';
-import { StudentLookup } from '@features/students';
+import { StudentLookup } from '@features/students/models/student-lookup';
 
 @Component({
   imports: [NgIcon],

@@ -1,4 +1,3 @@
-
 export type DateFormatOptions = Pick<Intl.DateTimeFormatOptions, 'year' | 'month' | 'day'>;
 
 export function dateConverter(
@@ -60,4 +59,8 @@ export function isBefore(date: string, other: string): boolean {
   if (!date || !other || !isValidDate(date) || !isValidDate(other)) return false;
 
   return Date.parse(date) < Date.parse(other);
+}
+
+export function timeConverter(date: string) {
+  return new Date(date).toLocaleTimeString('sr-Latn-RS', { hour: '2-digit', minute: '2-digit' });
 }
