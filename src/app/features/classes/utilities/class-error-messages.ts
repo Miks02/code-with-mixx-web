@@ -21,7 +21,7 @@ export const CLASS_RESERVATION_ERROR_MESSAGES: Record<string, string> = {
     'Rezervacija ne može biti trajno obrisana jer zahteva čuvanje istorije.',
   'Class.NotFound': 'Čas više ne postoji. Osveži stranicu.',
   'Class.InvalidSchedule': 'Početak časa mora biti pre njegovog kraja.',
-  'Class.InvalidPrice': 'Cena časa ne može biti negativna.',
+  'Class.InvalidPrice': 'Cena časa mora biti veća od 0 RSD.',
   'Class.InvalidDuration': 'Čas ne može trajati duže od 45 minuta.',
   'Class.InvalidReservationDate': 'Datum rezervacije mora biti pre početka časa.',
   'Class.AlreadyDeleted': 'Čas je već arhiviran. Osveži stranicu i pokušaj ponovo.',

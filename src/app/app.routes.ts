@@ -115,7 +115,23 @@ export const routes: Routes = [
           import('@features/classes/admin/pages/classes-page/classes-page').then(
             (c) => c.ClassesPage,
           ),
-      }
+      },
+      {
+        title: pageTitle('Nova rezervacija'),
+        path: 'classes/create',
+        loadComponent: () =>
+          import('@features/classes/admin/pages/create-class-reservation-page/create-class-reservation-page').then(
+            (c) => c.CreateClassReservationPage,
+          ),
+      },
+      {
+        title: pageTitle('Detalji rezervacije'),
+        path: 'classes/details/:id',
+        loadComponent: () =>
+          import('@features/classes/admin/pages/class-reservation-details-page/class-reservation-details-page').then(
+            (c) => c.ClassReservationDetailsPage,
+          ),
+      },
     ],
   },
 ];

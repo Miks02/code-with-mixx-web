@@ -1,4 +1,3 @@
-import { DatePipe } from '@angular/common';
 import { Component, computed, input, output } from '@angular/core';
 import { timeConverter } from '@core/utilities/date-helpers';
 import { priceConverter } from '@core/utilities/price-helpers';
@@ -8,7 +7,7 @@ import { faSolidCalendarDays, faSolidCalendarPlus } from '@ng-icons/font-awesome
 import { SrDatePipe } from '@shared/pipes/sr-date-pipe';
 
 @Component({
-  imports: [NgIcon, DatePipe, SrDatePipe],
+  imports: [NgIcon, SrDatePipe],
   providers: [
     provideIcons({
       faSolidCalendarDays,
