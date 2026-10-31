@@ -1,12 +1,12 @@
+import { DatePipe } from '@angular/common';
 import { Component, input } from '@angular/core';
 import { UpcomingProject } from '@features/analytics/models/upcoming-project';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { DatePipe } from '@angular/common';
-import { faSolidCalendarXmark } from '@ng-icons/font-awesome/solid';
+import { faSolidCalendarDays, faSolidCalendarXmark } from '@ng-icons/font-awesome/solid';
 
 @Component({
   imports: [NgIcon, DatePipe],
-  providers: [provideIcons({ faSolidCalendarXmark })],
+  providers: [provideIcons({ faSolidCalendarDays, faSolidCalendarXmark })],
   selector: 'app-upcoming-projects',
   styleUrl: './upcoming-projects.css',
   templateUrl: './upcoming-projects.html',

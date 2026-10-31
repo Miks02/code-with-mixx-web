@@ -1,12 +1,12 @@
+import { DatePipe } from '@angular/common';
 import { Component, input } from '@angular/core';
 import { UpcomingClass } from '@features/analytics/models/upcoming-class-';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { DatePipe } from '@angular/common';
-import { faSolidCalendarXmark } from '@ng-icons/font-awesome/solid';
+import { faSolidCalendarXmark, faSolidClock } from '@ng-icons/font-awesome/solid';
 
 @Component({
   imports: [NgIcon, DatePipe],
-  providers: [provideIcons({ faSolidCalendarXmark })],
+  providers: [provideIcons({ faSolidClock, faSolidCalendarXmark })],
   selector: 'app-upcoming-classes',
   styleUrl: './upcoming-classes.css',
   templateUrl: './upcoming-classes.html',
