@@ -5,7 +5,7 @@ import { AdminQueryParams } from '../models/admin-query-params';
 import { injectQuery } from '@tanstack/angular-query-experimental';
 import { AdminAnalytics } from '../models/admin-analytics';
 import { lastValueFrom } from 'rxjs';
-import { AnalyticsKeys } from '../utility/analytics-keys';
+import { analyticsKeys } from '../utility/analytics-keys';
 
 @Service()
 export class AnalyticsService {
@@ -15,7 +15,7 @@ export class AnalyticsService {
 
   getAdminAnalyticsQuery(queryParams: Signal<AdminQueryParams>) {
     return injectQuery(() => ({
-      queryKey: AnalyticsKeys.page(queryParams()),
+      queryKey: analyticsKeys.page(queryParams()),
       queryFn: () => lastValueFrom(this.http.get<AdminAnalytics>(`${this.apiUrl}/admin/analytics`, { params: queryParams() })),
     }))    
   }
