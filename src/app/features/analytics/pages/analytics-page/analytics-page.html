@@ -7,7 +7,7 @@
         class="grow"
         variant="emerald"
         title="Ukupan prihod"
-        value="128.400 RSD"
+        [value]="totalRevenue()"
         icon="faSolidSackDollar"
       ></app-analytics-card>
 
@@ -15,7 +15,7 @@
         class="grow"
         variant="sky"
         title="Broj studenata"
-        value="342"
+        [value]="totalStudents()"
         icon="faSolidUserGraduate"
       ></app-analytics-card>
 
@@ -23,7 +23,7 @@
         class="grow"
         variant="violet"
         title="Održani časovi"
-        value="214"
+        [value]="completedClasses()"
         icon="faSolidChalkboardUser"
       ></app-analytics-card>
 
@@ -31,7 +31,7 @@
         class="grow"
         variant="amber"
         title="Projekti"
-        value="57"
+        [value]="completedProjects()"
         icon="faSolidFileLines"
       ></app-analytics-card>
     </div>
