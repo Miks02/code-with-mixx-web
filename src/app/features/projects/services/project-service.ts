@@ -8,6 +8,7 @@ import {
   QueryClient,
 } from '@tanstack/angular-query-experimental';
 import { lastValueFrom } from 'rxjs';
+import { analyticsKeys } from '@features/analytics';
 import { environment } from '@environments/environment';
 import { PagedResult } from '@core/models/paged-result';
 import { ProjectDetails } from '../models/project-details';
@@ -146,6 +147,7 @@ export class ProjectService {
       });
     }
     this.queryClient.invalidateQueries({ queryKey: projectReservationKeys.items() });
+    this.queryClient.invalidateQueries({ queryKey: analyticsKeys.all(), refetchType: 'none' });
     return this.queryClient.invalidateQueries({ queryKey: projectReservationKeys.summary() });
   }
 }

@@ -9,6 +9,7 @@ import {
   QueryClient,
 } from '@tanstack/angular-query-experimental';
 import { lastValueFrom } from 'rxjs';
+import { analyticsKeys } from '@features/analytics';
 import { StudentQueryParams } from '../models/student-query-params';
 import { StudentsSummary } from '../models/students-summary';
 import { PagedResult } from '@core/models/paged-result';
@@ -78,6 +79,7 @@ export class StudentService {
     },
     onSuccess: () => {
       this.queryClient.invalidateQueries({ queryKey: ['paged-students'], refetchType: 'none' });
+      this.queryClient.invalidateQueries({ queryKey: analyticsKeys.all(), refetchType: 'none' });
       return this.queryClient.invalidateQueries({ queryKey: ['students-summary'] });
     },
   }));
@@ -106,6 +108,7 @@ export class StudentService {
     },
     onSuccess: () => {
       this.queryClient.invalidateQueries({ queryKey: ['paged-students'], refetchType: 'none' });
+      this.queryClient.invalidateQueries({ queryKey: analyticsKeys.all(), refetchType: 'none' });
       return this.queryClient.invalidateQueries({ queryKey: ['students-summary'] });
     },
   }));
@@ -124,6 +127,7 @@ export class StudentService {
       ),
     onSuccess: () => {
       this.queryClient.invalidateQueries({ queryKey: ['paged-students'], refetchType: 'none' });
+      this.queryClient.invalidateQueries({ queryKey: analyticsKeys.all(), refetchType: 'none' });
       this.queryClient.invalidateQueries({ queryKey: ['students-summary'] });
     },
   }));
@@ -135,6 +139,7 @@ export class StudentService {
       ),
     onSuccess: () => {
       this.queryClient.invalidateQueries({ queryKey: ['paged-students'], refetchType: 'none' });
+      this.queryClient.invalidateQueries({ queryKey: analyticsKeys.all(), refetchType: 'none' });
       this.queryClient.invalidateQueries({ queryKey: ['students-summary'] });
     },
   }));
@@ -144,6 +149,7 @@ export class StudentService {
       lastValueFrom(this.http.delete<void>(`${this.apiUrl}/admin/students/${studentId}`)),
     onSuccess: () => {
       this.queryClient.invalidateQueries({ queryKey: ['paged-students'], refetchType: 'none' });
+      this.queryClient.invalidateQueries({ queryKey: analyticsKeys.all(), refetchType: 'none' });
       return this.queryClient.invalidateQueries({ queryKey: ['students-summary'] });
     },
   }));

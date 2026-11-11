@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Service, Signal } from '@angular/core';
 import { environment } from '@environments/environment';
 import { AdminQueryParams } from '../models/admin-query-params';
-import { injectQuery } from '@tanstack/angular-query-experimental';
+import { injectQuery, keepPreviousData } from '@tanstack/angular-query-experimental';
 import { AdminAnalytics } from '../models/admin-analytics';
 import { lastValueFrom } from 'rxjs';
 import { analyticsKeys } from '../utility/analytics-keys';
@@ -17,6 +17,7 @@ export class AnalyticsService {
     return injectQuery(() => ({
       queryKey: analyticsKeys.page(queryParams()),
       queryFn: () => lastValueFrom(this.http.get<AdminAnalytics>(`${this.apiUrl}/admin/analytics`, { params: queryParams() })),
+      placeholderData: keepPreviousData,
     }))    
   }
   
