@@ -1,9 +1,22 @@
 <div
   class="bg-sky-950 rounded-lg shadow-xl transition-shadow duration-200 hover:shadow-2xl w-full grow flex flex-col min-w-75 min-h-119 h-full"
 >
-  <div class="p-4">
+  <div class="p-4 flex justify-between items-center">
     <h2 class="text-xl font-semibold text-white">Grafikon održanih časova</h2>
+    <app-filter-menu
+      [options]="availableYearsOptions()"
+      icon="faSolidCalendar"
+      variant="blue"
+      [selected]="selectedYearOptions()"
+      (selectedChanged)="onYearChange($event)"
+      placeholder="Odaberi godinu"
+    ></app-filter-menu>
   </div>
+  @if (isLoading()) {
+  <div class="p-4 grow flex justify-center items-center">
+    <app-skeleton variant="circular" width="16rem" color="blue" />
+  </div>
+  } @else {
   <apx-chart
     class="w-full h-full grow"
     [chart]="chartOptions().chart!"
@@ -17,4 +30,5 @@
     [stroke]="chartOptions().stroke!"
     [responsive]="chartOptions().responsive!"
   ></apx-chart>
+  }
 </div>

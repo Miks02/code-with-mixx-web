@@ -1,4 +1,13 @@
-import { Component, signal, Signal } from '@angular/core';
+import { Component, computed, inject, signal, WritableSignal } from '@angular/core';
+import { priceConverter } from '@core/utilities/price-helpers';
+import { AdminActionBar } from '@features/analytics/components/admin-action-bar/admin-action-bar';
+import { AnalyticsCard } from '@features/analytics/components/analytics-card/analytics-card';
+import { FinanceChart } from '@features/analytics/components/finance-chart/finance-chart';
+import { SubjectsChart } from '@features/analytics/components/subjects-chart/subjects-chart';
+import { UpcomingClasses } from '@features/analytics/components/upcoming-classes/upcoming-classes';
+import { UpcomingProjects } from '@features/analytics/components/upcoming-projects/upcoming-projects';
+import { AdminQueryParams } from '@features/analytics/models/admin-query-params';
+import { AnalyticsService } from '@features/analytics/services/analytics-service';
 import { provideIcons } from '@ng-icons/core';
 import {
   faSolidCalendarPlus,
@@ -10,14 +19,6 @@ import {
   faSolidUserGraduate,
   faSolidUserPlus,
 } from '@ng-icons/font-awesome/solid';
-import { AdminActionBar } from '@features/analytics/components/admin-action-bar/admin-action-bar';
-import { AnalyticsCard } from '@features/analytics/components/analytics-card/analytics-card';
-import { FinanceChart } from '@features/analytics/components/finance-chart/finance-chart';
-import { SubjectsChart } from '@features/analytics/components/subjects-chart/subjects-chart';
-import { UpcomingClasses } from '@features/analytics/components/upcoming-classes/upcoming-classes';
-import { UpcomingClass } from '@features/analytics/models/upcoming-class-';
-import { UpcomingProject } from '@features/analytics/models/upcoming-project';
-import { UpcomingProjects } from '@features/analytics/components/upcoming-projects/upcoming-projects';
 
 @Component({
   imports: [
@@ -26,7 +27,7 @@ import { UpcomingProjects } from '@features/analytics/components/upcoming-projec
     FinanceChart,
     SubjectsChart,
     UpcomingClasses,
-    UpcomingProjects,
+    UpcomingProjects
   ],
   providers: [
     provideIcons({
@@ -45,93 +46,36 @@ import { UpcomingProjects } from '@features/analytics/components/upcoming-projec
   templateUrl: './analytics-page.html',
 })
 export class AnalyticsPage {
-  upcomingClasses: Signal<UpcomingClass[]> = signal([
-    {
-      id: 1,
-      subjectName: 'Praktikum primenjenog programiranja',
-      studentName: 'Marko Jovanović',
-      startsAt: '2026-09-07T10:00:00',
-      endsAt: '2026-09-07T11:30:00',
-    },
-    {
-      id: 2,
-      subjectName: 'Web programiranje',
-      studentName: 'Ana Petrović',
-      startsAt: '2026-09-07T12:00:00',
-      endsAt: '2026-09-07T13:30:00',
-    },
-    {
-      id: 3,
-      subjectName: 'Napredne baze podataka',
-      studentName: 'Nikola Simić',
-      startsAt: '2026-09-08T09:00:00',
-      endsAt: '2026-09-08T10:30:00',
-    },
-    {
-      id: 4,
-      subjectName: 'Programerski alati',
-      studentName: 'Milica Đorđević',
-      startsAt: '2026-09-08T14:00:00',
-      endsAt: '2026-09-08T15:00:00',
-    },
-    {
-      id: 5,
-      subjectName: 'Osnove C programiranja',
-      studentName: 'Stefan Ilić',
-      startsAt: '2026-09-09T11:00:00',
-      endsAt: '2026-09-09T12:30:00',
-    },
-    {
-      id: 6,
-      subjectName: 'Web programiranje',
-      studentName: 'Jovana Stanković',
-      startsAt: '2026-09-09T16:00:00',
-      endsAt: '2026-09-09T17:00:00',
-    },
-  ]);
+  private queryParams: WritableSignal<AdminQueryParams> = signal({
+    selectedYearForFinanceChart: new Date().getFullYear(),
+    selectedYearForSubjectsChart: new Date().getFullYear(),
+  })
+  private analyticsService = inject(AnalyticsService);
 
-  upcomingProjects: Signal<UpcomingProject[]> = signal([
-    {
-      id: 1,
-      subjectName: 'Praktikum primenjenog programiranja',
-      studentName: 'Marko Jovanović',
-      startDate: '2026-09-10',
-      endDate: '2026-09-24',
-    },
-    {
-      id: 2,
-      subjectName: 'Web programiranje',
-      studentName: 'Ana Petrović',
-      startDate: '2026-09-12',
-      endDate: '2026-09-30',
-    },
-    {
-      id: 3,
-      subjectName: 'Napredne baze podataka',
-      studentName: 'Nikola Simić',
-      startDate: '2026-09-15',
-      endDate: '2026-10-01',
-    },
-    {
-      id: 4,
-      subjectName: 'Programerski alati',
-      studentName: 'Milica Đorđević',
-      startDate: '2026-09-08',
-      endDate: '2026-09-20',
-    },
-    {
-      id: 5,
-      subjectName: 'Osnove C programiranja',
-      studentName: 'Stefan Ilić',
-      startDate: '2026-09-18',
-      endDate: '2026-10-05',
-    },
-    {
-      id: 6,
-      subjectName: 'Web programiranje',
-      studentName: 'Jovana Stanković',
-      startDate: '2026-09-22',
-      endDate: '2026-10-10',
-    },
-  ]);
+  analyticsQuery = this.analyticsService.getAdminAnalyticsQuery(this.queryParams);
+  analyticsData = computed(() => this.analyticsQuery.data());
+  isLoading = computed(() => this.analyticsQuery.isPending());
+
+  completedClasses = computed(() => this.analyticsData()?.completedClasses ?? 0)
+  completedProjects = computed(() => this.analyticsData()?.completedProjects ?? 0)
+  totalRevenue = computed(() => priceConverter(this.analyticsData()?.totalRevenue ?? 0))
+  totalStudents = computed(() => this.analyticsData()?.totalStudents ?? 0)
+  upcomingClasses = computed(() => this.analyticsData()?.upcomingClasses)
+  upcomingProjects = computed(() => this.analyticsData()?.upcomingProjects)
+
+  availableYearsForSubjectsChart = computed(() => this.analyticsData()?.availableYearsForSubjectsChart ?? [])
+  availableYearsForFinanceChart = computed(() => this.analyticsData()?.availableYearsForFinanceChart ?? [])
+  selectedYearForSubjectsChart = computed(() => this.queryParams().selectedYearForSubjectsChart)
+  selectedYearForFinanceChart = computed(() => this.queryParams().selectedYearForFinanceChart)
+  
+  subjectChartData = computed(() => this.analyticsData()?.subjectChartData)
+  financeChartData = computed(() => this.analyticsData()?.financeChartData)
+
+  onYearChange(year: number, chartType: 'finance' | 'subjects') {
+    if (chartType === 'finance') {
+      this.queryParams.update((prev) => ({...prev, selectedYearForFinanceChart: year}));
+    } else {
+      this.queryParams.update((prev) => ({...prev, selectedYearForSubjectsChart: year}))
+    }
+  }
 }

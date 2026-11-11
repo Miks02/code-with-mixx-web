@@ -1,5 +1,5 @@
 export type FinanceChart = {
-  selectedYear: number | null;
-  incomeByMonth: number[];
-  studentsCountByMonth: number[];
+  month: number;
+  revenue: number;
+  students: number;
 }

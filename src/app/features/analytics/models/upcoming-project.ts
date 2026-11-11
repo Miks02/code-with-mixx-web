@@ -1,7 +1,7 @@
 export type UpcomingProject = {
-  id: number;
+  reservationId: number;
   subjectName: string;
   studentName: string;
   startDate: string;
   endDate: string;
-}
+};

@@ -1,4 +1,5 @@
 import { QueryClient } from '@tanstack/angular-query-experimental';
+import { analyticsKeys } from '@features/analytics';
 import { classReservationKeys, projectReservationKeys, reservationKeys } from './reservation-keys';
 
 export function invalidateReservationQueries(queryClient: QueryClient, reservationId: number) {
@@ -17,6 +18,7 @@ export function invalidateReservationQueries(queryClient: QueryClient, reservati
     queryKey: classReservationKeys.detail(reservationId),
   });
   queryClient.invalidateQueries({ queryKey: reservationKeys.payments(reservationId) });
+  queryClient.invalidateQueries({ queryKey: analyticsKeys.all(), refetchType: 'none' });
   queryClient.invalidateQueries({ queryKey: classReservationKeys.summary() });
   return queryClient.invalidateQueries({ queryKey: projectReservationKeys.summary() });
 }

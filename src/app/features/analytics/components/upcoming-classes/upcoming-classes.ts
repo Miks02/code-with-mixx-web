@@ -1,18 +1,21 @@
+import { DatePipe } from '@angular/common';
 import { Component, input } from '@angular/core';
 import { UpcomingClass } from '@features/analytics/models/upcoming-class-';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { DatePipe } from '@angular/common';
-import { faSolidCalendarXmark } from '@ng-icons/font-awesome/solid';
+import { faSolidCalendarXmark, faSolidClock } from '@ng-icons/font-awesome/solid';
+import { RouterLink } from '@angular/router';
+import { Skeleton } from '@shared/components/skeleton/skeleton';
 
 @Component({
-  imports: [NgIcon, DatePipe],
-  providers: [provideIcons({ faSolidCalendarXmark })],
+  imports: [NgIcon, DatePipe, RouterLink, Skeleton],
+  providers: [provideIcons({ faSolidClock, faSolidCalendarXmark })],
   selector: 'app-upcoming-classes',
   styleUrl: './upcoming-classes.css',
   templateUrl: './upcoming-classes.html',
 })
 export class UpcomingClasses {
   upcomingClasses = input.required<UpcomingClass[] | undefined>();
+  isLoading = input<boolean>(false);
 
   getInitials(fullName: string): string {
     return fullName

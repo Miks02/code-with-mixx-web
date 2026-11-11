@@ -17,6 +17,48 @@ import {
   faSolidXmark,
 } from '@ng-icons/font-awesome/solid';
 
+export type FilterVariant = 'default' | 'blue';
+
+type FilterClasses = {
+  trigger: string;
+  triggerText: string;
+  icon: string;
+  menu: string;
+  optionIdle: string;
+  optionSelected: string;
+  optionDisabled: string;
+  mobileTrigger: string;
+  mobileTriggerBorder: string;
+  mobileIcon: string;
+};
+
+const FILTER_CLASSES: Record<FilterVariant, FilterClasses> = {
+  default: {
+    trigger: 'bg-emerald-900/80',
+    triggerText: 'text-emerald-100',
+    icon: 'text-emerald-400!',
+    menu: 'bg-emerald-950',
+    optionIdle: 'text-emerald-100/80 hover:bg-emerald-900 cursor-pointer',
+    optionSelected: 'bg-emerald-800 text-emerald-100 cursor-pointer',
+    optionDisabled: 'text-emerald-100/30 cursor-not-allowed opacity-60',
+    mobileTrigger: 'bg-emerald-700',
+    mobileTriggerBorder: 'border-emerald-400',
+    mobileIcon: 'text-emerald-300!',
+  },
+  blue: {
+    trigger: 'bg-sky-900/80',
+    triggerText: 'text-sky-100',
+    icon: 'text-sky-400!',
+    menu: 'bg-sky-900',
+    optionIdle: 'text-sky-100/80 hover:bg-sky-800/60 cursor-pointer',
+    optionSelected: 'bg-sky-800 text-sky-100 cursor-pointer',
+    optionDisabled: 'text-sky-100/30 cursor-not-allowed opacity-60',
+    mobileTrigger: 'bg-sky-700',
+    mobileTriggerBorder: 'border-sky-400',
+    mobileIcon: 'text-sky-300!',
+  },
+};
+
 @Component({
   imports: [NgIcon],
   providers: [provideIcons({ faSolidCheck, faSolidChevronDown, faSolidFilter, faSolidXmark })],
@@ -30,6 +72,7 @@ export class FilterMenu<T extends string = string> {
   selected = input<T[]>([]);
   placeholder = input<string>('Filteri');
   icon = input<string>('fa-solid-filter');
+  variant = input<FilterVariant>('default');
 
   selectedChanged = output<T[]>();
 
@@ -60,6 +103,15 @@ export class FilterMenu<T extends string = string> {
   }
 
   isOpen = signal(false);
+
+  classes = computed(() => FILTER_CLASSES[this.variant()]);
+
+  mobileTriggerClasses = computed(() => {
+    const classes = this.classes();
+    const border =
+      this.isOpen() || this.selected().length ? 'border-amber-500' : classes.mobileTriggerBorder;
+    return `${classes.mobileTrigger} ${border}`;
+  });
 
   entries = computed(() => Object.entries(this.options()) as [T, string][]);
 
@@ -96,12 +148,11 @@ export class FilterMenu<T extends string = string> {
   }
 
   optionClasses(value: T) {
+    const classes = this.classes();
     if (this.isDisabled(value)) {
-      return 'text-emerald-100/30 cursor-not-allowed opacity-60';
+      return classes.optionDisabled;
     }
-    return this.isSelected(value)
-      ? 'bg-emerald-800 text-emerald-100 cursor-pointer'
-      : 'text-emerald-100/80 hover:bg-emerald-900 cursor-pointer';
+    return this.isSelected(value) ? classes.optionSelected : classes.optionIdle;
   }
 
   toggleOption(value: T) {

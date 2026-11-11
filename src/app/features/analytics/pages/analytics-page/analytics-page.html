@@ -7,7 +7,7 @@
         class="grow"
         variant="emerald"
         title="Ukupan prihod"
-        value="128.400 RSD"
+        [value]="totalRevenue()"
         icon="faSolidSackDollar"
       ></app-analytics-card>
 
@@ -15,7 +15,7 @@
         class="grow"
         variant="sky"
         title="Broj studenata"
-        value="342"
+        [value]="totalStudents()"
         icon="faSolidUserGraduate"
       ></app-analytics-card>
 
@@ -23,7 +23,7 @@
         class="grow"
         variant="violet"
         title="Održani časovi"
-        value="214"
+        [value]="completedClasses()"
         icon="faSolidChalkboardUser"
       ></app-analytics-card>
 
@@ -31,25 +31,40 @@
         class="grow"
         variant="amber"
         title="Projekti"
-        value="57"
+        [value]="completedProjects()"
         icon="faSolidFileLines"
       ></app-analytics-card>
     </div>
   </div>
 
   <div class="flex w-full gap-6 flex-wrap">
-    <app-finance-chart class="flex-3"></app-finance-chart>
-    <app-subjects-chart class="flex-2"></app-subjects-chart>
+    <app-finance-chart
+      [data]="financeChartData()"
+      [isLoading]="isLoading()"
+      [availableYears]="availableYearsForFinanceChart()"
+      [selectedYear]="selectedYearForFinanceChart()"
+      (selectedYearOutput)="onYearChange($event, 'finance')"
+      class="flex-3"
+    ></app-finance-chart>
+    <app-subjects-chart 
+      [data]="subjectChartData()"
+      [isLoading]="isLoading()"
+      [availableYears]="availableYearsForSubjectsChart()"
+      [selectedYear]="selectedYearForSubjectsChart()"
+      (selectedYearOutput)="onYearChange($event, 'subjects')"
+      class="flex-2"></app-subjects-chart>
   </div>
 
   <div class="flex gap-4 w-full flex-col md:flex-row">
     <app-upcoming-classes
       class="flex-1 h-full"
       [upcomingClasses]="upcomingClasses()"
+      [isLoading]="isLoading()"
     ></app-upcoming-classes>
     <app-upcoming-projects
       class="flex-1 h-full"
       [upcomingProjects]="upcomingProjects()"
+      [isLoading]="isLoading()"
     ></app-upcoming-projects>
   </div>
 </div>

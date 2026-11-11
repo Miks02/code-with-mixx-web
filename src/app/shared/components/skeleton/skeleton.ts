@@ -1,6 +1,12 @@
 import { Component, computed, input } from '@angular/core';
 
 export type SkeletonVariant = 'text' | 'circular' | 'rectangular';
+export type SkeletonColor = 'default' | 'blue';
+
+const SKELETON_COLORS: Record<SkeletonColor, string> = {
+  default: 'bg-emerald-800/60',
+  blue: 'bg-sky-800/60',
+};
 
 @Component({
   selector: 'app-skeleton',
@@ -14,8 +20,9 @@ export class Skeleton {
   height = input<string | null>(null);
   rounded = input<boolean>(true);
   count = input<number>(1);
+  color = input<SkeletonColor>('default');
 
-  baseClasses = 'animate-pulse bg-emerald-800/60';
+  baseClasses = computed(() => `animate-pulse ${SKELETON_COLORS[this.color()]}`);
 
   variantClasses = computed(() => {
     const variants: Record<SkeletonVariant, string> = {

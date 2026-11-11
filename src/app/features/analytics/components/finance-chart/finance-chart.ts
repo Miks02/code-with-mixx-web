@@ -1,34 +1,63 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
 import { FinanceChart as FinanceChartModel } from '@features/analytics/models/finance-chart';
+import { provideIcons } from '@ng-icons/core';
+import { faSolidCalendar } from '@ng-icons/font-awesome/solid';
+import { FilterMenu } from '@shared/components/filter-menu/filter-menu';
 import { ApexOptions } from 'apexcharts';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { Skeleton } from '@shared/components/skeleton/skeleton';
 
 @Component({
-  imports: [NgApexchartsModule],
+  imports: [NgApexchartsModule, FilterMenu, Skeleton],
+  providers: [provideIcons({ faSolidCalendar })],
   selector: 'app-finance-chart',
   styleUrl: './finance-chart.css',
   templateUrl: './finance-chart.html',
 })
 export class FinanceChart {
-  data = signal<FinanceChartModel>({
-    selectedYear: null,
-    incomeByMonth: [1200, 0, 1800, 2200, 3100, 2600, 0, 0, 4200, 3800, 2900, 5400],
-    studentsCountByMonth: [3, 0, 4, 6, 8, 5, 0, 0, 9, 7, 6, 12],
+  data = input.required<FinanceChartModel[] | undefined>();
+  isLoading = input<boolean>(false);
+  availableYears = input<number[]>();
+  selectedYear = input.required<number>();
+  selectedYearOutput = output<number>();
+
+  availableYearsOptions = computed(() =>
+    Object.fromEntries(
+      this.availableYears()?.map((year) => [year.toString(), year.toString()]) ?? [],
+    ),
+  );
+
+  selectedYearOptions = computed(() => [this.selectedYear().toString()]);
+
+  onYearChange(years: string[]) {
+    const year = years.at(-1);
+    if (year) this.selectedYearOutput.emit(Number(year));
+  }
+
+  private monthlyData = computed(() => {
+    const data = this.data() ?? [];
+    return Array.from(
+      { length: 12 },
+      (_, i) =>
+        data.find((item) => item.month === i + 1) ?? { month: i + 1, revenue: 0, students: 0 },
+    );
   });
+
   chartOptions = computed<ApexOptions>(() => {
-    const data = this.data();
+    const originalData = this.data() ?? [];
+    const data = this.monthlyData();
 
     return {
       series: [
         {
           name: 'Prihod',
           type: 'area',
-          data: data.incomeByMonth,
+          data: data.map(d => d.revenue),
         },
         {
           name: 'Broj studenata',
           type: 'line',
-          data: data.studentsCountByMonth,
+          data: data.map(d => d.students),
         },
       ],
       chart: {
@@ -41,6 +70,10 @@ export class FinanceChart {
       },
       responsive: [
         {
+          series: [
+            { name: 'Prihod', type: 'area', data: originalData.map(d => d.revenue) },
+            { name: 'Broj studenata', type: 'line', data: originalData.map(d => d.students) },
+          ],
           breakpoint: 600,
           options: {
             chart: { height: 350 },

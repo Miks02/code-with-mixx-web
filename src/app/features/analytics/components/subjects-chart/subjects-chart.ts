@@ -1,20 +1,37 @@
-import { Component, computed, signal, Signal } from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
+import { SubjectChart } from '@features/analytics/models/subject-chart';
+import { provideIcons } from '@ng-icons/core';
+import { faSolidCalendar } from '@ng-icons/font-awesome/solid';
+import { FilterMenu } from '@shared/components/filter-menu/filter-menu';
 import { ApexOptions, NgApexchartsModule } from 'ng-apexcharts';
+import { Skeleton } from '@shared/components/skeleton/skeleton';
 
 @Component({
-  imports: [NgApexchartsModule],
+  imports: [NgApexchartsModule, FilterMenu, Skeleton],
+  providers: [provideIcons({ faSolidCalendar })],
   selector: 'app-subjects-chart',
   styleUrl: './subjects-chart.css',
   templateUrl: './subjects-chart.html',
 })
 export class SubjectsChart {
-  data: Signal<Record<string, number>> = signal({
-    'Praktikum primenjenog programiranja': 10,
-    'Web programiranje': 20,
-    'Napredne baze podataka': 2,
-    'Programerski alati': 12,
-    'Osnove C programiranja': 16,
-  });
+  data = input.required<SubjectChart[] | undefined>();
+  isLoading = input<boolean>(false);
+  availableYears = input<number[]>();
+  selectedYear = input.required<number>();
+  selectedYearOutput = output<number>();
+
+  availableYearsOptions = computed(() =>
+    Object.fromEntries(
+      this.availableYears()?.map((year) => [year.toString(), year.toString()]) ?? [],
+    ),
+  );
+
+  selectedYearOptions = computed(() => [this.selectedYear().toString()]);
+
+  onYearChange(years: string[]) {
+    const year = years.at(-1);
+    if (year) this.selectedYearOutput.emit(Number(year));
+  }
 
   private generateColors(count: number): string[] {
     const goldenAngle = 150.508;
@@ -28,8 +45,10 @@ export class SubjectsChart {
 
   chartOptions = computed<ApexOptions>(() => {
     const data = this.data();
-    const labels = Object.keys(data);
-    const series = Object.values(data);
+    if (!data) return {};
+
+    const labels = data.map((item) => item.subjectName);
+    const series = data.map((item) => item.numberOfClasses);
 
     return {
       chart: {

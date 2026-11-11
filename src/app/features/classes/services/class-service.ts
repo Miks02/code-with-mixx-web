@@ -9,6 +9,7 @@ import {
   QueryClient,
 } from '@tanstack/angular-query-experimental';
 import { lastValueFrom } from 'rxjs';
+import { analyticsKeys } from '@features/analytics';
 import { PagedResult } from '@core/models/paged-result';
 import { classReservationKeys } from '@features/reservations';
 import { ClassQueryParams } from '../models/class-query-params';
@@ -122,6 +123,7 @@ export class ClassService {
       });
     }
     this.queryClient.invalidateQueries({ queryKey: classReservationKeys.items() });
+    this.queryClient.invalidateQueries({ queryKey: analyticsKeys.all(), refetchType: 'none' });
     return this.queryClient.invalidateQueries({ queryKey: classReservationKeys.summary() });
   }
 }
