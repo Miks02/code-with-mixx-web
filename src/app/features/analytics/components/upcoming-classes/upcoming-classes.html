@@ -6,8 +6,9 @@
   <div
     class="p-2 gap-4 grid grid-cols-1 min-[1600px]:grid-cols-2 auto-rows-max mt-2 grow min-h-0 overflow-y-auto"
   >
-    @for (class of upcomingClasses(); track class.id) {
-    <div
+    @for (class of upcomingClasses(); track class.reservationId) {
+    <a
+      [routerLink]="['/admin/classes/details', class.reservationId]"
       class="p-4 bg-emerald-900/80 rounded-lg flex flex-col gap-3 hover:bg-emerald-800/80 active:scale-95 transition-200 cursor-pointer"
     >
       <div class="flex gap-3 items-center">
@@ -33,7 +34,7 @@
         <span class="text-emerald-400">•</span>
         <span>{{ class.startsAt | date: 'dd.MM.yyyy' }}</span>
       </div>
-    </div>
+    </a>
     }
   </div>
   } @else {

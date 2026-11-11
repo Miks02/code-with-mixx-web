@@ -1,11 +1,12 @@
 import { DatePipe } from '@angular/common';
 import { Component, input } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { UpcomingProject } from '@features/analytics/models/upcoming-project';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { faSolidCalendarDays, faSolidCalendarXmark } from '@ng-icons/font-awesome/solid';
 
 @Component({
-  imports: [NgIcon, DatePipe],
+  imports: [NgIcon, DatePipe, RouterLink],
   providers: [provideIcons({ faSolidCalendarDays, faSolidCalendarXmark })],
   selector: 'app-upcoming-projects',
   styleUrl: './upcoming-projects.css',

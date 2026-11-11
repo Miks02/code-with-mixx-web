@@ -3,9 +3,10 @@ import { Component, input } from '@angular/core';
 import { UpcomingClass } from '@features/analytics/models/upcoming-class-';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { faSolidCalendarXmark, faSolidClock } from '@ng-icons/font-awesome/solid';
+import { RouterLink } from '@angular/router';
 
 @Component({
-  imports: [NgIcon, DatePipe],
+  imports: [NgIcon, DatePipe, RouterLink],
   providers: [provideIcons({ faSolidClock, faSolidCalendarXmark })],
   selector: 'app-upcoming-classes',
   styleUrl: './upcoming-classes.css',
