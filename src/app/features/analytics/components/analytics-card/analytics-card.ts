@@ -46,7 +46,7 @@ const VARIANT_STYLES: Record<DashboardCardVariant, VariantStyle> = {
 export class AnalyticsCard {
   variant = input<DashboardCardVariant>('emerald');
   title = input.required<string>();
-  value = input.required<string | number>();
+  value = input.required<string | number | undefined>();
   icon = input.required<string>();
 
   style = computed(() => VARIANT_STYLES[this.variant()]);
