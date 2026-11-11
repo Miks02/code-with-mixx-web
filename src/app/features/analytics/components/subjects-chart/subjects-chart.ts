@@ -15,7 +15,7 @@ import { ApexOptions, NgApexchartsModule } from 'ng-apexcharts';
 export class SubjectsChart {
   data = input.required<SubjectChart[] | undefined>();
   availableYears = input<number[]>();
-  selectedYear = input<number>();
+  selectedYear = input.required<number>();
   selectedYearOutput = output<number>();
 
   availableYearsOptions = computed(() =>
@@ -24,10 +24,7 @@ export class SubjectsChart {
     ),
   );
 
-  selectedYearOptions = computed(() => {
-    const year = this.selectedYear() ?? this.availableYears()?.[0];
-    return year ? [year.toString()] : [];
-  });
+  selectedYearOptions = computed(() => [this.selectedYear().toString()]);
 
   onYearChange(years: string[]) {
     const year = years.at(-1);
