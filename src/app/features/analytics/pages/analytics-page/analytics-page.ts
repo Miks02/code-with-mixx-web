@@ -10,14 +10,14 @@ import { AdminQueryParams } from '@features/analytics/models/admin-query-params'
 import { AnalyticsService } from '@features/analytics/services/analytics-service';
 import { provideIcons } from '@ng-icons/core';
 import {
-    faSolidCalendarPlus,
-    faSolidChalkboardUser,
-    faSolidFileCirclePlus,
-    faSolidFileLines,
-    faSolidSackDollar,
-    faSolidUser,
-    faSolidUserGraduate,
-    faSolidUserPlus,
+  faSolidCalendarPlus,
+  faSolidChalkboardUser,
+  faSolidFileCirclePlus,
+  faSolidFileLines,
+  faSolidSackDollar,
+  faSolidUser,
+  faSolidUserGraduate,
+  faSolidUserPlus,
 } from '@ng-icons/font-awesome/solid';
 
 @Component({
@@ -27,7 +27,7 @@ import {
     FinanceChart,
     SubjectsChart,
     UpcomingClasses,
-    UpcomingProjects,
+    UpcomingProjects
   ],
   providers: [
     provideIcons({
@@ -61,6 +61,13 @@ export class AnalyticsPage {
   totalStudents = computed(() => this.analyticsData()?.totalStudents)
   upcomingClasses = computed(() => this.analyticsData()?.upcomingClasses)
   upcomingProjects = computed(() => this.analyticsData()?.upcomingProjects)
+
+  availableYearsForSubjectsChart = computed(() => this.analyticsData()?.availableYearsForSubjectsChart ?? [])
+  availableYearsForFinanceChart = computed(() => this.analyticsData()?.availableYearsForFinanceChart ?? [])
+  selectedYearForSubjectsChart = computed(() => this.queryParams().selectedYearForSubjectsChart)
+  selectedYearForFinanceChart = computed(() => this.queryParams().selectedYearForFinanceChart)
+  
+  subjectChartData = computed(() => this.analyticsData()?.subjectChartData)
 
   onYearChange(year: number, chartType: 'finance' | 'subjects') {
     if (chartType === 'finance') {
