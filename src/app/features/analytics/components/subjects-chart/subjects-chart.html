@@ -12,6 +12,11 @@
       placeholder="Odaberi godinu"
     ></app-filter-menu>
   </div>
+  @if (isLoading()) {
+  <div class="p-4 grow flex justify-center items-center">
+    <app-skeleton variant="circular" width="16rem" color="blue" />
+  </div>
+  } @else {
   <apx-chart
     class="w-full h-full grow"
     [chart]="chartOptions().chart!"
@@ -25,4 +30,5 @@
     [stroke]="chartOptions().stroke!"
     [responsive]="chartOptions().responsive!"
   ></apx-chart>
+  }
 </div>

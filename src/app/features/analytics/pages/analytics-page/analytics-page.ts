@@ -54,11 +54,12 @@ export class AnalyticsPage {
 
   analyticsQuery = this.analyticsService.getAdminAnalyticsQuery(this.queryParams);
   analyticsData = computed(() => this.analyticsQuery.data());
+  isLoading = computed(() => this.analyticsQuery.isPending());
 
-  completedClasses = computed(() => this.analyticsData()?.completedClasses)
-  completedProjects = computed(() => this.analyticsData()?.completedProjects)
+  completedClasses = computed(() => this.analyticsData()?.completedClasses ?? 0)
+  completedProjects = computed(() => this.analyticsData()?.completedProjects ?? 0)
   totalRevenue = computed(() => priceConverter(this.analyticsData()?.totalRevenue ?? 0))
-  totalStudents = computed(() => this.analyticsData()?.totalStudents)
+  totalStudents = computed(() => this.analyticsData()?.totalStudents ?? 0)
   upcomingClasses = computed(() => this.analyticsData()?.upcomingClasses)
   upcomingProjects = computed(() => this.analyticsData()?.upcomingProjects)
 

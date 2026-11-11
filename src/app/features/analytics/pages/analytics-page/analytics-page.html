@@ -40,6 +40,7 @@
   <div class="flex w-full gap-6 flex-wrap">
     <app-finance-chart
       [data]="financeChartData()"
+      [isLoading]="isLoading()"
       [availableYears]="availableYearsForFinanceChart()"
       [selectedYear]="selectedYearForFinanceChart()"
       (selectedYearOutput)="onYearChange($event, 'finance')"
@@ -47,6 +48,7 @@
     ></app-finance-chart>
     <app-subjects-chart 
       [data]="subjectChartData()"
+      [isLoading]="isLoading()"
       [availableYears]="availableYearsForSubjectsChart()"
       [selectedYear]="selectedYearForSubjectsChart()"
       (selectedYearOutput)="onYearChange($event, 'subjects')"
@@ -57,10 +59,12 @@
     <app-upcoming-classes
       class="flex-1 h-full"
       [upcomingClasses]="upcomingClasses()"
+      [isLoading]="isLoading()"
     ></app-upcoming-classes>
     <app-upcoming-projects
       class="flex-1 h-full"
       [upcomingProjects]="upcomingProjects()"
+      [isLoading]="isLoading()"
     ></app-upcoming-projects>
   </div>
 </div>

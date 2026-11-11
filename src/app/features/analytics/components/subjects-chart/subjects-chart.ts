@@ -4,9 +4,10 @@ import { provideIcons } from '@ng-icons/core';
 import { faSolidCalendar } from '@ng-icons/font-awesome/solid';
 import { FilterMenu } from '@shared/components/filter-menu/filter-menu';
 import { ApexOptions, NgApexchartsModule } from 'ng-apexcharts';
+import { Skeleton } from '@shared/components/skeleton/skeleton';
 
 @Component({
-  imports: [NgApexchartsModule, FilterMenu],
+  imports: [NgApexchartsModule, FilterMenu, Skeleton],
   providers: [provideIcons({ faSolidCalendar })],
   selector: 'app-subjects-chart',
   styleUrl: './subjects-chart.css',
@@ -14,6 +15,7 @@ import { ApexOptions, NgApexchartsModule } from 'ng-apexcharts';
 })
 export class SubjectsChart {
   data = input.required<SubjectChart[] | undefined>();
+  isLoading = input<boolean>(false);
   availableYears = input<number[]>();
   selectedYear = input.required<number>();
   selectedYearOutput = output<number>();

@@ -5,9 +5,10 @@ import { faSolidCalendar } from '@ng-icons/font-awesome/solid';
 import { FilterMenu } from '@shared/components/filter-menu/filter-menu';
 import { ApexOptions } from 'apexcharts';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { Skeleton } from '@shared/components/skeleton/skeleton';
 
 @Component({
-  imports: [NgApexchartsModule, FilterMenu],
+  imports: [NgApexchartsModule, FilterMenu, Skeleton],
   providers: [provideIcons({ faSolidCalendar })],
   selector: 'app-finance-chart',
   styleUrl: './finance-chart.css',
@@ -15,6 +16,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 })
 export class FinanceChart {
   data = input.required<FinanceChartModel[] | undefined>();
+  isLoading = input<boolean>(false);
   availableYears = input<number[]>();
   selectedYear = input.required<number>();
   selectedYearOutput = output<number>();
