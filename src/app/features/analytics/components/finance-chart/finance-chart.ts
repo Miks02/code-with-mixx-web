@@ -16,7 +16,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 export class FinanceChart {
   data = input.required<FinanceChartModel[] | undefined>();
   availableYears = input<number[]>();
-  selectedYear = input<number>();
+  selectedYear = input.required<number>();
   selectedYearOutput = output<number>();
 
   availableYearsOptions = computed(() =>
@@ -25,10 +25,7 @@ export class FinanceChart {
     ),
   );
 
-  selectedYearOptions = computed(() => {
-    const year = this.selectedYear() ?? this.availableYears()?.at(-1);
-    return year ? [year.toString()] : [];
-  });
+  selectedYearOptions = computed(() => [this.selectedYear().toString()]);
 
   onYearChange(years: string[]) {
     const year = years.at(-1);

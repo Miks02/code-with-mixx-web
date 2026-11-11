@@ -38,7 +38,13 @@
   </div>
 
   <div class="flex w-full gap-6 flex-wrap">
-    <app-finance-chart class="flex-3"></app-finance-chart>
+    <app-finance-chart
+      [data]="financeChartData()"
+      [availableYears]="availableYearsForFinanceChart()"
+      [selectedYear]="selectedYearForFinanceChart()"
+      (selectedYearOutput)="onYearChange($event, 'finance')"
+      class="flex-3"
+    ></app-finance-chart>
     <app-subjects-chart 
       [data]="subjectChartData()"
       [availableYears]="availableYearsForSubjectsChart()"

@@ -1,4 +1,4 @@
-import { FinanceChart } from '../components/finance-chart/finance-chart';
+import { FinanceChart } from './finance-chart';
 import { SubjectChart } from './subject-chart';
 import { UpcomingClass } from './upcoming-class-';
 import { UpcomingProject } from './upcoming-project';
@@ -10,7 +10,7 @@ export type AdminAnalytics = {
   completedProjects: number;
   availableYearsForSubjectsChart: number[];
   availableYearsForFinanceChart: number[];
-  financeChartData: FinanceChart;
+  financeChartData: FinanceChart[];
   subjectChartData: SubjectChart[];
   upcomingClasses: UpcomingClass[];
   upcomingProjects: UpcomingProject[];

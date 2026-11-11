@@ -47,8 +47,8 @@ import {
 })
 export class AnalyticsPage {
   private queryParams: WritableSignal<AdminQueryParams> = signal({
-    selectedYearForFinanceChart: 2026,
-    selectedYearForSubjectsChart: 2026
+    selectedYearForFinanceChart: new Date().getFullYear(),
+    selectedYearForSubjectsChart: new Date().getFullYear(),
   })
   private analyticsService = inject(AnalyticsService);
 
@@ -68,6 +68,7 @@ export class AnalyticsPage {
   selectedYearForFinanceChart = computed(() => this.queryParams().selectedYearForFinanceChart)
   
   subjectChartData = computed(() => this.analyticsData()?.subjectChartData)
+  financeChartData = computed(() => this.analyticsData()?.financeChartData)
 
   onYearChange(year: number, chartType: 'finance' | 'subjects') {
     if (chartType === 'finance') {
