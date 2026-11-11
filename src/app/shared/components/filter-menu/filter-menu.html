@@ -2,22 +2,25 @@
   <button
     type="button"
     (click)="toggle()"
-    class="w-full flex items-center gap-2 bg-emerald-900/80 rounded-lg px-3 py-2 cursor-pointer"
+    [class]="classes().trigger"
+    class="w-full flex items-center gap-2 rounded-lg px-3 py-2 cursor-pointer"
   >
-    <ng-icon name="{{ icon() }}" class="text-emerald-400! text-sm self-center!"></ng-icon>
-    <span class="flex-1 min-w-0 truncate text-left text-sm text-emerald-100"
+    <ng-icon name="{{ icon() }}" [class]="classes().icon" class="text-sm self-center!"></ng-icon>
+    <span [class]="classes().triggerText" class="flex-1 min-w-0 truncate text-left text-sm"
       >{{ selectedLabel() }}</span
     >
     <ng-icon
       name="faSolidChevronDown"
-      class="text-emerald-400! text-xs! transition-transform duration-200"
+      [class]="classes().icon"
+      class="text-xs! transition-transform duration-200"
       [class.rotate-180]="isOpen()"
     ></ng-icon>
   </button>
 
   @if (isOpen()) {
   <ul
-    class="absolute left-0 right-0 top-full mt-2 z-10 bg-emerald-950 rounded-lg shadow-lg py-1 overflow-hidden"
+    [class]="classes().menu"
+    class="absolute left-0 right-0 top-full mt-2 z-10 rounded-lg shadow-lg py-1 overflow-hidden"
   >
     @for (entry of entries(); track entry[0]) {
     <li>
@@ -30,7 +33,7 @@
       >
         <span class="flex-1 min-w-0 truncate">{{ entry[1] }}</span>
         @if (isSelected(entry[0])) {
-        <ng-icon name="faSolidCheck" class="text-emerald-400! text-xs! self-center!"></ng-icon>
+        <ng-icon name="faSolidCheck" [class]="classes().icon" class="text-xs! self-center!"></ng-icon>
         } @else if (isDisabled(entry[0])) {
         <ng-icon name="faSolidXmark" class="text-rose-400/60! text-xs! self-center!"></ng-icon>
         }
@@ -45,15 +48,16 @@
   <button
     type="button"
     (click)="toggle()"
-    [class]="isOpen() || selected().length ? 'border-amber-500' : 'border-emerald-400'"
-    class="shrink-0 rounded-full bg-emerald-700 p-2 flex justify-center items-center border-2 cursor-pointer shadow-lg active:scale-95 transition-200"
+    [class]="mobileTriggerClasses()"
+    class="shrink-0 rounded-full p-2 flex justify-center items-center border-2 cursor-pointer shadow-lg active:scale-95 transition-200"
   >
-    <ng-icon name="faSolidFilter" class="text-emerald-300! self-center!"></ng-icon>
+    <ng-icon name="faSolidFilter" [class]="classes().mobileIcon" class="self-center!"></ng-icon>
   </button>
 
   @if (isOpen()) {
   <ul
-    class="absolute right-0 top-full mt-2 z-10 min-w-40 bg-emerald-950 rounded-lg shadow-lg py-1 overflow-hidden"
+    [class]="classes().menu"
+    class="absolute right-0 top-full mt-2 z-10 min-w-40 rounded-lg shadow-lg py-1 overflow-hidden"
   >
     @for (entry of entries(); track entry[0]) {
     <li>
@@ -66,7 +70,7 @@
       >
         <span class="flex-1">{{ entry[1] }}</span>
         @if (isSelected(entry[0])) {
-        <ng-icon name="faSolidCheck" class="text-emerald-400! text-xs! self-center!"></ng-icon>
+        <ng-icon name="faSolidCheck" [class]="classes().icon" class="text-xs! self-center!"></ng-icon>
         } @else if (isDisabled(entry[0])) {
         <ng-icon name="faSolidXmark" class="text-rose-400/60! text-xs! self-center!"></ng-icon>
         }
