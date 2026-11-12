@@ -7,6 +7,10 @@ export class UserState {
   private _userDetails: WritableSignal<UserDetails | null> = signal(null);
 
   userDetails = this._userDetails.asReadonly();
+  fullName = computed(() => {
+    const details = this._userDetails();
+    return details ? `${details.firstName} ${details.lastName}` : '';
+  });
   userRoles = computed<string[]>(() => this._userDetails()?.roles ?? []);
   isAuthenticated = computed(() => !!this._userDetails());
   isAdmin = computed(() => this.userRoles().includes('Admin'));
