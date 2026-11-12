@@ -1,0 +1,29 @@
+<div class="bg-emerald-950/80 rounded-md shadow-md px-4 py-6 flex">
+  <div class="flex w-full justify-between items-center flex-wrap gap-4">
+    <div class="flex gap-4">
+      <div
+        class="flex items-center justify-center w-12 h-12 md:w-16 md:h-16 bg-amber-500 rounded-full"
+      >
+        <p class="font-bold text-emerald-950 text-xl md:text-2xl">MN</p>
+      </div>
+      <div class="flex flex-col gap-1 justify-center">
+        <div class="flex gap-2 items-center">
+          <p class="font-semibold text-emerald-100 text-2xl">{{ fullName() }}</p>
+          @for(role of roles(); track role) {
+          <div class="px-3 py-2 bg-emerald-800 rounded-md">
+            <p class="font-semibold text-emerald-300 text-xs">{{ role }}</p>
+          </div>
+          }
+        </div>
+        <p class="font-semibold text-emerald-100 text-sm">{{ email() }}</p>
+        <p class="font-semibold text-emerald-100 text-sm">{{ phoneNumber() }}</p>
+      </div>
+    </div>
+
+    <p
+      class="text-emerald-100 font-semibold mx-auto sm:mx-0 border border-emerald-200 rounded-md p-2"
+    >
+      Aktivnih sesija: <span class="text-amber-500 font-bold">3</span>
+    </p>
+  </div>
+</div>
