@@ -11,6 +11,10 @@ export class UserState {
     const details = this._userDetails();
     return details ? `${details.firstName} ${details.lastName}` : '';
   });
+  firstName = computed(() => this._userDetails()?.firstName ?? '');
+  lastName = computed(() => this._userDetails()?.lastName ?? '');
+  phoneNumber = computed(() => this._userDetails()?.phoneNumber ?? '');
+  email = computed(() => this._userDetails()?.email ?? '');
   userRoles = computed<string[]>(() => this._userDetails()?.roles ?? []);
   isAuthenticated = computed(() => !!this._userDetails());
   isAdmin = computed(() => this.userRoles().includes('Admin'));
