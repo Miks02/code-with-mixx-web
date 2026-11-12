@@ -6,7 +6,7 @@ import {
   faSolidMagnifyingGlass,
   faSolidUser,
 } from '@ng-icons/font-awesome/solid';
-import { AuthService } from '@core/services/auth-service';
+import { UserState } from '@core/services/user-state';
 
 @Component({
   imports: [NgIcon],
@@ -16,7 +16,7 @@ import { AuthService } from '@core/services/auth-service';
   templateUrl: './header.html',
 })
 export class Header {
-  authService = inject(AuthService);
+  userState = inject(UserState);
   toggleSidebar = output<void>();
 
   onOpenSidebar() {

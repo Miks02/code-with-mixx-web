@@ -1,5 +1,5 @@
 import { HttpClient, HttpContext, HttpContextToken } from '@angular/common/http';
-import { computed, inject, Service, signal, WritableSignal } from '@angular/core';
+import { computed, inject, Service, signal } from '@angular/core';
 import { injectMutation } from '@tanstack/angular-query-experimental';
 import {
   catchError,
@@ -19,28 +19,25 @@ import { UserDetails } from '../models/user-details';
 import { ForgotPasswordRequest } from '@features/auth/models/forgot-password-request';
 import { ResetPasswordRequest } from '@features/auth/models/reset-password-request';
 import { AccountActivationRequest } from '@features/auth/models/account-activation-request';
+import { UserState } from './user-state';
 
 export const SKIP_AUTH_RETRY = new HttpContextToken<boolean>(() => false);
 @Service()
 export class AuthService {
-  private http = inject(HttpClient);
   private apiUrl = environment.apiUrl;
 
-  private _userDetails: WritableSignal<UserDetails | null> = signal(null);
+  private http = inject(HttpClient);
+  private userState = inject(UserState);
 
   private refreshInFlight$: Observable<void> | null = null;
 
-  userDetails = computed(() => this._userDetails() ?? null);
-  userRoles = computed<string[]>(() => this._userDetails()?.roles ?? []);
-  isAuthenticated = computed(() => !!this.userDetails());
-  isAdmin = computed(() => this._userDetails()?.roles.includes('Admin') ?? false);
   isOnCooldown = computed(() => this.cooldownDuration() > 0);
   cooldownDuration = signal(0);
 
   loginMutation = injectMutation<UserDetails, ProblemDetails, LoginRequest>(() => ({
     mutationFn: (request: LoginRequest) => lastValueFrom(this.login(request)),
     onSuccess: (data: UserDetails) => {
-      this._userDetails.set(data);
+      this.userState.updateUserDetails(data);
     },
   }));
 
@@ -84,9 +81,7 @@ export class AuthService {
 
     return lastValueFrom(
       this.http.get<UserDetails>(`${this.apiUrl}/auth/me`).pipe(
-        tap((user) => {
-          this._userDetails.set(user);
-        }),
+        tap((user) => this.userState.updateUserDetails(user)),
         map(() => void 0),
         catchError(() => of(void 0)),
       ),
@@ -111,7 +106,7 @@ export class AuthService {
   }
 
   handleSessionExpired(): void {
-    this._userDetails.set(null);
+    this.userState.updateUserDetails(null);
     this.logout()
       .pipe(
         take(1),
