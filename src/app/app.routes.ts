@@ -132,6 +132,14 @@ export const routes: Routes = [
             (c) => c.ClassReservationDetailsPage,
           ),
       },
+      {
+        title: pageTitle('Podešavanje'),
+        path: 'settings',
+        loadComponent: () =>
+          import('@features/settings/pages/settings-page/settings-page').then(
+            (c) => c.SettingsPage,
+          ),
+      },
     ],
   },
 ];
