@@ -1,17 +1,17 @@
-import { Component, input, output, inject } from '@angular/core';
-import { SidebarLink } from '../sidebar-link/sidebar-link';
+import { Component, inject, input, output } from '@angular/core';
+import { AuthService } from '@core/services/auth-service';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
-  faSolidArrowLeftLong,
-  faSolidArrowRightFromBracket,
-  faSolidBook,
-  faSolidCalendar,
-  faSolidChartArea,
-  faSolidFile,
-  faSolidGear,
-  faSolidUserGraduate,
+    faSolidArrowLeftLong,
+    faSolidArrowRightFromBracket,
+    faSolidBook,
+    faSolidCalendar,
+    faSolidChartArea,
+    faSolidFile,
+    faSolidGear,
+    faSolidUserGraduate,
 } from '@ng-icons/font-awesome/solid';
-import { AuthService } from '@core/services/auth-service';
+import { SidebarLink } from '../sidebar-link/sidebar-link';
 
 @Component({
   imports: [SidebarLink, NgIcon],

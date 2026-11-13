@@ -6,5 +6,5 @@ export type PagedResult<T> = {
   totalPages: number;
   hasPreviousPage: boolean;
   hasNextPage: boolean;
-  paginatedCount: number
-}
+  paginatedCount: number;
+};

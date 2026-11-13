@@ -1,0 +1,58 @@
+<div class="bg-emerald-950/80 rounded-md shadow-md px-4 py-6 flex">
+  <div class="flex w-full justify-between items-center flex-wrap gap-6">
+    <div class="flex gap-4">
+      <div
+        class="flex items-center justify-center w-12 h-12 md:w-16 md:h-16 bg-amber-500 rounded-full"
+      >
+        <p class="font-bold text-emerald-950 text-xl md:text-2xl">{{ initials() }}</p>
+      </div>
+      <div class="flex flex-col gap-1 justify-center">
+        <div class="flex gap-2 items-center flex-wrap">
+          <p class="font-semibold text-emerald-100 text-2xl">{{ fullName() }}</p>
+          @for (role of roles(); track role) {
+            <div class="px-3 py-2 bg-emerald-800 rounded-md">
+              <p class="font-semibold text-emerald-300 text-xs">{{ role }}</p>
+            </div>
+          }
+        </div>
+        <p class="font-semibold text-emerald-100 text-sm">{{ email() }}</p>
+        <p class="font-semibold text-emerald-100 text-sm">{{ phoneNumber() }}</p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-2 w-full md:w-auto">
+      @if (status(); as status) {
+        <div class="flex items-center gap-3 rounded-lg bg-emerald-900/40 px-4 py-3">
+          <div
+            class="flex items-center justify-center size-9 shrink-0 rounded-md"
+            [class]="status.iconBg"
+          >
+            <ng-icon name="faSolidShieldHalved" [class]="status.icon"></ng-icon>
+          </div>
+          <div class="flex flex-col gap-0.5 min-w-0">
+            <p class="text-xs text-emerald-300/70">Status naloga</p>
+            <p class="flex items-center gap-2 text-sm font-semibold" [class]="status.text">
+              <span class="size-2 rounded-full" [class]="status.dot"></span>
+              {{ status.label }}
+            </p>
+          </div>
+        </div>
+      }
+
+      <div class="flex items-center gap-3 rounded-lg bg-emerald-900/40 px-4 py-3">
+        <div class="flex items-center justify-center size-9 shrink-0 rounded-md bg-amber-500/15">
+          <ng-icon name="faSolidClockRotateLeft" class="text-amber-400!"></ng-icon>
+        </div>
+        <div class="flex flex-col gap-0.5 min-w-0">
+          <p class="text-xs text-emerald-300/70">Poslednja prijava</p>
+          <p class="text-sm font-semibold text-emerald-100">
+            {{ lastLoginDate() }}
+            @if (lastLoginTime()) {
+              <span class="font-normal text-amber-400/90">u {{ lastLoginTime() }}</span>
+            }
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

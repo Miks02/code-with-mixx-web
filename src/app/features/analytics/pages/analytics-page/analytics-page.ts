@@ -27,7 +27,7 @@ import {
     FinanceChart,
     SubjectsChart,
     UpcomingClasses,
-    UpcomingProjects
+    UpcomingProjects,
   ],
   providers: [
     provideIcons({
@@ -49,33 +49,37 @@ export class AnalyticsPage {
   private queryParams: WritableSignal<AdminQueryParams> = signal({
     selectedYearForFinanceChart: new Date().getFullYear(),
     selectedYearForSubjectsChart: new Date().getFullYear(),
-  })
+  });
   private analyticsService = inject(AnalyticsService);
 
   analyticsQuery = this.analyticsService.getAdminAnalyticsQuery(this.queryParams);
   analyticsData = computed(() => this.analyticsQuery.data());
   isLoading = computed(() => this.analyticsQuery.isPending());
 
-  completedClasses = computed(() => this.analyticsData()?.completedClasses ?? 0)
-  completedProjects = computed(() => this.analyticsData()?.completedProjects ?? 0)
-  totalRevenue = computed(() => priceConverter(this.analyticsData()?.totalRevenue ?? 0))
-  totalStudents = computed(() => this.analyticsData()?.totalStudents ?? 0)
-  upcomingClasses = computed(() => this.analyticsData()?.upcomingClasses)
-  upcomingProjects = computed(() => this.analyticsData()?.upcomingProjects)
+  completedClasses = computed(() => this.analyticsData()?.completedClasses ?? 0);
+  completedProjects = computed(() => this.analyticsData()?.completedProjects ?? 0);
+  totalRevenue = computed(() => priceConverter(this.analyticsData()?.totalRevenue ?? 0));
+  totalStudents = computed(() => this.analyticsData()?.totalStudents ?? 0);
+  upcomingClasses = computed(() => this.analyticsData()?.upcomingClasses);
+  upcomingProjects = computed(() => this.analyticsData()?.upcomingProjects);
 
-  availableYearsForSubjectsChart = computed(() => this.analyticsData()?.availableYearsForSubjectsChart ?? [])
-  availableYearsForFinanceChart = computed(() => this.analyticsData()?.availableYearsForFinanceChart ?? [])
-  selectedYearForSubjectsChart = computed(() => this.queryParams().selectedYearForSubjectsChart)
-  selectedYearForFinanceChart = computed(() => this.queryParams().selectedYearForFinanceChart)
-  
-  subjectChartData = computed(() => this.analyticsData()?.subjectChartData)
-  financeChartData = computed(() => this.analyticsData()?.financeChartData)
+  availableYearsForSubjectsChart = computed(
+    () => this.analyticsData()?.availableYearsForSubjectsChart ?? [],
+  );
+  availableYearsForFinanceChart = computed(
+    () => this.analyticsData()?.availableYearsForFinanceChart ?? [],
+  );
+  selectedYearForSubjectsChart = computed(() => this.queryParams().selectedYearForSubjectsChart);
+  selectedYearForFinanceChart = computed(() => this.queryParams().selectedYearForFinanceChart);
+
+  subjectChartData = computed(() => this.analyticsData()?.subjectChartData);
+  financeChartData = computed(() => this.analyticsData()?.financeChartData);
 
   onYearChange(year: number, chartType: 'finance' | 'subjects') {
     if (chartType === 'finance') {
-      this.queryParams.update((prev) => ({...prev, selectedYearForFinanceChart: year}));
+      this.queryParams.update((prev) => ({ ...prev, selectedYearForFinanceChart: year }));
     } else {
-      this.queryParams.update((prev) => ({...prev, selectedYearForSubjectsChart: year}))
+      this.queryParams.update((prev) => ({ ...prev, selectedYearForSubjectsChart: year }));
     }
   }
 }

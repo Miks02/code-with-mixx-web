@@ -1,0 +1,17 @@
+@keyframes overlay-in {
+  from {
+    opacity: 0;
+  }
+}
+.overlay-in {
+  animation: overlay-in 200ms ease-out;
+}
+
+@keyframes overlay-out {
+  to {
+    opacity: 0;
+  }
+}
+.overlay-out {
+  animation: overlay-out 150ms ease-in;
+}

@@ -30,7 +30,7 @@
         <ng-icon name="faSolidUser" class="text-emerald-300! md:text-xl self-center!"></ng-icon>
       </a>
       <p class="hidden md:block text-emerald-100 font-semibold text-lg">
-        {{ authService.userDetails()?.firstName}} {{ authService.userDetails()?.lastName }}
+        {{ userState.fullName() }}
       </p>
     </div>
     <button
