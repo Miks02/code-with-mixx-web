@@ -1,0 +1,105 @@
+<div class="bg-emerald-950/80 rounded-md shadow-md p-4 flex flex-col gap-4">
+  <div class="flex flex-col gap-1">
+    <h2 class="text-lg font-semibold text-emerald-100">Email adresa</h2>
+    <p class="text-sm text-emerald-300">Koristi se za prijavu i obaveštenja o rezervacijama.</p>
+  </div>
+
+  <form
+    class="grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-2"
+    (submit)="$event.preventDefault(); onSubmit()"
+  >
+    <div class="flex flex-col gap-1 min-w-0 sm:col-span-2">
+      <p class="text-xs font-semibold text-emerald-300 px-1">Trenutna adresa</p>
+      <div class="flex items-center gap-2 bg-emerald-900/30 rounded-lg px-3 py-2">
+        <ng-icon
+          name="faSolidEnvelope"
+          class="text-emerald-400/60! self-center! shrink-0"
+        ></ng-icon>
+        <p class="w-full min-w-0 truncate text-emerald-100/70">{{ currentEmail() }}</p>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-1 min-w-0">
+      <div class="flex items-baseline justify-between gap-2 px-1">
+        <label for="settings-newEmail" class="text-xs font-semibold text-emerald-300 shrink-0"
+          >Nova email adresa</label
+        >
+        @if (changeEmailForm.newEmail().touched() && changeEmailForm.newEmail().errors().length) {
+          <p
+            class="text-xs text-red-400 text-right truncate"
+            [title]="changeEmailForm.newEmail().errors()[0]?.message"
+          >
+            {{ changeEmailForm.newEmail().errors()[0]?.message }}
+          </p>
+        }
+      </div>
+      <div
+        class="flex items-center gap-2 bg-emerald-900/60 rounded-lg px-3 py-2 focus-within:ring-2 focus-within:ring-emerald-500/40 transition-200"
+        [class.bg-red-950/40]="
+          changeEmailForm.newEmail().touched() && changeEmailForm.newEmail().errors().length
+        "
+      >
+        <ng-icon name="faSolidEnvelope" class="text-emerald-400! self-center! shrink-0"></ng-icon>
+        <input
+          [formField]="changeEmailForm.newEmail"
+          type="email"
+          id="settings-newEmail"
+          autocomplete="off"
+          class="w-full min-w-0 border-none outline-none bg-transparent text-emerald-100 caret-emerald-100 placeholder:text-emerald-300/50"
+          placeholder="ime@primer.com"
+        />
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-1 min-w-0">
+      <div class="flex items-baseline justify-between gap-2 px-1">
+        <label for="settings-emailPassword" class="text-xs font-semibold text-emerald-300 shrink-0"
+          >Lozinka (potvrda)</label
+        >
+        @if (changeEmailForm.password().touched() && changeEmailForm.password().errors().length) {
+          <p
+            class="text-xs text-red-400 text-right truncate"
+            [title]="changeEmailForm.password().errors()[0]?.message"
+          >
+            {{ changeEmailForm.password().errors()[0]?.message }}
+          </p>
+        }
+      </div>
+      <div
+        class="flex items-center gap-2 bg-emerald-900/60 rounded-lg px-3 py-2 focus-within:ring-2 focus-within:ring-emerald-500/40 transition-200"
+        [class.bg-red-950/40]="
+          changeEmailForm.password().touched() && changeEmailForm.password().errors().length
+        "
+      >
+        <ng-icon name="faSolidLock" class="text-emerald-400! self-center! shrink-0"></ng-icon>
+        <input
+          [formField]="changeEmailForm.password"
+          type="password"
+          id="settings-emailPassword"
+          autocomplete="new-password"
+          class="w-full min-w-0 border-none outline-none bg-transparent text-emerald-100 caret-emerald-100 placeholder:text-emerald-300/50"
+          placeholder="••••••••"
+        />
+      </div>
+    </div>
+    <button type="submit" class="hidden" aria-label="Sačuvaj"></button>
+  </form>
+
+  <div class="flex justify-end">
+    <app-button
+      (clicked)="onSubmit()"
+      [loading]="isTokenPending()"
+      variant="primary"
+      size="sm"
+      icon="faSolidCheck"
+      >Promeni email</app-button
+    >
+  </div>
+</div>
+
+<app-email-token-modal
+  [isVisible]="isTokenModalVisible()"
+  [emailForm]="changeEmailForm"
+  (closed)="closeModal()"
+  (emailChanged)="onEmailChanged()"
+/>
