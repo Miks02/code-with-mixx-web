@@ -48,6 +48,8 @@ export class SessionActions {
   private logoutAllMutation = this.authService.logoutAllMutation;
   private logoutBySessionIdMutation = this.authService.logoutBySessionIdMutation;
 
+  activeSessionsCount = this.userState.activeSessionsCount;
+
   activeSessions = computed(() =>
     [...this.userState.activeSessions()].sort(
       (a, b) => Number(b.isCurrentSession) - Number(a.isCurrentSession),

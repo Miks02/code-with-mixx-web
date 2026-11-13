@@ -1,55 +1,62 @@
 <div class="bg-emerald-950/80 rounded-md shadow-md p-4 flex flex-col gap-4">
   <div class="flex flex-col gap-1">
-    <h2 class="text-lg font-semibold text-emerald-100">Aktivne sesije</h2>
+    <h2 class="text-lg font-semibold text-emerald-100 flex gap-2 items-center">
+      Aktivne sesije
+      <div
+        class="rounded-full bg-emerald-900 w-8 h-8 flex items-center justify-center shrink-0 text-sm"
+      >
+        {{ activeSessionsCount() }}
+      </div>
+    </h2>
     <p class="text-sm text-emerald-300">Uređaji na kojima je tvoj nalog trenutno prijavljen.</p>
   </div>
 
-  <ul class="flex flex-col gap-2">
+  <ul class="flex flex-col gap-2 max-h-70 overflow-y-auto pr-2">
     @for (session of activeSessions(); track session.sessionId) {
-      <li
-        class="flex items-center gap-3 rounded-lg p-3 transition-200"
-        [class.bg-emerald-700/40]="session.isCurrentSession"
-        [class.bg-emerald-900/40]="!session.isCurrentSession"
+    <li
+      class="flex items-center gap-3 shrink-0 rounded-lg p-3 transition-200"
+      [class.bg-emerald-700/40]="session.isCurrentSession"
+      [class.bg-emerald-900/40]="!session.isCurrentSession"
+    >
+      <div
+        class="flex items-center justify-center size-10 shrink-0 rounded-md"
+        [class.bg-amber-500]="session.isCurrentSession"
+        [class.bg-emerald-800]="!session.isCurrentSession"
       >
-        <div
-          class="flex items-center justify-center size-10 shrink-0 rounded-md"
-          [class.bg-amber-500]="session.isCurrentSession"
-          [class.bg-emerald-800]="!session.isCurrentSession"
-        >
-          <ng-icon
-            [name]="deviceIcon(session.device)"
-            class="text-xl"
-            [class.text-amber-950!]="session.isCurrentSession"
-            [class.text-emerald-300!]="!session.isCurrentSession"
-          ></ng-icon>
-        </div>
+        <ng-icon
+          [name]="deviceIcon(session.device)"
+          class="text-xl"
+          [class.text-amber-950!]="session.isCurrentSession"
+          [class.text-emerald-300!]="!session.isCurrentSession"
+        ></ng-icon>
+      </div>
 
-        <div class="flex flex-col min-w-0 flex-1">
-          <div class="flex items-center gap-2 min-w-0">
-            <p class="text-sm font-semibold text-emerald-100 truncate">
-              {{ session.browser }} · {{ session.os }}
-            </p>
-            @if (session.isCurrentSession) {
-              <span
-                class="shrink-0 rounded-full bg-amber-500/20 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-amber-400"
-                >Ovaj uređaj</span
-              >
-            }
-          </div>
-          <p class="text-xs text-emerald-300/80">Aktivna od: {{ session.activeSince | srDate }}</p>
+      <div class="flex flex-col min-w-0 flex-1">
+        <div class="flex items-center gap-2 min-w-0">
+          <p class="text-sm font-semibold text-emerald-100 truncate">
+            {{ session.browser }} · {{ session.os }}
+          </p>
+          @if (session.isCurrentSession) {
+          <span
+            class="hidden md:inline shrink-0 rounded-full bg-amber-500/20 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-amber-400"
+            >Ovaj uređaj</span
+          >
+          }
         </div>
+        <p class="text-xs text-emerald-300/80">Aktivna od: {{ session.activeSince | srDate }}</p>
+      </div>
 
-        <app-button
-          (clicked)="onLogout(session)"
-          [loading]="isLoggingOut(session)"
-          variant="ghost"
-          size="sm"
-          icon="faSolidArrowRightFromBracket"
-          >Odjavi</app-button
-        >
-      </li>
+      <app-button
+        (clicked)="onLogout(session)"
+        [loading]="isLoggingOut(session)"
+        variant="ghost"
+        size="sm"
+        icon="faSolidArrowRightFromBracket"
+        >Odjavi</app-button
+      >
+    </li>
     } @empty {
-      <li class="text-sm text-emerald-300/80 text-center py-2">Nema aktivnih sesija.</li>
+    <li class="text-sm text-emerald-300/80 text-center py-2">Nema aktivnih sesija.</li>
     }
   </ul>
 
