@@ -14,6 +14,7 @@ export class ProfileInfoCard {
   roles = this.userState.userRoles;
   phoneNumber = this.userState.phoneNumber;
   email = this.userState.email;
+  initials = this.userState.userInitials;
 
   
   
