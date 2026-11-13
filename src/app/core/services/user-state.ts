@@ -24,6 +24,8 @@ export class UserState {
   });
   activeSessions = computed(() => this._userDetails()?.activeSessions ?? []);
   activeSessionsCount = computed(() => this.activeSessions().length ?? 0);
+  lastLogin = computed(() => this._userDetails()?.lastLogin ?? '');
+  accountStatus = computed(() => this._userDetails()?.accountStatus ?? null);
 
   updateUserDetails(details: UserDetails | null): void {
     this._userDetails.set(details);

@@ -7,6 +7,7 @@ export type UserDetails = {
   email: string;
   phoneNumber: string;
   roles: string[];
+  lastLogin: string;
   accountStatus: AccountStatus;
   activeSessions: ActiveSession[];
 };
