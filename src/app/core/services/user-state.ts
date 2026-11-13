@@ -22,6 +22,8 @@ export class UserState {
     const details = this._userDetails();
     return details ? `${details.firstName[0]}${details.lastName[0]}` : '';
   });
+  activeSessions = computed(() => this._userDetails()?.activeSessions ?? []);
+  activeSessionsCount = computed(() => this.activeSessions().length ?? 0);
 
   updateUserDetails(details: UserDetails | null): void {
     this._userDetails.set(details);
@@ -49,6 +51,17 @@ export class UserState {
 
   updateAccountStatus(accountStatus: AccountStatus): void {
     this.patchUserDetails({ accountStatus });
+  }
+
+  removeActiveSession(sessionId: string): void {
+    this._userDetails.update((details) =>
+      details
+        ? {
+            ...details,
+            activeSessions: details.activeSessions.filter((s) => s.sessionId !== sessionId),
+          }
+        : details,
+    );
   }
 
   private patchUserDetails(changes: Partial<UserDetails>): void {
