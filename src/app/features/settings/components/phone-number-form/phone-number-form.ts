@@ -38,7 +38,7 @@ export class PhoneNumberForm {
         this.toastService.showSuccess('Broj telefona je uspešno ažuriran');
       } catch (err) {
         const message = getSettingsErrorMessage(err);
-        if(message) this.toastService.showError(message);
+        if (message) this.toastService.showError(message);
       }
     });
   }

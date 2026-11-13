@@ -29,8 +29,8 @@ export class SessionActions {
       title: 'Odjava',
     });
 
-    if(dialogResult === DialogResult.Cancelled) return;
-    
+    if (dialogResult === DialogResult.Cancelled) return;
+
     this.logoutAllMutation.mutate();
   }
 }

@@ -47,7 +47,7 @@ export class PersonalInfoForm {
         this.toastService.showSuccess('Lični podaci su uspešno ažurirani.');
       } catch (err) {
         const message = getSettingsErrorMessage(err);
-        if(message) this.toastService.showError(message);
+        if (message) this.toastService.showError(message);
       }
     });
   }

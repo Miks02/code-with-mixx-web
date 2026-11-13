@@ -9,14 +9,15 @@
       <label for="settings-phoneNumber" class="text-xs font-semibold text-emerald-300 shrink-0"
         >Telefon</label
       >
-      @if ( phoneNumberForm.phoneNumber().touched() && phoneNumberForm.phoneNumber().errors().length
+      @if (
+        phoneNumberForm.phoneNumber().touched() && phoneNumberForm.phoneNumber().errors().length
       ) {
-      <p
-        class="text-xs text-red-400 text-right truncate"
-        [title]="phoneNumberForm.phoneNumber().errors()[0]?.message"
-      >
-        {{ phoneNumberForm.phoneNumber().errors()[0]?.message }}
-      </p>
+        <p
+          class="text-xs text-red-400 text-right truncate"
+          [title]="phoneNumberForm.phoneNumber().errors()[0]?.message"
+        >
+          {{ phoneNumberForm.phoneNumber().errors()[0]?.message }}
+        </p>
       }
     </div>
     <div

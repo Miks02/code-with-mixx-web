@@ -9,10 +9,10 @@
       <div class="flex flex-col gap-1 justify-center">
         <div class="flex gap-2 items-center">
           <p class="font-semibold text-emerald-100 text-2xl">{{ fullName() }}</p>
-          @for(role of roles(); track role) {
-          <div class="px-3 py-2 bg-emerald-800 rounded-md">
-            <p class="font-semibold text-emerald-300 text-xs">{{ role }}</p>
-          </div>
+          @for (role of roles(); track role) {
+            <div class="px-3 py-2 bg-emerald-800 rounded-md">
+              <p class="font-semibold text-emerald-300 text-xs">{{ role }}</p>
+            </div>
           }
         </div>
         <p class="font-semibold text-emerald-100 text-sm">{{ email() }}</p>

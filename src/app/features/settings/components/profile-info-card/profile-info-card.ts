@@ -15,7 +15,4 @@ export class ProfileInfoCard {
   phoneNumber = this.userState.phoneNumber;
   email = this.userState.email;
   initials = this.userState.userInitials;
-
-  
-  
 }
