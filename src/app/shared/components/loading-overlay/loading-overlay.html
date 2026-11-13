@@ -1,0 +1,10 @@
+<div
+  animate.enter="overlay-in"
+  animate.leave="overlay-out"
+  class="fixed inset-0 z-1000 flex flex-col items-center justify-center gap-5 px-4 bg-emerald-950/75 backdrop-blur-sm"
+  aria-live="assertive"
+  aria-busy="true"
+>
+  <app-spinner size="xl" variant="light" [label]="message()" />
+  <p class="text-lg font-semibold text-emerald-100 text-center animate-pulse">{{ message() }}</p>
+</div>
