@@ -9,6 +9,7 @@ import { UserDetails } from '@core/models/user-details';
 import { UpdatePhoneNumberRequest } from '../models/update-phone-number-request';
 import { ChangeEmailRequest } from '../models/change-email-request';
 import { ChangeEmailFormModel } from '../models/change-email-form-model';
+import { ChangePasswordRequest } from '../models/change-password-request';
 
 @Service()
 export class SettingsService {
@@ -57,5 +58,10 @@ export class SettingsService {
     onSuccess: (res: Pick<UserDetails, 'email'>) => {
       this.userState.updateEmail(res.email);
     },
+  }));
+
+  changePasswordMutation = injectMutation(() => ({
+    mutationFn: (request: ChangePasswordRequest) =>
+      lastValueFrom(this.http.put(`${this.apiUrl}/account/password`, request)),
   }));
 }
