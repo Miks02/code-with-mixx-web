@@ -25,7 +25,7 @@ export class SessionActions {
 
   async onLogoutAllDevices() {
     const dialogResult = await this.dialogService.showDialog({
-      message: 'Da li ste sigurni da želite da se odjavite sa svih uredjaja?',
+      message: 'Da li sigurno želiš da se odjaviš sa svih uređaja?',
       title: 'Odjava',
     });
 

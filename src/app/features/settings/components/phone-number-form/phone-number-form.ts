@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormField, submit } from '@angular/forms/signals';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { faSolidCheck, faSolidPhone } from '@ng-icons/font-awesome/solid';
+import { faSolidCheck, faSolidPhone, faSolidXmark } from '@ng-icons/font-awesome/solid';
 import { UserState } from '@core/services/user-state';
 import { Button } from '@shared/components/button/button';
 import {
@@ -15,7 +15,7 @@ import { getSettingsErrorMessage } from '@features/settings/utilities/settings-e
 
 @Component({
   imports: [NgIcon, Button, FormField],
-  providers: [provideIcons({ faSolidCheck, faSolidPhone })],
+  providers: [provideIcons({ faSolidCheck, faSolidPhone, faSolidXmark })],
   selector: 'app-phone-number-form',
   styleUrl: './phone-number-form.css',
   templateUrl: './phone-number-form.html',
@@ -33,6 +33,11 @@ export class PhoneNumberForm {
   );
 
   phoneNumberForm = createPhoneNumberForm(this.requestModel);
+
+  onCancel() {
+    this.requestModel.set(createPhoneNumberFormModel(this.userState.userDetails()));
+    this.phoneNumberForm().reset();
+  }
 
   onSubmit() {
     return submit(this.phoneNumberForm, async () => {

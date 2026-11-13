@@ -7,6 +7,7 @@ import {
   faSolidEyeSlash,
   faSolidKey,
   faSolidLock,
+  faSolidXmark,
 } from '@ng-icons/font-awesome/solid';
 import { Button } from '@shared/components/button/button';
 import {
@@ -29,6 +30,7 @@ import { DialogResult } from '@core/components/dialog/dialog';
       faSolidEyeSlash,
       faSolidKey,
       faSolidLock,
+      faSolidXmark,
     }),
   ],
   selector: 'app-change-password-form',
@@ -48,12 +50,18 @@ export class ChangePasswordForm {
 
   showPasswords = signal(false);
 
+  onCancel() {
+    this.requestModel.set(createEmptyChangePasswordFormModel());
+    this.changePasswordForm().reset();
+    this.showPasswords.set(false);
+  }
+
   onSubmit() {
     return submit(this.changePasswordForm, async () => {
       try {
         const dialogResult = await this.dialogService.showDialog({
           title: 'Promena lozinke',
-          message: 'Izmena lozinke će te izlogovati sa svih uredjaja.',
+          message: 'Izmena lozinke će te odjaviti sa svih uređaja.',
         });
 
         if (dialogResult === DialogResult.Cancelled) return;

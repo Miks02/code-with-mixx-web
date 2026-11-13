@@ -1,7 +1,12 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormField, submit } from '@angular/forms/signals';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { faSolidCheck, faSolidEnvelope, faSolidLock } from '@ng-icons/font-awesome/solid';
+import {
+  faSolidCheck,
+  faSolidEnvelope,
+  faSolidLock,
+  faSolidXmark,
+} from '@ng-icons/font-awesome/solid';
 import { UserState } from '@core/services/user-state';
 import { ToastService } from '@core/services/toast-service';
 import { Button } from '@shared/components/button/button';
@@ -16,7 +21,7 @@ import { EmailTokenModal } from '../email-token-modal/email-token-modal';
 
 @Component({
   imports: [NgIcon, Button, FormField, EmailTokenModal],
-  providers: [provideIcons({ faSolidCheck, faSolidEnvelope, faSolidLock })],
+  providers: [provideIcons({ faSolidCheck, faSolidEnvelope, faSolidLock, faSolidXmark })],
   selector: 'app-change-email-form',
   styleUrl: './change-email-form.css',
   templateUrl: './change-email-form.html',
@@ -47,7 +52,7 @@ export class ChangeEmailForm {
     });
   }
 
-  onEmailChanged() {
+  onCancel() {
     this.requestModel.set(createEmptyChangeEmailFormModel());
     this.changeEmailForm().reset();
   }
