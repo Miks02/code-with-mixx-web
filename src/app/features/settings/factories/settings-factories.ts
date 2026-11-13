@@ -1,7 +1,17 @@
-import { WritableSignal } from '@angular/core';
-import { debounce, email, form, minLength, required, validate } from '@angular/forms/signals';
-import { ChangeEmailRequest } from '../models/change-email-request';
+import { Signal, WritableSignal } from '@angular/core';
+import {
+  debounce,
+  email,
+  form,
+  maxLength,
+  minLength,
+  pattern,
+  required,
+  validate,
+} from '@angular/forms/signals';
+import { ChangeEmailFormModel } from '../models/change-email-form-model';
 import { ChangePasswordRequest } from '../models/change-password-request';
+import { EmailTokenFormModel } from '../models/email-token-form-model';
 import { UpdatePersonalInfoRequest } from '../models/update-personal-info-request';
 import { UpdatePhoneNumberRequest } from '../models/update-phone-number-request';
 
@@ -12,11 +22,19 @@ export function createPersonalInfoForm(request: WritableSignal<UpdatePersonalInf
   });
 }
 
-export function createChangeEmailForm(request: WritableSignal<ChangeEmailRequest>) {
+export function createChangeEmailForm(
+  request: WritableSignal<ChangeEmailFormModel>,
+  currentEmail: Signal<string>,
+) {
   return form(request, (schemaPath) => {
     debounce(schemaPath.newEmail, 100);
     required(schemaPath.newEmail, { message: 'Nova email adresa je obavezna.' });
     email(schemaPath.newEmail, { message: 'Email adresa nije validna.' });
+    validate(schemaPath.newEmail, ({ value }) => {
+      if (value() === currentEmail())
+        return { kind: 'sameAsOld', message: 'Nova email adresa ne može biti ista kao stara.' };
+      return null;
+    });
     required(schemaPath.password, { message: 'Lozinka je obavezna.' });
   });
 }
@@ -40,5 +58,13 @@ export function createChangePasswordForm(request: WritableSignal<ChangePasswordR
         ? null
         : { kind: 'passwordMismatch', message: 'Lozinke se ne poklapaju.' },
     );
+  });
+}
+
+export function createEmailTokenForm(request: WritableSignal<EmailTokenFormModel>) {
+  return form(request, (schemaPath) => {
+    required(schemaPath.token, { message: 'Kod je obavezan.' });
+    maxLength(schemaPath.token, 6);
+    pattern(schemaPath.token, /^\d{6}$/, { message: 'Kod mora imati 6 cifara.' });
   });
 }
