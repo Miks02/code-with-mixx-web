@@ -44,6 +44,18 @@ export class AuthService {
     },
   }));
 
+  logoutBySessionIdMutation = injectMutation<string, void, string>(() => ({
+    mutationFn: (sessionId: string) =>
+      lastValueFrom(this.http.post<string>(`${this.apiUrl}/auth/logout-session`, { sessionId })),
+    onSuccess: (res) => {
+      const currentSession = this.userState.activeSessions().find((s) => s.isCurrentSession);
+      if (currentSession?.sessionId === res) {
+        this.userState.updateUserDetails(null);
+        window.location.href = '/login';
+      }
+    },
+  }));
+
   logoutAllMutation = injectMutation<void, void, void>(() => ({
     mutationFn: () => lastValueFrom(this.http.post<void>(`${this.apiUrl}/auth/logout-all`, {})),
     onSettled: () => (window.location.href = '/login'),
