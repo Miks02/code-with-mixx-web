@@ -4,7 +4,10 @@ import { NgIcon, provideIcons } from '@ng-icons/core';
 import { faSolidCheck, faSolidUser, faSolidXmark } from '@ng-icons/font-awesome/solid';
 import { UserState } from '@core/services/user-state';
 import { Button } from '@shared/components/button/button';
-import { createPersonalInfoForm } from '@features/settings/factories/settings-factories';
+import {
+  createPersonalInfoForm,
+  createPersonalInfoFormModel,
+} from '@features/settings/factories/settings-factories';
 import { UpdatePersonalInfoRequest } from '@features/settings/models/update-personal-info-request';
 import { SettingsService } from '@features/settings/services/settings-service';
 import { ToastService } from '@core/services/toast-service';
@@ -22,20 +25,16 @@ export class PersonalInfoForm {
   private settingsService = inject(SettingsService);
   private toastService = inject(ToastService);
 
-  requestModel = signal<UpdatePersonalInfoRequest>({
-    firstName: this.userState.firstName(),
-    lastName: this.userState.lastName(),
-  });
+  requestModel = signal<UpdatePersonalInfoRequest>(
+    createPersonalInfoFormModel(this.userState.userDetails()),
+  );
 
   personalInfoForm = createPersonalInfoForm(this.requestModel);
   updateNameMutation = this.settingsService.updateNameMutation;
   isPending = this.settingsService.updateNameMutation.isPending;
 
   onCancel() {
-    this.requestModel.set({
-      firstName: this.userState.firstName(),
-      lastName: this.userState.lastName(),
-    });
+    this.requestModel.set(createPersonalInfoFormModel(this.userState.userDetails()));
     this.personalInfoForm().reset();
   }
 

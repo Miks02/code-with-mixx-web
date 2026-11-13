@@ -9,17 +9,44 @@ import {
   required,
   validate,
 } from '@angular/forms/signals';
+import { UserDetails } from '@core/models/user-details';
 import { ChangeEmailFormModel } from '../models/change-email-form-model';
+import { ChangeEmailRequest } from '../models/change-email-request';
 import { ChangePasswordRequest } from '../models/change-password-request';
 import { EmailTokenFormModel } from '../models/email-token-form-model';
 import { UpdatePersonalInfoRequest } from '../models/update-personal-info-request';
 import { UpdatePhoneNumberRequest } from '../models/update-phone-number-request';
+
+export function createPersonalInfoFormModel(user?: UserDetails | null): UpdatePersonalInfoRequest {
+  return {
+    firstName: user?.firstName ?? '',
+    lastName: user?.lastName ?? '',
+  };
+}
 
 export function createPersonalInfoForm(request: WritableSignal<UpdatePersonalInfoRequest>) {
   return form(request, (schemaPath) => {
     required(schemaPath.firstName, { message: 'Ime je obavezno.' });
     required(schemaPath.lastName, { message: 'Prezime je obavezno.' });
   });
+}
+
+export function createEmptyChangeEmailFormModel(): ChangeEmailFormModel {
+  return {
+    newEmail: '',
+    password: '',
+  };
+}
+
+export function createChangeEmailRequest(
+  model: ChangeEmailFormModel,
+  token: string,
+): ChangeEmailRequest {
+  return {
+    newEmail: model.newEmail,
+    password: model.password,
+    token,
+  };
 }
 
 export function createChangeEmailForm(
@@ -39,10 +66,24 @@ export function createChangeEmailForm(
   });
 }
 
+export function createPhoneNumberFormModel(user?: UserDetails | null): UpdatePhoneNumberRequest {
+  return {
+    phoneNumber: user?.phoneNumber ?? '',
+  };
+}
+
 export function createPhoneNumberForm(request: WritableSignal<UpdatePhoneNumberRequest>) {
   return form(request, (schemaPath) => {
     required(schemaPath.phoneNumber, { message: 'Broj telefona je obavezan.' });
   });
+}
+
+export function createEmptyChangePasswordFormModel(): ChangePasswordRequest {
+  return {
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: '',
+  };
 }
 
 export function createChangePasswordForm(request: WritableSignal<ChangePasswordRequest>) {
@@ -59,6 +100,12 @@ export function createChangePasswordForm(request: WritableSignal<ChangePasswordR
         : { kind: 'passwordMismatch', message: 'Lozinke se ne poklapaju.' },
     );
   });
+}
+
+export function createEmptyEmailTokenFormModel(): EmailTokenFormModel {
+  return {
+    token: '',
+  };
 }
 
 export function createEmailTokenForm(request: WritableSignal<EmailTokenFormModel>) {

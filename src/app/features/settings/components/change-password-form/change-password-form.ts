@@ -9,7 +9,10 @@ import {
   faSolidLock,
 } from '@ng-icons/font-awesome/solid';
 import { Button } from '@shared/components/button/button';
-import { createChangePasswordForm } from '@features/settings/factories/settings-factories';
+import {
+  createChangePasswordForm,
+  createEmptyChangePasswordFormModel,
+} from '@features/settings/factories/settings-factories';
 import { ChangePasswordRequest } from '@features/settings/models/change-password-request';
 import { ToastService } from '@core/services/toast-service';
 import { SettingsService } from '@features/settings/services/settings-service';
@@ -39,11 +42,7 @@ export class ChangePasswordForm {
 
   private changePasswordMutation = this.settingsService.changePasswordMutation;
 
-  requestModel = signal<ChangePasswordRequest>({
-    currentPassword: '',
-    newPassword: '',
-    confirmPassword: '',
-  });
+  requestModel = signal<ChangePasswordRequest>(createEmptyChangePasswordFormModel());
 
   changePasswordForm = createChangePasswordForm(this.requestModel);
 

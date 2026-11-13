@@ -4,7 +4,10 @@ import { NgIcon, provideIcons } from '@ng-icons/core';
 import { faSolidCheck, faSolidPhone } from '@ng-icons/font-awesome/solid';
 import { UserState } from '@core/services/user-state';
 import { Button } from '@shared/components/button/button';
-import { createPhoneNumberForm } from '@features/settings/factories/settings-factories';
+import {
+  createPhoneNumberForm,
+  createPhoneNumberFormModel,
+} from '@features/settings/factories/settings-factories';
 import { UpdatePhoneNumberRequest } from '@features/settings/models/update-phone-number-request';
 import { SettingsService } from '@features/settings/services/settings-service';
 import { ToastService } from '@core/services/toast-service';
@@ -25,9 +28,9 @@ export class PhoneNumberForm {
 
   isPending = this.updatePhoneNumberMutation.isPending;
 
-  requestModel = signal<UpdatePhoneNumberRequest>({
-    phoneNumber: this.userState.phoneNumber(),
-  });
+  requestModel = signal<UpdatePhoneNumberRequest>(
+    createPhoneNumberFormModel(this.userState.userDetails()),
+  );
 
   phoneNumberForm = createPhoneNumberForm(this.requestModel);
 

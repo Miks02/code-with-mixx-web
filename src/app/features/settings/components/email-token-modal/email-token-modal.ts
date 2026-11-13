@@ -5,13 +5,15 @@ import { faSolidCheck, faSolidEnvelopeOpenText, faSolidXmark } from '@ng-icons/f
 import { ToastService } from '@core/services/toast-service';
 import { getErrorCode } from '@core/utilities/problem-details-helpers';
 import { Button } from '@shared/components/button/button';
-import { createEmailTokenForm } from '@features/settings/factories/settings-factories';
+import {
+  createChangeEmailRequest,
+  createEmailTokenForm,
+  createEmptyEmailTokenFormModel,
+} from '@features/settings/factories/settings-factories';
 import { ChangeEmailFormModel } from '@features/settings/models/change-email-form-model';
 import { EmailTokenFormModel } from '@features/settings/models/email-token-form-model';
 import { SettingsService } from '@features/settings/services/settings-service';
 import { getSettingsErrorMessage } from '@features/settings/utilities/settings-error-messages';
-
-const emptyTokenModel: EmailTokenFormModel = { token: '' };
 
 @Component({
   imports: [NgIcon, Button, FormField],
@@ -31,11 +33,11 @@ export class EmailTokenModal {
 
   changeEmailMutation = this.settingsService.changeEmailMutation;
 
-  tokenModel = signal<EmailTokenFormModel>(emptyTokenModel);
+  tokenModel = signal<EmailTokenFormModel>(createEmptyEmailTokenFormModel());
   tokenForm = createEmailTokenForm(this.tokenModel);
 
   onClose() {
-    this.tokenModel.set(emptyTokenModel);
+    this.tokenModel.set(createEmptyEmailTokenFormModel());
     this.tokenForm().reset();
     this.closed.emit();
   }
@@ -43,10 +45,9 @@ export class EmailTokenModal {
   onSubmit() {
     return submit(this.tokenForm, async () => {
       try {
-        await this.changeEmailMutation.mutateAsync({
-          ...this.emailForm()().value(),
-          token: this.tokenModel().token,
-        });
+        await this.changeEmailMutation.mutateAsync(
+          createChangeEmailRequest(this.emailForm()().value(), this.tokenModel().token),
+        );
         this.toastService.showSuccess('Email adresa je uspešno promenjena.');
         this.emailChanged.emit();
         this.onClose();
