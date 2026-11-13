@@ -1,0 +1,27 @@
+<div class="bg-emerald-950/80 rounded-md shadow-md p-4 flex flex-col gap-4">
+  <div class="flex flex-col gap-1">
+    <h2 class="text-lg font-semibold text-emerald-100">Odjava</h2>
+    <p class="text-sm text-emerald-300">Odjavi se sa ovog uređaja ili sa svih uređaja odjednom.</p>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+    <app-button
+      (clicked)="onLogoutCurrentDevice()"
+      [fullWidth]="true"
+      variant="ghost"
+      icon="faSolidArrowRightFromBracket"
+      >Odjavi se sa ovog uređaja</app-button
+    >
+    <app-button
+      (clicked)="onLogoutAllDevices()"
+      [fullWidth]="true"
+      variant="danger"
+      icon="faSolidPowerOff"
+      >Odjavi se sa svih uređaja</app-button
+    >
+  </div>
+
+  <p class="text-xs text-emerald-300/80">
+    „Sa svih uređaja” odjavljuje i ovaj, pa se posle toga se ponovo prijavljuješ.
+  </p>
+</div>
