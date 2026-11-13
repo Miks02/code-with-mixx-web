@@ -7,6 +7,8 @@ import { lastValueFrom } from 'rxjs';
 import { UpdatePersonalInfoRequest } from '../models/update-personal-info-request';
 import { UserDetails } from '@core/models/user-details';
 import { UpdatePhoneNumberRequest } from '../models/update-phone-number-request';
+import { ChangeEmailRequest } from '../models/change-email-request';
+import { ChangeEmailFormModel } from '../models/change-email-form-model';
 
 @Service()
 export class SettingsService {
@@ -42,5 +44,18 @@ export class SettingsService {
     },
   }));
 
-  
+  requestEmailTokenMutation = injectMutation(() => ({
+    mutationFn: (request: ChangeEmailFormModel) =>
+      lastValueFrom(this.http.post(`${this.apiUrl}/account/email-change-request`, request)),
+  }));
+
+  changeEmailMutation = injectMutation(() => ({
+    mutationFn: (request: ChangeEmailRequest) =>
+      lastValueFrom(
+        this.http.post<Pick<UserDetails, 'email'>>(`${this.apiUrl}/account/email`, request),
+      ),
+    onSuccess: (res: Pick<UserDetails, 'email'>) => {
+      this.userState.updateEmail(res.email);
+    },
+  }));
 }
