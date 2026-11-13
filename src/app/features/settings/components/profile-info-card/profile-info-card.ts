@@ -1,8 +1,8 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { faSolidClockRotateLeft, faSolidShieldHalved } from '@ng-icons/font-awesome/solid';
 import { AccountStatus } from '@core/models/account-status';
-import { UserState } from '@core/services/user-state';
+import { UserDetails } from '@core/models/user-details';
 import { dateConverter, timeConverter } from '@core/utilities/date-helpers';
 
 type StatusMeta = {
@@ -52,25 +52,23 @@ const STATUS_META: Record<AccountStatus, StatusMeta> = {
   templateUrl: './profile-info-card.html',
 })
 export class ProfileInfoCard {
-  private userState = inject(UserState);
-  fullName = this.userState.fullName;
-  roles = this.userState.userRoles;
-  phoneNumber = this.userState.phoneNumber;
-  email = this.userState.email;
-  initials = this.userState.userInitials;
+  user = input.required<UserDetails>();
 
-  status = computed(() => {
-    const status = this.userState.accountStatus();
-    return status ? STATUS_META[status] : null;
-  });
+  fullName = computed(() => `${this.user().firstName} ${this.user().lastName}`);
+  initials = computed(() => `${this.user().firstName[0]}${this.user().lastName[0]}`);
+  roles = computed(() => this.user().roles);
+  email = computed(() => this.user().email);
+  phoneNumber = computed(() => this.user().phoneNumber);
+
+  status = computed(() => STATUS_META[this.user().accountStatus] ?? null);
 
   lastLoginDate = computed(() => {
-    const lastLogin = this.userState.lastLogin();
+    const lastLogin = this.user().lastLogin;
     return lastLogin ? dateConverter(lastLogin) : '—';
   });
 
   lastLoginTime = computed(() => {
-    const lastLogin = this.userState.lastLogin();
+    const lastLogin = this.user().lastLogin;
     return lastLogin ? timeConverter(lastLogin) : '';
   });
 }

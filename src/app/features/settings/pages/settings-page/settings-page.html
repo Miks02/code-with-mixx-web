@@ -1,5 +1,7 @@
 <div class="flex flex-col gap-4 w-full">
-  <app-profile-info-card></app-profile-info-card>
+  @if (userDetails(); as user) {
+    <app-profile-info-card [user]="user"></app-profile-info-card>
+  }
 
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 items-start">
     <div class="flex flex-col gap-4 min-w-0">
