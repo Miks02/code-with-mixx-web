@@ -7,6 +7,7 @@ import {
   faSolidBook,
   faSolidCalendar,
   faSolidChartArea,
+  faSolidEnvelope,
   faSolidFile,
   faSolidGear,
   faSolidUserGraduate,
@@ -22,6 +23,7 @@ import { RouterLink } from '@angular/router';
       faSolidUserGraduate,
       faSolidCalendar,
       faSolidFile,
+      faSolidEnvelope,
       faSolidGear,
       faSolidArrowRightFromBracket,
       faSolidArrowLeftLong,
@@ -39,6 +41,7 @@ export class Sidebar {
     { name: 'Studenti', icon: 'faSolidUserGraduate', navigateTo: '/admin/students' },
     { name: 'Časovi', icon: 'faSolidCalendar', navigateTo: '/admin/classes' },
     { name: 'Projekti', icon: 'faSolidFile', navigateTo: '/admin/projects' },
+    { name: 'Upiti', icon: 'faSolidEnvelope', navigateTo: '/admin/inquiries' },
     { name: 'Podešavanje', icon: 'faSolidGear', navigateTo: '/admin/settings' },
   ];
 
