@@ -23,10 +23,10 @@ The site should feel personal and calm, like one instructor's own site, not a Sa
 | Body text | `text-emerald-100`, `text-emerald-50/90` for lead paragraphs |
 | Muted text | `text-emerald-100/70`, then `/50` |
 | Highlight inside text, icons | `text-emerald-300`, `text-emerald-400` |
-| Accent | `amber-500` (logo "Code", active underline), `amber-400` (key numbers), `yellow-600` (main CTA fill), `yellow-100`–`yellow-400` (accent text and hover fills) |
+| Accent | `amber-500` (logo "Code", nav link hover underline), `amber-400` (key numbers), `yellow-600` (main CTA fill), `yellow-100`–`yellow-400` (accent text and hover fills) |
 | Danger and errors | `red-400` on dark, `red-600` on light |
 
-- Amber and yellow together are the one warm accent; either is fine. The accent is scarce: one or two accented things per viewport (the main CTA, a key number, the active state). If everything is accented, nothing is.
+- Amber and yellow together are the one warm accent; either is fine. The accent is scarce: one or two accented things per viewport (the main CTA, a key number, a hovered nav link). If everything is accented, nothing is.
 - The main CTA is `app-button variant="secondary"`; `primary` (emerald) is the quieter action next to it. One main CTA per section.
 - Sky, violet, orange, pink and purple exist only as data categories (stats icons, analytics cards, syntax colors in the hero code window). Never use them for decoration, backgrounds or accents.
 - Text on a dark surface must stay readable: do not go below `/50` opacity for anything a person needs to read.

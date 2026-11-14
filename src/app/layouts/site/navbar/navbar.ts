@@ -1,5 +1,5 @@
 import { Component, input, output, signal } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
   faSolidArrowRightToBracket,
@@ -12,7 +12,7 @@ import { Button } from '@shared/components/button/button';
 
 @Component({
   host: { '(document:keydown.escape)': 'closeMenu()' },
-  imports: [Button, NgIcon, RouterLink, RouterLinkActive],
+  imports: [Button, NgIcon, RouterLink],
   providers: [
     provideIcons({
       faSolidBars,

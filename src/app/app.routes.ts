@@ -23,25 +23,25 @@ export const routes: Routes = [
       },
       {
         title: pageTitle('Predmeti'),
-        path: 'predmeti',
+        path: 'subjects',
         loadComponent: () =>
           import('@features/site/pages/subjects/subjects').then((c) => c.Subjects),
       },
       {
         title: pageTitle('O projektu'),
-        path: 'o-projektu',
+        path: 'about-project',
         loadComponent: () =>
           import('@features/site/pages/about-project/about-project').then((c) => c.AboutProject),
       },
       {
         title: pageTitle('Politika privatnosti'),
-        path: 'politika-privatnosti',
+        path: 'privacy-policy',
         loadComponent: () =>
           import('@features/site/pages/privacy-policy/privacy-policy').then((c) => c.PrivacyPolicy),
       },
       {
         title: pageTitle('Uslovi korišćenja'),
-        path: 'uslovi-koriscenja',
+        path: 'terms-of-service',
         loadComponent: () =>
           import('@features/site/pages/terms-of-service/terms-of-service').then(
             (c) => c.TermsOfService,
