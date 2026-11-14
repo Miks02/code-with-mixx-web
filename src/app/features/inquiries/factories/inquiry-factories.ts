@@ -1,5 +1,13 @@
 import { WritableSignal } from '@angular/core';
-import { debounce, email, form, maxLength, pattern, required } from '@angular/forms/signals';
+import {
+  debounce,
+  email,
+  form,
+  maxLength,
+  minLength,
+  pattern,
+  required,
+} from '@angular/forms/signals';
 import { CreateInquiryRequest } from '../models/create-inquiry-request';
 import { InquiryType } from '../models/inquiry-type';
 
@@ -27,8 +35,12 @@ export function createInquiryForm(request: WritableSignal<CreateInquiryRequest>)
     });
     required(schemaPath.email, { message: 'Unesi email adresu' });
     email(schemaPath.email, { message: 'Email adresa nije validna' });
+    maxLength(schemaPath.email, 256, {
+      message: 'Email adresa može imati najviše 256 karaktera',
+    });
     required(schemaPath.inquiryType, { message: 'Izaberi vrstu upita' });
     required(schemaPath.message, { message: 'Unesi poruku' });
-    maxLength(schemaPath.message, 1000, { message: 'Poruka može imati najviše 1000 karaktera' });
+    minLength(schemaPath.message, 10, { message: 'Poruka mora imati najmanje 10 karaktera' });
+    maxLength(schemaPath.message, 500, { message: 'Poruka može imati najviše 500 karaktera' });
   });
 }
