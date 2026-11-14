@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormField, submit } from '@angular/forms/signals';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { faBrandDiscord, faBrandInstagram } from '@ng-icons/font-awesome/brands';
@@ -16,7 +16,9 @@ import {
   createEmptyInquiryRequest,
   createInquiryForm,
   InquiryType,
+  InquiryService,
 } from '@features/inquiries';
+import { ToastService } from '@core/services/toast-service';
 
 type ContactChannel = {
   icon: string;
@@ -49,6 +51,12 @@ type InquiryOption = {
   templateUrl: './contact.html',
 })
 export class Contact {
+  private toastService = inject(ToastService);
+  private inquiryService = inject(InquiryService);
+
+  private sendInquiryMutation = this.inquiryService.sendInquiryMutation;
+  isPending = this.sendInquiryMutation.isPending;
+
   readonly channels: ContactChannel[] = [
     {
       icon: 'faSolidEnvelope',
@@ -76,7 +84,15 @@ export class Contact {
   contactForm = createInquiryForm(this.contactModel);
 
   onSubmit() {
-    // Slanje stiže sa servisom; za sada submit samo pokreće validaciju forme.
-    return submit(this.contactForm, async () => undefined);
+    return submit(this.contactForm, async () => {
+      try {
+        await this.sendInquiryMutation.mutateAsync(this.contactModel());
+        this.toastService.showSuccess('Tvoj upit je uspešno poslat.');
+      } catch {
+        this.toastService.showError(
+          'Došlo je do greške prilikom slanja upita. Pokušaj ponovo kasnije.',
+        );
+      }
+    });
   }
 }
