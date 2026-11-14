@@ -1,0 +1,48 @@
+/*
+ * The bright line that fills the track as the section scrolls through the
+ * viewport. Without scroll-timeline support (or with reduced motion) it stays
+ * collapsed and only the quiet base line of the list is visible.
+ */
+.track {
+  view-timeline: --track block;
+}
+
+.track-fill {
+  scale: 1 0;
+  transform-origin: top left;
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .track-fill {
+      animation: track-fill-vertical linear both;
+      animation-timeline: --track;
+      animation-range: cover 15% cover 55%;
+    }
+  }
+}
+
+@media (min-width: 64rem) {
+  .track-fill {
+    scale: 0 1;
+    animation-name: track-fill-horizontal;
+  }
+}
+
+@keyframes track-fill-vertical {
+  from {
+    scale: 1 0;
+  }
+  to {
+    scale: 1 1;
+  }
+}
+
+@keyframes track-fill-horizontal {
+  from {
+    scale: 0 1;
+  }
+  to {
+    scale: 1 1;
+  }
+}
