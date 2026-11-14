@@ -5,9 +5,10 @@ import { MyStory } from './components/my-story/my-story';
 import { HowItWorks } from './components/how-it-works/how-it-works';
 import { Pricing } from './components/pricing/pricing';
 import { AboutProject } from './components/about-project/about-project';
+import { Contact } from './components/contact/contact';
 
 @Component({
-  imports: [Hero, AboutServices, HowItWorks, Pricing, MyStory, AboutProject],
+  imports: [Hero, AboutServices, HowItWorks, Pricing, MyStory, AboutProject, Contact],
   selector: 'app-home',
   styleUrl: './home.css',
   templateUrl: './home.html',

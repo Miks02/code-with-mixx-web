@@ -1,0 +1,248 @@
+<section id="kontakt" class="w-full bg-emerald-950 py-12 lg:py-16 3xl:py-24">
+  <div
+    class="mx-auto grid w-full max-w-7xl gap-12 px-6 lg:grid-cols-[1fr_1.5fr] lg:gap-20 lg:px-10 3xl:max-w-[110rem] 3xl:gap-32"
+  >
+    <div>
+      <h2 class="text-3xl leading-tight font-bold text-white sm:text-4xl lg:text-5xl 3xl:text-6xl">
+        Kontaktiraj me
+      </h2>
+
+      <p class="mt-5 max-w-xl text-lg text-emerald-50/90 sm:text-xl 3xl:mt-7 3xl:text-2xl">
+        Imaš pitanje ili želiš da zakažeš čas? Pošalji poruku i javiću ti se u najkraćem roku.
+      </p>
+
+      <ul class="mt-10 space-y-6 3xl:mt-14 3xl:space-y-8">
+        @for (channel of channels; track channel.label) {
+        <li class="flex items-center gap-4">
+          <ng-icon
+            [name]="channel.icon"
+            class="shrink-0 text-2xl text-emerald-300! 3xl:text-3xl"
+            aria-hidden="true"
+          ></ng-icon>
+          <div>
+            <span class="block text-sm text-emerald-100/70 3xl:text-lg">{{ channel.label }}</span>
+            @if (channel.url) {
+            <a
+              [href]="channel.url"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="transition-200 font-semibold text-white hover:text-emerald-300 3xl:text-xl"
+              >{{ channel.value }}</a
+            >
+            } @else {
+            <span class="font-semibold text-white 3xl:text-xl">{{ channel.value }}</span>
+            }
+          </div>
+        </li>
+        }
+      </ul>
+
+      <p
+        class="mt-10 max-w-md border-t border-emerald-700/40 pt-6 text-base text-emerald-100/70 3xl:mt-14 3xl:max-w-xl 3xl:pt-8 3xl:text-xl"
+      >
+        Dostupan sam za konsultacije svakog radnog dana. Na poruke odgovaram u roku od 30 do 60
+        minuta.
+      </p>
+    </div>
+
+    <div
+      class="flex flex-col gap-5 rounded-2xl bg-emerald-900 p-6 shadow-2xl sm:p-9 3xl:gap-7 3xl:p-12"
+    >
+      <div class="grid gap-5 sm:grid-cols-2 3xl:gap-7">
+        <div class="flex flex-col gap-1.5">
+          <div class="flex items-center justify-between gap-3">
+            <label for="contactFirstName" class="text-sm font-semibold text-emerald-300 3xl:text-lg"
+              >Ime</label
+            >
+            @if (contactForm.firstName().touched() && contactForm.firstName().errors().length) {
+            <p class="text-sm text-red-400">{{ contactForm.firstName().errors()[0]?.message }}</p>
+            }
+          </div>
+          <div
+            class="group transition-200 flex gap-3 rounded-md border border-transparent bg-emerald-800 px-3.5 focus-within:border-emerald-400 3xl:gap-4 3xl:px-5 items-center"
+            [class.border-red-400]="
+              contactForm.firstName().touched() && contactForm.firstName().errors().length
+            "
+          >
+            <ng-icon
+              name="faSolidUser"
+              class="shrink-0 text-emerald-100/50! transition-200 group-focus-within:text-emerald-300! 3xl:text-xl"
+              aria-hidden="true"
+            ></ng-icon>
+            <input
+              [formField]="contactForm.firstName"
+              type="text"
+              id="contactFirstName"
+              autocomplete="given-name"
+              class="w-full bg-transparent py-3 text-emerald-100 outline-none placeholder:text-emerald-100/50 3xl:py-4 3xl:text-xl"
+              placeholder="Unesi ime"
+            />
+          </div>
+        </div>
+        <div class="flex flex-col gap-1.5">
+          <div class="flex items-center justify-between gap-3">
+            <label for="contactLastName" class="text-sm font-semibold text-emerald-300 3xl:text-lg"
+              >Prezime</label
+            >
+            @if (contactForm.lastName().touched() && contactForm.lastName().errors().length) {
+            <p class="text-sm text-red-400">{{ contactForm.lastName().errors()[0]?.message }}</p>
+            }
+          </div>
+          <div
+            class="group transition-200 flex gap-3 rounded-md border border-transparent bg-emerald-800 px-3.5 focus-within:border-emerald-400 3xl:gap-4 3xl:px-5 items-center"
+            [class.border-red-400]="
+              contactForm.lastName().touched() && contactForm.lastName().errors().length
+            "
+          >
+            <ng-icon
+              name="faSolidUser"
+              class="shrink-0 text-emerald-100/50! transition-200 group-focus-within:text-emerald-300! 3xl:text-xl"
+              aria-hidden="true"
+            ></ng-icon>
+            <input
+              [formField]="contactForm.lastName"
+              type="text"
+              id="contactLastName"
+              autocomplete="family-name"
+              class="w-full bg-transparent py-3 text-emerald-100 outline-none placeholder:text-emerald-100/50 3xl:py-4 3xl:text-xl"
+              placeholder="Unesi prezime"
+            />
+          </div>
+        </div>
+        <div class="flex flex-col gap-1.5">
+          <div class="flex items-center justify-between gap-3">
+            <label
+              for="contactPhoneNumber"
+              class="text-sm font-semibold text-emerald-300 3xl:text-lg"
+              >Broj telefona</label
+            >
+            @if (contactForm.phoneNumber().touched() && contactForm.phoneNumber().errors().length) {
+            <p class="text-sm text-red-400">{{ contactForm.phoneNumber().errors()[0]?.message }}</p>
+            }
+          </div>
+          <div
+            class="group transition-200 flex gap-3 rounded-md border border-transparent bg-emerald-800 px-3.5 focus-within:border-emerald-400 3xl:gap-4 3xl:px-5 items-center"
+            [class.border-red-400]="
+              contactForm.phoneNumber().touched() && contactForm.phoneNumber().errors().length
+            "
+          >
+            <ng-icon
+              name="faSolidPhone"
+              class="shrink-0 text-emerald-100/50! transition-200 group-focus-within:text-emerald-300! 3xl:text-xl"
+              aria-hidden="true"
+            ></ng-icon>
+            <input
+              [formField]="contactForm.phoneNumber"
+              type="tel"
+              id="contactPhoneNumber"
+              autocomplete="tel"
+              class="w-full bg-transparent py-3 text-emerald-100 outline-none placeholder:text-emerald-100/50 3xl:py-4 3xl:text-xl"
+              placeholder="0601234567"
+            />
+          </div>
+        </div>
+        <div class="flex flex-col gap-1.5">
+          <div class="flex items-center justify-between gap-3">
+            <label for="contactEmail" class="text-sm font-semibold text-emerald-300 3xl:text-lg"
+              >Email adresa</label
+            >
+            @if (contactForm.email().touched() && contactForm.email().errors().length) {
+            <p class="text-sm text-red-400">{{ contactForm.email().errors()[0]?.message }}</p>
+            }
+          </div>
+          <div
+            class="group transition-200 flex gap-3 rounded-md border border-transparent bg-emerald-800 px-3.5 focus-within:border-emerald-400 3xl:gap-4 3xl:px-5 items-center"
+            [class.border-red-400]="
+              contactForm.email().touched() && contactForm.email().errors().length
+            "
+          >
+            <ng-icon
+              name="faSolidEnvelope"
+              class="shrink-0 text-emerald-100/50! transition-200 group-focus-within:text-emerald-300! 3xl:text-xl"
+              aria-hidden="true"
+            ></ng-icon>
+            <input
+              [formField]="contactForm.email"
+              type="email"
+              id="contactEmail"
+              autocomplete="email"
+              class="w-full bg-transparent py-3 text-emerald-100 outline-none placeholder:text-emerald-100/50 3xl:py-4 3xl:text-xl"
+              placeholder="tvoj@email.com"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col gap-1.5">
+        <div class="flex items-center justify-between gap-3">
+          <label for="contactInquiryType" class="text-sm font-semibold text-emerald-300 3xl:text-lg"
+            >Vrsta upita</label
+          >
+          @if (contactForm.inquiryType().touched() && contactForm.inquiryType().errors().length) {
+          <p class="text-sm text-red-400">{{ contactForm.inquiryType().errors()[0]?.message }}</p>
+          }
+        </div>
+        <div
+          class="group transition-200 flex gap-3 rounded-md border border-transparent bg-emerald-800 px-3.5 focus-within:border-emerald-400 3xl:gap-4 3xl:px-5 items-center"
+          [class.border-red-400]="
+            contactForm.inquiryType().touched() && contactForm.inquiryType().errors().length
+          "
+        >
+          <ng-icon
+            name="faSolidListUl"
+            class="shrink-0 text-emerald-100/50! transition-200 group-focus-within:text-emerald-300! 3xl:text-xl"
+            aria-hidden="true"
+          ></ng-icon>
+          <select
+            [formField]="contactForm.inquiryType"
+            id="contactInquiryType"
+            class="w-full bg-transparent py-3 text-emerald-100 outline-none placeholder:text-emerald-100/50 3xl:py-4 3xl:text-xl cursor-pointer scheme-dark"
+          >
+            @for (option of inquiryOptions; track option.value) {
+            <option [value]="option.value">{{ option.label }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-1.5">
+        <div class="flex items-center justify-between gap-3">
+          <label for="contactMessage" class="text-sm font-semibold text-emerald-300 3xl:text-lg"
+            >Poruka</label
+          >
+          @if (contactForm.message().touched() && contactForm.message().errors().length) {
+          <p class="text-sm text-red-400">{{ contactForm.message().errors()[0]?.message }}</p>
+          }
+        </div>
+        <div
+          class="group transition-200 flex gap-3 rounded-md border border-transparent bg-emerald-800 px-3.5 focus-within:border-emerald-400 3xl:gap-4 3xl:px-5 items-start"
+          [class.border-red-400]="
+            contactForm.message().touched() && contactForm.message().errors().length
+          "
+        >
+          <ng-icon
+            name="faSolidCommentDots"
+            class="shrink-0 text-emerald-100/50! transition-200 group-focus-within:text-emerald-300! 3xl:text-xl mt-4 3xl:mt-5"
+            aria-hidden="true"
+          ></ng-icon>
+          <textarea
+            [formField]="contactForm.message"
+            id="contactMessage"
+            rows="5"
+            class="w-full bg-transparent py-3 text-emerald-100 outline-none placeholder:text-emerald-100/50 3xl:py-4 3xl:text-xl resize-none"
+            placeholder="Tvoja poruka..."
+          ></textarea>
+        </div>
+      </div>
+
+      <app-button
+        (click)="onSubmit()"
+        variant="secondary"
+        size="lg"
+        icon="faSolidPaperPlane"
+        class="mt-2 self-start"
+      >
+        Pošalji poruku
+      </app-button>
+    </div>
+  </div>
+</section>
