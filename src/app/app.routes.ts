@@ -21,6 +21,12 @@ export const routes: Routes = [
         path: 'home',
         loadComponent: () => import('@features/site/pages/home/home').then((c) => c.Home),
       },
+      {
+        title: pageTitle('Politika privatnosti'),
+        path: 'politika-privatnosti',
+        loadComponent: () =>
+          import('@features/site/pages/privacy-policy/privacy-policy').then((c) => c.PrivacyPolicy),
+      },
     ]
   },
   {
