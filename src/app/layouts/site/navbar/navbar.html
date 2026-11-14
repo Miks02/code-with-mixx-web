@@ -1,1 +1,51 @@
-<header></header>
+<header class="fixed top-0 left-0 z-50 w-full px-6 py-4 bg-emerald-950 shadow-lg">
+  <nav class="flex items-center justify-between lg:mx-7">
+    <a
+      class="text-white text-2xl font-bold transition-200 hover:opacity-70 active:opacity-50"
+      routerLink="/"
+      ><span class="text-amber-500">Code</span>WithMixx</a
+    >
+
+    <button
+      type="button"
+      class="menu-toggle"
+      aria-controls="nav-menu"
+      [attr.aria-expanded]="isMenuOpen()"
+      [attr.aria-label]="isMenuOpen() ? 'Zatvori meni' : 'Otvori meni'"
+      (click)="toggleMenu()"
+    >
+      <ng-icon [name]="isMenuOpen() ? 'faSolidXmark' : 'faSolidBars'"></ng-icon>
+    </button>
+
+    <div id="nav-menu" class="nav-menu" [class.open]="isMenuOpen()">
+      <ul
+        class="flex flex-col gap-1 text-lg text-emerald-100 font-semibold lg:flex-row lg:gap-4 lg:text-base xl:gap-6 xl:text-lg"
+      >
+        <li>
+          <a
+            class="nav-link"
+            routerLink="/"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            (click)="closeMenu()"
+            >Početna</a
+          >
+        </li>
+        <li><a class="nav-link" routerLink="/" (click)="closeMenu()">Usluge</a></li>
+        <li><a class="nav-link" routerLink="/" (click)="closeMenu()">Predmeti</a></li>
+        <li><a class="nav-link" routerLink="/" (click)="closeMenu()">O meni</a></li>
+        <li><a class="nav-link" routerLink="/" (click)="closeMenu()">O projektu</a></li>
+        <li><a class="nav-link" routerLink="/" (click)="closeMenu()">Cenovnik</a></li>
+        <li><a class="nav-link" routerLink="/" (click)="closeMenu()">Kontakt</a></li>
+      </ul>
+
+      <app-button
+        routerLink="/auth/login"
+        variant="secondary"
+        [fullWidth]="true"
+        (clicked)="closeMenu()"
+        >Prijava</app-button
+      >
+    </div>
+  </nav>
+</header>
