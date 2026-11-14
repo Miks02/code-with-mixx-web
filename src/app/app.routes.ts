@@ -28,6 +28,12 @@ export const routes: Routes = [
           import('@features/site/pages/subjects/subjects').then((c) => c.Subjects),
       },
       {
+        title: pageTitle('O projektu'),
+        path: 'o-projektu',
+        loadComponent: () =>
+          import('@features/site/pages/about-project/about-project').then((c) => c.AboutProject),
+      },
+      {
         title: pageTitle('Politika privatnosti'),
         path: 'politika-privatnosti',
         loadComponent: () =>

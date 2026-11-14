@@ -4,11 +4,11 @@ import { AboutServices } from './components/about-services/about-services';
 import { MyStory } from './components/my-story/my-story';
 import { HowItWorks } from './components/how-it-works/how-it-works';
 import { Pricing } from './components/pricing/pricing';
-import { AboutProject } from './components/about-project/about-project';
+import { ProjectCta } from './components/project-cta/project-cta';
 import { Contact } from './components/contact/contact';
 
 @Component({
-  imports: [Hero, AboutServices, HowItWorks, Pricing, MyStory, AboutProject, Contact],
+  imports: [Hero, AboutServices, HowItWorks, Pricing, MyStory, Contact, ProjectCta],
   selector: 'app-home',
   styleUrl: './home.css',
   templateUrl: './home.html',

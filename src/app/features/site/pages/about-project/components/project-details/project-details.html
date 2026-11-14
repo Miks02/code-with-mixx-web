@@ -1,0 +1,87 @@
+<ng-template #facts let-items>
+  <dl class="divide-y divide-emerald-700/40">
+    @for (item of items; track item.label) {
+      <div
+        class="grid gap-x-8 gap-y-2 py-6 first:pt-0 last:pb-0 sm:grid-cols-[11rem_1fr] 3xl:grid-cols-[15rem_1fr] 3xl:py-8"
+      >
+        <dt class="font-semibold text-emerald-300">{{ item.label }}</dt>
+        <dd class="max-w-2xl 3xl:max-w-4xl">{{ item.text }}</dd>
+      </div>
+    }
+  </dl>
+</ng-template>
+
+<section class="w-full bg-emerald-950 pb-16 lg:pb-24 3xl:pb-32">
+  <div
+    class="mx-auto w-full max-w-7xl divide-y divide-emerald-700/40 px-6 text-base text-emerald-100 lg:px-10 3xl:max-w-[110rem] 3xl:text-xl"
+  >
+    <section
+      class="grid gap-8 pb-12 lg:grid-cols-[16rem_1fr] lg:gap-20 3xl:grid-cols-[22rem_1fr] 3xl:gap-32 3xl:pb-16"
+    >
+      <h2
+        class="text-3xl leading-tight font-bold text-white lg:sticky lg:top-28 lg:self-start 3xl:text-4xl"
+      >
+        Kako je počelo
+      </h2>
+
+      <div>
+        <div class="max-w-2xl space-y-4 3xl:max-w-4xl">
+          <p>
+            Časove držim već više od godinu dana, bez ikakve platforme i bez marketinga. Učenici su
+            dolazili po preporuci, termine smo dogovarali u porukama, a evidenciju sam vodio ručno.
+          </p>
+          <p>
+            Želim da taj proces digitalizujem, i da usput izoštrim znanje u tehnologijama u kojima
+            radim i koje predajem.
+          </p>
+        </div>
+
+        <h3 class="mt-10 font-semibold text-white 3xl:mt-14">Ciljevi</h3>
+        <ul class="mt-3 max-w-2xl divide-y divide-emerald-700/40 3xl:max-w-4xl">
+          @for (goal of goals; track goal) {
+            <li class="py-3 first:pt-0 last:pb-0">{{ goal }}</li>
+          }
+        </ul>
+      </div>
+    </section>
+
+    <section
+      class="grid gap-8 py-12 lg:grid-cols-[16rem_1fr] lg:gap-20 3xl:grid-cols-[22rem_1fr] 3xl:gap-32 3xl:py-16"
+    >
+      <h2
+        class="text-3xl leading-tight font-bold text-white lg:sticky lg:top-28 lg:self-start 3xl:text-4xl"
+      >
+        Tehnologije
+      </h2>
+
+      <div>
+        <ng-container *ngTemplateOutlet="facts; context: { $implicit: stack }"></ng-container>
+
+        <div class="mt-8 max-w-2xl space-y-4 3xl:mt-10 3xl:max-w-4xl">
+          <p>
+            Serverski deo je izrađen u ASP.NET Core na .NET 10, a klijentski u Angularu 22, uz
+            najnovije prakse poput signal formi i keširanja HTTP zahteva.
+          </p>
+          <p>
+            Za bazu sam odabrao PostgreSQL zbog jednostavnog hostinga, pouzdanosti i dobrih
+            performansi. Kao open-source rešenje ne traži licence, a podrška za složene upite i
+            dobra integracija sa .NET-om (paket Npgsql) učinile su ga odličnim izborom za ovaj
+            projekat.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="grid gap-8 pt-12 lg:grid-cols-[16rem_1fr] lg:gap-20 3xl:grid-cols-[22rem_1fr] 3xl:gap-32 3xl:pt-16"
+    >
+      <h2
+        class="text-3xl leading-tight font-bold text-white lg:sticky lg:top-28 lg:self-start 3xl:text-4xl"
+      >
+        Kako radi
+      </h2>
+
+      <ng-container *ngTemplateOutlet="facts; context: { $implicit: architecture }"></ng-container>
+    </section>
+  </div>
+</section>
