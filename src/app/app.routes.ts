@@ -27,7 +27,15 @@ export const routes: Routes = [
         loadComponent: () =>
           import('@features/site/pages/privacy-policy/privacy-policy').then((c) => c.PrivacyPolicy),
       },
-    ]
+      {
+        title: pageTitle('Uslovi korišćenja'),
+        path: 'uslovi-koriscenja',
+        loadComponent: () =>
+          import('@features/site/pages/terms-of-service/terms-of-service').then(
+            (c) => c.TermsOfService,
+          ),
+      },
+    ],
   },
   {
     path: 'auth',

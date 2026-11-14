@@ -92,7 +92,7 @@ export class PrivacySections {
       when: 'Kada se prijaviš',
       paragraphs: [
         'Za svaku prijavu pamtim IP adresu sa koje je otvorena i opis pregledača koji tvoj uređaj sam pošalje (user agent). Iz njega se vidi tip uređaja, operativni sistem i pregledač.',
-        'Zahvaljujući tome u podešavanjima naloga vidiš sve svoje aktivne prijave i možeš da ugasiš jednu ili sve odjednom.',
+        'Kada studentski panel bude gotov, tu ćeš videti sve svoje aktivne prijave i moći da ugasiš jednu ili sve odjednom. Do tada mi piši ako posumnjaš da se na tvoj nalog prijavio neko drugi.',
       ],
       basis: 'Legitimni interes da nalozi budu bezbedni.',
     },
@@ -186,7 +186,7 @@ export class PrivacySections {
     {
       title: 'Ispravka',
       description:
-        'Ime, telefon, email adresu i lozinku menjaš u podešavanjima naloga. Za sve ostalo mi piši.',
+        'Studentski panel je još u izradi, pa podatke za sada ispravljam ja: piši mi šta treba da se promeni. Lozinku menjaš preko linka za reset lozinke.',
     },
     {
       title: 'Brisanje',
