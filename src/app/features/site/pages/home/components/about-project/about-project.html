@@ -1,0 +1,106 @@
+<section class="w-full bg-emerald-950 py-12 lg:py-16 3xl:py-24">
+  <div
+    class="mx-auto grid w-full max-w-7xl gap-10 px-6 lg:grid-cols-[1fr_1.5fr] lg:gap-20 lg:px-10 3xl:max-w-[110rem] 3xl:gap-32"
+  >
+    <div>
+      <h2 class="text-3xl leading-tight font-bold text-white sm:text-4xl lg:text-5xl 3xl:text-6xl">
+        O projektu
+        <span class="block text-emerald-300">ukratko</span>
+      </h2>
+
+      <p class="mt-5 max-w-xl text-lg text-emerald-50/90 sm:text-xl 3xl:mt-7 3xl:text-2xl">
+        <span class="font-semibold text-white"
+          ><span class="text-amber-500">Code</span>WithMixx</span
+        >
+        je platforma koju sam počeo da pravim kako bih olakšao posao kako sebi, tako i tebi. Kod je
+        javan, pa slobodno pogledaj kako je platforma napravljena.
+      </p>
+
+      <p class="mt-5 max-w-xl text-lg text-emerald-50/90 sm:text-xl 3xl:mt-7 3xl:text-2xl">
+        Kao ljubitelj objektno orijentisanog programiranja, prirodno sam se odlučio za jedan od
+        najboljih tandema u razvoju modernih web aplikacija a to su Angular i .NET.
+      </p>
+
+      <p class="mt-5 max-w-xl text-lg text-emerald-50/90 sm:text-xl 3xl:mt-7 3xl:text-2xl">
+        Što se serverskog dela tiče, izradjen je u ASP.NET Core pod verzijom .NET 10. Dok je
+        klijentski deo napisan u Angular v22 koristeći najmodernije prakse poput signal formi, http
+        keširanja i drugih.
+      </p>
+
+      <p class="mt-5 max-w-xl text-lg text-emerald-50/90 sm:text-xl 3xl:mt-7 3xl:text-2xl">
+        Za bazu podataka odabrao sam PostgreSQL zbog jednostavnog hostinga, pouzdanosti i dobrih performansi.
+        Kao open-source rešenje, pruža veliku fleksibilnost bez dodatnih troškova licenci, 
+        a njegova podrška za kompleksne upite i dobra integracija sa .NET tehnologijama (NPGSQL paket) učinile su ga odličnim izborom za ovaj projekat.
+        
+      </p>
+    </div>
+
+    <dl class="divide-y divide-emerald-700/40">
+      <div class="grid gap-x-8 gap-y-2 pb-8 sm:grid-cols-[10rem_1fr] 3xl:grid-cols-[14rem_1fr]">
+        <dt class="font-semibold text-emerald-300 3xl:text-xl">Kako je počelo</dt>
+        <dd class="max-w-2xl space-y-3 text-base text-emerald-100 3xl:max-w-3xl 3xl:text-xl">
+          <p>
+            Časove držim već više od godinu dana, bez ikakve platforme i bez marketinga. Učenici su
+            dolazili po preporuci, termine smo dogovarali u porukama, a evidenciju sam vodio ručno.
+          </p>
+          <p>
+            Želim da taj proces digitalizujem, i da usput izoštrim znanje u tehnologijama u kojima
+            radim i koje predajem.
+          </p>
+        </dd>
+      </div>
+
+      <div class="grid gap-x-8 gap-y-2 py-8 sm:grid-cols-[10rem_1fr] 3xl:grid-cols-[14rem_1fr]">
+        <dt class="font-semibold text-emerald-300 3xl:text-xl">Ciljevi</dt>
+        <dd class="max-w-2xl text-base text-emerald-100 3xl:max-w-3xl 3xl:text-xl">
+          <ul class="space-y-2">
+            @for (goal of goals; track goal) {
+            <li>{{ goal }}</li>
+            }
+          </ul>
+        </dd>
+      </div>
+
+      <div class="grid gap-x-8 gap-y-2 py-8 sm:grid-cols-[10rem_1fr] 3xl:grid-cols-[14rem_1fr]">
+        <dt class="font-semibold text-emerald-300 3xl:text-xl">Tehnologije</dt>
+        <dd class="text-base text-emerald-100 3xl:text-xl">
+          <ul class="space-y-2">
+            @for (item of stack; track item.area) {
+            <li>
+              <span class="font-semibold text-white">{{ item.area }}</span>
+              <span class="block text-emerald-100/70">{{ item.technologies }}</span>
+            </li>
+            }
+          </ul>
+        </dd>
+      </div>
+
+      <div class="grid gap-x-8 gap-y-2 pt-8 sm:grid-cols-[10rem_1fr] 3xl:grid-cols-[14rem_1fr]">
+        <dt class="font-semibold text-emerald-300 3xl:text-xl">Kod</dt>
+        <dd class="text-base 3xl:text-xl">
+          <ul class="space-y-4">
+            @for (repository of repositories; track repository.name) {
+            <li>
+              <a
+                [href]="repository.url"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="transition-200 inline-flex items-center gap-3 font-semibold text-white hover:text-emerald-300"
+              >
+                <ng-icon name="faBrandGithub" class="shrink-0 text-xl" aria-hidden="true"></ng-icon>
+                {{ repository.name }}
+                <ng-icon
+                  name="faSolidArrowUpRightFromSquare"
+                  class="shrink-0 text-sm"
+                  aria-hidden="true"
+                ></ng-icon>
+              </a>
+              <span class="mt-1 block text-emerald-100/70">{{ repository.description }}</span>
+            </li>
+            }
+          </ul>
+        </dd>
+      </div>
+    </dl>
+  </div>
+</section>
