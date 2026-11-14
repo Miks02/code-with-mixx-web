@@ -1,6 +1,11 @@
-<div #vantaRef class="flex w-screen h-screen bg-linear-to-br from-emerald-800 to-emerald-900">
+<div class="relative isolate flex w-screen h-screen overflow-hidden bg-emerald-950">
+  <div #vantaRef class="absolute inset-0 -z-20" aria-hidden="true"></div>
   <div
-    class="flex-1 bg-emerald-950 backdrop-blur-xl lg:rounded-br-4xl lg:rounded-tr-4xl shadow-2xl justify-center items-center h-full flex"
+    class="pointer-events-none absolute inset-0 -z-10 bg-linear-to-b from-emerald-950 via-emerald-950/20 to-emerald-950/80"
+    aria-hidden="true"
+  ></div>
+  <div
+    class="relative flex-1 bg-emerald-950 backdrop-blur-xl lg:rounded-br-4xl lg:rounded-tr-4xl shadow-2xl justify-center items-center h-full flex"
   >
     <p class="absolute top-0 left-0 p-4 font-semibold text-2xl text-white lg:hidden">
       <span class="text-amber-500">Code</span>WithMixx
@@ -14,7 +19,7 @@
 
     <router-outlet></router-outlet>
   </div>
-  <div class="flex-2 hidden lg:flex justify-center items-center h-full w-full gap-2">
+  <div class="relative flex-2 hidden lg:flex justify-center items-center h-full w-full gap-2">
     <div class="">
       <h1 class="text-7xl text-white font-semibold text-center gap-2">
         <span class="text-amber-500">Code</span>WithMixx
