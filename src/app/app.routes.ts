@@ -175,6 +175,14 @@ export const routes: Routes = [
           ),
       },
       {
+        title: pageTitle('Upiti'),
+        path: 'inquiries',
+        loadComponent: () =>
+          import('@features/inquiries/pages/admin/inquiries-page/inquiries-page').then(
+            (c) => c.InquiriesPage,
+          ),
+      },
+      {
         title: pageTitle('Podešavanje'),
         path: 'settings',
         loadComponent: () =>
