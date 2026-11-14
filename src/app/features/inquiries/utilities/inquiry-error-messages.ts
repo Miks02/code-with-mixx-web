@@ -14,6 +14,10 @@ export const INQUIRY_ERROR_MESSAGES: Record<string, string> = {
   'Inquiry.MessageTooShort': 'Poruka mora imati najmanje 10 karaktera.',
   'Inquiry.MessageTooLong': 'Poruka može imati najviše 500 karaktera.',
   'Inquiry.InvalidInquiryType': 'Izabrana vrsta upita nije validna.',
+  'Inquiry.NotFound': 'Upit nije pronađen. Možda je već obrisan.',
+  'Inquiry.AlreadyResolved': 'Upit je već označen kao rešen.',
+  'Inquiry.InvalidAdminId': 'Nije moguće utvrditi ko rešava upit. Prijavi se ponovo.',
+  'Inquiry.InvalidResolvedAt': 'Datum rešavanja upita nije validan.',
 };
 
 export function getInquiryErrorMessage(err: unknown): string | undefined {
