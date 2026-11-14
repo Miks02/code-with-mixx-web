@@ -14,17 +14,17 @@ The site should feel personal and calm, like one instructor's own site, not a Sa
 
 ## Color
 
-| Role | Classes |
-| --- | --- |
-| Page and chrome surfaces (navbar, sidebar, section base) | `bg-emerald-950` |
-| Panels and cards | `bg-emerald-900`, or `bg-emerald-900/80`, `bg-emerald-950/80` over the fog |
-| Inputs and inset areas | `bg-emerald-800`, `bg-emerald-900/80` |
-| Headings | `text-white` |
-| Body text | `text-emerald-100`, `text-emerald-50/90` for lead paragraphs |
-| Muted text | `text-emerald-100/70`, then `/50` |
-| Highlight inside text, icons | `text-emerald-300`, `text-emerald-400` |
-| Accent | `amber-500` (logo "Code", nav link hover underline), `amber-400` (key numbers), `yellow-600` (main CTA fill), `yellow-100`–`yellow-400` (accent text and hover fills) |
-| Danger and errors | `red-400` on dark, `red-600` on light |
+| Role                                                     | Classes                                                                                                                                                               |
+| -------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Page and chrome surfaces (navbar, sidebar, section base) | `bg-emerald-950`                                                                                                                                                      |
+| Panels and cards                                         | `bg-emerald-900`, or `bg-emerald-900/80`, `bg-emerald-950/80` over the fog                                                                                            |
+| Inputs and inset areas                                   | `bg-emerald-800`, `bg-emerald-900/80`                                                                                                                                 |
+| Headings                                                 | `text-white`                                                                                                                                                          |
+| Body text                                                | `text-emerald-100`, `text-emerald-50/90` for lead paragraphs                                                                                                          |
+| Muted text                                               | `text-emerald-100/70`, then `/50`                                                                                                                                     |
+| Highlight inside text, icons                             | `text-emerald-300`, `text-emerald-400`                                                                                                                                |
+| Accent                                                   | `amber-500` (logo "Code", nav link hover underline), `amber-400` (key numbers), `yellow-600` (main CTA fill), `yellow-100`–`yellow-400` (accent text and hover fills) |
+| Danger and errors                                        | `red-400` on dark, `red-600` on light                                                                                                                                 |
 
 - Amber and yellow together are the one warm accent; either is fine. The accent is scarce: one or two accented things per viewport (the main CTA, a key number, a hovered nav link). If everything is accented, nothing is.
 - The main CTA is `app-button variant="secondary"`; `primary` (emerald) is the quieter action next to it. One main CTA per section.
@@ -63,13 +63,6 @@ The site should feel personal and calm, like one instructor's own site, not a Sa
 - Before building a search field, filter, sort menu, slider, skeleton, spinner or stat tile, use the one in `shared/components/`.
 - Loading states use `app-skeleton` in the shape of the final content, not a spinner in an empty box.
 - Icons come from `@ng-icons` (Font Awesome solid), registered per component.
-- A sequence of steps over time is a timeline, not a stack of cards: an `ol` with a quiet left line (`border-l border-emerald-700/40`), a small square marker per step (`size-3 rounded-sm bg-emerald-400`, `bg-amber-500` only on the current step), a short label column and the title with text next to it, as in `my-story.html`. A shell command above it (`$ git log ...`) counts as code and may use `font-mono`. A short process (a handful of equal steps, as in `how-it-works.html`) uses the same timeline turned horizontal from `lg` up: the line becomes `border-t`, the steps sit in a grid under it, each with a large number (`text-white`, `text-amber-400` only on the last) and a small plain icon next to it. Its line may fill with `bg-emerald-400` as the section scrolls into view, done with a CSS scroll timeline in the component CSS; without support or with reduced motion only the quiet line shows.
-- Prices are a row of plain plan cards (`bg-emerald-900 rounded-lg shadow-lg`, no border, no colored fills, no ribbon or "popular" badge), as in `pricing.html`: plan name in `text-emerald-300`, the price as a large bold number with a muted unit next to it, one muted note line, a divider, then a short list with a small plain icon per line and a full-width button pinned to the bottom. Exactly one plan is the recommended one and is the section's showcase panel: `rounded-2xl shadow-2xl`, taller than its neighbours from `lg` up (negative vertical margin plus more padding), with the price in `text-amber-400` and the only `secondary` button; the other plans use `ghost`.
-- A public form (as in `contact.html`) sits in the section's showcase panel (`rounded-2xl bg-emerald-900 shadow-2xl`) next to a plain text column, not centered under a title. Each field is a `bg-emerald-800 rounded-md` wrapper (`rounded-md` is the maximum for form fields) holding a small muted icon and a transparent input; the wrapper's transparent border turns `border-emerald-400` on focus (`focus-within`, the icon brightens to `text-emerald-300` with it) and `border-red-400` on error; the label (`text-sm font-semibold text-emerald-300`) sits above the field with the error message on the same line. Contact channels next to it are a plain list with a small icon per line, not icon tiles.
-- A long text page (privacy policy, terms) follows `pages/privacy-policy/`: the intro holds the `h1`, a lead, the date of the last change and one "Ukratko" showcase panel with the short version. Below it, a table of contents (`ol` on a quiet left line, sticky from `lg`, links by `fragment`) sits next to the text. Sections are split by `divide-y divide-emerald-700/40`, each opening with a two-digit number in `text-emerald-300` next to its `h2`. Paragraphs stay at `max-w-2xl`. Anything that is really a list of facts (what is collected, who receives it, how long it is kept) is a `dl` with the label column on the left, as in `project-details.html`, not a paragraph and not cards. One flat `bg-emerald-900 rounded-lg shadow-lg` panel is allowed for a technical list such as cookies, where names of real identifiers may use `font-mono`.
-- A catalog (as in `pages/subjects/`) is grouped rows, not a card grid: each group is a `section` with its `h2` and a muted note in a left column (sticky from `lg`) and a `divide-y divide-emerald-700/40` list next to it. A row is an `aspect-4/3 rounded-lg` image on the left and the name (`h3`), description and a muted plain-text list of topics on the right. A missing image is a flat `bg-emerald-800` box with a muted icon and the words "Mesto za sliku", so it reads as a placeholder and not as content. The page closes with one left-aligned call to action row above a divider.
-- A page that points to another page from the middle of a longer flow (as in `home/components/project-cta/`) is one flat banner panel (`bg-emerald-900 rounded-lg shadow-lg`, not `rounded-2xl`, it is not the section's showcase): a short question as the `h2`, one or two concrete lines, and a single `primary` button on the right from `lg` up. It stays out of the way of the page's main CTA, so it never uses `secondary`.
-- A person is introduced with one profile panel (`rounded-2xl bg-emerald-900 shadow-2xl`): a square portrait flush to the top, then name, role and a `dl` of facts split by a divider. Lists of technologies are plain text, not pills.
 
 ## What not to do
 
