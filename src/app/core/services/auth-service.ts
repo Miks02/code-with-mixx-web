@@ -43,7 +43,7 @@ export class AuthService {
     mutationFn: () => lastValueFrom(this.http.post<void>(`${this.apiUrl}/auth/logout`, {})),
     onSettled: () => {
       this.clearSessionCookie();
-      window.location.href = '/login';
+      window.location.href = '/auth/login';
     },
   }));
 
@@ -54,7 +54,7 @@ export class AuthService {
       const currentSession = this.userState.activeSessions().find((s) => s.isCurrentSession);
       if (currentSession?.sessionId === res) {
         this.userState.updateUserDetails(null);
-        window.location.href = '/login';
+        window.location.href = '/auth/login';
       }
     },
   }));
@@ -93,9 +93,8 @@ export class AuthService {
   }));
 
   checkSession(): Promise<void> {
-    if (!isPlatformBrowser(this.platformId))
-      return Promise.resolve();
-    
+    if (!isPlatformBrowser(this.platformId)) return Promise.resolve();
+
     if (!this.document.cookie.includes('Session')) {
       return Promise.resolve(void 0);
     }
@@ -133,7 +132,7 @@ export class AuthService {
       .pipe(
         finalize(() => {
           this.clearSessionCookie();
-          window.location.href = '/login?expired=true';
+          window.location.href = '/auth/login?expired=true';
         }),
       )
       .subscribe();
