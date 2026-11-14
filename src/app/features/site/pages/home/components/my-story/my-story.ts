@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { provideIcons } from '@ng-icons/core';
 import { faSolidArrowRight, faSolidBriefcase, faSolidUser } from '@ng-icons/font-awesome/solid';
 import { Button } from '@shared/components/button/button';
@@ -16,7 +15,7 @@ type Education = {
 };
 
 @Component({
-  imports: [Button, RouterLink],
+  imports: [Button],
   providers: [provideIcons({ faSolidArrowRight, faSolidBriefcase, faSolidUser })],
   selector: 'app-my-story',
   styleUrl: './my-story.css',
