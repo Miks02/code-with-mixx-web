@@ -49,7 +49,7 @@ The site should feel personal and calm, like one instructor's own site, not a Sa
 
 ## Shape, depth and motion
 
-- Radius: `rounded-lg` by default, `rounded-full` for icon buttons, pills and avatars, `rounded-2xl` only for one large showcase panel per section.
+- Radius: `rounded-lg` by default, `rounded-full` for icon buttons, pills, avatars and the circular photo cluster (one large circle, one small circle overlapping its edge, both with a `border-8` in the section's background tone, and a flat `rounded-lg` panel tucked under the large circle that holds the section's supporting button, as in `about-services.html`), `rounded-2xl` only for one large showcase panel per section.
 - Depth: `shadow-lg` by default, `shadow-2xl` for a large floating panel. Surfaces are separated by background tone and shadow first, a quiet border only where that is not enough.
 - `backdrop-blur-*` only on translucent panels that sit over the Vanta fog, where there is something to blur.
 - Transitions: `transition-200`. Pressable things get `active:scale-95`; hover is a tone or opacity change.
