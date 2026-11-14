@@ -8,6 +8,22 @@ export const pageTitle = (title: string) => `${title} • CodeWithMixx`;
 
 export const routes: Routes = [
   {
+    path: '',
+    loadComponent: () => import('@layouts/site/site-layout/site-layout').then((c) => c.SiteLayout),
+    children: [
+      {
+        path: '',
+        redirectTo: 'home',
+        pathMatch: 'full',
+      },
+      {
+        title: pageTitle('Početna'),
+        path: 'home',
+        loadComponent: () => import('@features/site/pages/home/home').then((c) => c.Home),
+      },
+    ]
+  },
+  {
     path: 'auth',
     canActivate: [guestGuard],
     loadComponent: () => import('@layouts/auth/auth-layout/auth-layout').then((c) => c.AuthLayout),
