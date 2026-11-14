@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { AuthService } from '@core/services/auth-service';
+import { UserState } from '@core/services/user-state';
 import { Navbar } from '../navbar/navbar';
 
 @Component({
@@ -8,4 +10,13 @@ import { Navbar } from '../navbar/navbar';
   styleUrl: './site-layout.css',
   templateUrl: './site-layout.html',
 })
-export class SiteLayout {}
+export class SiteLayout {
+  private authService = inject(AuthService);
+  private userState = inject(UserState);
+
+  isAuthenticated = this.userState.isAuthenticated;
+
+  onLogout(): void {
+    this.authService.logoutMutation.mutate();
+  }
+}
