@@ -22,6 +22,12 @@ export const routes: Routes = [
         loadComponent: () => import('@features/site/pages/home/home').then((c) => c.Home),
       },
       {
+        title: pageTitle('Predmeti'),
+        path: 'predmeti',
+        loadComponent: () =>
+          import('@features/site/pages/subjects/subjects').then((c) => c.Subjects),
+      },
+      {
         title: pageTitle('Politika privatnosti'),
         path: 'politika-privatnosti',
         loadComponent: () =>

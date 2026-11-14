@@ -1,0 +1,94 @@
+<section class="w-full bg-emerald-950 pb-16 lg:pb-24 3xl:pb-32">
+  <div class="mx-auto w-full max-w-7xl px-6 lg:px-10 3xl:max-w-[110rem]">
+    <div class="divide-y divide-emerald-700/40">
+      @for (group of groups; track group.area) {
+        <section
+          class="grid gap-8 py-12 first:pt-0 lg:grid-cols-[16rem_1fr] lg:gap-20 3xl:grid-cols-[22rem_1fr] 3xl:gap-32 3xl:py-16"
+        >
+          <div class="lg:sticky lg:top-28 lg:self-start">
+            <h2 class="text-3xl leading-tight font-bold text-white 3xl:text-4xl">
+              {{ group.area }}
+            </h2>
+            <p class="mt-3 max-w-xl text-base text-emerald-100/70 3xl:mt-4 3xl:text-xl">
+              {{ group.note }}
+            </p>
+          </div>
+
+          <ul class="divide-y divide-emerald-700/40">
+            @for (subject of group.subjects; track subject.id) {
+              <li
+                [id]="subject.id"
+                class="grid gap-5 py-8 first:pt-0 last:pb-0 sm:grid-cols-[12rem_1fr] sm:gap-8 3xl:grid-cols-[18rem_1fr] 3xl:gap-12 3xl:py-12"
+              >
+                <div
+                  class="aspect-4/3 overflow-hidden rounded-lg bg-emerald-800"
+                  aria-hidden="true"
+                >
+                  @if (subject.image) {
+                    <img [src]="subject.image" alt="" class="size-full object-cover" />
+                  } @else {
+                    <div
+                      class="flex size-full flex-col items-center justify-center gap-2 text-sm text-emerald-100/50 3xl:text-lg"
+                    >
+                      <ng-icon name="faSolidImage" class="text-2xl 3xl:text-3xl"></ng-icon>
+                      Mesto za sliku
+                    </div>
+                  }
+                </div>
+
+                <div>
+                  <h3 class="text-xl font-bold text-white sm:text-2xl 3xl:text-3xl">
+                    {{ subject.name }}
+                  </h3>
+
+                  <p
+                    class="mt-2 max-w-2xl text-base text-emerald-100 3xl:mt-3 3xl:max-w-3xl 3xl:text-xl"
+                  >
+                    {{ subject.description }}
+                  </p>
+
+                  @if (subject.itsCourses.length) {
+                    <p class="mt-3 text-sm text-emerald-100/70 3xl:mt-4 3xl:text-base">
+                      <span class="font-semibold text-emerald-100">Na ITS-u:</span>
+                      {{ subject.itsCourses.join(', ') }}
+                    </p>
+                  }
+
+                  <ul
+                    class="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm text-emerald-100/70 3xl:mt-4 3xl:text-base"
+                  >
+                    @for (topic of subject.topics; track topic) {
+                      <li>{{ topic }}</li>
+                    }
+                  </ul>
+                </div>
+              </li>
+            }
+          </ul>
+        </section>
+      }
+    </div>
+
+    <div
+      class="mt-12 flex flex-col items-start gap-6 border-t border-emerald-700/40 pt-12 sm:flex-row sm:items-center sm:justify-between 3xl:mt-16 3xl:pt-16"
+    >
+      <div>
+        <h2 class="text-2xl font-bold text-white 3xl:text-3xl">Ne vidiš svoj predmet?</h2>
+        <p class="mt-2 max-w-xl text-base text-emerald-100 3xl:mt-3 3xl:text-xl">
+          Pošalji mi naziv predmeta i gradivo. Javiću ti da li mogu da pomognem.
+        </p>
+      </div>
+
+      <app-button
+        routerLink="/home"
+        fragment="kontakt"
+        variant="secondary"
+        size="lg"
+        icon="faSolidPaperPlane"
+        class="shrink-0"
+      >
+        Pošalji upit
+      </app-button>
+    </div>
+  </div>
+</section>

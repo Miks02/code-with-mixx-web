@@ -40,7 +40,9 @@
         <div
           class="-mt-14 ml-45 hidden min-w-60 items-center justify-end gap-3 rounded-lg bg-emerald-600/30 px-4 pt-14 pb-5 shadow-lg sm:flex"
         >
-          <app-button variant="ghost" icon="faSolidListUl">Spisak predmeta</app-button>
+          <app-button routerLink="/predmeti" variant="ghost" icon="faSolidListUl"
+            >Spisak predmeta</app-button
+          >
         </div>
       </div>
     </div>
@@ -78,7 +80,12 @@
         }
       </ul>
 
-      <app-button variant="ghost" icon="faSolidListUl" class="mt-7 block pl-11 sm:hidden">
+      <app-button
+        routerLink="/predmeti"
+        variant="ghost"
+        icon="faSolidListUl"
+        class="mt-7 block pl-11 sm:hidden"
+      >
         Spisak predmeta
       </app-button>
     </div>
