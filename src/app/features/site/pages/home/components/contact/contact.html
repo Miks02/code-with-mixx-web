@@ -13,27 +13,27 @@
 
       <ul class="mt-10 space-y-6 3xl:mt-14 3xl:space-y-8">
         @for (channel of channels; track channel.label) {
-        <li class="flex items-center gap-4">
-          <ng-icon
-            [name]="channel.icon"
-            class="shrink-0 text-2xl text-emerald-300! 3xl:text-3xl"
-            aria-hidden="true"
-          ></ng-icon>
-          <div>
-            <span class="block text-sm text-emerald-100/70 3xl:text-lg">{{ channel.label }}</span>
-            @if (channel.url) {
-            <a
-              [href]="channel.url"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="transition-200 font-semibold text-white hover:text-emerald-300 3xl:text-xl"
-              >{{ channel.value }}</a
-            >
-            } @else {
-            <span class="font-semibold text-white 3xl:text-xl">{{ channel.value }}</span>
-            }
-          </div>
-        </li>
+          <li class="flex items-center gap-4">
+            <ng-icon
+              [name]="channel.icon"
+              class="shrink-0 text-2xl text-emerald-300! 3xl:text-3xl"
+              aria-hidden="true"
+            ></ng-icon>
+            <div>
+              <span class="block text-sm text-emerald-100/70 3xl:text-lg">{{ channel.label }}</span>
+              @if (channel.url) {
+                <a
+                  [href]="channel.url"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="transition-200 font-semibold text-white hover:text-emerald-300 3xl:text-xl"
+                  >{{ channel.value }}</a
+                >
+              } @else {
+                <span class="font-semibold text-white 3xl:text-xl">{{ channel.value }}</span>
+              }
+            </div>
+          </li>
         }
       </ul>
 
@@ -55,7 +55,7 @@
               >Ime</label
             >
             @if (contactForm.firstName().touched() && contactForm.firstName().errors().length) {
-            <p class="text-sm text-red-400">{{ contactForm.firstName().errors()[0]?.message }}</p>
+              <p class="text-sm text-red-400">{{ contactForm.firstName().errors()[0]?.message }}</p>
             }
           </div>
           <div
@@ -85,7 +85,7 @@
               >Prezime</label
             >
             @if (contactForm.lastName().touched() && contactForm.lastName().errors().length) {
-            <p class="text-sm text-red-400">{{ contactForm.lastName().errors()[0]?.message }}</p>
+              <p class="text-sm text-red-400">{{ contactForm.lastName().errors()[0]?.message }}</p>
             }
           </div>
           <div
@@ -117,7 +117,9 @@
               >Broj telefona</label
             >
             @if (contactForm.phoneNumber().touched() && contactForm.phoneNumber().errors().length) {
-            <p class="text-sm text-red-400">{{ contactForm.phoneNumber().errors()[0]?.message }}</p>
+              <p class="text-sm text-red-400">
+                {{ contactForm.phoneNumber().errors()[0]?.message }}
+              </p>
             }
           </div>
           <div
@@ -147,7 +149,7 @@
               >Email adresa</label
             >
             @if (contactForm.email().touched() && contactForm.email().errors().length) {
-            <p class="text-sm text-red-400">{{ contactForm.email().errors()[0]?.message }}</p>
+              <p class="text-sm text-red-400">{{ contactForm.email().errors()[0]?.message }}</p>
             }
           </div>
           <div
@@ -178,7 +180,7 @@
             >Vrsta upita</label
           >
           @if (contactForm.inquiryType().touched() && contactForm.inquiryType().errors().length) {
-          <p class="text-sm text-red-400">{{ contactForm.inquiryType().errors()[0]?.message }}</p>
+            <p class="text-sm text-red-400">{{ contactForm.inquiryType().errors()[0]?.message }}</p>
           }
         </div>
         <div
@@ -198,7 +200,7 @@
             class="w-full bg-transparent py-3 text-emerald-100 outline-none placeholder:text-emerald-100/50 3xl:py-4 3xl:text-xl cursor-pointer scheme-dark"
           >
             @for (option of inquiryOptions; track option.value) {
-            <option [value]="option.value">{{ option.label }}</option>
+              <option [value]="option.value">{{ option.label }}</option>
             }
           </select>
         </div>
@@ -210,7 +212,7 @@
             >Poruka</label
           >
           @if (contactForm.message().touched() && contactForm.message().errors().length) {
-          <p class="text-sm text-red-400">{{ contactForm.message().errors()[0]?.message }}</p>
+            <p class="text-sm text-red-400">{{ contactForm.message().errors()[0]?.message }}</p>
           }
         </div>
         <div

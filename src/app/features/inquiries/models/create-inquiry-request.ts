@@ -1,6 +1,6 @@
 import { InquiryType } from './inquiry-type';
 
-export type ContactRequest = {
+export type CreateInquiryRequest = {
   firstName: string;
   lastName: string;
   phoneNumber: string;

@@ -12,11 +12,11 @@ import {
 } from '@ng-icons/font-awesome/solid';
 import { Button } from '@shared/components/button/button';
 import {
-  createContactForm,
-  createEmptyContactRequest,
-} from '@features/site/factories/site-factories';
-import { ContactRequest } from '@features/site/models/contact-request';
-import { InquiryType } from '@features/site/models/inquiry-type';
+  CreateInquiryRequest,
+  createEmptyInquiryRequest,
+  createInquiryForm,
+  InquiryType,
+} from '@features/inquiries';
 
 type ContactChannel = {
   icon: string;
@@ -72,8 +72,8 @@ export class Contact {
     { value: InquiryType.Other, label: 'Ostalo' },
   ];
 
-  contactModel = signal<ContactRequest>(createEmptyContactRequest());
-  contactForm = createContactForm(this.contactModel);
+  contactModel = signal<CreateInquiryRequest>(createEmptyInquiryRequest());
+  contactForm = createInquiryForm(this.contactModel);
 
   onSubmit() {
     // Slanje stiže sa servisom; za sada submit samo pokreće validaciju forme.

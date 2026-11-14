@@ -1,9 +1,9 @@
 import { WritableSignal } from '@angular/core';
 import { debounce, email, form, maxLength, pattern, required } from '@angular/forms/signals';
-import { ContactRequest } from '../models/contact-request';
+import { CreateInquiryRequest } from '../models/create-inquiry-request';
 import { InquiryType } from '../models/inquiry-type';
 
-export function createEmptyContactRequest(): ContactRequest {
+export function createEmptyInquiryRequest(): CreateInquiryRequest {
   return {
     firstName: '',
     lastName: '',
@@ -14,7 +14,7 @@ export function createEmptyContactRequest(): ContactRequest {
   };
 }
 
-export function createContactForm(request: WritableSignal<ContactRequest>) {
+export function createInquiryForm(request: WritableSignal<CreateInquiryRequest>) {
   return form(request, (schemaPath) => {
     debounce(schemaPath.email, 100);
     required(schemaPath.firstName, { message: 'Unesi ime' });
