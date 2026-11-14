@@ -11,7 +11,7 @@ const AREA_NOTES: Record<SubjectArea, string> = {
 export class SubjectCatalogService {
   readonly subjects: CatalogSubject[] = [
     {
-      id: 'osnove-programiranja',
+      id: 'c-programming',
       name: 'Osnove programiranja u C jeziku',
       area: 'Programiranje',
       description:
@@ -21,7 +21,7 @@ export class SubjectCatalogService {
       image: 'C-programming.jpg',
     },
     {
-      id: 'objektno-orijentisano-programiranje',
+      id: 'object-oriented-programming',
       name: 'Objektno orijentisano programiranje',
       area: 'Programiranje',
       description:
@@ -95,7 +95,7 @@ export class SubjectCatalogService {
       image: 'angular.jpg',
     },
     {
-      id: 'baze-podataka',
+      id: 'databases',
       name: 'Baze podataka',
       area: 'Podaci',
       description:

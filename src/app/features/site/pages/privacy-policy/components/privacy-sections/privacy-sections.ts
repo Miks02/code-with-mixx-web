@@ -52,15 +52,15 @@ export class PrivacySections {
   readonly email = 'milan@codewithmixx.com';
 
   readonly toc: TocItem[] = [
-    { id: 'rukovalac', title: 'Ko stoji iza sajta' },
-    { id: 'podaci', title: 'Koje podatke prikupljam i zašto' },
-    { id: 'kolacici', title: 'Kolačići' },
-    { id: 'servisi', title: 'Ko još dolazi u dodir sa podacima' },
-    { id: 'cuvanje', title: 'Koliko dugo čuvam podatke' },
-    { id: 'prava', title: 'Tvoja prava' },
-    { id: 'bezbednost', title: 'Kako čuvam podatke' },
-    { id: 'uzrast', title: 'Uzrast' },
-    { id: 'izmene', title: 'Izmene ove politike' },
+    { id: 'controller', title: 'Ko stoji iza sajta' },
+    { id: 'data', title: 'Koje podatke prikupljam i zašto' },
+    { id: 'cookies', title: 'Kolačići' },
+    { id: 'processors', title: 'Ko još dolazi u dodir sa podacima' },
+    { id: 'retention', title: 'Koliko dugo čuvam podatke' },
+    { id: 'rights', title: 'Tvoja prava' },
+    { id: 'security', title: 'Kako čuvam podatke' },
+    { id: 'age', title: 'Uzrast' },
+    { id: 'changes', title: 'Izmene ove politike' },
   ];
 
   readonly dataGroups: DataGroup[] = [

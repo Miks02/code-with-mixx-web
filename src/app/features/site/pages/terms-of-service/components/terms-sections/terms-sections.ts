@@ -28,15 +28,15 @@ export class TermsSections {
   readonly email = 'milan@codewithmixx.com';
 
   readonly toc: TocItem[] = [
-    { id: 'usluga', title: 'Šta su ovi uslovi' },
-    { id: 'nalog', title: 'Nalog i studentski panel' },
-    { id: 'casovi', title: 'Časovi' },
-    { id: 'otkazivanje', title: 'Otkazivanje i pomeranje' },
-    { id: 'placanje', title: 'Cene i plaćanje' },
-    { id: 'povracaj', title: 'Povraćaj novca' },
-    { id: 'radovi', title: 'Seminarski i diplomski radovi' },
-    { id: 'odgovornost', title: 'Šta ne mogu da obećam' },
-    { id: 'izmene', title: 'Izmene uslova' },
+    { id: 'about-terms', title: 'Šta su ovi uslovi' },
+    { id: 'account', title: 'Nalog i studentski panel' },
+    { id: 'classes', title: 'Časovi' },
+    { id: 'cancellation', title: 'Otkazivanje i pomeranje' },
+    { id: 'payment', title: 'Cene i plaćanje' },
+    { id: 'refunds', title: 'Povraćaj novca' },
+    { id: 'projects', title: 'Seminarski i diplomski radovi' },
+    { id: 'liability', title: 'Šta ne mogu da obećam' },
+    { id: 'changes', title: 'Izmene uslova' },
   ];
 
   readonly classRules: Rule[] = [
