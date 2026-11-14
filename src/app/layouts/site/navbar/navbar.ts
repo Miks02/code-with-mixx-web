@@ -13,7 +13,15 @@ import { Button } from '@shared/components/button/button';
 @Component({
   host: { '(document:keydown.escape)': 'closeMenu()' },
   imports: [Button, NgIcon, RouterLink, RouterLinkActive],
-  providers: [provideIcons({ faSolidBars, faSolidRightFromBracket, faSolidUser, faSolidXmark, faSolidArrowRightToBracket })],
+  providers: [
+    provideIcons({
+      faSolidBars,
+      faSolidRightFromBracket,
+      faSolidUser,
+      faSolidXmark,
+      faSolidArrowRightToBracket,
+    }),
+  ],
   selector: 'app-navbar',
   styleUrl: './navbar.css',
   templateUrl: './navbar.html',

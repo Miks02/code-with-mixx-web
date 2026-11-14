@@ -1,4 +1,4 @@
-<section class="w-full bg-emerald-950 py-12 lg:py-16 3xl:py-24">
+<section id="cenovnik" class="w-full bg-emerald-950 py-12 lg:py-16 3xl:py-24">
   <div class="mx-auto w-full max-w-7xl px-6 lg:px-10 3xl:max-w-[110rem]">
     <div class="grid gap-5 lg:grid-cols-2 lg:items-end lg:gap-20 3xl:gap-32">
       <h2 class="text-3xl leading-tight font-bold text-white sm:text-4xl lg:text-5xl 3xl:text-6xl">
@@ -55,7 +55,8 @@
           </ul>
 
           <app-button
-            routerLink="/"
+            routerLink="/home"
+            fragment="kontakt"
             class="mt-auto block"
             [variant]="plan.featured ? 'secondary' : 'ghost'"
             [size]="plan.featured ? 'lg' : 'md'"

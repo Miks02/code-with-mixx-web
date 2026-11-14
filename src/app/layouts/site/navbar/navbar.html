@@ -22,21 +22,36 @@
         class="flex flex-col gap-1 text-lg text-emerald-100 font-semibold lg:flex-row lg:gap-4 lg:text-base xl:gap-6 xl:text-lg"
       >
         <li>
-          <a
-            class="nav-link"
-            routerLink="/"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: true }"
-            (click)="closeMenu()"
-            >Početna</a
+          <a class="nav-link" routerLink="/home" (click)="closeMenu()">Početna</a>
+        </li>
+        <li>
+          <a class="nav-link" routerLink="/home" fragment="usluge" (click)="closeMenu()">Usluge</a>
+        </li>
+        <li>
+          <a class="nav-link" routerLink="/home" fragment="princip-rada" (click)="closeMenu()"
+            >Princip rada</a
           >
         </li>
-        <li><a class="nav-link" routerLink="/" (click)="closeMenu()">Usluge</a></li>
-        <li><a class="nav-link" routerLink="/" (click)="closeMenu()">Princip rada</a></li>
-        <li><a class="nav-link" routerLink="/" (click)="closeMenu()">Cenovnik</a></li>
-        <li><a class="nav-link" routerLink="/" (click)="closeMenu()">Moja priča</a></li>
-        <li><a class="nav-link" routerLink="/" (click)="closeMenu()">O projektu</a></li>
-        <li><a class="nav-link" routerLink="/" (click)="closeMenu()">Kontakt</a></li>
+        <li>
+          <a class="nav-link" routerLink="/home" fragment="cenovnik" (click)="closeMenu()"
+            >Cenovnik</a
+          >
+        </li>
+        <li>
+          <a class="nav-link" routerLink="/home" fragment="moja-prica" (click)="closeMenu()"
+            >Moja priča</a
+          >
+        </li>
+        <li>
+          <a class="nav-link" routerLink="/home" fragment="o-projektu" (click)="closeMenu()"
+            >O projektu</a
+          >
+        </li>
+        <li>
+          <a class="nav-link" routerLink="/home" fragment="kontakt" (click)="closeMenu()"
+            >Kontakt</a
+          >
+        </li>
       </ul>
 
       @if (!isAuthenticated()) {
