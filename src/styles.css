@@ -14,6 +14,12 @@ body {
   font-family: 'Outfit', sans-serif;
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  html.smooth-scroll {
+    scroll-behavior: smooth;
+  }
+}
+
 @layer utilities {
   .transition-200 {
     @apply transition-all duration-200;
