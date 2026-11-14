@@ -1,5 +1,5 @@
 import { HttpClient, HttpContext, HttpContextToken } from '@angular/common/http';
-import { computed, inject, Service, signal } from '@angular/core';
+import { computed, inject, PLATFORM_ID, Service, signal } from '@angular/core';
 import { injectMutation } from '@tanstack/angular-query-experimental';
 import { catchError, finalize, lastValueFrom, map, Observable, of, shareReplay, tap } from 'rxjs';
 import { environment } from '@environments/environment';
@@ -10,12 +10,15 @@ import { ForgotPasswordRequest } from '@features/auth/models/forgot-password-req
 import { ResetPasswordRequest } from '@features/auth/models/reset-password-request';
 import { AccountActivationRequest } from '@features/auth/models/account-activation-request';
 import { UserState } from './user-state';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 
 export const SKIP_AUTH_RETRY = new HttpContextToken<boolean>(() => false);
 @Service()
 export class AuthService {
   private apiUrl = environment.apiUrl;
 
+  private platformId = inject(PLATFORM_ID);
+  private document = inject(DOCUMENT);
   private http = inject(HttpClient);
   private userState = inject(UserState);
 
@@ -90,7 +93,10 @@ export class AuthService {
   }));
 
   checkSession(): Promise<void> {
-    if (!document.cookie.includes('Session')) {
+    if (!isPlatformBrowser(this.platformId))
+      return Promise.resolve();
+    
+    if (!this.document.cookie.includes('Session')) {
       return Promise.resolve(void 0);
     }
 

@@ -8,7 +8,7 @@ export const pageTitle = (title: string) => `${title} • CodeWithMixx`;
 
 export const routes: Routes = [
   {
-    path: '',
+    path: 'auth',
     canActivate: [guestGuard],
     loadComponent: () => import('@layouts/auth/auth-layout/auth-layout').then((c) => c.AuthLayout),
     children: [

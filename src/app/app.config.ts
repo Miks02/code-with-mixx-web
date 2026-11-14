@@ -12,6 +12,7 @@ import { AuthService } from '@core/services/auth-service';
 import { authInterceptor } from '@core/interceptors/auth-interceptor';
 import { timeZoneInterceptor } from '@core/interceptors/time-zone-interceptor';
 import { httpErrorInterceptor } from '@core/interceptors/http-error-interceptor';
+import { provideClientHydration } from '@angular/platform-browser';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -35,5 +36,6 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(
       withInterceptors([timeZoneInterceptor, httpErrorInterceptor, authInterceptor]),
     ),
+    provideClientHydration(),
   ],
 };
