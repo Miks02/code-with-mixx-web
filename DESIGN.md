@@ -62,6 +62,8 @@ The site should feel personal and calm, like one instructor's own site, not a Sa
 - Before building a search field, filter, sort menu, slider, skeleton, spinner or stat tile, use the one in `shared/components/`.
 - Loading states use `app-skeleton` in the shape of the final content, not a spinner in an empty box.
 - Icons come from `@ng-icons` (Font Awesome solid), registered per component.
+- A sequence of steps over time is a timeline, not a stack of cards: an `ol` with a quiet left line (`border-l border-emerald-700/40`), a small square marker per step (`size-3 rounded-sm bg-emerald-400`, `bg-amber-500` only on the current step), a short label column and the title with text next to it, as in `my-story.html`. A shell command above it (`$ git log ...`) counts as code and may use `font-mono`.
+- A person is introduced with one profile panel (`rounded-2xl bg-emerald-900 shadow-2xl`): a square portrait flush to the top, then name, role and a `dl` of facts split by a divider. Lists of technologies are plain text, not pills.
 
 ## What not to do
 
