@@ -61,7 +61,7 @@ export class AuthService {
 
   logoutAllMutation = injectMutation<void, void, void>(() => ({
     mutationFn: () => lastValueFrom(this.http.post<void>(`${this.apiUrl}/auth/logout-all`, {})),
-    onSettled: () => (window.location.href = '/login'),
+    onSettled: () => (window.location.href = '/auth/login'),
   }));
 
   getResetPasswordTokenMutation = injectMutation<void, ProblemDetails, ForgotPasswordRequest>(
