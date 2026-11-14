@@ -2,19 +2,20 @@ import { Component, inject, input, output } from '@angular/core';
 import { AuthService } from '@core/services/auth-service';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
-    faSolidArrowLeftLong,
-    faSolidArrowRightFromBracket,
-    faSolidBook,
-    faSolidCalendar,
-    faSolidChartArea,
-    faSolidFile,
-    faSolidGear,
-    faSolidUserGraduate,
+  faSolidArrowLeftLong,
+  faSolidArrowRightFromBracket,
+  faSolidBook,
+  faSolidCalendar,
+  faSolidChartArea,
+  faSolidFile,
+  faSolidGear,
+  faSolidUserGraduate,
 } from '@ng-icons/font-awesome/solid';
 import { SidebarLink } from '../sidebar-link/sidebar-link';
+import { RouterLink } from '@angular/router';
 
 @Component({
-  imports: [SidebarLink, NgIcon],
+  imports: [SidebarLink, NgIcon, RouterLink],
   providers: [
     provideIcons({
       faSolidChartArea,

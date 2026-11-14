@@ -1,5 +1,5 @@
 import { HttpClient, HttpContext, HttpContextToken } from '@angular/common/http';
-import { computed, inject, Service, signal } from '@angular/core';
+import { computed, inject, PLATFORM_ID, Service, signal } from '@angular/core';
 import { injectMutation } from '@tanstack/angular-query-experimental';
 import { catchError, finalize, lastValueFrom, map, Observable, of, shareReplay, tap } from 'rxjs';
 import { environment } from '@environments/environment';
@@ -10,12 +10,15 @@ import { ForgotPasswordRequest } from '@features/auth/models/forgot-password-req
 import { ResetPasswordRequest } from '@features/auth/models/reset-password-request';
 import { AccountActivationRequest } from '@features/auth/models/account-activation-request';
 import { UserState } from './user-state';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 
 export const SKIP_AUTH_RETRY = new HttpContextToken<boolean>(() => false);
 @Service()
 export class AuthService {
   private apiUrl = environment.apiUrl;
 
+  private platformId = inject(PLATFORM_ID);
+  private document = inject(DOCUMENT);
   private http = inject(HttpClient);
   private userState = inject(UserState);
 
@@ -40,7 +43,7 @@ export class AuthService {
     mutationFn: () => lastValueFrom(this.http.post<void>(`${this.apiUrl}/auth/logout`, {})),
     onSettled: () => {
       this.clearSessionCookie();
-      window.location.href = '/login';
+      window.location.href = '/auth/login';
     },
   }));
 
@@ -51,14 +54,14 @@ export class AuthService {
       const currentSession = this.userState.activeSessions().find((s) => s.isCurrentSession);
       if (currentSession?.sessionId === res) {
         this.userState.updateUserDetails(null);
-        window.location.href = '/login';
+        window.location.href = '/auth/login';
       }
     },
   }));
 
   logoutAllMutation = injectMutation<void, void, void>(() => ({
     mutationFn: () => lastValueFrom(this.http.post<void>(`${this.apiUrl}/auth/logout-all`, {})),
-    onSettled: () => (window.location.href = '/login'),
+    onSettled: () => (window.location.href = '/auth/login'),
   }));
 
   getResetPasswordTokenMutation = injectMutation<void, ProblemDetails, ForgotPasswordRequest>(
@@ -90,7 +93,9 @@ export class AuthService {
   }));
 
   checkSession(): Promise<void> {
-    if (!document.cookie.includes('Session')) {
+    if (!isPlatformBrowser(this.platformId)) return Promise.resolve();
+
+    if (!this.document.cookie.includes('Session')) {
       return Promise.resolve(void 0);
     }
 
@@ -127,7 +132,7 @@ export class AuthService {
       .pipe(
         finalize(() => {
           this.clearSessionCookie();
-          window.location.href = '/login?expired=true';
+          window.location.href = '/auth/login?expired=true';
         }),
       )
       .subscribe();

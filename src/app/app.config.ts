@@ -4,7 +4,7 @@ import {
   provideAppInitializer,
   provideBrowserGlobalErrorListeners,
 } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withInMemoryScrolling, withRouterConfig } from '@angular/router';
 import { provideTanStackQuery, QueryClient } from '@tanstack/angular-query-experimental';
 import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
@@ -12,11 +12,18 @@ import { AuthService } from '@core/services/auth-service';
 import { authInterceptor } from '@core/interceptors/auth-interceptor';
 import { timeZoneInterceptor } from '@core/interceptors/time-zone-interceptor';
 import { httpErrorInterceptor } from '@core/interceptors/http-error-interceptor';
+import { provideClientHydration } from '@angular/platform-browser';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideRouter(routes),
+    provideRouter(
+      routes,
+      withInMemoryScrolling({ scrollPositionRestoration: 'enabled', anchorScrolling: 'enabled' }),
+      // Without this a second click on the same nav link (same URL and fragment) is ignored,
+      // so it would not scroll back to the section.
+      withRouterConfig({ onSameUrlNavigation: 'reload' }),
+    ),
     provideAppInitializer(() => inject(AuthService).checkSession()),
     provideTanStackQuery(
       new QueryClient({
@@ -35,5 +42,6 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(
       withInterceptors([timeZoneInterceptor, httpErrorInterceptor, authInterceptor]),
     ),
+    provideClientHydration(),
   ],
 };

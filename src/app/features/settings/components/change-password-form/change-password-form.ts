@@ -67,7 +67,7 @@ export class ChangePasswordForm {
         if (dialogResult === DialogResult.Cancelled) return;
 
         await this.changePasswordMutation.mutateAsync(this.changePasswordForm().value());
-        window.location.href = '/login';
+        window.location.href = '/auth/login';
       } catch (err) {
         const message = getSettingsErrorMessage(err);
         if (message) this.toastService.showError(message);

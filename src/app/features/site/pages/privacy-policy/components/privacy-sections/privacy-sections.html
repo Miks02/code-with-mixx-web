@@ -1,0 +1,298 @@
+<ng-template #heading let-index>
+  <div class="flex items-baseline gap-4 3xl:gap-6">
+    <span class="text-xl font-bold text-emerald-300 tabular-nums 3xl:text-2xl" aria-hidden="true"
+      >0{{ index + 1 }}</span
+    >
+    <h2 class="text-3xl leading-tight font-bold text-white 3xl:text-4xl">
+      {{ toc[index].title }}
+    </h2>
+  </div>
+</ng-template>
+
+<section class="w-full bg-emerald-950 pb-16 lg:pb-24 3xl:pb-32">
+  <div
+    class="mx-auto grid w-full max-w-7xl gap-12 px-6 lg:grid-cols-[16rem_1fr] lg:gap-20 lg:px-10 3xl:max-w-[110rem] 3xl:grid-cols-[22rem_1fr] 3xl:gap-32"
+  >
+    <nav aria-label="Sadržaj" class="lg:sticky lg:top-28 lg:self-start">
+      <p class="font-semibold text-white 3xl:text-xl">Sadržaj</p>
+
+      <ol class="mt-4 border-l border-emerald-700/40 text-base 3xl:text-xl">
+        @for (item of toc; track item.id) {
+          <li>
+            <a
+              [routerLink]="[]"
+              [fragment]="item.id"
+              class="transition-200 -ml-px flex gap-3 border-l border-transparent py-1.5 pl-4 text-emerald-100/70 hover:border-emerald-400 hover:text-white"
+            >
+              <span class="tabular-nums" aria-hidden="true">0{{ $index + 1 }}</span>
+              {{ item.title }}
+            </a>
+          </li>
+        }
+      </ol>
+    </nav>
+
+    <div class="divide-y divide-emerald-700/40 text-base text-emerald-100 3xl:text-xl">
+      <section [id]="toc[0].id" class="pb-12 3xl:pb-16">
+        <ng-container *ngTemplateOutlet="heading; context: { $implicit: 0 }"></ng-container>
+
+        <div class="mt-5 max-w-2xl space-y-4 3xl:mt-7 3xl:max-w-4xl">
+          <p>
+            CodeWithMixx vodi jedna osoba, Milan Nikolić, kao fizičko lice. Ja odlučujem koji se
+            podaci prikupljaju i u koju svrhu, pa sam u smislu Zakona o zaštiti podataka o ličnosti
+            („Službeni glasnik RS“, br. 87/2018) rukovalac tvojim podacima.
+          </p>
+          <p>
+            Iza sajta nema tima ni posebnog lica za zaštitu podataka. Na svaku poruku odgovaram
+            lično, na adresi
+            <a
+              [href]="'mailto:' + email"
+              class="transition-200 font-semibold text-emerald-300 hover:text-white"
+              >{{ email }}</a
+            >.
+          </p>
+        </div>
+      </section>
+
+      <section [id]="toc[1].id" class="py-12 3xl:py-16">
+        <ng-container *ngTemplateOutlet="heading; context: { $implicit: 1 }"></ng-container>
+
+        <p class="mt-5 max-w-2xl 3xl:mt-7 3xl:max-w-4xl">
+          Zavisi od toga šta na sajtu radiš. Ako ga samo čitaš, o tebi ne ostaje ništa osim
+          tehničkih tragova iz poslednjeg reda.
+        </p>
+
+        <dl class="mt-8 divide-y divide-emerald-700/40 3xl:mt-10">
+          @for (group of dataGroups; track group.when) {
+            <div
+              class="grid gap-x-8 gap-y-2 py-6 first:pt-0 last:pb-0 sm:grid-cols-[11rem_1fr] 3xl:grid-cols-[15rem_1fr] 3xl:py-8"
+            >
+              <dt class="font-semibold text-emerald-300">{{ group.when }}</dt>
+              <dd class="max-w-2xl space-y-3 3xl:max-w-4xl">
+                @for (paragraph of group.paragraphs; track paragraph) {
+                  <p>{{ paragraph }}</p>
+                }
+                <p class="text-sm text-emerald-100/70 3xl:text-lg">
+                  <span class="font-semibold text-emerald-100">Pravni osnov:</span>
+                  {{ group.basis }}
+                </p>
+              </dd>
+            </div>
+          }
+        </dl>
+
+        <p class="mt-8 max-w-2xl 3xl:mt-10 3xl:max-w-4xl">
+          Ne tražim JMBG, adresu stanovanja, podatke o zdravlju ni bilo šta slično, i molim te da
+          takve stvari ne pišeš ni u poruci.
+        </p>
+      </section>
+
+      <section [id]="toc[2].id" class="py-12 3xl:py-16">
+        <ng-container *ngTemplateOutlet="heading; context: { $implicit: 2 }"></ng-container>
+
+        <p class="mt-5 max-w-2xl 3xl:mt-7 3xl:max-w-4xl">
+          Sajt koristi tri kolačića i sva tri nastaju tek kada se prijaviš. Ako samo čitaš sajt ili
+          pošalješ upit, ne dobijaš nijedan. Zato nema ni banera za pristanak: ovi kolačići su
+          neophodni da bi prijava radila i ne služe ničemu drugom.
+        </p>
+
+        <ul
+          class="mt-8 max-w-3xl divide-y divide-emerald-700/40 rounded-lg bg-emerald-900 px-5 shadow-lg sm:px-7 3xl:mt-10 3xl:max-w-5xl 3xl:px-9"
+        >
+          @for (cookie of cookies; track cookie.name) {
+            <li
+              class="grid gap-x-8 gap-y-2 py-5 sm:grid-cols-[9rem_1fr] 3xl:grid-cols-[12rem_1fr] 3xl:py-7"
+            >
+              <p class="font-mono font-semibold text-white">{{ cookie.name }}</p>
+              <div>
+                <p>{{ cookie.purpose }}</p>
+                <dl
+                  class="mt-2 flex flex-wrap gap-x-8 gap-y-1 text-sm text-emerald-100/70 3xl:text-lg"
+                >
+                  <div class="flex gap-2">
+                    <dt>Trajanje:</dt>
+                    <dd class="text-emerald-100">{{ cookie.duration }}</dd>
+                  </div>
+                  <div class="flex gap-2">
+                    <dt>Čitljiv iz JavaScript-a:</dt>
+                    <dd
+                      class="font-semibold"
+                      [class]="cookie.readableFromScript ? 'text-amber-400' : 'text-emerald-100'"
+                    >
+                      {{ cookie.readableFromScript ? 'Da' : 'Ne (HttpOnly)' }}
+                    </dd>
+                  </div>
+                </dl>
+              </div>
+            </li>
+          }
+        </ul>
+
+        <div class="mt-8 max-w-2xl space-y-4 3xl:mt-10 3xl:max-w-4xl">
+          <p>
+            <span class="font-mono text-white">Session</span> je jedini kolačić koji kod u
+            pregledaču može da pročita, i to je namerno. U njemu nema ničega: nema vrednost, ne
+            sadrži tvoj identitet ni token, pa onaj ko bi ga pročitao ne dobija ništa. Pravi tokeni
+            su u HttpOnly kolačićima do kojih JavaScript ne može da dođe.
+          </p>
+          <p>
+            Sva tri kolačića putuju samo preko HTTPS-a i brišu se kada se odjaviš. Sajt ne koristi
+            localStorage ni sessionStorage, a nema ni analitike, piksela ili reklamnih mreža.
+          </p>
+        </div>
+      </section>
+
+      <section [id]="toc[3].id" class="py-12 3xl:py-16">
+        <ng-container *ngTemplateOutlet="heading; context: { $implicit: 3 }"></ng-container>
+
+        <p class="mt-5 max-w-2xl 3xl:mt-7 3xl:max-w-4xl">
+          Podatke ne prodajem i ne dajem nikome radi marketinga. Da bi platforma radila, oslanjam se
+          na četiri servisa i svaki dobija samo ono što mu treba za taj posao.
+        </p>
+
+        <dl class="mt-8 divide-y divide-emerald-700/40 3xl:mt-10">
+          @for (processor of processors; track processor.name) {
+            <div
+              class="grid gap-x-8 gap-y-2 py-6 first:pt-0 last:pb-0 sm:grid-cols-[11rem_1fr] 3xl:grid-cols-[15rem_1fr] 3xl:py-8"
+            >
+              <dt>
+                <span class="block font-semibold text-white">{{ processor.name }}</span>
+                <span class="block text-sm text-emerald-100/70 3xl:text-lg">{{
+                  processor.location
+                }}</span>
+              </dt>
+              <dd class="max-w-2xl space-y-1 3xl:max-w-4xl">
+                <p>{{ processor.role }}</p>
+                <p class="text-sm text-emerald-100/70 3xl:text-lg">
+                  <span class="font-semibold text-emerald-100">Dobija:</span>
+                  {{ processor.receives }}
+                </p>
+              </dd>
+            </div>
+          }
+        </dl>
+
+        <div class="mt-8 max-w-2xl space-y-4 3xl:mt-10 3xl:max-w-4xl">
+          <p>
+            Resend, Discord i Google su kompanije iz SAD, što znači da deo podataka napušta Srbiju.
+            Kod njih se podaci obrađuju prema njihovim pravilima o privatnosti i uz ugovorne
+            garancije koje daju korisnicima iz Evrope.
+          </p>
+          <p>
+            Mimo toga, podatke bih predao samo državnom organu koji ih zatraži na osnovu zakona.
+          </p>
+        </div>
+      </section>
+
+      <section [id]="toc[4].id" class="py-12 3xl:py-16">
+        <ng-container *ngTemplateOutlet="heading; context: { $implicit: 4 }"></ng-container>
+
+        <dl class="mt-8 divide-y divide-emerald-700/40 3xl:mt-10">
+          @for (item of retention; track item.subject) {
+            <div
+              class="grid gap-x-8 gap-y-2 py-6 first:pt-0 last:pb-0 sm:grid-cols-[11rem_1fr] 3xl:grid-cols-[15rem_1fr] 3xl:py-8"
+            >
+              <dt class="font-semibold text-emerald-300">{{ item.subject }}</dt>
+              <dd class="max-w-2xl 3xl:max-w-4xl">{{ item.rule }}</dd>
+            </div>
+          }
+        </dl>
+      </section>
+
+      <section [id]="toc[5].id" class="py-12 3xl:py-16">
+        <ng-container *ngTemplateOutlet="heading; context: { $implicit: 5 }"></ng-container>
+
+        <p class="mt-5 max-w-2xl 3xl:mt-7 3xl:max-w-4xl">
+          Podaci su tvoji, a zakon ti daje nekoliko konkretnih prava nad njima.
+        </p>
+
+        <ul class="mt-8 grid max-w-4xl gap-x-12 gap-y-7 sm:grid-cols-2 3xl:mt-10 3xl:max-w-6xl">
+          @for (right of rights; track right.title) {
+            <li>
+              <h3 class="font-semibold text-white">{{ right.title }}</h3>
+              <p class="mt-1">{{ right.description }}</p>
+            </li>
+          }
+        </ul>
+
+        <div class="mt-8 max-w-2xl space-y-4 3xl:mt-10 3xl:max-w-4xl">
+          <p>
+            Zahtev pošalji na
+            <a
+              [href]="'mailto:' + email"
+              class="transition-200 font-semibold text-emerald-300 hover:text-white"
+              >{{ email }}</a
+            >. Odgovaram najkasnije za 30 dana i to ne naplaćujem. Može se desiti da te zamolim da
+            potvrdiš identitet, da podatke ne bih poslao pogrešnoj osobi.
+          </p>
+          <p>
+            Ako smatraš da sa tvojim podacima ne postupam kako treba, imaš pravo na pritužbu
+            <a
+              href="https://www.poverenik.rs"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="transition-200 font-semibold text-emerald-300 hover:text-white"
+              >Povereniku za informacije od javnog značaja i zaštitu podataka o ličnosti</a
+            >. Bilo bi mi drago da prvo pišeš meni, jer ćemo to verovatno rešiti brže.
+          </p>
+        </div>
+      </section>
+
+      <section [id]="toc[6].id" class="py-12 3xl:py-16">
+        <ng-container *ngTemplateOutlet="heading; context: { $implicit: 6 }"></ng-container>
+
+        <ul class="mt-8 max-w-2xl divide-y divide-emerald-700/40 3xl:mt-10 3xl:max-w-4xl">
+          @for (safeguard of safeguards; track safeguard) {
+            <li class="py-3 first:pt-0 last:pb-0">{{ safeguard }}</li>
+          }
+        </ul>
+
+        <div class="mt-8 max-w-2xl space-y-4 3xl:mt-10 3xl:max-w-4xl">
+          <p>
+            Kako to izgleda u praksi možeš da pogledaš u kodu, koji je javan:
+            @for (repository of repositories; track repository.name) {
+              <a
+                [href]="repository.url"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="transition-200 font-semibold text-emerald-300 hover:text-white"
+                >{{ repository.name }}</a
+              >{{ $last ? '.' : ' i ' }}
+            }
+          </p>
+          <p>
+            Nijedan sistem nije neprobojan. Ako dođe do povrede koja može da ugrozi tvoje podatke,
+            javiću ti bez odlaganja i prijaviti je Povereniku.
+          </p>
+        </div>
+      </section>
+
+      <section [id]="toc[7].id" class="py-12 3xl:py-16">
+        <ng-container *ngTemplateOutlet="heading; context: { $implicit: 7 }"></ng-container>
+
+        <div class="mt-5 max-w-2xl space-y-4 3xl:mt-7 3xl:max-w-4xl">
+          <p>
+            Platforma je namenjena punoletnim osobama. Ako imaš manje od 18 godina, nemoj da šalješ
+            podatke preko forme, već neka mi se javi roditelj ili staratelj.
+          </p>
+          <p>Ako saznam da sam dobio podatke maloletne osobe bez njihovog znanja, obrisaću ih.</p>
+        </div>
+      </section>
+
+      <section [id]="toc[8].id" class="pt-12 3xl:pt-16">
+        <ng-container *ngTemplateOutlet="heading; context: { $implicit: 8 }"></ng-container>
+
+        <div class="mt-5 max-w-2xl space-y-4 3xl:mt-7 3xl:max-w-4xl">
+          <p>
+            Kada se platforma promeni, menja se i ovaj tekst, a datum poslednje izmene stoji na vrhu
+            strane. Pošto je kod javan, u repozitorijumu se vidi i svaka ranija verzija.
+          </p>
+          <p>
+            O većim promenama, na primer ako uvedem novi servis koji dobija tvoje podatke, javiću
+            mejlom svima koji imaju nalog.
+          </p>
+        </div>
+      </section>
+    </div>
+  </div>
+</section>

@@ -47,11 +47,11 @@ export class AccountActivation implements OnInit {
         };
         await this.activateAccountMutation.mutateAsync(request);
         this.toastService.showSuccess('Nalog je uspešno aktiviran. Sada se možeš prijaviti.');
-        await this.router.navigate(['/login']);
+        await this.router.navigate(['/auth/login']);
       } catch (err) {
         if (getErrorCode(err) === 'User.AlreadyActivated') {
           this.toastService.showInfo('Nalog je već aktiviran. Možeš se prijaviti.');
-          await this.router.navigate(['/login']);
+          await this.router.navigate(['/auth/login']);
           return [];
         }
         const message = getAuthErrorMessage(err);

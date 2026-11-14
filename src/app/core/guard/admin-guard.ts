@@ -6,5 +6,5 @@ export const adminGuard: CanActivateFn = () => {
   const userState = inject(UserState);
   const router = inject(Router);
 
-  return userState.isAdmin() || router.createUrlTree(['/login']);
+  return userState.isAdmin() || router.createUrlTree(['/auth/login']);
 };

@@ -1,10 +1,14 @@
 <div
   animate.enter="overlay-in"
   animate.leave="overlay-out"
-  class="fixed inset-0 z-1000 flex flex-col items-center justify-center gap-5 px-4 bg-emerald-950/75 backdrop-blur-sm"
+  [class]="blurClass()"
+  class="fixed inset-0 z-1000 flex flex-col items-center justify-center gap-5 px-4 bg-emerald-950/75"
   aria-live="assertive"
   aria-busy="true"
 >
+  <p class="text-white font-semibold text-5xl mb-4">
+    <span class="text-amber-500">Code</span>WithMixx
+  </p>
   <app-spinner size="xl" variant="light" [label]="message()" />
   <p class="text-lg font-semibold text-emerald-100 text-center animate-pulse">{{ message() }}</p>
 </div>

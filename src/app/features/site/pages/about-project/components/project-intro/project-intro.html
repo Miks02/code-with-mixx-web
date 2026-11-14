@@ -1,0 +1,58 @@
+<section class="w-full bg-emerald-950 pt-28 pb-12 lg:pt-32 lg:pb-16 3xl:pb-24">
+  <div
+    class="mx-auto grid w-full max-w-7xl gap-12 px-6 lg:grid-cols-[1.5fr_1fr] lg:items-end lg:gap-20 lg:px-10 3xl:max-w-[110rem] 3xl:gap-32"
+  >
+    <div>
+      <h1
+        class="text-5xl leading-tight font-bold text-white sm:text-6xl lg:text-7xl lg:leading-[1.15] 3xl:text-8xl"
+      >
+        O projektu
+        <span class="block text-emerald-300">i kodu iza njega</span>
+      </h1>
+
+      <p
+        class="mt-6 max-w-2xl text-lg text-emerald-50/90 sm:text-xl lg:text-2xl 3xl:mt-8 3xl:max-w-3xl 3xl:text-3xl"
+      >
+        <span class="font-semibold text-white"
+          ><span class="text-amber-500">Code</span>WithMixx</span
+        >
+        je platforma koju sam počeo da pravim kako bih olakšao posao kako sebi, tako i tebi.
+      </p>
+
+      <p class="mt-5 max-w-2xl text-base text-emerald-100 3xl:mt-7 3xl:max-w-3xl 3xl:text-xl">
+        Kao ljubitelj objektno orijentisanog programiranja, prirodno sam se odlučio za jedan od
+        najboljih tandema u razvoju modernih web aplikacija, a to su Angular i .NET. Ovde opisujem
+        od čega je napravljena i kako radi.
+      </p>
+    </div>
+
+    <aside class="rounded-2xl bg-emerald-900 p-6 shadow-2xl sm:p-8 3xl:p-10">
+      <h2 class="text-xl font-bold text-white 3xl:text-2xl">Kod je javan</h2>
+      <p class="mt-2 text-base text-emerald-100/70 3xl:text-xl">
+        Sve što ovde piše možeš da proveriš u repozitorijumima.
+      </p>
+
+      <ul class="mt-4 divide-y divide-emerald-700/40 text-base 3xl:text-xl">
+        @for (repository of repositories; track repository.name) {
+          <li class="py-4 last:pb-0">
+            <a
+              [href]="repository.url"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="transition-200 inline-flex items-center gap-3 font-semibold text-white hover:text-emerald-300"
+            >
+              <ng-icon name="faBrandGithub" class="shrink-0 text-xl" aria-hidden="true"></ng-icon>
+              {{ repository.name }}
+              <ng-icon
+                name="faSolidArrowUpRightFromSquare"
+                class="shrink-0 text-sm"
+                aria-hidden="true"
+              ></ng-icon>
+            </a>
+            <span class="mt-1 block text-emerald-100/70">{{ repository.description }}</span>
+          </li>
+        }
+      </ul>
+    </aside>
+  </div>
+</section>

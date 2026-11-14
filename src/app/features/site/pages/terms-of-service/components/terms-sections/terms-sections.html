@@ -1,0 +1,199 @@
+<ng-template #heading let-index>
+  <div class="flex items-baseline gap-4 3xl:gap-6">
+    <span class="text-xl font-bold text-emerald-300 tabular-nums 3xl:text-2xl" aria-hidden="true"
+      >0{{ index + 1 }}</span
+    >
+    <h2 class="text-3xl leading-tight font-bold text-white 3xl:text-4xl">
+      {{ toc[index].title }}
+    </h2>
+  </div>
+</ng-template>
+
+<ng-template #rules let-items>
+  <dl class="mt-8 divide-y divide-emerald-700/40 3xl:mt-10">
+    @for (item of items; track item.subject) {
+      <div
+        class="grid gap-x-8 gap-y-2 py-6 first:pt-0 last:pb-0 sm:grid-cols-[11rem_1fr] 3xl:grid-cols-[15rem_1fr] 3xl:py-8"
+      >
+        <dt class="font-semibold text-emerald-300">{{ item.subject }}</dt>
+        <dd class="max-w-2xl space-y-3 3xl:max-w-4xl">
+          @for (paragraph of item.paragraphs; track paragraph) {
+            <p>{{ paragraph }}</p>
+          }
+        </dd>
+      </div>
+    }
+  </dl>
+</ng-template>
+
+<section class="w-full bg-emerald-950 pb-16 lg:pb-24 3xl:pb-32">
+  <div
+    class="mx-auto grid w-full max-w-7xl gap-12 px-6 lg:grid-cols-[16rem_1fr] lg:gap-20 lg:px-10 3xl:max-w-[110rem] 3xl:grid-cols-[22rem_1fr] 3xl:gap-32"
+  >
+    <nav aria-label="Sadržaj" class="lg:sticky lg:top-28 lg:self-start">
+      <p class="font-semibold text-white 3xl:text-xl">Sadržaj</p>
+
+      <ol class="mt-4 border-l border-emerald-700/40 text-base 3xl:text-xl">
+        @for (item of toc; track item.id) {
+          <li>
+            <a
+              [routerLink]="[]"
+              [fragment]="item.id"
+              class="transition-200 -ml-px flex gap-3 border-l border-transparent py-1.5 pl-4 text-emerald-100/70 hover:border-emerald-400 hover:text-white"
+            >
+              <span class="tabular-nums" aria-hidden="true">0{{ $index + 1 }}</span>
+              {{ item.title }}
+            </a>
+          </li>
+        }
+      </ol>
+    </nav>
+
+    <div class="divide-y divide-emerald-700/40 text-base text-emerald-100 3xl:text-xl">
+      <section [id]="toc[0].id" class="pb-12 3xl:pb-16">
+        <ng-container *ngTemplateOutlet="heading; context: { $implicit: 0 }"></ng-container>
+
+        <div class="mt-5 max-w-2xl space-y-4 3xl:mt-7 3xl:max-w-4xl">
+          <p>
+            CodeWithMixx vodi jedna osoba, Milan Nikolić, kao fizičko lice. Držim privatne časove
+            programiranja i pomažem studentima oko seminarskih i diplomskih radova. Ovi uslovi su
+            dogovor između tebe i mene o tome kako ta saradnja izgleda.
+          </p>
+          <p>
+            Čitanje sajta i slanje upita te ni na šta ne obavezuje. Uslovi počinju da važe kada se
+            dogovorimo oko prvog časa ili rada, i tada smatram da si ih pročitao i da se sa njima
+            slažeš.
+          </p>
+          <p>
+            Platforma je namenjena punoletnim osobama. Ako imaš manje od 18 godina, časove u tvoje
+            ime dogovara roditelj ili staratelj.
+          </p>
+        </div>
+      </section>
+
+      <section [id]="toc[1].id" class="py-12 3xl:py-16">
+        <ng-container *ngTemplateOutlet="heading; context: { $implicit: 1 }"></ng-container>
+
+        <div class="mt-5 max-w-2xl space-y-4 3xl:mt-7 3xl:max-w-4xl">
+          <p>
+            Registracija nije otvorena. Nalog ti otvaram ja kada se dogovorimo, a na mejl ti stiže
+            pozivnica koja važi 7 dana i preko koje biraš lozinku. Lozinku čuvaj samo za sebe i javi
+            mi ako posumnjaš da je još neko došao do nje.
+          </p>
+          <p>
+            Studentski panel, u kom ćeš moći da se prijaviš i direktno pratiš i menjaš svoje
+            podatke, časove i radove, još je u izradi. Dok ne bude gotov, sve podatke čuvam i vodim
+            ja: unosim rezervacije, termine, uplate i napredak na radovima.
+          </p>
+          <p>
+            To znači da za sada sve ide preko mene. Ako želiš da vidiš šta je o tebi upisano, da se
+            nešto ispravi ili obriše, piši mi na
+            <a
+              [href]="'mailto:' + email"
+              class="transition-200 font-semibold text-emerald-300 hover:text-white"
+              >{{ email }}</a
+            >. Koje podatke čuvam i koliko dugo piše u
+            <a
+              routerLink="/privacy-policy"
+              class="transition-200 font-semibold text-emerald-300 hover:text-white"
+              >politici privatnosti</a
+            >.
+          </p>
+          <p>
+            Nalog mogu da deaktiviram ako se koristi za pokušaj zloupotrebe platforme ili tuđih
+            podataka.
+          </p>
+        </div>
+      </section>
+
+      <section [id]="toc[2].id" class="py-12 3xl:py-16">
+        <ng-container *ngTemplateOutlet="heading; context: { $implicit: 2 }"></ng-container>
+        <ng-container *ngTemplateOutlet="rules; context: { $implicit: classRules }"></ng-container>
+      </section>
+
+      <section [id]="toc[3].id" class="py-12 3xl:py-16">
+        <ng-container *ngTemplateOutlet="heading; context: { $implicit: 3 }"></ng-container>
+
+        <p class="mt-5 max-w-2xl 3xl:mt-7 3xl:max-w-4xl">
+          Termin koji zakažeš čuvam za tebe i ne dajem ga nikom drugom. Zato je važno da mi javiš na
+          vreme ako ne možeš da dođeš.
+        </p>
+
+        <ng-container
+          *ngTemplateOutlet="rules; context: { $implicit: cancellationRules }"
+        ></ng-container>
+      </section>
+
+      <section [id]="toc[4].id" class="py-12 3xl:py-16">
+        <ng-container *ngTemplateOutlet="heading; context: { $implicit: 4 }"></ng-container>
+
+        <dl class="mt-8 divide-y divide-emerald-700/40 3xl:mt-10">
+          @for (price of prices; track price.service) {
+            <div
+              class="grid gap-x-8 gap-y-2 py-6 first:pt-0 last:pb-0 sm:grid-cols-[11rem_1fr] 3xl:grid-cols-[15rem_1fr] 3xl:py-8"
+            >
+              <dt class="font-semibold text-emerald-300">{{ price.service }}</dt>
+              <dd class="max-w-2xl space-y-1 3xl:max-w-4xl">
+                <p class="font-semibold text-white">{{ price.amount }}</p>
+                <p>{{ price.payment }}</p>
+              </dd>
+            </div>
+          }
+        </dl>
+
+        <div class="mt-8 max-w-2xl space-y-4 3xl:mt-10 3xl:max-w-4xl">
+          <p>
+            Plaćanje se vrši isključivo uplatom na račun, nakon što se dogovorimo. Preko sajta se ne
+            plaća ništa, pa ovde nikada ne unosiš podatke o kartici ili računu.
+          </p>
+          <p>
+            Svaku uplatu upisujem uz tvoju rezervaciju. Za ono što smo već dogovorili važi cena iz
+            dogovora, i kada se cenovnik na sajtu kasnije promeni.
+          </p>
+        </div>
+      </section>
+
+      <section [id]="toc[5].id" class="py-12 3xl:py-16">
+        <ng-container *ngTemplateOutlet="heading; context: { $implicit: 5 }"></ng-container>
+        <ng-container *ngTemplateOutlet="rules; context: { $implicit: refundRules }"></ng-container>
+
+        <p class="mt-8 max-w-2xl 3xl:mt-10 3xl:max-w-4xl">
+          Povraćaj tražiš porukom ili mejlom, a novac vraćam uplatom na tvoj račun.
+        </p>
+      </section>
+
+      <section [id]="toc[6].id" class="py-12 3xl:py-16">
+        <ng-container *ngTemplateOutlet="heading; context: { $implicit: 6 }"></ng-container>
+        <ng-container
+          *ngTemplateOutlet="rules; context: { $implicit: projectRules }"
+        ></ng-container>
+      </section>
+
+      <section [id]="toc[7].id" class="py-12 3xl:py-16">
+        <ng-container *ngTemplateOutlet="heading; context: { $implicit: 7 }"></ng-container>
+
+        <ul class="mt-8 max-w-2xl divide-y divide-emerald-700/40 3xl:mt-10 3xl:max-w-4xl">
+          @for (disclaimer of disclaimers; track disclaimer) {
+            <li class="py-3 first:pt-0 last:pb-0">{{ disclaimer }}</li>
+          }
+        </ul>
+      </section>
+
+      <section [id]="toc[8].id" class="pt-12 3xl:pt-16">
+        <ng-container *ngTemplateOutlet="heading; context: { $implicit: 8 }"></ng-container>
+
+        <div class="mt-5 max-w-2xl space-y-4 3xl:mt-7 3xl:max-w-4xl">
+          <p>
+            Kada se promeni način rada ili cenovnik, menja se i ovaj tekst, a datum poslednje izmene
+            stoji na vrhu strane. Kada studentski panel bude pušten u rad, odeljak 02 će biti
+            napisan iznova.
+          </p>
+          <p>
+            Izmene ne važe unazad: za časove i radove koje smo već dogovorili ostaju uslovi koji su
+            važili u trenutku dogovora. O većim promenama javiću mejlom svima koji imaju nalog.
+          </p>
+        </div>
+      </section>
+    </div>
+  </div>
+</section>
