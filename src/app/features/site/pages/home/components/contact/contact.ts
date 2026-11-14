@@ -17,6 +17,7 @@ import {
   createInquiryForm,
   InquiryType,
   InquiryService,
+  getInquiryErrorMessage,
 } from '@features/inquiries';
 import { ToastService } from '@core/services/toast-service';
 
@@ -87,11 +88,18 @@ export class Contact {
     return submit(this.contactForm, async () => {
       try {
         await this.sendInquiryMutation.mutateAsync(this.contactModel());
+        
+        this.contactModel.set(createEmptyInquiryRequest());
+        this.contactForm().reset();
+        
         this.toastService.showSuccess('Tvoj upit je uspešno poslat.');
-      } catch {
-        this.toastService.showError(
-          'Došlo je do greške prilikom slanja upita. Pokušaj ponovo kasnije.',
-        );
+        
+        return [];
+      } catch (err) {
+        const message = getInquiryErrorMessage(err);
+        if (message) this.toastService.showError(message);
+        
+        return;
       }
     });
   }

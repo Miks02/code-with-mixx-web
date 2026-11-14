@@ -10,7 +10,7 @@ export class InquiryService {
   private apiUrl = environment.apiUrl;
 
   private http = inject(HttpClient);
-  
+
   sendInquiryMutation = injectMutation(() => ({
     mutationFn: (request: CreateInquiryRequest) =>
       lastValueFrom(this.http.post(`${this.apiUrl}/inquiries`, request)),
