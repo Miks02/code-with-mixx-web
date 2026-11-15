@@ -8,48 +8,6 @@ export const pageTitle = (title: string) => `${title} • CodeWithMixx`;
 
 export const routes: Routes = [
   {
-    path: '',
-    loadComponent: () => import('@layouts/site/site-layout/site-layout').then((c) => c.SiteLayout),
-    children: [
-      {
-        path: '',
-        redirectTo: 'home',
-        pathMatch: 'full',
-      },
-      {
-        title: pageTitle('Početna'),
-        path: 'home',
-        loadComponent: () => import('@features/site/pages/home/home').then((c) => c.Home),
-      },
-      {
-        title: pageTitle('Predmeti'),
-        path: 'subjects',
-        loadComponent: () =>
-          import('@features/site/pages/subjects/subjects').then((c) => c.Subjects),
-      },
-      {
-        title: pageTitle('O projektu'),
-        path: 'about-project',
-        loadComponent: () =>
-          import('@features/site/pages/about-project/about-project').then((c) => c.AboutProject),
-      },
-      {
-        title: pageTitle('Politika privatnosti'),
-        path: 'privacy-policy',
-        loadComponent: () =>
-          import('@features/site/pages/privacy-policy/privacy-policy').then((c) => c.PrivacyPolicy),
-      },
-      {
-        title: pageTitle('Uslovi korišćenja'),
-        path: 'terms-of-service',
-        loadComponent: () =>
-          import('@features/site/pages/terms-of-service/terms-of-service').then(
-            (c) => c.TermsOfService,
-          ),
-      },
-    ],
-  },
-  {
     path: 'auth',
     canActivate: [guestGuard],
     loadComponent: () => import('@layouts/auth/auth-layout/auth-layout').then((c) => c.AuthLayout),
@@ -197,6 +155,53 @@ export const routes: Routes = [
           import('@features/settings/pages/settings-page/settings-page').then(
             (c) => c.SettingsPage,
           ),
+      },
+    ],
+  },
+  {
+    path: '',
+    loadComponent: () => import('@layouts/site/site-layout/site-layout').then((c) => c.SiteLayout),
+    children: [
+      {
+        path: 'home',
+        redirectTo: '',
+        pathMatch: 'full',
+      },
+      {
+        title: pageTitle('Početna'),
+        path: '',
+        loadComponent: () => import('@features/site/pages/home/home').then((c) => c.Home),
+      },
+      {
+        title: pageTitle('Predmeti'),
+        path: 'subjects',
+        loadComponent: () =>
+          import('@features/site/pages/subjects/subjects').then((c) => c.Subjects),
+      },
+      {
+        title: pageTitle('O projektu'),
+        path: 'about-project',
+        loadComponent: () =>
+          import('@features/site/pages/about-project/about-project').then((c) => c.AboutProject),
+      },
+      {
+        title: pageTitle('Politika privatnosti'),
+        path: 'privacy-policy',
+        loadComponent: () =>
+          import('@features/site/pages/privacy-policy/privacy-policy').then((c) => c.PrivacyPolicy),
+      },
+      {
+        title: pageTitle('Uslovi korišćenja'),
+        path: 'terms-of-service',
+        loadComponent: () =>
+          import('@features/site/pages/terms-of-service/terms-of-service').then(
+            (c) => c.TermsOfService,
+          ),
+      },
+      {
+        title: pageTitle('Stranica nije pronađena'),
+        path: '**',
+        loadComponent: () => import('@core/components/not-found/not-found').then((c) => c.NotFound),
       },
     ],
   },
