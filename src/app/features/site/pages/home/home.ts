@@ -1,5 +1,4 @@
-import { Component, inject } from '@angular/core';
-import { Meta } from '@angular/platform-browser';
+import { Component } from '@angular/core';
 import { Hero } from './components/hero/hero';
 import { AboutServices } from './components/about-services/about-services';
 import { MyStory } from './components/my-story/my-story';
@@ -14,12 +13,4 @@ import { Contact } from './components/contact/contact';
   styleUrl: './home.css',
   templateUrl: './home.html',
 })
-export class Home {
-  constructor() {
-    inject(Meta).updateTag({
-      name: 'description',
-      content:
-        'Online privatni časovi programiranja i IT predmeta za studente: C, Java, C#, Python, OOP, web i baze podataka, uz pomoć oko seminarskih i diplomskih radova.',
-    });
-  }
-}
+export class Home {}

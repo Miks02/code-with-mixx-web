@@ -170,29 +170,49 @@ export const routes: Routes = [
       {
         title: pageTitle('Početna'),
         path: '',
+        data: {
+          description:
+            'Online privatni časovi programiranja i IT predmeta za studente: C, Java, C#, Python, OOP, web i baze podataka, uz pomoć oko seminarskih i diplomskih radova.',
+        },
         loadComponent: () => import('@features/site/pages/home/home').then((c) => c.Home),
       },
       {
         title: pageTitle('Predmeti'),
         path: 'subjects',
+        data: {
+          description:
+            'Spisak predmeta iz kojih držim privatne časove: programiranje u C-u, Javi, C#-u i Pythonu, objektno orijentisano programiranje, web razvoj i baze podataka, sa temama koje prolazimo.',
+        },
         loadComponent: () =>
           import('@features/site/pages/subjects/subjects').then((c) => c.Subjects),
       },
       {
         title: pageTitle('O projektu'),
         path: 'about-project',
+        data: {
+          description:
+            'Kako je napravljen CodeWithMixx: Angular 22 sa SSR-om, ASP.NET Core na .NET 10 i PostgreSQL. Arhitektura, prijava, obrada grešaka i javni kod na GitHubu.',
+        },
         loadComponent: () =>
           import('@features/site/pages/about-project/about-project').then((c) => c.AboutProject),
       },
       {
         title: pageTitle('Politika privatnosti'),
         path: 'privacy-policy',
+        data: {
+          description:
+            'Koje podatke CodeWithMixx prikuplja, zašto, koliko dugo ih čuva, koje kolačiće koristi i kako možeš da ih vidiš, ispraviš ili obrišeš.',
+        },
         loadComponent: () =>
           import('@features/site/pages/privacy-policy/privacy-policy').then((c) => c.PrivacyPolicy),
       },
       {
         title: pageTitle('Uslovi korišćenja'),
         path: 'terms-of-service',
+        data: {
+          description:
+            'Kako se na CodeWithMixx zakazuju, otkazuju i plaćaju časovi i radovi, kada se novac vraća i ko vodi tvoj nalog dok studentski panel ne bude gotov.',
+        },
         loadComponent: () =>
           import('@features/site/pages/terms-of-service/terms-of-service').then(
             (c) => c.TermsOfService,
