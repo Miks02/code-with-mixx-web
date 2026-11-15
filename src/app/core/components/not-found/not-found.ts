@@ -5,6 +5,7 @@ import {
   DestroyRef,
   ElementRef,
   inject,
+  RESPONSE_INIT,
   viewChild,
 } from '@angular/core';
 import { Router } from '@angular/router';
@@ -29,10 +30,18 @@ export class NotFound {
 
   private fogRef = viewChild.required<ElementRef<HTMLDivElement>>('fog');
 
+  private responseInit = inject(RESPONSE_INIT, { optional: true });
+
+  previousNavigation = this.router.lastSuccessfulNavigation()?.previousNavigation;
+  backButtonTitle = this.previousNavigation ? 'Nazad' : 'Početna';
+
   constructor() {
+    if (this.responseInit) {
+      this.responseInit.status = 404;
+    }
+    
     THREE.ColorManagement.enabled = false;
 
-    // Same fog as the home hero. Browser-only, so it starts after the first render.
     afterNextRender(() => {
       const effect = FOG({
         el: this.fogRef().nativeElement,
@@ -55,11 +64,8 @@ export class NotFound {
     });
   }
 
-  // Going back only makes sense when the visitor got here from another page of the site.
-  // Someone arriving straight from a search result or an old link would leave the site,
-  // so they go to the home page instead.
   goBack(): void {
-    if (this.router.lastSuccessfulNavigation()?.previousNavigation) {
+    if (this.previousNavigation) {
       this.location.back();
     } else {
       this.router.navigateByUrl('/');
