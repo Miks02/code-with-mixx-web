@@ -8,6 +8,7 @@ import {
   RESPONSE_INIT,
   viewChild,
 } from '@angular/core';
+import { Meta } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { provideIcons } from '@ng-icons/core';
 import { faSolidArrowLeft } from '@ng-icons/font-awesome/solid';
@@ -20,7 +21,6 @@ import FOG from 'vanta/dist/vanta.fog.min';
   providers: [provideIcons({ faSolidArrowLeft })],
   selector: 'app-not-found',
   host: { class: 'flex flex-1 flex-col' },
-  styleUrl: './not-found.css',
   templateUrl: './not-found.html',
 })
 export class NotFound {
@@ -39,7 +39,11 @@ export class NotFound {
     if (this.responseInit) {
       this.responseInit.status = 404;
     }
-    
+
+    const meta = inject(Meta);
+    meta.updateTag({ name: 'robots', content: 'noindex' });
+    this.destroyRef.onDestroy(() => meta.removeTag("name='robots'"));
+
     THREE.ColorManagement.enabled = false;
 
     afterNextRender(() => {
