@@ -1,0 +1,69 @@
+<div class="bg-emerald-950/80 backdrop-blur-xl rounded-lg shadow-lg p-4 flex flex-col gap-4">
+  @if (isPending()) {
+    <div class="flex items-center gap-3">
+      <app-skeleton variant="circular" width="3.5rem" />
+      <div class="flex flex-col gap-2 flex-1">
+        <app-skeleton width="60%" height="1.25rem" />
+        <app-skeleton width="30%" />
+      </div>
+    </div>
+    <div class="flex flex-col gap-3">
+      @for (row of skeletonRows; track $index) {
+        <app-skeleton width="80%" />
+      }
+    </div>
+    <app-skeleton height="5rem" />
+  } @else if (student(); as student) {
+    <div class="flex items-center gap-3 min-w-0">
+      <div class="flex justify-center items-center rounded-full h-14 w-14 shrink-0 bg-emerald-500">
+        <span class="text-lg font-semibold text-emerald-950">{{ initials() }}</span>
+      </div>
+      <div class="flex flex-col gap-1 min-w-0">
+        <h1 class="text-2xl font-bold text-white truncate">{{ fullName() }}</h1>
+        <div class="flex flex-wrap items-center gap-2">
+          <span
+            class="text-xs font-semibold px-2 py-1 rounded-full shrink-0"
+            [class]="status()?.classes"
+            >{{ status()?.label }}</span
+          >
+          @if (student.accountStatus === AccountStatus.Deleted && deletedAtLabel()) {
+            <span class="text-sm font-semibold text-red-300">Obrisan {{ deletedAtLabel() }}</span>
+          }
+        </div>
+      </div>
+    </div>
+
+    <dl class="flex flex-col gap-3">
+      @for (row of infoRows(); track row.label) {
+        <div class="flex items-center gap-3 min-w-0">
+          <ng-icon [name]="row.icon" class="text-emerald-400! self-center! shrink-0"></ng-icon>
+          <div class="flex flex-col min-w-0">
+            <dt class="text-xs text-emerald-100/70">{{ row.label }}</dt>
+            <dd class="text-sm text-emerald-100 truncate">{{ row.value }}</dd>
+          </div>
+        </div>
+      }
+    </dl>
+
+    <div class="flex flex-col gap-2 border-t border-emerald-700/40 pt-4">
+      <h2 class="text-emerald-100 font-semibold">Finansije</h2>
+      <div class="flex justify-between gap-3 text-sm">
+        <span class="text-emerald-100/70">Ukupna cena</span>
+        <span class="font-semibold text-emerald-100">{{ totalPrice() }}</span>
+      </div>
+      <div class="flex justify-between gap-3 text-sm">
+        <span class="text-emerald-100/70">Plaćeno</span>
+        <span class="font-semibold text-emerald-100">{{ totalPaid() }}</span>
+      </div>
+      <div class="flex justify-between items-end gap-3 rounded-lg bg-emerald-900/80 px-3 py-2">
+        <span class="text-sm text-emerald-100/70">Preostalo za uplatu</span>
+        <span
+          class="text-xl font-bold"
+          [class.text-amber-400]="hasRemaining()"
+          [class.text-emerald-100]="!hasRemaining()"
+          >{{ totalRemaining() }}</span
+        >
+      </div>
+    </div>
+  }
+</div>
