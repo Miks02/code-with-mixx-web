@@ -43,6 +43,8 @@ export class SiteLayout {
       .subscribe((event) => {
         const page = this.deepestRoute(this.router.routerState.snapshot.root);
 
+        this.seoService.setStructuredData(page.data['structuredData']);
+
         if (page.routeConfig?.path === '**') {
           this.seoService.clearPageUrl();
         } else {

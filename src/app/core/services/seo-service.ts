@@ -21,6 +21,24 @@ export class SeoService {
     this.meta.updateTag({ property: 'og:image:alt', content: 'CodeWithMixx logo' });
   }
 
+  setStructuredData(data: object | undefined): void {
+    let script = this.document.head.querySelector<HTMLScriptElement>(
+      'script[type="application/ld+json"]',
+    );
+
+    if (!data) {
+      script?.remove();
+      return;
+    }
+
+    if (!script) {
+      script = this.document.createElement('script');
+      script.type = 'application/ld+json';
+      this.document.head.appendChild(script);
+    }
+    script.textContent = JSON.stringify(data).replace(/</g, '\\u003c');
+  }
+
   clearPageUrl(): void {
     this.document.head.querySelector('link[rel="canonical"]')?.remove();
     this.meta.removeTag("property='og:url'");
