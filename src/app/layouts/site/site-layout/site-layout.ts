@@ -11,6 +11,8 @@ import { Footer } from '../footer/footer';
 @Component({
   imports: [RouterOutlet, Navbar, Footer],
   selector: 'app-site-layout',
+  // A full-height column, so the footer sits at the bottom even when the page is short or empty.
+  host: { class: 'flex min-h-dvh flex-col' },
   styleUrl: './site-layout.css',
   templateUrl: './site-layout.html',
 })
