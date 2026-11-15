@@ -18,7 +18,7 @@ export class SubjectCatalogService {
         'Krećemo od nule: šta je promenljiva, kako radi petlja i kako da zadatak sa papira pretvoriš u program. Vežbamo na zadacima kakvi dolaze na kolokvijumu i ispitu.',
       topics: ['Promenljive i tipovi', 'Grananja i petlje', 'Funkcije', 'Nizovi', 'Pokazivači'],
       itsCourses: [],
-      image: 'C-programming.jpg',
+      image: 'subjects/c-programming.webp',
     },
     {
       id: 'object-oriented-programming',
@@ -28,7 +28,7 @@ export class SubjectCatalogService {
         'Klase i objekti prestaju da budu apstrakcija kada ih primeniš na konkretnom primeru. Radimo u jeziku koji koristiš na fakultetu.',
       topics: ['Klase i objekti', 'Nasleđivanje', 'Polimorfizam', 'Interfejsi', 'Izuzeci'],
       itsCourses: [],
-      image: 'OOP.png',
+      image: 'subjects/oop.webp',
     },
     {
       id: 'java',
@@ -38,7 +38,7 @@ export class SubjectCatalogService {
         'Od prve klase do programa koji čita fajlove i radi sa kolekcijama. Prolazimo i ono na čemu se na ispitu najčešće gube poeni.',
       topics: ['Sintaksa i tipovi', 'Kolekcije', 'Izuzeci', 'Rad sa fajlovima', 'Generički tipovi'],
       itsCourses: ['Internet programerski alati'],
-      image: 'java.png',
+      image: 'subjects/java.webp',
     },
     {
       id: 'csharp-dotnet',
@@ -48,7 +48,7 @@ export class SubjectCatalogService {
         'Jezik i platforma na kojima je napisan i server ovog sajta. Radimo konzolne i desktop aplikacije, a po potrebi i uvod u ASP.NET Core.',
       topics: ['Sintaksa i tipovi', 'LINQ', 'Kolekcije', 'Windows Forms', 'Entity Framework Core'],
       itsCourses: ['Praktikum primenjenog programiranja', 'Programerski alati'],
-      image: 'microsoft.net_.jpg',
+      image: 'subjects/dotnet.webp',
     },
     {
       id: 'python',
@@ -58,7 +58,7 @@ export class SubjectCatalogService {
         'Jezik sa najmanje ceremonije, pa je dobar i za prvi susret sa programiranjem i za brzo rešavanje zadataka. Tempo prilagođavamo tome odakle krećeš.',
       topics: ['Osnove jezika', 'Liste i rečnici', 'Funkcije i moduli', 'Rad sa fajlovima', 'OOP'],
       itsCourses: [],
-      image: 'python.jpg',
+      image: 'subjects/python.webp',
     },
     {
       id: 'web-frontend',
@@ -68,7 +68,7 @@ export class SubjectCatalogService {
         'Praviš stranice koje izgledaju dobro na telefonu i na monitoru i koje reaguju na ono što korisnik radi. Sve vežbamo na stranici koju sam gradiš.',
       topics: ['HTML', 'CSS i Flexbox/Grid', 'Responzivan dizajn', 'JavaScript', 'DOM i događaji'],
       itsCourses: ['Web programiranje'],
-      image: 'frontend.jpg',
+      image: 'subjects/frontend.webp',
     },
     {
       id: 'web-backend',
@@ -82,7 +82,7 @@ export class SubjectCatalogService {
         'Praktikum primenjenog programiranja',
         'Internet programerski alati',
       ],
-      image: 'backend.png',
+      image: 'subjects/backend.webp',
     },
     {
       id: 'angular-typescript',
@@ -92,7 +92,7 @@ export class SubjectCatalogService {
         'Ovaj sajt je napisan u Angularu, pa primere uzimamo iz stvarnog koda. Namenjeno je onima koji već znaju osnove JavaScript-a.',
       topics: ['TypeScript tipovi', 'Komponente', 'Signali', 'Rutiranje', 'Forme i HTTP'],
       itsCourses: [],
-      image: 'angular.jpg',
+      image: 'subjects/angular.webp',
     },
     {
       id: 'databases',
@@ -102,7 +102,7 @@ export class SubjectCatalogService {
         'Projektuješ šemu, pišeš upite i razumeš zašto je tabela podeljena baš tako. Od prvog SELECT upita do složenih spajanja.',
       topics: ['ER modeli', 'Normalizacija', 'SQL upiti', 'JOIN i agregacije', 'Indeksi'],
       itsCourses: ['Baze podataka', 'Napredne baze podataka'],
-      image: 'databases.jpg',
+      image: 'subjects/databases.webp',
     },
   ];
 
