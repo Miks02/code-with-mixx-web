@@ -3,52 +3,11 @@ import { authGuard } from '@core/guard/auth-guard';
 import { guestGuard } from '@core/guard/guest-guard';
 import { adminGuard } from '@core/guard/admin-guard';
 import { resetPasswordGuardGuard } from '@core/guard/reset-password-guard-guard';
+import { HOME_STRUCTURED_DATA } from '@features/site/utilities/home-structured-data';
 
 export const pageTitle = (title: string) => `${title} • CodeWithMixx`;
 
 export const routes: Routes = [
-  {
-    path: '',
-    loadComponent: () => import('@layouts/site/site-layout/site-layout').then((c) => c.SiteLayout),
-    children: [
-      {
-        path: '',
-        redirectTo: 'home',
-        pathMatch: 'full',
-      },
-      {
-        title: pageTitle('Početna'),
-        path: 'home',
-        loadComponent: () => import('@features/site/pages/home/home').then((c) => c.Home),
-      },
-      {
-        title: pageTitle('Predmeti'),
-        path: 'subjects',
-        loadComponent: () =>
-          import('@features/site/pages/subjects/subjects').then((c) => c.Subjects),
-      },
-      {
-        title: pageTitle('O projektu'),
-        path: 'about-project',
-        loadComponent: () =>
-          import('@features/site/pages/about-project/about-project').then((c) => c.AboutProject),
-      },
-      {
-        title: pageTitle('Politika privatnosti'),
-        path: 'privacy-policy',
-        loadComponent: () =>
-          import('@features/site/pages/privacy-policy/privacy-policy').then((c) => c.PrivacyPolicy),
-      },
-      {
-        title: pageTitle('Uslovi korišćenja'),
-        path: 'terms-of-service',
-        loadComponent: () =>
-          import('@features/site/pages/terms-of-service/terms-of-service').then(
-            (c) => c.TermsOfService,
-          ),
-      },
-    ],
-  },
   {
     path: 'auth',
     canActivate: [guestGuard],
@@ -197,6 +156,74 @@ export const routes: Routes = [
           import('@features/settings/pages/settings-page/settings-page').then(
             (c) => c.SettingsPage,
           ),
+      },
+    ],
+  },
+  {
+    path: '',
+    loadComponent: () => import('@layouts/site/site-layout/site-layout').then((c) => c.SiteLayout),
+    children: [
+      {
+        path: 'home',
+        redirectTo: '',
+        pathMatch: 'full',
+      },
+      {
+        title: pageTitle('Privatni časovi programiranja'),
+        path: '',
+        data: {
+          description:
+            'Online privatni časovi programiranja i IT predmeta za studente: C, Java, C#, Python, OOP, web i baze podataka, uz pomoć oko seminarskih i diplomskih radova.',
+          structuredData: HOME_STRUCTURED_DATA,
+        },
+        loadComponent: () => import('@features/site/pages/home/home').then((c) => c.Home),
+      },
+      {
+        title: pageTitle('Predmeti'),
+        path: 'subjects',
+        data: {
+          description:
+            'Predmeti iz kojih držim privatne časove: programiranje u C-u, Javi, C#-u i Pythonu, OOP, web razvoj i baze podataka, sa temama koje prolazimo.',
+        },
+        loadComponent: () =>
+          import('@features/site/pages/subjects/subjects').then((c) => c.Subjects),
+      },
+      {
+        title: pageTitle('O projektu'),
+        path: 'about-project',
+        data: {
+          description:
+            'Kako je napravljen CodeWithMixx: Angular 22 sa SSR-om, ASP.NET Core na .NET 10 i PostgreSQL. Arhitektura, prijava, obrada grešaka i javni kod na GitHubu.',
+        },
+        loadComponent: () =>
+          import('@features/site/pages/about-project/about-project').then((c) => c.AboutProject),
+      },
+      {
+        title: pageTitle('Politika privatnosti'),
+        path: 'privacy-policy',
+        data: {
+          description:
+            'Koje podatke CodeWithMixx prikuplja, zašto, koliko dugo ih čuva, koje kolačiće koristi i kako možeš da ih vidiš, ispraviš ili obrišeš.',
+        },
+        loadComponent: () =>
+          import('@features/site/pages/privacy-policy/privacy-policy').then((c) => c.PrivacyPolicy),
+      },
+      {
+        title: pageTitle('Uslovi korišćenja'),
+        path: 'terms-of-service',
+        data: {
+          description:
+            'Kako se na CodeWithMixx zakazuju, otkazuju i plaćaju časovi i radovi, kada se novac vraća i ko vodi tvoj nalog dok studentski panel ne bude gotov.',
+        },
+        loadComponent: () =>
+          import('@features/site/pages/terms-of-service/terms-of-service').then(
+            (c) => c.TermsOfService,
+          ),
+      },
+      {
+        title: pageTitle('Stranica nije pronađena'),
+        path: '**',
+        loadComponent: () => import('@core/components/not-found/not-found').then((c) => c.NotFound),
       },
     ],
   },

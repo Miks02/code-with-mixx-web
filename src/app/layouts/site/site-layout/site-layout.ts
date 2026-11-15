@@ -1,9 +1,10 @@
 import { DOCUMENT, isPlatformBrowser, ViewportScroller } from '@angular/common';
 import { Component, inject, PLATFORM_ID } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { ActivatedRouteSnapshot, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs';
 import { AuthService } from '@core/services/auth-service';
+import { SeoService } from '@core/services/seo-service';
 import { UserState } from '@core/services/user-state';
 import { Navbar } from '../navbar/navbar';
 import { Footer } from '../footer/footer';
@@ -11,12 +12,15 @@ import { Footer } from '../footer/footer';
 @Component({
   imports: [RouterOutlet, Navbar, Footer],
   selector: 'app-site-layout',
+  host: { class: 'flex min-h-dvh flex-col' },
   styleUrl: './site-layout.css',
   templateUrl: './site-layout.html',
 })
 export class SiteLayout {
   private authService = inject(AuthService);
   private userState = inject(UserState);
+  private router = inject(Router);
+  private seoService = inject(SeoService);
 
   isAuthenticated = this.userState.isAuthenticated;
 
@@ -25,18 +29,45 @@ export class SiteLayout {
     // instead of sliding it under the navbar.
     inject(ViewportScroller).setOffset([0, 64]);
 
+    this.keepSeoTagsInSync();
+
     if (isPlatformBrowser(inject(PLATFORM_ID))) this.enableSmoothAnchorScrolling();
   }
 
-  // Scrolling is smooth only when a navigation stays on the same page (nav links to a section,
-  // a table of contents). NavigationEnd fires before the router scrolls, so the class is in
-  // place in time. Moving to another page keeps the instant jump to the top.
+  private keepSeoTagsInSync(): void {
+    this.router.events
+      .pipe(
+        filter((event) => event instanceof NavigationEnd),
+        takeUntilDestroyed(),
+      )
+      .subscribe((event) => {
+        const page = this.deepestRoute(this.router.routerState.snapshot.root);
+
+        this.seoService.setStructuredData(page.data['structuredData']);
+
+        if (page.routeConfig?.path === '**') {
+          this.seoService.clearPageUrl();
+        } else {
+          this.seoService.updatePage(
+            event.urlAfterRedirects,
+            page.title ?? '',
+            page.data['description'] ?? '',
+          );
+        }
+      });
+  }
+
+  private deepestRoute(route: ActivatedRouteSnapshot): ActivatedRouteSnapshot {
+    while (route.firstChild) route = route.firstChild;
+    return route;
+  }
+
   private enableSmoothAnchorScrolling(): void {
     const root = inject(DOCUMENT).documentElement;
     let previousPath: string | undefined;
 
-    inject(Router)
-      .events.pipe(
+    this.router.events
+      .pipe(
         filter((event) => event instanceof NavigationEnd),
         takeUntilDestroyed(),
       )

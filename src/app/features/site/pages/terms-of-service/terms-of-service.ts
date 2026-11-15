@@ -1,5 +1,4 @@
-import { Component, inject } from '@angular/core';
-import { Meta } from '@angular/platform-browser';
+import { Component } from '@angular/core';
 import { TermsIntro } from './components/terms-intro/terms-intro';
 import { TermsSections } from './components/terms-sections/terms-sections';
 
@@ -9,12 +8,4 @@ import { TermsSections } from './components/terms-sections/terms-sections';
   styleUrl: './terms-of-service.css',
   templateUrl: './terms-of-service.html',
 })
-export class TermsOfService {
-  constructor() {
-    inject(Meta).updateTag({
-      name: 'description',
-      content:
-        'Kako se na CodeWithMixx zakazuju, otkazuju i plaćaju časovi i radovi, kada se novac vraća i ko vodi tvoj nalog dok studentski panel ne bude gotov.',
-    });
-  }
-}
+export class TermsOfService {}
