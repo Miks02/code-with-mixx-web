@@ -4,7 +4,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRouteSnapshot, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs';
 import { AuthService } from '@core/services/auth-service';
-import { CanonicalService } from '@core/services/canonical-service';
+import { SeoService } from '@core/services/seo-service';
 import { UserState } from '@core/services/user-state';
 import { Navbar } from '../navbar/navbar';
 import { Footer } from '../footer/footer';
@@ -20,7 +20,7 @@ export class SiteLayout {
   private authService = inject(AuthService);
   private userState = inject(UserState);
   private router = inject(Router);
-  private canonicalService = inject(CanonicalService);
+  private seoService = inject(SeoService);
 
   isAuthenticated = this.userState.isAuthenticated;
 
@@ -29,29 +29,35 @@ export class SiteLayout {
     // instead of sliding it under the navbar.
     inject(ViewportScroller).setOffset([0, 64]);
 
-    this.keepCanonicalInSync();
+    this.keepSeoTagsInSync();
 
     if (isPlatformBrowser(inject(PLATFORM_ID))) this.enableSmoothAnchorScrolling();
   }
 
-  private keepCanonicalInSync(): void {
+  private keepSeoTagsInSync(): void {
     this.router.events
       .pipe(
         filter((event) => event instanceof NavigationEnd),
         takeUntilDestroyed(),
       )
       .subscribe((event) => {
-        if (this.isNotFoundRoute(this.router.routerState.snapshot.root)) {
-          this.canonicalService.remove();
+        const page = this.deepestRoute(this.router.routerState.snapshot.root);
+
+        if (page.routeConfig?.path === '**') {
+          this.seoService.clearPageUrl();
         } else {
-          this.canonicalService.set(event.urlAfterRedirects);
+          this.seoService.updatePage(
+            event.urlAfterRedirects,
+            page.title ?? '',
+            page.data['description'] ?? '',
+          );
         }
       });
   }
 
-  private isNotFoundRoute(route: ActivatedRouteSnapshot): boolean {
+  private deepestRoute(route: ActivatedRouteSnapshot): ActivatedRouteSnapshot {
     while (route.firstChild) route = route.firstChild;
-    return route.routeConfig?.path === '**';
+    return route;
   }
 
   private enableSmoothAnchorScrolling(): void {
