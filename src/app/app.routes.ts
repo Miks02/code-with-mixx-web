@@ -169,7 +169,7 @@ export const routes: Routes = [
         pathMatch: 'full',
       },
       {
-        title: pageTitle('Početna'),
+        title: pageTitle('Privatni časovi programiranja'),
         path: '',
         data: {
           description:
@@ -183,7 +183,7 @@ export const routes: Routes = [
         path: 'subjects',
         data: {
           description:
-            'Spisak predmeta iz kojih držim privatne časove: programiranje u C-u, Javi, C#-u i Pythonu, objektno orijentisano programiranje, web razvoj i baze podataka, sa temama koje prolazimo.',
+            'Predmeti iz kojih držim privatne časove: programiranje u C-u, Javi, C#-u i Pythonu, OOP, web razvoj i baze podataka, sa temama koje prolazimo.',
         },
         loadComponent: () =>
           import('@features/site/pages/subjects/subjects').then((c) => c.Subjects),
