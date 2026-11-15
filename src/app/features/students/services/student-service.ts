@@ -22,6 +22,8 @@ import {
   UpdateStudentResponse,
 } from '../models/update-student-request';
 import { StudentLookup } from '../models/student-lookup';
+import { studentKeys } from '../utilities/student-keys';
+import { StudentDetailsQueryParams, StudentDetailsResponse } from '../models/student-details';
 
 @Service()
 export class StudentService {
@@ -36,11 +38,11 @@ export class StudentService {
     const params = queryParams();
 
     return injectQuery<StudentsSummary>(() => ({
-      queryKey: ['students-summary', params],
+      queryKey: studentKeys.summary(params),
       queryFn: async () => {
         const response = await lastValueFrom(this.http.get<StudentsSummary>(url, { params }));
 
-        this.queryClient.setQueryData(['paged-students', params], response.pagedStudents);
+        this.queryClient.setQueryData(studentKeys.page(params), response.pagedStudents);
 
         return response;
       },
@@ -54,7 +56,7 @@ export class StudentService {
     const url = `${this.apiUrl}/admin/students`;
 
     return injectQuery<PagedResult<StudentItem>>(() => ({
-      queryKey: ['paged-students', queryParams()],
+      queryKey: studentKeys.page(queryParams()),
       queryFn: () =>
         lastValueFrom(this.http.get<PagedResult<StudentItem>>(url, { params: queryParams() })),
       placeholderData: keepPreviousData,
@@ -62,8 +64,32 @@ export class StudentService {
     }));
   }
 
+  getStudentDetailsQuery(
+    studentId: Signal<string>,
+    queryParams: Signal<StudentDetailsQueryParams>,
+  ) {
+    return injectQuery<StudentDetailsResponse>(() => {
+      const { reservationType, ...paging } = queryParams();
+      const params = reservationType ? { ...paging, reservationType } : paging;
+
+      return {
+        queryKey: studentKeys.detail(studentId(), queryParams()),
+        queryFn: () =>
+          lastValueFrom(
+            this.http.get<StudentDetailsResponse>(`${this.apiUrl}/admin/students/${studentId()}`, {
+              params,
+            }),
+          ),
+        placeholderData: keepPreviousData,
+        // Reservations change from other pages (payments, statuses), so always refetch on visit.
+        staleTime: 0,
+        enabled: !!studentId(),
+      };
+    });
+  }
+
   getStudentsLookupQuery = injectQuery<StudentLookup[]>(() => ({
-    queryKey: ['students-lookup'],
+    queryKey: studentKeys.lookup(),
     queryFn: () =>
       lastValueFrom(this.http.get<StudentLookup[]>(`${this.apiUrl}/admin/students/lookup`, {})),
   }));
@@ -78,15 +104,15 @@ export class StudentService {
       return lastValueFrom(this.http.post<void>(`${this.apiUrl}/admin/students`, request));
     },
     onSuccess: () => {
-      this.queryClient.invalidateQueries({ queryKey: ['paged-students'], refetchType: 'none' });
+      this.queryClient.invalidateQueries({ queryKey: studentKeys.pages(), refetchType: 'none' });
       this.queryClient.invalidateQueries({ queryKey: analyticsKeys.all(), refetchType: 'none' });
-      return this.queryClient.invalidateQueries({ queryKey: ['students-summary'] });
+      return this.queryClient.invalidateQueries({ queryKey: studentKeys.summaries() });
     },
   }));
 
   searchStudentsQuery(searchTerm: Signal<string>) {
     return injectQuery(() => ({
-      queryKey: ['search-students', searchTerm()],
+      queryKey: studentKeys.search(searchTerm()),
       queryFn: () => lastValueFrom(this.http.get(`${this.apiUrl}/admin/students/search`)),
     }));
   }
@@ -107,9 +133,9 @@ export class StudentService {
       );
     },
     onSuccess: () => {
-      this.queryClient.invalidateQueries({ queryKey: ['paged-students'], refetchType: 'none' });
+      this.queryClient.invalidateQueries({ queryKey: studentKeys.pages(), refetchType: 'none' });
       this.queryClient.invalidateQueries({ queryKey: analyticsKeys.all(), refetchType: 'none' });
-      return this.queryClient.invalidateQueries({ queryKey: ['students-summary'] });
+      return this.queryClient.invalidateQueries({ queryKey: studentKeys.summaries() });
     },
   }));
 
@@ -126,9 +152,9 @@ export class StudentService {
         this.http.post<void>(`${this.apiUrl}/admin/students/${studentId}/activate`, null),
       ),
     onSuccess: () => {
-      this.queryClient.invalidateQueries({ queryKey: ['paged-students'], refetchType: 'none' });
+      this.queryClient.invalidateQueries({ queryKey: studentKeys.pages(), refetchType: 'none' });
       this.queryClient.invalidateQueries({ queryKey: analyticsKeys.all(), refetchType: 'none' });
-      this.queryClient.invalidateQueries({ queryKey: ['students-summary'] });
+      this.queryClient.invalidateQueries({ queryKey: studentKeys.summaries() });
     },
   }));
 
@@ -138,9 +164,9 @@ export class StudentService {
         this.http.post<void>(`${this.apiUrl}/admin/students/${studentId}/deactivate`, null),
       ),
     onSuccess: () => {
-      this.queryClient.invalidateQueries({ queryKey: ['paged-students'], refetchType: 'none' });
+      this.queryClient.invalidateQueries({ queryKey: studentKeys.pages(), refetchType: 'none' });
       this.queryClient.invalidateQueries({ queryKey: analyticsKeys.all(), refetchType: 'none' });
-      this.queryClient.invalidateQueries({ queryKey: ['students-summary'] });
+      this.queryClient.invalidateQueries({ queryKey: studentKeys.summaries() });
     },
   }));
 
@@ -148,9 +174,9 @@ export class StudentService {
     mutationFn: (studentId: string) =>
       lastValueFrom(this.http.delete<void>(`${this.apiUrl}/admin/students/${studentId}`)),
     onSuccess: () => {
-      this.queryClient.invalidateQueries({ queryKey: ['paged-students'], refetchType: 'none' });
+      this.queryClient.invalidateQueries({ queryKey: studentKeys.pages(), refetchType: 'none' });
       this.queryClient.invalidateQueries({ queryKey: analyticsKeys.all(), refetchType: 'none' });
-      return this.queryClient.invalidateQueries({ queryKey: ['students-summary'] });
+      return this.queryClient.invalidateQueries({ queryKey: studentKeys.summaries() });
     },
   }));
 }
