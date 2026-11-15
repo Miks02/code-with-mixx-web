@@ -1,7 +1,8 @@
-import { DOCUMENT, inject } from '@angular/core';
+import { DOCUMENT, inject, Service } from '@angular/core';
 import { Meta } from '@angular/platform-browser';
 import { environment } from '@environments/environment';
 
+@Service()
 export class SeoService {
   private document = inject(DOCUMENT);
   private meta = inject(Meta);
