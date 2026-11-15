@@ -1,3 +1,4 @@
+import { NgOptimizedImage } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
@@ -6,7 +7,7 @@ import { SubjectCatalogService } from '@features/site/services/subject-catalog-s
 import { Button } from '@shared/components/button/button';
 
 @Component({
-  imports: [Button, NgIcon, RouterLink],
+  imports: [Button, NgIcon, NgOptimizedImage, RouterLink],
   providers: [provideIcons({ faSolidImage, faSolidPaperPlane })],
   selector: 'app-subject-list',
   styleUrl: './subject-list.css',

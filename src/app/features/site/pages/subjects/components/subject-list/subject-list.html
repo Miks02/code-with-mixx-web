@@ -1,7 +1,7 @@
 <section class="w-full bg-emerald-950 pb-16 lg:pb-24 3xl:pb-32">
   <div class="mx-auto w-full max-w-7xl px-6 lg:px-10 3xl:max-w-[110rem]">
     <div class="space-y-14 3xl:space-y-20">
-      @for (group of groups; track group.area) {
+      @for (group of groups; track group.area; let firstGroup = $first) {
       <section>
         <div class="flex flex-col gap-2 lg:flex-row lg:items-baseline lg:justify-between lg:gap-10">
           <h2 class="text-3xl leading-tight font-bold text-white 3xl:text-4xl">{{ group.area }}</h2>
@@ -11,7 +11,7 @@
         </div>
 
         <ul class="mt-6 grid gap-6 sm:grid-cols-2 xl:grid-cols-3 3xl:mt-8 3xl:gap-8">
-          @for (subject of group.subjects; track subject.id) {
+          @for (subject of group.subjects; track subject.id; let i = $index) {
           <li
             [id]="subject.id"
             class="flex scroll-mt-28 flex-col overflow-hidden rounded-lg bg-emerald-900 shadow-lg lg:scroll-mt-32"
@@ -19,12 +19,11 @@
             <div class="aspect-video bg-emerald-800" aria-hidden="true">
               @if (subject.image) {
               <img
-                [src]="subject.image"
+                [ngSrc]="subject.image"
                 [alt]="subject.name"
                 width="960"
                 height="540"
-                loading="lazy"
-                decoding="async"
+                [priority]="firstGroup && i < 3"
                 class="size-full object-cover"
               />
               } @else {
