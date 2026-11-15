@@ -13,7 +13,7 @@ import { PAYMENT_STATUS_META } from '@features/reservations';
 import { ClassReservationItem } from '@features/classes/models/class-reservation-item';
 
 const BASE_CLASSES =
-  'p-4 rounded-lg flex flex-col gap-2.5 active:scale-95 transition-200 cursor-pointer flex-1 grow';
+  'w-full text-left p-4 rounded-lg flex flex-col gap-2.5 active:scale-95 transition-200 cursor-pointer flex-1 grow';
 
 type AccentColor = {
   avatar: string;

@@ -1,8 +1,15 @@
 <div
-  (click)="onClose()"
   animate.enter="backdrop-in"
   class="w-screen h-screen absolute bg-emerald-900/60 backdrop-blur-xs z-1000 top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 transition duration-300"
 >
+  <button
+    type="button"
+    tabindex="-1"
+    aria-label="Zatvori"
+    (click)="onClose()"
+    class="absolute inset-0"
+  ></button>
+
   <div
     animate.enter="dialog-in"
     class="relative top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 w-[90%] md:w-[50%] lg:w-[30%] xl:w-[20%]"

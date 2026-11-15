@@ -22,8 +22,8 @@ export class SubjectCard {
 
   containerClasses = computed(() =>
     this.isSelected()
-      ? 'p-4 rounded-lg flex flex-col gap-3 active:scale-95 transition-200 cursor-pointer flex-1 grow bg-emerald-600'
-      : 'p-4 rounded-lg flex flex-col gap-3 hover:bg-emerald-800/80 active:scale-95 transition-200 cursor-pointer flex-1 grow bg-emerald-900/80',
+      ? 'w-full text-left p-4 rounded-lg flex flex-col gap-3 active:scale-95 transition-200 cursor-pointer flex-1 grow bg-emerald-600'
+      : 'w-full text-left p-4 rounded-lg flex flex-col gap-3 hover:bg-emerald-800/80 active:scale-95 transition-200 cursor-pointer flex-1 grow bg-emerald-900/80',
   );
 
   onClick() {

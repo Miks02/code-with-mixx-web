@@ -1,8 +1,11 @@
-<div
+<button
+  type="button"
+  tabindex="-1"
+  aria-label="Zatvori"
   animate.enter="backdrop-in"
   (click)="onClose()"
   class="fixed inset-0 z-1000 bg-emerald-900/60 backdrop-blur-xs"
-></div>
+></button>
 
 <div
   animate.enter="modal-in"
@@ -75,7 +78,7 @@
         }
       </div>
     </div>
-    <button type="submit" class="hidden"></button>
+    <button type="submit" class="hidden" aria-label="Sačuvaj"></button>
   </form>
 
   <div class="self-end flex gap-2">

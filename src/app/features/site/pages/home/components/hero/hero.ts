@@ -42,7 +42,7 @@ const PLAIN = 'text-emerald-100/80';
 })
 export class Hero {
   @ViewChild('fog') vantaRef!: ElementRef<HTMLDivElement>;
-  private vantaEffect: unknown;
+  private vantaEffect?: ReturnType<typeof FOG>;
 
   private readonly destroyRef = inject(DestroyRef);
 
@@ -134,6 +134,7 @@ export class Hero {
         speed: 0.5,
         zoom: 1.0,
       });
+      this.destroyRef.onDestroy(() => this.vantaEffect?.destroy());
 
       this.startCounters();
     });
