@@ -20,7 +20,7 @@ import { Sidebar } from '../sidebar/sidebar';
 })
 export class DashboardLayout {
   @ViewChild('vantaRef') vantaRef!: ElementRef<HTMLDivElement>;
-  private vantaEffect: any;
+  private vantaEffect: unknown;
 
   isSidebarOpen: WritableSignal<boolean> = signal(false);
 
