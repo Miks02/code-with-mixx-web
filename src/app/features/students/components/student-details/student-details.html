@@ -83,7 +83,12 @@
 
     <div class="flex flex-col sm:flex-row gap-3 w-full mt-auto">
       <div class="flex flex-col gap-3 w-full">
-        <app-button class="w-full" [fullWidth]="true" variant="ghost" icon="faSolidEye"
+        <app-button
+          class="w-full"
+          [fullWidth]="true"
+          variant="ghost"
+          icon="faSolidEye"
+          [routerLink]="detailsLink()"
           >Detaljniji pregled</app-button
         >
         @if (student.accountStatus !== AccountStatus.Deleted) {

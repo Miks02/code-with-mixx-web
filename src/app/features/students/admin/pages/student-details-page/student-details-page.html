@@ -1,0 +1,82 @@
+<div class="grid grid-cols-1 lg:grid-cols-3 w-full gap-4 items-start">
+  <div class="w-full flex justify-between items-center gap-3 flex-wrap lg:col-span-3">
+    <div class="flex gap-2 text-emerald-100 items-center">
+      <a routerLink="/admin/students" class="text-emerald-200">Studenti</a>
+      <span>/</span>
+      <p>Detalji studenta</p>
+    </div>
+
+    <app-button routerLink="/admin/students" variant="ghost">
+      <span class="md:block hidden">Nazad na studente</span>
+      <span class="md:hidden">Nazad</span>
+    </app-button>
+  </div>
+
+  @if (isNotFound()) {
+    <div
+      class="lg:col-span-3 bg-emerald-950/80 backdrop-blur-xl rounded-lg shadow-lg p-4 min-h-80 flex flex-col items-center justify-center gap-3 text-center"
+    >
+      <div class="flex justify-center items-center bg-emerald-900 rounded-full h-14 w-14">
+        <ng-icon name="faSolidUserXmark" class="text-emerald-400! text-2xl self-center!"></ng-icon>
+      </div>
+      <p class="text-emerald-200 font-medium text-lg">Student nije pronađen.</p>
+    </div>
+  } @else {
+    <div class="min-w-0 flex flex-col gap-4 lg:order-2">
+      <app-student-profile
+        [student]="student()"
+        [stats]="stats()"
+        [isPending]="isPending()"
+      ></app-student-profile>
+    </div>
+
+    <div class="min-w-0 flex flex-col gap-4 lg:col-span-2 lg:order-1">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <app-stats-card
+          title="Rezervacije"
+          icon="faSolidCalendarCheck"
+          iconBackground="emerald"
+          description="Ukupno"
+          [value]="stats()?.totalReservations"
+          [isPending]="isPending()"
+        ></app-stats-card>
+
+        <app-stats-card
+          title="Časovi"
+          icon="faSolidChalkboardUser"
+          iconBackground="sky"
+          [description]="'U ' + (stats()?.classReservations ?? 0) + ' rezervacija'"
+          [value]="stats()?.totalClasses"
+          [isPending]="isPending()"
+        ></app-stats-card>
+
+        <app-stats-card
+          title="Projekti"
+          icon="faSolidDiagramProject"
+          iconBackground="violet"
+          [description]="'U ' + (stats()?.projectReservations ?? 0) + ' rezervacija'"
+          [value]="stats()?.totalProjects"
+          [isPending]="isPending()"
+        ></app-stats-card>
+
+        <app-stats-card
+          title="Kasni uplata"
+          icon="faSolidTriangleExclamation"
+          iconBackground="red"
+          description="Rezervacije"
+          [value]="stats()?.overdueReservations"
+          [isPending]="isPending()"
+        ></app-stats-card>
+      </div>
+
+      <app-student-reservations-list
+        [pagedReservations]="reservations()"
+        [selectedType]="selectedType()"
+        [isPending]="isPending()"
+        [isFetching]="isFetching()"
+        (typeChanged)="onTypeChange($event)"
+        (pageChanged)="onPageChange($event)"
+      ></app-student-reservations-list>
+    </div>
+  }
+</div>

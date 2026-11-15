@@ -1,4 +1,5 @@
 import { Component, computed, inject, input, output } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
   faSolidCalendar,
@@ -26,6 +27,8 @@ import { Button } from '@shared/components/button/button';
 import { StudentItem } from '@features/students/models/student-item';
 import { StudentService } from '@features/students/services/student-service';
 import { getStudentErrorMessage } from '@features/students/utilities/student-error-messages';
+import { ACCOUNT_STATUS_META } from '@features/students/utilities/student-labels';
+import { StatusMeta } from '@features/reservations';
 
 type StudentStat = {
   icon: string;
@@ -34,23 +37,8 @@ type StudentStat = {
   tone: 'default' | 'danger';
 };
 
-type StatusMeta = {
-  label: string;
-  classes: string;
-};
-
-const STATUS_META: Record<AccountStatus, StatusMeta> = {
-  [AccountStatus.Active]: { label: 'Aktivan', classes: 'bg-emerald-900/80 text-emerald-100' },
-  [AccountStatus.Pending]: { label: 'Na čekanju', classes: 'bg-amber-900/60 text-amber-100' },
-  [AccountStatus.Deactivated]: {
-    label: 'Deaktiviran',
-    classes: 'bg-orange-950/60 text-orange-100',
-  },
-  [AccountStatus.Deleted]: { label: 'Obrisan', classes: 'bg-red-950/60 text-red-100' },
-};
-
 @Component({
-  imports: [NgIcon, Button],
+  imports: [NgIcon, Button, RouterLink],
   providers: [
     provideIcons({
       faSolidCalendar,
@@ -83,6 +71,10 @@ export class StudentDetails {
   editStudent = output<StudentItem>();
 
   readonly AccountStatus = AccountStatus;
+  readonly detailsLink = computed(() => {
+    const student = this.student();
+    return student ? ['/admin/students/details', student.id] : null;
+  });
 
   student = input<StudentItem>();
 
@@ -93,7 +85,7 @@ export class StudentDetails {
 
   status = computed<StatusMeta | null>(() => {
     const student = this.student();
-    return student ? STATUS_META[student.accountStatus] : null;
+    return student ? ACCOUNT_STATUS_META[student.accountStatus] : null;
   });
 
   deletedAtLabel = computed(() => {
@@ -151,14 +143,20 @@ export class StudentDetails {
   );
 
   onEdit() {
-    this.editStudent.emit(this.student()!);
+    const student = this.student();
+    if (!student) return;
+
+    this.editStudent.emit(student);
   }
 
   onActivate() {
-    this.activateMutation.mutate(this.student()?.id!, {
+    const student = this.student();
+    if (!student) return;
+
+    this.activateMutation.mutate(student.id, {
       onSuccess: () => {
         this.toastService.showSuccess('Nalog je uspešno aktiviran.');
-        this.studentUpdated.emit({ ...this.student()!, accountStatus: AccountStatus.Active });
+        this.studentUpdated.emit({ ...student, accountStatus: AccountStatus.Active });
       },
       onError: (err) => {
         const errorCode = err.errorCode;
@@ -177,10 +175,13 @@ export class StudentDetails {
   }
 
   onDeactivate() {
-    this.deactivateMutation.mutate(this.student()?.id!, {
+    const student = this.student();
+    if (!student) return;
+
+    this.deactivateMutation.mutate(student.id, {
       onSuccess: () => {
         this.toastService.showSuccess('Nalog je uspešno deaktiviran.');
-        this.studentUpdated.emit({ ...this.student()!, accountStatus: AccountStatus.Deactivated });
+        this.studentUpdated.emit({ ...student, accountStatus: AccountStatus.Deactivated });
       },
       onError: (err) => {
         const errorCode = err.errorCode;
@@ -199,7 +200,10 @@ export class StudentDetails {
   }
 
   onSendInvitation() {
-    this.studentService.sendInvitationMutation.mutate(this.student()?.id!, {
+    const student = this.student();
+    if (!student) return;
+
+    this.sendInvitationMutation.mutate(student.id, {
       onSuccess: () => {
         this.toastService.showSuccess('Pozivnica je uspešno poslata.');
       },
@@ -215,8 +219,11 @@ export class StudentDetails {
   }
 
   async onDelete() {
+    const student = this.student();
+    if (!student) return;
+
     const dialogMessage =
-      this.student()?.totalReservations! > 0
+      student.totalReservations > 0
         ? 'Izabrani student ima rezervacije i neće biti potpuno obrisan.'
         : 'Da li sigurno želiš da obrišeš ovog studenta?';
 
@@ -227,7 +234,7 @@ export class StudentDetails {
 
     if (dialogResult === DialogResult.Cancelled) return;
 
-    this.studentService.deleteStudentMutation.mutate(this.student()?.id!, {
+    this.deleteMutation.mutate(student.id, {
       onSuccess: () => {
         this.toastService.showSuccess('Student je uspešno obrisan.');
         this.studentDeleted.emit();
