@@ -3,6 +3,7 @@ import { authGuard } from '@core/guard/auth-guard';
 import { guestGuard } from '@core/guard/guest-guard';
 import { adminGuard } from '@core/guard/admin-guard';
 import { resetPasswordGuardGuard } from '@core/guard/reset-password-guard-guard';
+import { HOME_STRUCTURED_DATA } from '@features/site/utilities/home-structured-data';
 
 export const pageTitle = (title: string) => `${title} • CodeWithMixx`;
 
@@ -173,6 +174,7 @@ export const routes: Routes = [
         data: {
           description:
             'Online privatni časovi programiranja i IT predmeta za studente: C, Java, C#, Python, OOP, web i baze podataka, uz pomoć oko seminarskih i diplomskih radova.',
+          structuredData: HOME_STRUCTURED_DATA,
         },
         loadComponent: () => import('@features/site/pages/home/home').then((c) => c.Home),
       },
