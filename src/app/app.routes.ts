@@ -127,6 +127,14 @@ export const routes: Routes = [
           ),
       },
       {
+        title: pageTitle('Detalji studenta'),
+        path: 'students/details/:id',
+        loadComponent: () =>
+          import('@features/students/admin/pages/student-details-page/student-details-page').then(
+            (c) => c.StudentDetailsPage,
+          ),
+      },
+      {
         title: pageTitle('Projekti'),
         path: 'projects',
         loadComponent: () =>

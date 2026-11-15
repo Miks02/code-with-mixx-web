@@ -1,5 +1,6 @@
 export { PaymentStatus } from './models/payment-status';
 export { ReservationStatus } from './models/reservation-status';
+export { ReservationType } from './models/reservation-type';
 export { UpdateStatusModal } from './admin/components/update-status-modal/update-status-modal'
 export { ReservationService } from './services/reservation-service'
 export type { ReservationModalType } from './models/reservation-modal-type'
