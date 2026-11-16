@@ -1,148 +1,164 @@
+import { HttpTestingController } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RESERVATION_STATUS_STYLES, ReservationStatus } from '@features/reservations';
-import { createEmptyClass } from '@features/classes/factories/class-factories';
+import { provideHttpTesting, settle, typeInto } from '@core/testing/test-utils';
+import { ReservationStatus } from '@features/reservations';
 import { ClassFormService } from '@features/classes/services/class-form-service';
+import {
+  createClassReservationDetails,
+  createFormClass,
+  createValidReservationModel,
+  expectReservationDetailsRequest,
+  flushLookups,
+  inDays,
+  provideReservationFormTesting,
+} from '@features/classes/testing/class-test-utils';
 import { ClassReservationPricing } from './class-reservation-pricing';
 
 describe('ClassReservationPricing', () => {
-  let component: ClassReservationPricing;
   let fixture: ComponentFixture<ClassReservationPricing>;
-  let formService: ClassFormService;
+  let element: HTMLElement;
+  let form: ClassFormService;
+  let http: HttpTestingController;
 
-  function query<T extends Element>(selector: string): T | null {
-    return fixture.nativeElement.querySelector(selector);
-  }
+  const sumToggle = () => element.querySelector<HTMLInputElement>('input[type="checkbox"]')!;
+  const totalInput = () => element.querySelector<HTMLInputElement>('#reservation-total-price')!;
+  const paidInput = () => element.querySelector<HTMLInputElement>('#reservation-paid-amount');
+  const totalError = () => element.querySelector('p.text-red-400')?.textContent?.trim();
+  const toggleSum = async (checked: boolean) => {
+    sumToggle().checked = checked;
+    sumToggle().dispatchEvent(new Event('change'));
+    await fixture.whenStable();
+  };
 
-  function totalPriceInput() {
-    return query<HTMLInputElement>('#reservation-total-price')!;
-  }
-
-  function sumToggle() {
-    return query<HTMLInputElement>('input[type="checkbox"]')!;
-  }
-
-  function text(): string {
-    return fixture.nativeElement.textContent;
-  }
-
-  beforeEach(async () => {
+  const setup = async (reservationId: string | null) => {
     await TestBed.configureTestingModule({
       imports: [ClassReservationPricing],
-      providers: [ClassFormService],
+      providers: [provideReservationFormTesting(reservationId), provideHttpTesting()],
     }).compileComponents();
 
-    formService = TestBed.inject(ClassFormService);
-    formService.reservationModel.update((model) => ({
-      ...model,
-      classes: [
-        { ...createEmptyClass(), price: 1300 },
-        { ...createEmptyClass(), price: 1500 },
-      ],
-    }));
-
+    form = TestBed.inject(ClassFormService);
+    http = TestBed.inject(HttpTestingController);
     fixture = TestBed.createComponent(ClassReservationPricing);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    element = fixture.nativeElement;
+    await flushLookups();
+  };
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+  afterEach(() => http.verify());
 
-  describe('reservation status', () => {
-    it('should render a button for every reservation status', () => {
-      const buttons = fixture.nativeElement.querySelectorAll('button[aria-pressed]');
-      const labels = Array.from(buttons as NodeListOf<HTMLButtonElement>).map((b) =>
-        b.textContent?.trim(),
+  describe('on the create page', () => {
+    beforeEach(async () => {
+      await setup(null);
+      form.reservationModel.set(
+        createValidReservationModel({
+          totalPrice: null,
+          classes: [
+            createFormClass(inDays(3, 10), { price: 1300 }),
+            createFormClass(inDays(3, 11), { price: 1500 }),
+          ],
+        }),
       );
-
-      expect(labels).toEqual(
-        Object.values(ReservationStatus).map((s) => RESERVATION_STATUS_STYLES[s].label),
-      );
+      await fixture.whenStable();
     });
 
-    it('should mark the current status as pressed', () => {
-      const pressed = query<HTMLButtonElement>('button[aria-pressed="true"]')!;
-
-      expect(pressed.textContent?.trim()).toBe(
-        RESERVATION_STATUS_STYLES[ReservationStatus.Confirmed].label,
-      );
+    it('does not show the paid amount', () => {
+      expect(paidInput()).toBeNull();
     });
 
-    it('should update the form status when a status is clicked', () => {
-      const status = Object.values(ReservationStatus).find(
-        (s) => s !== ReservationStatus.Confirmed,
-      )!;
-      const button = Array.from(
-        fixture.nativeElement.querySelectorAll('button[aria-pressed]') as NodeListOf<HTMLElement>,
-      ).find((b) => b.textContent?.trim() === RESERVATION_STATUS_STYLES[status].label)!;
-
-      button.click();
-      fixture.detectChanges();
-
-      expect(formService.reservationModel().reservationStatus).toBe(status);
-      expect(button.getAttribute('aria-pressed')).toBe('true');
-    });
-  });
-
-  describe('total price', () => {
-    it('should use the classes sum by default because total price starts as null', () => {
-      expect(formService.reservationModel().totalPrice).toBeNull();
+    it('starts with "Zbir časova" on, showing the sum and leaving the price to the backend', () => {
       expect(sumToggle().checked).toBe(true);
-      expect(totalPriceInput().disabled).toBe(true);
-      expect(totalPriceInput().value).toBe('2800');
-      expect(text()).toContain('Računa se automatski iz cena časova.');
+      expect(totalInput().disabled).toBe(true);
+      expect(totalInput().value).toBe('2800');
+      expect(form.reservationModel().totalPrice).toBeNull();
     });
 
-    it('should follow class price changes while the sum is used', () => {
-      formService.updateClass(0, { price: 2000 });
-      fixture.detectChanges();
+    it('the shown sum follows the class prices', async () => {
+      form.updateClass(1, { price: 500 });
+      await fixture.whenStable();
 
-      expect(totalPriceInput().value).toBe('3500');
+      expect(totalInput().value).toBe('1800');
+      expect(form.reservationModel().totalPrice).toBeNull();
     });
 
-    it('should switch to a manual price prefilled with the classes sum', () => {
-      sumToggle().click();
-      fixture.detectChanges();
+    it('turning the sum off prefills the price with the sum and stops following the classes', async () => {
+      await toggleSum(false);
 
-      expect(formService.reservationModel().totalPrice).toBe(2800);
-      expect(totalPriceInput().disabled).toBe(false);
-      expect(text()).not.toContain('Računa se automatski');
+      expect(form.reservationModel().totalPrice).toBe(2800);
+      expect(totalInput().disabled).toBe(false);
+
+      form.updateClass(0, { price: 9000 });
+      await fixture.whenStable();
+      expect(form.reservationModel().totalPrice).toBe(2800);
     });
 
-    it('should reset the price to null when the sum is turned back on', () => {
-      sumToggle().click();
-      fixture.detectChanges();
-      sumToggle().click();
-      fixture.detectChanges();
+    it('turning the sum back on drops the manual price', async () => {
+      await toggleSum(false);
+      typeInto(totalInput(), '2000');
+      await fixture.whenStable();
+      expect(form.reservationModel().totalPrice).toBe(2000);
 
-      expect(formService.reservationModel().totalPrice).toBeNull();
-      expect(totalPriceInput().disabled).toBe(true);
+      await toggleSum(true);
+      expect(form.reservationModel().totalPrice).toBeNull();
     });
 
-    it('should show a validation error for a negative price', () => {
-      formService.reservationForm.totalPrice().value.set(-1);
-      fixture.detectChanges();
+    it('clearing the manual price keeps the field editable instead of switching to the sum', async () => {
+      await toggleSum(false);
 
-      expect(text()).toContain('Ukupna cena rezervacije može biti najmanje 0 RSD.');
+      typeInto(totalInput(), '');
+      await fixture.whenStable();
+
+      expect(sumToggle().checked).toBe(false);
+      expect(totalInput().disabled).toBe(false);
+    });
+
+    it('rejects a negative manual price', async () => {
+      await toggleSum(false);
+      typeInto(totalInput(), '-100');
+      await fixture.whenStable();
+
+      expect(totalError()).toBe('Ukupna cena rezervacije može biti najmanje 0 RSD.');
+    });
+
+    it('allows a free reservation', async () => {
+      await toggleSum(false);
+      typeInto(totalInput(), '0');
+      await fixture.whenStable();
+
+      expect(form.reservationModel().totalPrice).toBe(0);
+      expect(totalError()).toBeUndefined();
+    });
+
+    it('picking a status writes it into the form', async () => {
+      const cancelled = Array.from(element.querySelectorAll<HTMLButtonElement>('button')).find(
+        (button) => button.textContent?.includes('Otkazana'),
+      )!;
+
+      cancelled.click();
+      await fixture.whenStable();
+
+      expect(form.reservationModel().reservationStatus).toBe(ReservationStatus.Cancelled);
+      expect(cancelled.getAttribute('aria-pressed')).toBe('true');
     });
   });
 
-  describe('paid amount', () => {
-    it('should hide the paid amount when totalPaid is not set', () => {
-      expect(query('#reservation-paid-amount')).toBeNull();
-      expect(query('.md\\:grid-cols-2')).not.toBeNull();
+  describe('on the details page', () => {
+    beforeEach(() => setup('7'));
+
+    it('shows the paid amount as read only', async () => {
+      expectReservationDetailsRequest().flush(createClassReservationDetails({ paidAmount: 1300 }));
+      await settle();
+      await fixture.whenStable();
+
+      expect(paidInput()?.value).toBe('1300');
+      expect(paidInput()?.disabled).toBe(true);
     });
 
-    it('should show the paid amount as a read-only field when totalPaid is set', () => {
-      fixture.componentRef.setInput('totalPaid', 1300);
-      fixture.detectChanges();
+    it('a saved reservation has its own price, so "Zbir časova" starts off', async () => {
+      expectReservationDetailsRequest().flush(createClassReservationDetails({ totalPrice: 2000 }));
+      await settle();
+      await fixture.whenStable();
 
-      const paid = query<HTMLInputElement>('#reservation-paid-amount')!;
-      expect(paid.value).toBe('1300');
-      expect(paid.disabled).toBe(true);
-      expect(query('.md\\:grid-cols-3')).not.toBeNull();
-      expect(text()).toContain('Menja se isključivo kroz uplate.');
+      expect(sumToggle().checked).toBe(false);
+      expect(totalInput().value).toBe('2000');
     });
   });
 });
