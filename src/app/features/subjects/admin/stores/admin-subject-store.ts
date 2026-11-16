@@ -14,13 +14,13 @@ import { SubjectItem } from '@features/subjects/models/subject-item';
 import { SubjectSort } from '@features/subjects/models/subject-sort';
 import { SubjectService } from '@features/subjects/services/subject-service';
 
-type AdminSubjectsState = {
+type AdminSubjectState = {
   params: AdminSubjectParams;
   selectedSubject: SubjectItem | undefined;
   isEditing: boolean;
 };
 
-const initialState: AdminSubjectsState = {
+const initialState: AdminSubjectState = {
   params: {
     pageNumber: 1,
     pageSize: 15,
@@ -32,7 +32,7 @@ const initialState: AdminSubjectsState = {
   isEditing: false,
 };
 
-export const AdminSubjectsStore = signalStore(
+export const AdminSubjectStore = signalStore(
   withState(initialState),
   withProps((store, subjectService = inject(SubjectService)) => {
     const summaryQuery = subjectService.getSubjectsSummaryForAdminQuery(

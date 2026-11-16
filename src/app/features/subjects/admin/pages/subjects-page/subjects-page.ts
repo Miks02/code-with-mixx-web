@@ -17,7 +17,7 @@ import { CreateSubjectForm } from '@features/subjects/admin/components/create-su
 import { EditSubjectForm } from '@features/subjects/admin/components/edit-subject-form/edit-subject-form';
 import { MostPopularSubject } from '@features/subjects/admin/components/most-popular-subject/most-popular-subject';
 import { SubjectDetails } from '@features/subjects/admin/components/subject-details/subject-details';
-import { AdminSubjectsStore } from '@features/subjects/admin/stores/admin-subject-store';
+import { AdminSubjectStore } from '@features/subjects/admin/stores/admin-subject-store';
 
 @Component({
   imports: [
@@ -30,7 +30,7 @@ import { AdminSubjectsStore } from '@features/subjects/admin/stores/admin-subjec
     EditSubjectForm,
   ],
   providers: [
-    AdminSubjectsStore,
+    AdminSubjectStore,
     provideIcons({
       faSolidCalendar,
       faSolidUserGraduate,
@@ -47,5 +47,5 @@ import { AdminSubjectsStore } from '@features/subjects/admin/stores/admin-subjec
   templateUrl: './subjects-page.html',
 })
 export class SubjectsPage {
-  store = inject(AdminSubjectsStore);
+  store = inject(AdminSubjectStore);
 }

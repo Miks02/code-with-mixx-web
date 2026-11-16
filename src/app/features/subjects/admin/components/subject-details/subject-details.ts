@@ -16,7 +16,7 @@ import { DialogService } from '@core/services/dialog-service';
 import { DialogResult } from '@core/components/dialog/dialog';
 import { ToastService } from '@core/services/toast-service';
 import { getSubjectErrorMessage } from '@features/subjects/utilities/subject-error-messages';
-import { AdminSubjectsStore } from '@features/subjects/admin/stores/admin-subject-store';
+import { AdminSubjectStore } from '@features/subjects/admin/stores/admin-subject-store';
 
 type SubjectStat = {
   icon: string;
@@ -47,7 +47,7 @@ export class SubjectDetails {
   private dialogService = inject(DialogService);
   private toastService = inject(ToastService);
 
-  private store = inject(AdminSubjectsStore);
+  private store = inject(AdminSubjectStore);
 
   subject = this.store.selectedSubject;
 

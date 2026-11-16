@@ -17,7 +17,7 @@ import { FormField, submit } from '@angular/forms/signals';
 import { ToastService } from '@core/services/toast-service';
 import { getErrorCode } from '@core/utilities/problem-details-helpers';
 import { getSubjectErrorMessage } from '@features/subjects/utilities/subject-error-messages';
-import { AdminSubjectsStore } from '@features/subjects/admin/stores/admin-subject-store';
+import { AdminSubjectStore } from '@features/subjects/admin/stores/admin-subject-store';
 
 type SubjectStat = {
   icon: string;
@@ -44,7 +44,7 @@ type SubjectStat = {
 export class EditSubjectForm implements OnInit {
   private subjectService = inject(SubjectService);
   private toastService = inject(ToastService);
-  private store = inject(AdminSubjectsStore);
+  private store = inject(AdminSubjectStore);
 
   selectedSubject = this.store.selectedSubject;
 

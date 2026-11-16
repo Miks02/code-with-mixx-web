@@ -7,7 +7,7 @@ import { Skeleton } from '@shared/components/skeleton/skeleton';
 import { SortMenu } from '@shared/components/sort-menu/sort-menu';
 import { SubjectCard } from '@features/subjects/components/subject-card/subject-card';
 import { SubjectSort } from '@features/subjects/models/subject-sort';
-import { AdminSubjectsStore } from '@features/subjects/admin/stores/admin-subject-store';
+import { AdminSubjectStore } from '@features/subjects/admin/stores/admin-subject-store';
 
 @Component({
   imports: [SubjectCard, Button, SearchBar, SortMenu, NgIcon, Skeleton],
@@ -17,7 +17,7 @@ import { AdminSubjectsStore } from '@features/subjects/admin/stores/admin-subjec
   templateUrl: './admin-subject-list.html',
 })
 export class AdminSubjectList {
-  protected store = inject(AdminSubjectsStore);
+  protected store = inject(AdminSubjectStore);
 
   protected skeletonItems = Array.from({ length: 6 });
 
