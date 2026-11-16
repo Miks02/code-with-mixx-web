@@ -81,7 +81,7 @@ export const routes: Routes = [
         title: pageTitle('Studenti'),
         path: 'students',
         loadComponent: () =>
-          import('@features/students/pages/students-page/students-page').then(
+          import('@features/students/admin/pages/students-page/students-page').then(
             (c) => c.StudentsPage,
           ),
       },

@@ -2,8 +2,8 @@ import { Component, computed, signal, inject, effect } from '@angular/core';
 import { StudentFilter } from '@features/students/models/student-filter';
 import { StudentItem } from '@features/students/models/student-item';
 import { StudentSort } from '@features/students/models/student-sort';
-import { StudentsList } from '@features/students/components/students-list/students-list';
-import { StudentDetails } from '@features/students/components/student-details/student-details';
+import { StudentsList } from '@features/students/admin/components/students-list/students-list';
+import { StudentDetails } from '@features/students/admin/components/student-details/student-details';
 import { StudentQueryParams } from '@features/students/models/student-query-params';
 import { StudentService } from '@features/students/services/student-service';
 import { BehaviorSubject, debounceTime } from 'rxjs';
@@ -16,9 +16,9 @@ import {
   faSolidUserXmark,
 } from '@ng-icons/font-awesome/solid';
 import { StatsCard } from '@shared/components/stats-card/stats-card';
-import { MostActiveStudent } from '@features/students/components/most-active-student/most-active-student';
-import { CreateStudentForm } from '@features/students/components/create-student-form/create-student-form';
-import { EditStudentForm } from '@features/students/components/edit-student-form/edit-student-form';
+import { MostActiveStudent } from '@features/students/admin/components/most-active-student/most-active-student';
+import { CreateStudentForm } from '@features/students/admin/components/create-student-form/create-student-form';
+import { EditStudentForm } from '@features/students/admin/components/edit-student-form/edit-student-form';
 import { UpdateStudentResponse } from '@features/students/models/update-student-request';
 
 @Component({
