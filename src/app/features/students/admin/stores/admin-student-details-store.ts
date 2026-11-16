@@ -1,9 +1,11 @@
-import { computed, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { computed, effect, inject, untracked } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   patchState,
   signalStore,
   withComputed,
+  withHooks,
   withMethods,
   withProps,
   withState,
@@ -19,14 +21,16 @@ type AdminStudentDetailsState = {
   params: StudentDetailsQueryParams;
 };
 
+const initialParams: StudentDetailsQueryParams = {
+  pageNumber: 1,
+  pageSize: 10,
+  reservationType: null,
+};
+
 export const AdminStudentDetailsStore = signalStore(
   withState<AdminStudentDetailsState>(() => ({
     studentId: inject(ActivatedRoute).snapshot.paramMap.get('id') ?? '',
-    params: {
-      pageNumber: 1,
-      pageSize: 10,
-      reservationType: null,
-    },
+    params: initialParams,
   })),
   withProps((store, studentService = inject(StudentService)) => ({
     detailsQuery: studentService.getStudentDetailsQuery(store.studentId, store.params),
@@ -48,6 +52,11 @@ export const AdminStudentDetailsStore = signalStore(
     detailsPending: computed(() => store.detailsQuery.isPending()),
     detailsFetching: computed(() => store.detailsQuery.isFetching()),
     isNotFound: computed(() => store.detailsQuery.error()?.errorCode === 'Student.NotFound'),
+    isLoadError: computed(
+      () =>
+        store.detailsQuery.isError() &&
+        store.detailsQuery.error()?.errorCode !== 'Student.NotFound',
+    ),
     selectedReservationType: computed<ReservationTypeFilter>(
       () => store.params.reservationType() ?? 'All',
     ),
@@ -69,5 +78,26 @@ export const AdminStudentDetailsStore = signalStore(
         patchParams({ pageNumber: store.currentPage() + 1 });
       },
     };
+  }),
+  withHooks({
+    onInit(store) {
+      const router = inject(Router);
+
+      // The router reuses this page when only `:id` changes (e.g. picking another student in the
+      // header search), so the id has to follow the route instead of being read once.
+      inject(ActivatedRoute)
+        .paramMap.pipe(takeUntilDestroyed())
+        .subscribe((paramMap) => {
+          const studentId = paramMap.get('id') ?? '';
+          if (studentId === store.studentId()) return;
+          patchState(store, { studentId, params: initialParams });
+        });
+
+      // The interceptor already toasted the error; NotFound has its own state on the page.
+      effect(() => {
+        if (!store.isLoadError()) return;
+        untracked(() => router.navigate(['/admin/students']));
+      });
+    },
   }),
 );
