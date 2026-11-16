@@ -49,7 +49,7 @@ export class ProjectDetails {
     },
     {
       label: 'Hosting i servisi',
-      text: 'Server i baza su na Railway-u, mejlove šalje Resend, a obaveštenja o novim upitima stižu na Discord.',
+      text: 'Server i baza su na Railway-u, mejlove šalje Resend, a obaveštenja o novim upitima stižu na Discord dok se sami upiti čuvaju u bazi podataka.',
     },
   ];
 }
