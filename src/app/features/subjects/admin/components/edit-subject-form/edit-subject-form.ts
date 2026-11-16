@@ -1,5 +1,4 @@
-import { Component, computed, inject, input, OnInit, output, signal } from '@angular/core';
-import { SubjectItem } from '@features/subjects/models/subject-item';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { dateConverter } from '@core/utilities/date-helpers';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
@@ -18,6 +17,7 @@ import { FormField, submit } from '@angular/forms/signals';
 import { ToastService } from '@core/services/toast-service';
 import { getErrorCode } from '@core/utilities/problem-details-helpers';
 import { getSubjectErrorMessage } from '@features/subjects/utilities/subject-error-messages';
+import { AdminSubjectsStore } from '@features/subjects/admin/stores/admin-subject-store';
 
 type SubjectStat = {
   icon: string;
@@ -42,12 +42,11 @@ type SubjectStat = {
   templateUrl: './edit-subject-form.html',
 })
 export class EditSubjectForm implements OnInit {
-  selectedSubject = input.required<SubjectItem | null>();
-  closeForm = output();
-  updatedSubject = output<SubjectItem>();
-
   private subjectService = inject(SubjectService);
   private toastService = inject(ToastService);
+  private store = inject(AdminSubjectsStore);
+
+  selectedSubject = this.store.selectedSubject;
 
   requestModel = signal<UpdateSubjectRequest>({
     id: 0,
@@ -68,7 +67,7 @@ export class EditSubjectForm implements OnInit {
   }
 
   onClose() {
-    this.closeForm.emit();
+    this.store.stopEditing();
   }
 
   stats = computed<SubjectStat[]>(() => {
@@ -114,8 +113,7 @@ export class EditSubjectForm implements OnInit {
         await this.subjectService.updateSubjectMutation.mutateAsync(this.requestModel(), {
           onSuccess: (res) => {
             this.updateForm().reset();
-            this.closeForm.emit();
-            this.updatedSubject.emit(res);
+            this.store.selectSubject(res);
           },
         });
         return [];
