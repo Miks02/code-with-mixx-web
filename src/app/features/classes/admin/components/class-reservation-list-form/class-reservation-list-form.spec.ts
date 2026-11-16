@@ -1,235 +1,210 @@
+import { HttpTestingController } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SubjectLookupItem } from '@features/subjects';
-import { createEmptyClass } from '@features/classes/factories/class-factories';
-import { ClassItemFormModel } from '@features/classes/models/create-class-reservation-request';
+import { getButton, provideHttpTesting, settle, typeInto } from '@core/testing/test-utils';
+import { dateTimeInputValue } from '@core/utilities/date-helpers';
 import { ClassFormService } from '@features/classes/services/class-form-service';
+import {
+  createClassReservationDetails,
+  createFormClass,
+  createValidReservationModel,
+  expectReservationDetailsRequest,
+  flushLookups,
+  inDays,
+  provideReservationFormTesting,
+} from '@features/classes/testing/class-test-utils';
 import { ClassReservationListForm } from './class-reservation-list-form';
 
 describe('ClassReservationListForm', () => {
-  let component: ClassReservationListForm;
   let fixture: ComponentFixture<ClassReservationListForm>;
-  let formService: ClassFormService;
+  let element: HTMLElement;
+  let form: ClassFormService;
+  let http: HttpTestingController;
 
-  const subjectsLookup: SubjectLookupItem[] = [
-    { id: 1, subjectName: 'Algoritmi' },
-    { id: 2, subjectName: 'Baze podataka' },
-  ];
-
-  function createClass(changes: Partial<ClassItemFormModel> = {}): ClassItemFormModel {
-    return {
-      ...createEmptyClass(),
-      subjectId: 1,
-      price: 1300,
-      startsAt: '2026-11-03T10:00',
-      endsAt: '2026-11-03T10:45',
-      reservedAt: '2026-10-20',
-      ...changes,
-    };
-  }
-
-  function setClasses(classes: ClassItemFormModel[]) {
-    formService.reservationModel.update((model) => ({
-      ...model,
-      reservedAt: '2026-10-20',
-      classes,
-    }));
-    fixture.detectChanges();
-  }
-
-  function classes() {
-    return formService.reservationModel().classes;
-  }
-
-  function query<T extends Element>(selector: string): T {
-    return fixture.nativeElement.querySelector(selector);
-  }
-
-  function removeButtons(): HTMLButtonElement[] {
-    return Array.from(
-      fixture.nativeElement.querySelectorAll('app-button[aria-label="Ukloni čas"] button'),
+  const classes = () => form.reservationModel().classes;
+  const removeButtons = () =>
+    Array.from(
+      element.querySelectorAll<HTMLButtonElement>('app-button[aria-label="Ukloni čas"] button'),
     );
-  }
+  const subjectSelect = (index: number) =>
+    element.querySelector<HTMLSelectElement>(`#class-subject-${index}`)!;
+  const input = (id: string) => element.querySelector<HTMLInputElement>(`#${id}`)!;
+  const errors = () =>
+    Array.from(element.querySelectorAll('p.text-red-400')).map((error) =>
+      error.textContent?.trim(),
+    );
+  const touch = async (id: string) => {
+    input(id).dispatchEvent(new Event('blur'));
+    await fixture.whenStable();
+  };
 
-  function addButton(): HTMLButtonElement {
-    return Array.from(
-      fixture.nativeElement.querySelectorAll('button') as NodeListOf<HTMLButtonElement>,
-    ).find((b) => b.textContent?.includes('Dodaj čas'))!;
-  }
-
-  function text(): string {
-    return fixture.nativeElement.textContent;
-  }
-
-  beforeEach(async () => {
-    // jsdom doesn't implement scrolling
-    Element.prototype.scrollTo = vi.fn();
-
+  const setup = async (reservationId: string | null) => {
     await TestBed.configureTestingModule({
       imports: [ClassReservationListForm],
-      providers: [ClassFormService],
+      providers: [provideReservationFormTesting(reservationId), provideHttpTesting()],
     }).compileComponents();
 
-    formService = TestBed.inject(ClassFormService);
+    form = TestBed.inject(ClassFormService);
+    http = TestBed.inject(HttpTestingController);
     fixture = TestBed.createComponent(ClassReservationListForm);
-    component = fixture.componentInstance;
-    fixture.componentRef.setInput('subjectsLookup', subjectsLookup);
-    fixture.detectChanges();
+    element = fixture.nativeElement;
+    await flushLookups();
     await fixture.whenStable();
-  });
+  };
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+  afterEach(() => http.verify());
 
-  describe('initial state', () => {
-    it('should render one empty class from the default reservation', () => {
-      expect(classes()).toHaveLength(1);
-      expect(query('#class-subject-0')).not.toBeNull();
-      expect(query('#class-subject-1')).toBeNull();
-      expect(text()).toContain('Novi čas');
+  describe('on the create page', () => {
+    beforeEach(() => setup(null));
+
+    it('starts with one class that cannot be removed', () => {
+      expect(classes().length).toBe(1);
+      expect(removeButtons()[0].disabled).toBe(true);
+      expect(element.textContent).toContain('Novi čas');
     });
 
-    it('should add a class when the model starts without classes', () => {
-      formService.reservationModel.update((model) => ({ ...model, classes: [] }));
+    it('a new class starts right when the previous one ends', async () => {
+      form.updateClass(0, {
+        startsAt: dateTimeInputValue(inDays(3, 10)),
+        endsAt: dateTimeInputValue(inDays(3, 10, 45)),
+      });
 
-      TestBed.createComponent(ClassReservationListForm);
-
-      expect(classes()).toHaveLength(1);
-    });
-  });
-
-  describe('adding and removing classes', () => {
-    it('should add a class that starts when the previous one ends', () => {
-      setClasses([createClass()]);
-
-      addButton().click();
-      fixture.detectChanges();
-
-      expect(classes()).toHaveLength(2);
-      expect(classes()[1].startsAt).toBe('2026-11-03T10:45');
-      expect(classes()[1].endsAt).toBe('2026-11-03T11:30');
-      expect(query('#class-subject-1')).not.toBeNull();
-    });
-
-    it('should scroll to the newly added class', async () => {
-      addButton().click();
-      fixture.detectChanges();
+      getButton(element, 'Dodaj čas')!.click();
       await fixture.whenStable();
 
-      expect(Element.prototype.scrollTo).toHaveBeenCalled();
+      expect(classes().length).toBe(2);
+      expect(classes()[1].startsAt).toBe(dateTimeInputValue(inDays(3, 10, 45)));
+      expect(classes()[1].endsAt).toBe(dateTimeInputValue(inDays(3, 11, 30)));
+      expect(removeButtons().every((button) => !button.disabled)).toBe(true);
     });
 
-    it('should not allow removing the only class', () => {
-      expect(removeButtons()[0].disabled).toBe(true);
+    it('removing a class that was never saved does not mark anything for deletion', async () => {
+      getButton(element, 'Dodaj čas')!.click();
+      await fixture.whenStable();
+
+      removeButtons()[1].click();
+      await fixture.whenStable();
+
+      expect(classes().length).toBe(1);
+      expect(form.reservationModel().classesToDelete).toEqual([]);
     });
 
-    it('should remove the selected class', () => {
-      setClasses([
-        createClass({ subjectId: 1 }),
-        createClass({ subjectId: 2, startsAt: '2026-11-03T10:50', endsAt: '2026-11-03T11:35' }),
-      ]);
+    it('picking a subject stores its id and shows its name in the header', async () => {
+      subjectSelect(0).value = '2';
+      subjectSelect(0).dispatchEvent(new Event('change'));
+      await fixture.whenStable();
 
-      removeButtons()[0].click();
-      fixture.detectChanges();
-
-      expect(classes()).toHaveLength(1);
       expect(classes()[0].subjectId).toBe(2);
+      expect(element.querySelector('p.text-lg')?.textContent).toContain('Web programiranje');
+    });
+
+    it('shows the subject error only after the select was left', async () => {
+      expect(errors()).not.toContain('Izaberi predmet časa.');
+
+      subjectSelect(0).dispatchEvent(new Event('blur'));
+      await fixture.whenStable();
+
+      expect(errors()).toContain('Izaberi predmet časa.');
+    });
+
+    it('rejects a class that is free or has no price', async () => {
+      typeInto(input('class-price-0'), '0');
+      await touch('class-price-0');
+      expect(errors()).toContain('Cena časa mora biti veća od 0 RSD.');
+
+      typeInto(input('class-price-0'), '');
+      await touch('class-price-0');
+      expect(errors()).toContain('Unesi cenu časa.');
+    });
+
+    it('rejects a class longer than 45 minutes', async () => {
+      form.updateClass(0, {
+        startsAt: dateTimeInputValue(inDays(3, 10)),
+        endsAt: dateTimeInputValue(inDays(3, 10, 46)),
+      });
+      await touch('class-end-0');
+
+      expect(errors()).toContain('Čas ne može trajati duže od 45 minuta');
+    });
+
+    it('rejects a class that ends before it starts', async () => {
+      form.updateClass(0, {
+        startsAt: dateTimeInputValue(inDays(3, 10)),
+        endsAt: dateTimeInputValue(inDays(3, 10)),
+      });
+      await touch('class-end-0');
+
+      expect(errors()).toContain('Kraj časa mora biti posle početka');
     });
   });
 
-  describe('subject', () => {
-    it('should list subjects from the lookup', () => {
-      const options = Array.from(query<HTMLSelectElement>('#class-subject-0').options).map((o) =>
-        o.textContent?.trim(),
+  describe('the schedule between classes', () => {
+    beforeEach(async () => {
+      await setup(null);
+    });
+
+    const schedule = async (secondStart: Date) => {
+      form.reservationModel.set(
+        createValidReservationModel({
+          classes: [createFormClass(inDays(3, 10)), createFormClass(secondStart)],
+        }),
       );
+      await fixture.whenStable();
+      await touch('class-start-1');
+    };
 
-      expect(options).toEqual(['Izaberi predmet', 'Algoritmi', 'Baze podataka']);
+    it('accepts a class that starts right after the previous one', async () => {
+      await schedule(inDays(3, 10, 45));
+      expect(errors()).toEqual([]);
     });
 
-    it('should update the class subject and show its name', () => {
-      const select = query<HTMLSelectElement>('#class-subject-0');
-      select.value = '2';
-      select.dispatchEvent(new Event('change'));
-      fixture.detectChanges();
-
-      expect(classes()[0].subjectId).toBe(2);
-      expect(text()).toContain('Baze podataka');
-      expect(text()).not.toContain('Novi čas');
+    it('accepts a break of exactly 60 minutes', async () => {
+      await schedule(inDays(3, 11, 45));
+      expect(errors()).toEqual([]);
     });
 
-    it('should ignore a subject that is not in the lookup', () => {
-      component.onSubjectChanged(0, { target: { value: '99' } } as unknown as Event);
-
-      expect(classes()[0].subjectId).toBe(0);
-    });
-  });
-
-  describe('fields', () => {
-    beforeEach(() => setClasses([createClass()]));
-
-    it('should bind the class values to the inputs', () => {
-      expect(query<HTMLInputElement>('#class-price-0').value).toBe('1300');
-      expect(query<HTMLInputElement>('#class-start-0').value).toBe('2026-11-03T10:00');
-      expect(query<HTMLInputElement>('#class-end-0').value).toBe('2026-11-03T10:45');
-      expect(query<HTMLInputElement>('#class-reserved-0').value).toBe('2026-10-20');
+    it('rejects a break longer than 60 minutes', async () => {
+      await schedule(inDays(3, 11, 46));
+      expect(errors()).toContain('Pauza posle prethodnog časa ne može biti duža od 60 minuta');
     });
 
-    it('should write input changes back to the model', () => {
-      const end = query<HTMLInputElement>('#class-end-0');
-      end.value = '2026-11-03T10:30';
-      end.dispatchEvent(new Event('input'));
-      fixture.detectChanges();
-
-      expect(classes()[0].endsAt).toBe('2026-11-03T10:30');
+    it('rejects a class that overlaps the previous one', async () => {
+      await schedule(inDays(3, 10, 30));
+      expect(errors()).toContain('Čas se preklapa sa prethodnim časom');
     });
 
-    it('should show the class date, time range and price in the header', () => {
-      expect(text()).toContain(component.timeConverter('2026-11-03T10:00'));
-      expect(text()).toContain(component.timeConverter('2026-11-03T10:45'));
-      expect(text()).toContain(component.priceConverter(1300));
+    it('rejects classes that are not in chronological order', async () => {
+      await schedule(inDays(3, 9));
+      expect(errors()).toContain('Časovi moraju biti poređani hronološki');
     });
   });
 
-  describe('validation errors', () => {
-    it('should show an error for a class that is too long once touched', () => {
-      setClasses([createClass({ endsAt: '2026-11-03T11:00' })]);
-
-      formService.reservationForm.classes[0].endsAt().markAsTouched();
-      fixture.detectChanges();
-
-      expect(text()).toContain('Čas ne može trajati duže od 45 minuta');
+  describe('on the details page', () => {
+    beforeEach(async () => {
+      await setup('7');
+      expectReservationDetailsRequest().flush(createClassReservationDetails());
+      await settle();
+      await fixture.whenStable();
     });
 
-    it('should show an error for overlapping classes', () => {
-      setClasses([
-        createClass(),
-        createClass({ startsAt: '2026-11-03T10:30', endsAt: '2026-11-03T11:00' }),
-      ]);
-
-      formService.reservationForm.classes[1].startsAt().markAsTouched();
-      fixture.detectChanges();
-
-      expect(text()).toContain('Čas se preklapa sa prethodnim časom');
+    it('shows the saved classes with their subjects selected', () => {
+      expect(classes().map((classItem) => classItem.id)).toEqual([21, 22]);
+      expect(subjectSelect(0).value).toBe('1');
+      expect(subjectSelect(1).value).toBe('2');
     });
 
-    it('should show a subject error once the select is blurred', () => {
-      query<HTMLSelectElement>('#class-subject-0').dispatchEvent(new Event('blur'));
-      fixture.detectChanges();
+    it('removing a saved class marks it for deletion', async () => {
+      removeButtons()[0].click();
+      await fixture.whenStable();
 
-      expect(text()).toContain('Izaberi predmet časa.');
+      expect(classes().map((classItem) => classItem.id)).toEqual([22]);
+      expect(form.reservationModel().classesToDelete).toEqual([21]);
     });
 
-    it('should not render an empty error for a touched valid field', () => {
-      setClasses([createClass()]);
+    it('the last remaining class cannot be removed', async () => {
+      removeButtons()[0].click();
+      await fixture.whenStable();
 
-      formService.reservationForm.classes[0].endsAt().markAsTouched();
-      fixture.detectChanges();
-
-      expect(fixture.nativeElement.querySelectorAll('p.text-red-400')).toHaveLength(0);
-    });
-
-    it('should not show errors for untouched fields', () => {
-      expect(text()).not.toContain('Izaberi predmet časa.');
+      expect(removeButtons()[0].disabled).toBe(true);
     });
   });
 });

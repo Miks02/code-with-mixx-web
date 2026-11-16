@@ -1,0 +1,116 @@
+import { computed, inject } from '@angular/core';
+import {
+  patchState,
+  signalStore,
+  withComputed,
+  withMethods,
+  withProps,
+  withState,
+} from '@ngrx/signals';
+import { rxMethod } from '@ngrx/signals/rxjs-interop';
+import { debounceTime, distinctUntilChanged, pipe, tap } from 'rxjs';
+import { AdminSubjectParams } from '@features/subjects/models/admin-subject-params';
+import { SubjectItem } from '@features/subjects/models/subject-item';
+import { SubjectSort } from '@features/subjects/models/subject-sort';
+import { SubjectService } from '@features/subjects/services/subject-service';
+
+type AdminSubjectState = {
+  params: AdminSubjectParams;
+  selectedSubject: SubjectItem | undefined;
+  isEditing: boolean;
+};
+
+const initialState: AdminSubjectState = {
+  params: {
+    pageNumber: 1,
+    pageSize: 15,
+    searchTerm: '',
+    onlyArchived: false,
+    sortBy: SubjectSort.CreatedAscending,
+  },
+  selectedSubject: undefined,
+  isEditing: false,
+};
+
+export const AdminSubjectStore = signalStore(
+  withState(initialState),
+  withProps((store, subjectService = inject(SubjectService)) => {
+    const summaryQuery = subjectService.getSubjectsSummaryForAdminQuery(
+      store.params.pageNumber,
+      store.params.pageSize,
+      store.params.searchTerm,
+      store.params.sortBy,
+      store.params.onlyArchived,
+    );
+
+    return {
+      summaryQuery,
+      subjectsQuery: subjectService.getPagedSubjectsForAdminQuery(
+        summaryQuery,
+        store.params.pageNumber,
+        store.params.pageSize,
+        store.params.searchTerm,
+        store.params.sortBy,
+        store.params.onlyArchived,
+      ),
+    };
+  }),
+  withComputed((store) => ({
+    summary: computed(() => store.summaryQuery.data()),
+    summaryPending: computed(() => store.summaryQuery.isPending()),
+    mostPopularSubject: computed(() => store.summaryQuery.data()?.mostPopularSubject ?? undefined),
+    pagedSubjectsItems: computed(() => store.subjectsQuery.data()?.items),
+    pagedSubjectsTotalCount: computed(() => store.subjectsQuery.data()?.totalCount ?? 0),
+    pagedSubjectsCount: computed(() => store.subjectsQuery.data()?.items.length ?? 0),
+    currentPage: computed(() => store.subjectsQuery.data()?.pageNumber ?? 1),
+    totalPages: computed(() => store.subjectsQuery.data()?.totalPages ?? 1),
+    hasPreviousPage: computed(() => store.subjectsQuery.data()?.hasPreviousPage ?? false),
+    hasNextPage: computed(() => store.subjectsQuery.data()?.hasNextPage ?? false),
+    selectedSubjectId: computed(() => store.selectedSubject()?.id),
+    subjectsPending: computed(() => store.subjectsQuery.isPending()),
+    subjectsFetching: computed(() => store.subjectsQuery.isFetching()),
+  })),
+  withMethods((store) => {
+    const patchParams = (params: Partial<AdminSubjectParams>) =>
+      patchState(store, { params: { ...store.params(), ...params } });
+
+    return {
+      setSearchTerm: rxMethod<string>(
+        pipe(
+          debounceTime(300),
+          distinctUntilChanged(),
+          tap((searchTerm) => patchParams({ searchTerm, pageNumber: 1 })),
+        ),
+      ),
+      setSort(sortBy: SubjectSort) {
+        patchParams({ sortBy, pageNumber: 1 });
+      },
+      previousPage() {
+        if (!store.hasPreviousPage()) return;
+        patchParams({ pageNumber: store.currentPage() - 1 });
+      },
+      nextPage() {
+        if (!store.hasNextPage()) return;
+        patchParams({ pageNumber: store.currentPage() + 1 });
+      },
+      toggleOnlyArchived() {
+        patchParams({ onlyArchived: !store.params.onlyArchived(), pageNumber: 1 });
+      },
+      selectSubject(subject: SubjectItem | undefined) {
+        patchState(store, { selectedSubject: subject, isEditing: false });
+      },
+      updateSelectedSubject(changes: Partial<SubjectItem>) {
+        const subject = store.selectedSubject();
+        if (!subject) return;
+        patchState(store, { selectedSubject: { ...subject, ...changes } });
+      },
+      startEditing() {
+        if (!store.selectedSubject()) return;
+        patchState(store, { isEditing: true });
+      },
+      stopEditing() {
+        patchState(store, { isEditing: false });
+      },
+    };
+  }),
+);

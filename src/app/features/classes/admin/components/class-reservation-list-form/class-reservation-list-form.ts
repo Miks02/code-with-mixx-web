@@ -6,7 +6,6 @@ import {
   ElementRef,
   inject,
   Injector,
-  input,
   viewChild,
 } from '@angular/core';
 import { FormField } from '@angular/forms/signals';
@@ -16,7 +15,7 @@ import { timeConverter } from '@core/utilities/date-helpers';
 import { priceConverter } from '@core/utilities/price-helpers';
 import { Button } from '@shared/components/button/button';
 import { SrDatePipe } from '@shared/pipes/sr-date-pipe';
-import { SubjectLookupItem } from '@features/subjects';
+import { AdminClassReservationStore } from '@features/classes/admin/stores/admin-class-reservation-store';
 import { ClassFormService } from '@features/classes/services/class-form-service';
 
 @Component({
@@ -27,8 +26,7 @@ import { ClassFormService } from '@features/classes/services/class-form-service'
   templateUrl: './class-reservation-list-form.html',
 })
 export class ClassReservationListForm {
-  subjectsLookup = input.required<SubjectLookupItem[] | undefined>();
-
+  protected store = inject(AdminClassReservationStore);
   classFormService = inject(ClassFormService);
   private injector = inject(Injector);
 
@@ -38,7 +36,7 @@ export class ClassReservationListForm {
   classesForm = this.classFormService.reservationForm.classes;
 
   private subjectNames = computed(
-    () => new Map(this.subjectsLookup()?.map((s) => [s.id, s.subjectName]) ?? []),
+    () => new Map(this.store.subjects()?.map((s) => [s.id, s.subjectName]) ?? []),
   );
 
   priceConverter = priceConverter;

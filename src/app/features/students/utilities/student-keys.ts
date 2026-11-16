@@ -1,8 +1,6 @@
 export const studentKeys = {
   all: ['students'] as const,
-  summaries: () => [...studentKeys.all, 'summary'] as const,
-  summary: <TParams extends object>(params: TParams) =>
-    [...studentKeys.summaries(), params] as const,
+  summary: () => [...studentKeys.all, 'summary'] as const,
   pages: () => [...studentKeys.all, 'page'] as const,
   page: <TParams extends object>(params: TParams) => [...studentKeys.pages(), params] as const,
   details: () => [...studentKeys.all, 'details'] as const,

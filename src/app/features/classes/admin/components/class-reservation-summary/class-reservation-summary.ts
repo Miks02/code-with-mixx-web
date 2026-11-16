@@ -1,14 +1,22 @@
-import { Component, computed, inject, input, output } from '@angular/core';
-import { FormField } from '@angular/forms/signals';
+import { Component, computed, inject } from '@angular/core';
+import { FormField, submit } from '@angular/forms/signals';
+import { Router } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { faSolidCheck, faSolidCircleCheck, faSolidCircleXmark } from '@ng-icons/font-awesome/solid';
+import { ToastService } from '@core/services/toast-service';
 import { timeConverter } from '@core/utilities/date-helpers';
 import { priceConverter } from '@core/utilities/price-helpers';
 import { Button } from '@shared/components/button/button';
 import { SrDatePipe } from '@shared/pipes/sr-date-pipe';
 import { PAYMENT_STATUS_META, PaymentStatus } from '@features/reservations';
-import { SubjectLookupItem } from '@features/subjects';
+import { AdminClassReservationStore } from '@features/classes/admin/stores/admin-class-reservation-store';
+import {
+  createClassReservationRequest,
+  createUpdateClassReservationRequest,
+} from '@features/classes/factories/class-factories';
 import { ClassFormService } from '@features/classes/services/class-form-service';
+import { ClassService } from '@features/classes/services/class-service';
+import { getClassReservationErrorMessage } from '@features/classes/utilities/class-error-messages';
 
 type SummaryStat = {
   label: string;
@@ -29,11 +37,13 @@ type SummaryCheck = {
   templateUrl: './class-reservation-summary.html',
 })
 export class ClassReservationSummary {
-  totalPaid = input<number>(0);
-  subjectsLookup = input<SubjectLookupItem[]>();
-  submitClicked = output<void>();
-
+  protected store = inject(AdminClassReservationStore);
+  private classService = inject(ClassService);
+  private toastService = inject(ToastService);
+  private router = inject(Router);
   classFormService = inject(ClassFormService);
+
+  totalPaid = computed(() => this.store.totalPaid() ?? 0);
 
   reservationModel = this.classFormService.reservationModel;
   reservationForm = this.classFormService.reservationForm;
@@ -46,7 +56,7 @@ export class ClassReservationSummary {
   totalPrice = computed(() => this.reservationModel().totalPrice ?? this.classesSum());
 
   private subjectNames = computed(
-    () => new Map(this.subjectsLookup()?.map((s) => [s.id, s.subjectName]) ?? []),
+    () => new Map(this.store.subjects()?.map((s) => [s.id, s.subjectName]) ?? []),
   );
 
   discountRate = computed(() => {
@@ -124,7 +134,28 @@ export class ClassReservationSummary {
   }
 
   onSubmitClicked() {
-    this.submitClicked.emit();
+    return submit(this.reservationForm, async () => {
+      const model = this.reservationModel();
+      const reservationId = this.store.reservationId();
+
+      try {
+        if (reservationId !== null) {
+          await this.classService.updateClassReservationMutation.mutateAsync(
+            createUpdateClassReservationRequest(reservationId, model),
+          );
+          this.toastService.showSuccess('Rezervacija je uspešno ažurirana.');
+        } else {
+          await this.classService.createClassReservationMutation.mutateAsync(
+            createClassReservationRequest(model),
+          );
+          this.toastService.showSuccess('Rezervacija je uspešno kreirana.');
+        }
+        this.router.navigateByUrl('/admin/classes');
+      } catch (err) {
+        const message = getClassReservationErrorMessage(err);
+        if (message) this.toastService.showError(message);
+      }
+    });
   }
 
   resetForm() {

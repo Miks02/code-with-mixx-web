@@ -62,7 +62,7 @@
           @for (project of reservation.projects; track project.id) {
             <app-project-card
               [project]="project"
-              (clicked)="openProjectModal(project.id)"
+              (clicked)="store.openProjectModal(project.id)"
             ></app-project-card>
           }
         </div>
@@ -71,7 +71,7 @@
 
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full mt-auto">
       <app-button
-        (clicked)="openModal('payment-history')"
+        (clicked)="store.openModal('payment-history')"
         [fullWidth]="true"
         variant="ghost"
         icon="faSolidMoneyBill1"
@@ -83,7 +83,7 @@
           (clicked)="onDelete(reservation.id)"
           class="sm:col-span-2"
           [fullWidth]="true"
-          [loading]="isArchiving()"
+          [loading]="store.isArchiving()"
           variant="danger"
           icon="faSolidTrash"
           >Obriši rezervaciju</app-button
@@ -93,27 +93,27 @@
         <app-button
           (clicked)="onArchive(reservation.id)"
           [fullWidth]="true"
-          [loading]="isArchiving()"
+          [loading]="store.isArchiving()"
           variant="secondary"
           icon="faSolidBoxArchive"
           >Arhiviraj rezervaciju</app-button
         >
         <app-button
-          (clicked)="openModal('update-status')"
+          (clicked)="store.openModal('update-status')"
           [fullWidth]="true"
           variant="secondary"
           icon="faSolidArrowsRotate"
           >Promeni status</app-button
         >
         <app-button
-          (clicked)="openModal('register-payment')"
+          (clicked)="store.openModal('register-payment')"
           [fullWidth]="true"
           variant="primary"
           icon="faSolidCirclePlus"
           >Registruj uplatu</app-button
         >
         <app-button
-          (clicked)="openModal('subtract-payment')"
+          (clicked)="store.openModal('subtract-payment')"
           [fullWidth]="true"
           variant="primary"
           icon="faSolidCircleMinus"
@@ -132,7 +132,7 @@
           (clicked)="onRestore(reservation.id)"
           [fullWidth]="true"
           class="sm:col-span-2"
-          [loading]="isArchiving()"
+          [loading]="store.isArchiving()"
           variant="secondary"
           icon="faSolidBoxArchive"
           >Vrati iz arhive</app-button
@@ -157,14 +157,14 @@
 </div>
 
 @if (reservation(); as reservation) {
-  @if (isReservationModalVisible()) {
-    @switch (reservationModal()) {
+  @if (store.reservationModal(); as reservationModal) {
+    @switch (reservationModal) {
       @case ('register-payment') {
         <app-register-payment-modal
           [reservationId]="reservation.id"
           [totalPrice]="reservation.totalPrice"
           [paidAmount]="reservation.paidAmount"
-          (closed)="closeModal()"
+          (closed)="store.closeModal()"
         ></app-register-payment-modal>
       }
       @case ('subtract-payment') {
@@ -172,30 +172,26 @@
           [reservationId]="reservation.id"
           [totalPrice]="reservation.totalPrice"
           [paidAmount]="reservation.paidAmount"
-          (closed)="closeModal()"
+          (closed)="store.closeModal()"
         ></app-subtract-payment-modal>
       }
       @case ('update-status') {
         <app-update-status-modal
           [reservationId]="reservation.id"
           [currentStatus]="reservation.reservationStatus"
-          (closed)="closeModal()"
+          (closed)="store.closeModal()"
         ></app-update-status-modal>
       }
       @case ('payment-history') {
         <app-reservation-payment-history-modal
-          [paymentHistory]="paymentHistory()"
-          [isLoading]="isPaymentHistoryLoading()"
-          (closed)="closeModal()"
+          [paymentHistory]="store.paymentHistory()"
+          [isLoading]="store.isPaymentHistoryLoading()"
+          (closed)="store.closeModal()"
         ></app-reservation-payment-history-modal>
       }
     }
   }
-  @if (editedProjectId(); as projectId) {
-    <app-project-edit-modal
-      [projectId]="projectId"
-      [reservationId]="reservation.id"
-      (closed)="closeProjectModal()"
-    ></app-project-edit-modal>
+  @if (store.editedProjectId()) {
+    <app-project-edit-modal></app-project-edit-modal>
   }
 }

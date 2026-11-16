@@ -70,7 +70,7 @@
               <option value="0" disabled [selected]="classField.subjectId().value() === 0">
                 Izaberi predmet
               </option>
-              @for (subject of subjectsLookup(); track subject.id) {
+              @for (subject of store.subjects(); track subject.id) {
                 <option
                   [value]="subject.id"
                   [selected]="subject.id === classField.subjectId().value()"

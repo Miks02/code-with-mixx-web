@@ -70,8 +70,16 @@ describe('class factories', () => {
         price: 1300,
         startsAt: '2026-11-03T10:00',
         endsAt: '2026-11-03T10:45',
-        reservedAt: dateInputValue(),
+        reservedAt: '2026-11-03',
       });
+    });
+
+    it('should reserve a future class today and a past class on the day it starts', () => {
+      const future = new Date();
+      future.setDate(future.getDate() + 5);
+
+      expect(createEmptyClass(future).reservedAt).toBe(dateInputValue());
+      expect(createEmptyClass(new Date(2020, 0, 15, 10, 0)).reservedAt).toBe('2020-01-15');
     });
   });
 

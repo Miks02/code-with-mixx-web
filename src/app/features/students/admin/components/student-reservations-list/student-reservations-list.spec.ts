@@ -1,182 +1,135 @@
+import { HttpTestingController } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
-import { PagedResult } from '@core/models/paged-result';
-import { PaymentStatus, ReservationStatus, ReservationType } from '@features/reservations';
-import { StudentReservation } from '@features/students/models/student-details';
+import { provideHttpTesting, settle } from '@core/testing/test-utils';
+import { ReservationType } from '@features/reservations';
+import { AdminStudentDetailsStore } from '@features/students/admin/stores/admin-student-details-store';
+import {
+  createPagedReservations,
+  createStudentDetails,
+  createStudentReservation,
+  expectStudentDetailsRequest,
+  flushStudentDetails,
+  provideStudentRoute,
+} from '@features/students/testing/student-test-utils';
 import { StudentReservationsList } from './student-reservations-list';
-
-function reservation(id: number): StudentReservation {
-  return {
-    id,
-    reservationType: ReservationType.Class,
-    reservationStatus: ReservationStatus.Confirmed,
-    paymentStatus: PaymentStatus.Paid,
-    totalPrice: 1300,
-    paidAmount: 1300,
-    discountRate: 0,
-    bonus: 0,
-    description: null,
-    reservedAt: '2026-10-18',
-    createdAt: '2026-10-18T09:00:00Z',
-    classes: [
-      {
-        id,
-        subjectId: 1,
-        subjectName: 'Baze podataka',
-        price: 1300,
-        startsAt: '2026-11-03T10:00:00',
-        endsAt: '2026-11-03T10:45:00',
-        reservedAt: '2026-10-18',
-      },
-    ],
-    projects: [],
-  };
-}
-
-function paged(
-  items: StudentReservation[],
-  overrides: Partial<PagedResult<StudentReservation>> = {},
-): PagedResult<StudentReservation> {
-  return {
-    items,
-    totalCount: items.length,
-    pageNumber: 1,
-    pageSize: 10,
-    totalPages: 1,
-    hasPreviousPage: false,
-    hasNextPage: false,
-    paginatedCount: items.length,
-    ...overrides,
-  };
-}
 
 describe('StudentReservationsList', () => {
   let fixture: ComponentFixture<StudentReservationsList>;
-  let component: StudentReservationsList;
+  let element: HTMLElement;
+  let store: InstanceType<typeof AdminStudentDetailsStore>;
+  let http: HttpTestingController;
 
-  function element(): HTMLElement {
-    return fixture.nativeElement as HTMLElement;
-  }
+  const cards = () =>
+    Array.from(element.querySelectorAll<HTMLElement>('app-student-reservation-card'));
+  const pageButton = (label: string) =>
+    element.querySelector<HTMLButtonElement>(`app-button[aria-label="${label}"] button`)!;
+  const typeOption = (label: string) =>
+    Array.from(
+      element.querySelectorAll('app-sort-menu ul')[0].querySelectorAll<HTMLButtonElement>('button'),
+    ).find((button) => button.textContent?.includes(label))!;
 
-  function pageButtons(): HTMLButtonElement[] {
-    return Array.from(element().querySelectorAll<HTMLButtonElement>('app-button button'));
-  }
+  const withReservations = (count: number, overrides = {}) =>
+    createStudentDetails({
+      reservations: createPagedReservations(
+        Array.from({ length: count }, (_, index) => createStudentReservation({ id: index + 1 })),
+        overrides,
+      ),
+    });
+
+  const load = async (details = withReservations(2)) => {
+    await flushStudentDetails(details);
+    await fixture.whenStable();
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [StudentReservationsList],
-      providers: [provideRouter([])],
+      providers: [
+        AdminStudentDetailsStore,
+        provideRouter([]),
+        provideStudentRoute(),
+        provideHttpTesting(),
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(StudentReservationsList);
-    component = fixture.componentInstance;
+    element = fixture.nativeElement;
+    store = TestBed.inject(AdminStudentDetailsStore);
+    http = TestBed.inject(HttpTestingController);
   });
 
-  it('should render skeletons while pending', async () => {
-    fixture.componentRef.setInput('isPending', true);
-    await fixture.whenStable();
+  afterEach(() => http.verify());
 
-    expect(element().querySelectorAll('app-skeleton').length).toBeGreaterThan(0);
-    expect(element().querySelector('app-student-reservation-card')).toBeNull();
+  it('renders a card per reservation and the count', async () => {
+    await load(withReservations(2, { totalCount: 14, totalPages: 2, hasNextPage: true }));
+
+    expect(cards().length).toBe(2);
+    expect(element.textContent).toContain('Prikazano 2 od 14');
+    expect(element.textContent).toMatch(/1\s*\/\s*2/);
   });
 
-  it('should render a card per reservation and the count', async () => {
-    fixture.componentRef.setInput(
-      'pagedReservations',
-      paged([reservation(1), reservation(2)], { totalCount: 14 }),
-    );
-    await fixture.whenStable();
+  it('stretches only the last card when the count is odd', async () => {
+    await load(withReservations(3));
 
-    expect(element().querySelectorAll('app-student-reservation-card').length).toBe(2);
-    expect(element().textContent).toContain('Prikazano 2 od 14');
-  });
-
-  it('should stretch the last card over the whole row when the count is odd', async () => {
-    fixture.componentRef.setInput(
-      'pagedReservations',
-      paged([reservation(1), reservation(2), reservation(3)]),
-    );
-    await fixture.whenStable();
-
-    const cards = Array.from(element().querySelectorAll('app-student-reservation-card'));
-    expect(cards.map((card) => card.classList.contains('sm:col-span-2'))).toEqual([
+    expect(cards().map((card) => card.classList.contains('sm:col-span-2'))).toEqual([
       false,
       false,
       true,
     ]);
   });
 
-  it('should keep cards in pairs when the count is even', async () => {
-    fixture.componentRef.setInput('pagedReservations', paged([reservation(1), reservation(2)]));
-    await fixture.whenStable();
+  it('says the student has no reservations at all when no type is selected', async () => {
+    await load(withReservations(0, { totalPages: 0 }));
 
-    const cards = Array.from(element().querySelectorAll('app-student-reservation-card'));
-    expect(cards.some((card) => card.classList.contains('sm:col-span-2'))).toBe(false);
+    expect(element.textContent).toContain('Student još nema nijednu rezervaciju.');
+    expect(element.textContent).toMatch(/1\s*\/\s*1/);
   });
 
-  it('should show the general empty state when there are no reservations', async () => {
-    fixture.componentRef.setInput('pagedReservations', paged([]));
+  it('says there are none of this type when a type is selected', async () => {
+    await load();
+    element.querySelector<HTMLButtonElement>('app-sort-menu button')!.click();
     await fixture.whenStable();
 
-    expect(element().textContent).toContain('Student još nema nijednu rezervaciju.');
-  });
-
-  it('should show the filtered empty state when a type is selected', async () => {
-    fixture.componentRef.setInput('pagedReservations', paged([]));
-    fixture.componentRef.setInput('selectedType', ReservationType.Project);
-    await fixture.whenStable();
-
-    expect(element().textContent).toContain('Student nema rezervacije ovog tipa.');
-  });
-
-  it('should show at least one total page when the result is empty', async () => {
-    fixture.componentRef.setInput('pagedReservations', paged([], { totalPages: 0 }));
-    await fixture.whenStable();
-
-    expect(element().textContent).toContain('1 / 1');
-  });
-
-  it('should emit the next and previous page', async () => {
-    const pages: number[] = [];
-    component.pageChanged.subscribe((page) => pages.push(page));
-    fixture.componentRef.setInput(
-      'pagedReservations',
-      paged([reservation(1)], {
-        pageNumber: 2,
-        totalPages: 3,
-        hasPreviousPage: true,
-        hasNextPage: true,
-      }),
+    typeOption('Projekti').click();
+    await settle();
+    expectStudentDetailsRequest({ reservationType: ReservationType.Project }).flush(
+      withReservations(0),
     );
+    await settle();
     await fixture.whenStable();
 
-    const [previous, next] = pageButtons();
-    previous.click();
-    next.click();
-
-    expect(pages).toEqual([1, 3]);
+    expect(element.textContent).toContain('Student nema rezervacije ovog tipa.');
   });
 
-  it('should not emit a page change past the first or last page', async () => {
-    const pages: number[] = [];
-    component.pageChanged.subscribe((page) => pages.push(page));
-    fixture.componentRef.setInput('pagedReservations', paged([reservation(1)]));
+  it('loads the next page and disables the buttons at the edges', async () => {
+    await load(withReservations(2, { totalCount: 3, totalPages: 2, hasNextPage: true }));
+    expect(pageButton('Prethodna strana').disabled).toBe(true);
+
+    pageButton('Sledeća strana').click();
+    await settle();
+    expectStudentDetailsRequest({ pageNumber: '2' }).flush(
+      withReservations(1, { pageNumber: 2, totalCount: 3, totalPages: 2, hasPreviousPage: true }),
+    );
+    await settle();
     await fixture.whenStable();
 
-    component.onPreviousPage();
-    component.onNextPage();
-
-    expect(pages).toEqual([]);
+    expect(store.currentPage()).toBe(2);
+    expect(element.textContent).toMatch(/2\s*\/\s*2/);
+    expect(pageButton('Sledeća strana').disabled).toBe(true);
+    expect(pageButton('Prethodna strana').disabled).toBe(false);
   });
 
-  it('should emit the selected type from the menu', () => {
-    const types: string[] = [];
-    component.typeChanged.subscribe((type) => types.push(type));
+  it('dims the cards while another page is loading', async () => {
+    await load(withReservations(2, { totalPages: 2, hasNextPage: true }));
 
-    fixture.debugElement
-      .query((de) => de.name === 'app-sort-menu')
-      .triggerEventHandler('sortChanged', ReservationType.Class);
+    pageButton('Sledeća strana').click();
+    // Not whenStable: it would wait for the pending request.
+    await settle();
+    fixture.detectChanges();
+    expect(cards()[0].querySelector('a')!.style.opacity).toBe('0.5');
 
-    expect(types).toEqual([ReservationType.Class]);
+    expectStudentDetailsRequest({ pageNumber: '2' }).flush(withReservations(1, { pageNumber: 2 }));
+    await settle();
   });
 });

@@ -1,6 +1,7 @@
-import { Component, computed, inject, input } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { FormField } from '@angular/forms/signals';
 import { RESERVATION_STATUS_STYLES, ReservationStatus } from '@features/reservations';
+import { AdminClassReservationStore } from '@features/classes/admin/stores/admin-class-reservation-store';
 import { ClassFormService } from '@features/classes/services/class-form-service';
 
 @Component({
@@ -14,7 +15,7 @@ export class ClassReservationPricing {
 
   reservationForm = this.classFormService.reservationForm;
 
-  totalPaid = input<number>();
+  protected totalPaid = inject(AdminClassReservationStore).totalPaid;
 
   reservationStatuses = Object.values(ReservationStatus);
   reservationStatusStyles = RESERVATION_STATUS_STYLES;
@@ -23,8 +24,12 @@ export class ClassReservationPricing {
     this.classFormService.reservationModel().classes.reduce((sum, c) => sum + (c.price || 0), 0),
   );
 
+  private isManualPrice = signal(false);
+
   // A null total price makes the backend sum class prices on its own
-  useClassesSum = computed(() => this.reservationForm.totalPrice().value() === null);
+  useClassesSum = computed(
+    () => !this.isManualPrice() && this.reservationForm.totalPrice().value() === null,
+  );
 
   onStatusSelected(status: ReservationStatus) {
     this.reservationForm.reservationStatus().value.set(status);
@@ -32,6 +37,7 @@ export class ClassReservationPricing {
 
   onUseClassesSumChanged(event: Event) {
     const checked = (event.target as HTMLInputElement).checked;
+    this.isManualPrice.set(!checked);
     this.reservationForm.totalPrice().value.set(checked ? null : this.classesSum());
   }
 }

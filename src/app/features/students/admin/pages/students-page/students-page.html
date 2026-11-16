@@ -1,0 +1,55 @@
+<div class="grid grid-cols-1 lg:grid-cols-5 lg:grid-rows-3 w-full lg:h-full gap-4">
+  <app-admin-student-list class="min-w-0 lg:col-span-3 lg:row-span-2"></app-admin-student-list>
+
+  @if (store.isEditing()) {
+    <app-edit-student-form class="min-w-0 lg:col-span-2 lg:row-span-2"></app-edit-student-form>
+  } @else {
+    <app-student-details class="min-w-0 lg:col-span-2 lg:row-span-2"></app-student-details>
+  }
+
+  <div class="min-w-0 lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <app-stats-card
+      title="Aktivni"
+      icon="faSolidUserCheck"
+      iconBackground="emerald"
+      description="Aktivni nalozi"
+      [value]="store.activeCount()"
+      [isPending]="store.summaryPending()"
+    ></app-stats-card>
+
+    <app-stats-card
+      title="Na čekanju"
+      icon="faSolidUserClock"
+      iconBackground="amber"
+      description="Nalozi koji nisu aktivirani"
+      [value]="store.pendingCount()"
+      [isPending]="store.summaryPending()"
+    ></app-stats-card>
+
+    <app-stats-card
+      title="Deaktivirani"
+      icon="faSolidUserSlash"
+      iconBackground="orange"
+      description="Deaktivirani nalozi"
+      [value]="store.deactivatedCount()"
+      [isPending]="store.summaryPending()"
+    ></app-stats-card>
+
+    <app-stats-card
+      title="Obrisani"
+      icon="faSolidUserXmark"
+      iconBackground="red"
+      description="Obrisani nalozi"
+      [value]="store.deletedCount()"
+      [isPending]="store.summaryPending()"
+    ></app-stats-card>
+  </div>
+
+  <app-most-active-student
+    class="min-w-0 lg:col-span-2"
+    [student]="store.mostActiveStudent()"
+    [isPending]="store.summaryPending()"
+  ></app-most-active-student>
+
+  <app-create-student-form></app-create-student-form>
+</div>

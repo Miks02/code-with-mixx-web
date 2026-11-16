@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, output } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
   faSolidCalendar,
@@ -11,12 +11,12 @@ import {
 } from '@ng-icons/font-awesome/solid';
 import { currentDate, dateConverter } from '@core/utilities/date-helpers';
 import { Button } from '@shared/components/button/button';
-import { SubjectItem } from '@features/subjects/models/subject-item';
 import { SubjectService } from '@features/subjects/services/subject-service';
 import { DialogService } from '@core/services/dialog-service';
 import { DialogResult } from '@core/components/dialog/dialog';
 import { ToastService } from '@core/services/toast-service';
 import { getSubjectErrorMessage } from '@features/subjects/utilities/subject-error-messages';
+import { AdminSubjectStore } from '@features/subjects/admin/stores/admin-subject-store';
 
 type SubjectStat = {
   icon: string;
@@ -43,14 +43,13 @@ type SubjectStat = {
   templateUrl: './subject-details.html',
 })
 export class SubjectDetails {
-  subject = input<SubjectItem>();
-  editSubject = output<SubjectItem>();
-  deleteSubject = output();
-  updatedSubject = output<SubjectItem>();
-
   private subjectService = inject(SubjectService);
   private dialogService = inject(DialogService);
   private toastService = inject(ToastService);
+
+  private store = inject(AdminSubjectStore);
+
+  subject = this.store.selectedSubject;
 
   isUpdating = computed(() => {
     return (
@@ -61,16 +60,12 @@ export class SubjectDetails {
   });
 
   onEdit() {
-    this.editSubject.emit(this.subject()!);
+    this.store.startEditing();
   }
 
   onArchive() {
     this.subjectService.archiveSubjectMutation.mutate(this.subject()!.id, {
-      onSuccess: () =>
-        this.updatedSubject.emit({
-          ...this.subject()!,
-          deletedAt: currentDate(),
-        }),
+      onSuccess: () => this.store.updateSelectedSubject({ deletedAt: currentDate() }),
       onError: (err) => {
         const message = getSubjectErrorMessage(err);
         if (message) this.toastService.showError(message);
@@ -80,11 +75,7 @@ export class SubjectDetails {
 
   onRestore() {
     this.subjectService.restoreSubjectMutation.mutate(this.subject()!.id, {
-      onSuccess: () =>
-        this.updatedSubject.emit({
-          ...this.subject()!,
-          deletedAt: null,
-        }),
+      onSuccess: () => this.store.updateSelectedSubject({ deletedAt: null }),
       onError: (err) => {
         const message = getSubjectErrorMessage(err);
         if (message) this.toastService.showError(message);
@@ -103,7 +94,7 @@ export class SubjectDetails {
     this.subjectService.deleteSubjectMutation.mutate(this.subject()!.id, {
       onSuccess: () => {
         this.toastService.showSuccess('Predmet je uspešno obrisan.');
-        this.deleteSubject.emit();
+        this.store.selectSubject(undefined);
       },
       onError: (err) => {
         const message = getSubjectErrorMessage(err);

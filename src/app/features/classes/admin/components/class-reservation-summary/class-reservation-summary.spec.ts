@@ -1,265 +1,387 @@
+import { HttpTestingController } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { PAYMENT_STATUS_META, PaymentStatus } from '@features/reservations';
-import { createEmptyClass } from '@features/classes/factories/class-factories';
-import { ClassItemFormModel } from '@features/classes/models/create-class-reservation-request';
+import { Router } from '@angular/router';
+import {
+  createProblemDetails,
+  createToastServiceMock,
+  getButton,
+  provideHttpTesting,
+  settle,
+} from '@core/testing/test-utils';
+import { dateInputValue } from '@core/utilities/date-helpers';
+import { priceConverter } from '@core/utilities/price-helpers';
 import { ClassFormService } from '@features/classes/services/class-form-service';
+import {
+  CLASS_RESERVATIONS_URL,
+  createClassReservationDetails,
+  createFormClass,
+  createValidReservationModel,
+  expectReservationDetailsRequest,
+  flushLookups,
+  flushReservationDetailsRefetch,
+  inDays,
+  provideReservationFormTesting,
+} from '@features/classes/testing/class-test-utils';
 import { ClassReservationSummary } from './class-reservation-summary';
 
 describe('ClassReservationSummary', () => {
-  let component: ClassReservationSummary;
   let fixture: ComponentFixture<ClassReservationSummary>;
-  let formService: ClassFormService;
+  let element: HTMLElement;
+  let form: ClassFormService;
+  let http: HttpTestingController;
+  let toast: ReturnType<typeof createToastServiceMock>;
+  let navigateByUrl: ReturnType<typeof vi.spyOn>;
 
-  const subjectsLookup = [
-    { id: 1, subjectName: 'Algoritmi' },
-    { id: 2, subjectName: 'Baze podataka' },
-  ];
+  const stats = () =>
+    Object.fromEntries(
+      Array.from(element.querySelectorAll('.grid > div')).map((stat) => [
+        stat.querySelector('p.text-sm')?.textContent?.trim(),
+        stat.querySelector('p.text-lg')?.textContent?.trim(),
+      ]),
+    );
+  const paymentBadge = () => element.querySelector('span.rounded-full')?.textContent?.trim();
+  const checks = () =>
+    Array.from(element.querySelectorAll('li')).map((check) => check.textContent?.trim());
+  const saveButton = () => getButton(element, 'Sačuvaj')!;
+  const save = async () => {
+    saveButton().click();
+    await settle();
+  };
 
-  function createClass(changes: Partial<ClassItemFormModel> = {}): ClassItemFormModel {
-    return { ...createEmptyClass(), subjectId: 1, price: 1300, ...changes };
-  }
-
-  function setClasses(classes: ClassItemFormModel[], totalPrice: number | null = null) {
-    formService.reservationModel.update((model) => ({ ...model, classes, totalPrice }));
-    fixture.detectChanges();
-  }
-
-  function stat(label: string): string | undefined {
-    return component.stats().find((s) => s.label === label)?.value;
-  }
-
-  function text(): string {
-    return fixture.nativeElement.textContent;
-  }
-
-  function button(label: string): HTMLButtonElement {
-    return Array.from(
-      fixture.nativeElement.querySelectorAll('button') as NodeListOf<HTMLButtonElement>,
-    ).find((b) => b.textContent?.includes(label))!;
-  }
-
-  beforeEach(async () => {
+  const setup = async (reservationId: string | null) => {
+    toast = createToastServiceMock();
     await TestBed.configureTestingModule({
       imports: [ClassReservationSummary],
-      providers: [ClassFormService],
+      providers: [
+        provideReservationFormTesting(reservationId),
+        provideHttpTesting({ toastService: toast }),
+      ],
     }).compileComponents();
 
-    formService = TestBed.inject(ClassFormService);
+    form = TestBed.inject(ClassFormService);
+    http = TestBed.inject(HttpTestingController);
+    navigateByUrl = vi.spyOn(TestBed.inject(Router), 'navigateByUrl').mockResolvedValue(true);
     fixture = TestBed.createComponent(ClassReservationSummary);
-    component = fixture.componentInstance;
-    fixture.componentRef.setInput('subjectsLookup', subjectsLookup);
-    fixture.detectChanges();
+    element = fixture.nativeElement;
+    await flushLookups();
+  };
+
+  const loadDetails = async (overrides = {}) => {
+    expectReservationDetailsRequest().flush(createClassReservationDetails(overrides));
+    await settle();
+    await fixture.whenStable();
+  };
+
+  afterEach(() => {
+    flushReservationDetailsRefetch();
+    http.verify();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+  describe('prices on the create page', () => {
+    beforeEach(() => setup(null));
 
-  describe('pricing', () => {
-    it('should use the classes sum as the total when total price is null', () => {
-      setClasses([createClass(), createClass({ price: 1500 })]);
+    const fill = async (totalPrice: number | null, prices: number[]) => {
+      form.reservationModel.set(
+        createValidReservationModel({
+          totalPrice,
+          classes: prices.map((price, index) => createFormClass(inDays(3, 10 + index), { price })),
+        }),
+      );
+      await fixture.whenStable();
+    };
 
-      expect(component.totalPrice()).toBe(2800);
-      expect(stat('Ukupna cena')).toBe(component.priceConverter(2800));
+    it('without a manual price the total is the sum of the classes', async () => {
+      await fill(null, [1300, 1500]);
+
+      expect(stats()).toEqual({
+        'Ukupna cena': priceConverter(2800),
+        Preostalo: priceConverter(2800),
+      });
     });
 
-    it('should prefer a manually entered total price', () => {
-      setClasses([createClass(), createClass()], 2000);
-
-      expect(component.totalPrice()).toBe(2000);
+    it('shows the discount as the share of the classes sum that was taken off', async () => {
+      await fill(1950, [1300, 1300]);
+      expect(stats()['Popust']).toBe('25%');
     });
 
-    it('should calculate a discount when the total is lower than the classes sum', () => {
-      setClasses([createClass({ price: 1000 }), createClass({ price: 1000 })], 1500);
-
-      expect(component.discountRate()).toBe(25);
-      expect(stat('Popust')).toBe('25%');
+    it('rounds the discount to two decimals', async () => {
+      await fill(2000, [3000]);
+      expect(stats()['Popust']).toBe('33.33%');
     });
 
-    it('should not show a discount when the total matches the classes sum', () => {
-      setClasses([createClass()]);
-
-      expect(stat('Popust')).toBeUndefined();
+    it('shows no discount when the total is higher than the classes sum', async () => {
+      await fill(5000, [1300]);
+      expect(stats()['Popust']).toBeUndefined();
     });
 
-    it('should show "Besplatno" for a zero total price', () => {
-      setClasses([createClass()], 0);
+    it('shows a free reservation instead of a price of zero', async () => {
+      await fill(0, [1300]);
 
-      expect(stat('Ukupna cena')).toBe('Besplatno');
+      expect(stats()['Ukupna cena']).toBe('Besplatno');
+      expect(stats()['Preostalo']).toBeUndefined();
+      expect(paymentBadge()).toBe('Čeka uplatu');
     });
 
-    it('should show the remaining amount and hide "Plaćeno" when nothing is paid', () => {
-      setClasses([createClass()]);
+    it('names each class by its subject and falls back to "Novi čas"', async () => {
+      form.reservationModel.set(
+        createValidReservationModel({
+          classes: [
+            createFormClass(inDays(3, 10), { subjectId: 2 }),
+            createFormClass(inDays(3, 11), { subjectId: 0 }),
+          ],
+        }),
+      );
+      await fixture.whenStable();
 
-      expect(stat('Plaćeno')).toBeUndefined();
-      expect(stat('Preostalo')).toBe(component.priceConverter(1300));
-    });
-
-    it('should show a bonus and hide the remaining amount on overpayment', () => {
-      fixture.componentRef.setInput('totalPaid', 2000);
-      setClasses([createClass()]);
-
-      expect(stat('Bonus')).toBe(component.priceConverter(700));
-      expect(stat('Preostalo')).toBeUndefined();
-    });
-  });
-
-  describe('payment status', () => {
-    beforeEach(() => setClasses([createClass()]));
-
-    it.each([
-      [0, PaymentStatus.Pending],
-      [500, PaymentStatus.PartiallyPaid],
-      [1300, PaymentStatus.Paid],
-    ])('should be correct when %i RSD is paid', (paid, status) => {
-      fixture.componentRef.setInput('totalPaid', paid);
-      fixture.detectChanges();
-
-      expect(component.paymentStatus()).toBe(PAYMENT_STATUS_META[status]);
-      expect(text()).toContain(PAYMENT_STATUS_META[status].label);
+      expect(element.textContent).toContain('Časovi (2)');
+      expect(element.textContent).toContain('Web programiranje');
+      expect(element.textContent).toContain('Novi čas');
     });
   });
 
-  describe('classes list', () => {
-    it('should list classes with their subject name and price', () => {
-      setClasses([createClass({ subjectId: 1 }), createClass({ subjectId: 2, price: 1500 })]);
+  describe('payments on the details page', () => {
+    beforeEach(() => setup('7'));
 
-      expect(text()).toContain('Časovi (2)');
-      expect(text()).toContain('Algoritmi');
-      expect(text()).toContain('Baze podataka');
-      expect(text()).toContain(component.priceConverter(1500));
+    it('a partly paid reservation shows what was paid and what remains', async () => {
+      await loadDetails({ totalPrice: 2600, paidAmount: 1300 });
+
+      expect(stats()['Plaćeno']).toBe(priceConverter(1300));
+      expect(stats()['Preostalo']).toBe(priceConverter(1300));
+      expect(paymentBadge()).toBe('Delimično plaćeno');
     });
 
-    it('should fall back to "Novi čas" when no subject is selected', () => {
-      setClasses([createClass({ subjectId: 0 })]);
+    it('paying more than the price shows the extra as a bonus and nothing remaining', async () => {
+      await loadDetails({ totalPrice: 2600, paidAmount: 3000 });
 
-      expect(text()).toContain('Novi čas');
+      expect(stats()['Bonus']).toBe(priceConverter(400));
+      expect(stats()['Preostalo']).toBeUndefined();
+      expect(paymentBadge()).toBe('Plaćeno');
     });
 
-    it('should show the class date and time range', () => {
-      const classItem = createClass({ startsAt: '2026-11-03T10:00', endsAt: '2026-11-03T10:45' });
-      setClasses([classItem]);
+    it('lowering the price below what was paid turns the difference into a bonus', async () => {
+      await loadDetails({ totalPrice: 2600, paidAmount: 2600 });
 
-      expect(text()).toContain(component.timeConverter(classItem.startsAt));
-      expect(text()).toContain(component.timeConverter(classItem.endsAt));
+      form.reservationForm.totalPrice().value.set(2000);
+      await fixture.whenStable();
+
+      expect(stats()['Bonus']).toBe(priceConverter(600));
     });
   });
 
   describe('checks', () => {
-    function check(validLabel: string) {
-      return component.checks().find((c) => c.validLabel === validLabel)!;
-    }
+    beforeEach(() => setup(null));
 
-    it('should report a missing student', () => {
-      setClasses([createClass()]);
+    it('a fresh form is missing the student and the subject, so it cannot be saved', async () => {
+      await fixture.whenStable();
 
-      expect(check('Student je izabran').isValid).toBe(false);
-      expect(text()).toContain('Student nije izabran');
+      expect(checks()).toContain('Student nije izabran');
+      expect(checks()).toContain('Svi časovi moraju imati izabrani predmet.');
+      expect(saveButton().disabled).toBe(true);
     });
 
-    it('should report a selected student', () => {
-      formService.reservationForm.studentId().value.set('student-1');
-      fixture.detectChanges();
+    it('a complete form passes every check and can be saved', async () => {
+      form.reservationModel.set(createValidReservationModel());
+      await fixture.whenStable();
 
-      expect(check('Student je izabran').isValid).toBe(true);
+      expect(checks()).toEqual([
+        'Student je izabran',
+        'Rezervacija ima bar jedan čas',
+        'Polja svih časova su ispravna',
+        'Svi časovi imaju izabrani predmet.',
+      ]);
+      expect(saveButton().disabled).toBe(false);
     });
 
-    it('should report classes without a subject', () => {
-      setClasses([createClass(), createClass({ subjectId: 0 })]);
+    it('a reservation date after the first class cannot be saved', async () => {
+      form.reservationModel.set(
+        createValidReservationModel({
+          reservedAt: dateInputValue(),
+          classes: [createFormClass(inDays(-2), { reservedAt: dateInputValue(-3) })],
+        }),
+      );
+      await fixture.whenStable();
 
-      expect(check('Svi časovi imaju izabrani predmet.').isValid).toBe(false);
-      expect(check('Polja svih časova su ispravna').isValid).toBe(false);
-      expect(text()).toContain('Svi časovi moraju imati izabrani predmet.');
+      expect(saveButton().disabled).toBe(true);
     });
 
-    it('should report a reservation without classes', () => {
-      setClasses([]);
+    it('a reservation date in the future cannot be saved', async () => {
+      form.reservationModel.set(createValidReservationModel({ reservedAt: dateInputValue(1) }));
+      await fixture.whenStable();
 
-      expect(check('Rezervacija ima bar jedan čas').isValid).toBe(false);
-    });
-  });
-
-  describe('field errors', () => {
-    function errors(): string[] {
-      return Array.from(
-        fixture.nativeElement.querySelectorAll('form p.text-red-400') as NodeListOf<HTMLElement>,
-      ).map((p) => p.textContent?.trim() ?? '');
-    }
-
-    it('should not show errors for untouched fields', () => {
-      formService.reservationForm.reservedAt().value.set('2999-01-01');
-      fixture.detectChanges();
-
-      expect(errors()).toEqual([]);
+      expect(saveButton().disabled).toBe(true);
     });
 
-    it('should not render an error for a touched valid reservation date', () => {
-      formService.reservationForm.reservedAt().markAsTouched();
-      fixture.detectChanges();
+    it('a description longer than 500 characters cannot be saved', async () => {
+      form.reservationModel.set(createValidReservationModel({ description: 'a'.repeat(501) }));
+      await fixture.whenStable();
 
-      expect(errors()).toEqual([]);
-    });
-
-    it('should show the reservation date error once touched', () => {
-      formService.reservationForm.reservedAt().value.set('2999-01-01');
-      formService.reservationForm.reservedAt().markAsTouched();
-      fixture.detectChanges();
-
-      expect(errors()).toEqual(['Datum rezervisanja ne može biti u budućnosti']);
-    });
-
-    it('should show the reservation date error once edited', () => {
-      const input: HTMLInputElement = fixture.nativeElement.querySelector('#reservationDate');
-      input.value = '2999-01-01';
-      input.dispatchEvent(new Event('input'));
-      fixture.detectChanges();
-
-      expect(errors()).toEqual(['Datum rezervisanja ne može biti u budućnosti']);
-    });
-
-    it('should not render an error for a touched valid description', () => {
-      formService.reservationForm.description().markAsTouched();
-      fixture.detectChanges();
-
-      expect(errors()).toEqual([]);
-    });
-
-    it('should show the description error once touched', () => {
-      formService.reservationForm.description().value.set('a'.repeat(501));
-      formService.reservationForm.description().markAsTouched();
-      fixture.detectChanges();
-
-      expect(errors()).toEqual(['Opis može imati najviše 500 karaktera']);
+      expect(saveButton().disabled).toBe(true);
     });
   });
 
-  describe('actions', () => {
-    it('should disable saving while the form is invalid', () => {
-      expect(button('Sačuvaj').disabled).toBe(true);
+  describe('saving on the create page', () => {
+    beforeEach(async () => {
+      await setup(null);
+      form.reservationModel.set(createValidReservationModel({ description: '' }));
+      await fixture.whenStable();
     });
 
-    it('should enable saving and emit submitClicked when the form is valid', () => {
-      const emitted = vi.fn();
-      component.submitClicked.subscribe(emitted);
-      formService.reservationForm.studentId().value.set('student-1');
-      setClasses([createClass()]);
+    it('creates the reservation, sends UTC times and an empty description as null', async () => {
+      const model = form.reservationModel();
+      await save();
 
-      button('Sačuvaj').click();
+      const request = http.expectOne(
+        (req) => req.url === CLASS_RESERVATIONS_URL && req.method === 'POST',
+      );
+      expect(request.request.body).toEqual(
+        expect.objectContaining({
+          studentId: 'student-1',
+          totalPrice: null,
+          description: null,
+        }),
+      );
+      expect(request.request.body.classes[0]).toEqual({
+        subjectId: 1,
+        price: 1300,
+        startsAt: new Date(model.classes[0].startsAt).toISOString(),
+        endsAt: new Date(model.classes[0].endsAt).toISOString(),
+        reservedAt: model.classes[0].reservedAt,
+      });
+      request.flush(null);
+      await settle();
 
-      expect(button('Sačuvaj').disabled).toBe(false);
-      expect(emitted).toHaveBeenCalledTimes(1);
+      expect(toast.showSuccess).toHaveBeenCalledWith('Rezervacija je uspešno kreirana.');
+      expect(navigateByUrl).toHaveBeenCalledWith('/admin/classes');
     });
 
-    it('should reset the form', () => {
-      formService.reservationForm.studentId().value.set('student-1');
-      formService.reservationForm.description().value.set('Opis');
-      setClasses([createClass(), createClass()]);
+    it('cannot be saved twice while the request is running', async () => {
+      await save();
+      fixture.detectChanges();
 
-      button('Poništi formu').click();
+      expect(saveButton().disabled).toBe(true);
 
-      expect(formService.reservationModel().studentId).toBe('');
-      expect(formService.reservationModel().description).toBe('');
-      expect(formService.reservationModel().classes).toHaveLength(1);
+      http.expectOne((req) => req.method === 'POST').flush(null);
+      await settle();
     });
+
+    it.each([
+      ['Student.NotFound', 'Izabrani student više ne postoji. Osveži stranicu i izaberi drugog.'],
+      ['Reservation.ClassesOverlap', 'Časovi se ne smeju preklapati.'],
+    ])('stays on the page and shows %s', async (errorCode, message) => {
+      await save();
+
+      http
+        .expectOne((req) => req.method === 'POST')
+        .flush(createProblemDetails(errorCode), { status: 409, statusText: 'Conflict' });
+      await settle();
+
+      expect(toast.showError).toHaveBeenCalledWith(message);
+      expect(navigateByUrl).not.toHaveBeenCalled();
+    });
+
+    it('points to the form when the backend rejects the fields', async () => {
+      await save();
+
+      http
+        .expectOne((req) => req.method === 'POST')
+        .flush(
+          createProblemDetails('General.Validation', {
+            status: 400,
+            errors: { StudentId: ['Student is required.'] },
+          }),
+          { status: 400, statusText: 'Bad Request' },
+        );
+      await settle();
+
+      expect(toast.showError).toHaveBeenCalledWith(
+        'Podaci rezervacije nisu ispravni. Proveri polja forme.',
+      );
+    });
+  });
+
+  describe('saving on the details page', () => {
+    beforeEach(async () => {
+      await setup('7');
+      await loadDetails();
+    });
+
+    it('updates the loaded reservation and goes back to the list', async () => {
+      await save();
+
+      const request = http.expectOne(
+        (req) => req.url === `${CLASS_RESERVATIONS_URL}/7` && req.method === 'PUT',
+      );
+      expect(request.request.body).toEqual(
+        expect.objectContaining({
+          id: 7,
+          studentId: 'student-2',
+          totalPrice: 2600,
+          classesToDelete: [],
+        }),
+      );
+      expect(request.request.body.classes.map((classItem: { id: number }) => classItem.id)).toEqual(
+        [21, 22],
+      );
+      expect(request.request.body.reservedAt).toBeUndefined();
+      request.flush(null);
+      await settle();
+
+      expect(toast.showSuccess).toHaveBeenCalledWith('Rezervacija je uspešno ažurirana.');
+      expect(navigateByUrl).toHaveBeenCalledWith('/admin/classes');
+    });
+
+    it('a class added after a past class is reserved no later than it starts', async () => {
+      form.addClass();
+      await fixture.whenStable();
+
+      const added = form.reservationModel().classes[2];
+      expect(added.reservedAt).toBe(added.startsAt.slice(0, 10));
+      expect(form.reservationForm.classes[2].reservedAt().errors()).toEqual([]);
+    });
+
+    it('sends the removed classes and an id of 0 for the new ones', async () => {
+      form.removeClass(1);
+      form.addClass();
+      form.updateClass(1, { subjectId: 2 });
+      await fixture.whenStable();
+
+      await save();
+
+      const request = http.expectOne((req) => req.method === 'PUT');
+      expect(request.request.body.classesToDelete).toEqual([22]);
+      expect(request.request.body.classes.map((classItem: { id: number }) => classItem.id)).toEqual(
+        [21, 0],
+      );
+      request.flush(null);
+      await settle();
+    });
+
+    it('explains that an archived reservation cannot be changed', async () => {
+      await save();
+
+      http
+        .expectOne((req) => req.method === 'PUT')
+        .flush(createProblemDetails('Reservation.CantUpdateAnArchivedReservation'), {
+          status: 409,
+          statusText: 'Conflict',
+        });
+      await settle();
+
+      expect(toast.showError).toHaveBeenCalledWith('Nije moguće izmeniti arhiviranu rezervaciju.');
+      expect(navigateByUrl).not.toHaveBeenCalled();
+    });
+  });
+
+  it('"Poništi formu" clears what was entered', async () => {
+    await setup(null);
+    form.reservationModel.set(createValidReservationModel({ totalPrice: 1000 }));
+    await fixture.whenStable();
+
+    getButton(element, 'Poništi formu')!.click();
+    await fixture.whenStable();
+
+    expect(form.reservationModel().studentId).toBe('');
+    expect(form.reservationModel().totalPrice).toBeNull();
+    expect(form.reservationModel().classes.map((classItem) => classItem.subjectId)).toEqual([0]);
   });
 });

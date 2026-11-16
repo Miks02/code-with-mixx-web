@@ -1,5 +1,5 @@
 <div class="bg-emerald-950/80 backdrop-blur-xl rounded-lg shadow-lg p-4 flex flex-col gap-4">
-  @if (isPending()) {
+  @if (store.detailsPending()) {
     <div class="flex items-center gap-3">
       <app-skeleton variant="circular" width="3.5rem" />
       <div class="flex flex-col gap-2 flex-1">
