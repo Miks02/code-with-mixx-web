@@ -1,4 +1,4 @@
-@if (isVisible()) {
+@if (store.isCreateModalVisible()) {
 <button
   type="button"
   tabindex="-1"
@@ -190,7 +190,7 @@
     <app-button
       size="sm"
       icon="faSolidUserPlus"
-      [loading]="createStudentMutation.isPending()"
+      [loading]="store.isCreating()"
       (click)="onSubmit()"
     >
       Potvrdi

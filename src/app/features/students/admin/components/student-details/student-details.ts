@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, output } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
@@ -24,7 +24,7 @@ import { DialogService } from '@core/services/dialog-service';
 import { ToastService } from '@core/services/toast-service';
 import { dateConverter } from '@core/utilities/date-helpers';
 import { Button } from '@shared/components/button/button';
-import { StudentItem } from '@features/students/models/student-item';
+import { AdminStudentStore } from '@features/students/admin/stores/admin-student-store';
 import { StudentService } from '@features/students/services/student-service';
 import { getStudentErrorMessage } from '@features/students/utilities/student-error-messages';
 import { ACCOUNT_STATUS_META } from '@features/students/utilities/student-labels';
@@ -66,9 +66,7 @@ export class StudentDetails {
   private studentService = inject(StudentService);
   private toastService = inject(ToastService);
   private dialogService = inject(DialogService);
-  studentUpdated = output<StudentItem>();
-  studentDeleted = output<void>();
-  editStudent = output<StudentItem>();
+  protected store = inject(AdminStudentStore);
 
   readonly AccountStatus = AccountStatus;
   readonly detailsLink = computed(() => {
@@ -76,7 +74,7 @@ export class StudentDetails {
     return student ? ['/admin/students/details', student.id] : null;
   });
 
-  student = input<StudentItem>();
+  student = this.store.selectedStudent;
 
   studentName = computed(() => {
     const student = this.student();
@@ -134,21 +132,6 @@ export class StudentDetails {
   private activateMutation = this.studentService.activateStudentMutation;
   private sendInvitationMutation = this.studentService.sendInvitationMutation;
 
-  isPending = computed(
-    () =>
-      this.deleteMutation.isPending() ||
-      this.deactivateMutation.isPending() ||
-      this.activateMutation.isPending() ||
-      this.sendInvitationMutation.isPending(),
-  );
-
-  onEdit() {
-    const student = this.student();
-    if (!student) return;
-
-    this.editStudent.emit(student);
-  }
-
   onActivate() {
     const student = this.student();
     if (!student) return;
@@ -156,7 +139,7 @@ export class StudentDetails {
     this.activateMutation.mutate(student.id, {
       onSuccess: () => {
         this.toastService.showSuccess('Nalog je uspešno aktiviran.');
-        this.studentUpdated.emit({ ...student, accountStatus: AccountStatus.Active });
+        this.store.updateSelectedStudent({ accountStatus: AccountStatus.Active });
       },
       onError: (err) => {
         const errorCode = err.errorCode;
@@ -181,7 +164,7 @@ export class StudentDetails {
     this.deactivateMutation.mutate(student.id, {
       onSuccess: () => {
         this.toastService.showSuccess('Nalog je uspešno deaktiviran.');
-        this.studentUpdated.emit({ ...student, accountStatus: AccountStatus.Deactivated });
+        this.store.updateSelectedStudent({ accountStatus: AccountStatus.Deactivated });
       },
       onError: (err) => {
         const errorCode = err.errorCode;
@@ -237,7 +220,7 @@ export class StudentDetails {
     this.deleteMutation.mutate(student.id, {
       onSuccess: () => {
         this.toastService.showSuccess('Student je uspešno obrisan.');
-        this.studentDeleted.emit();
+        this.store.selectStudent(undefined);
       },
       onError: (err) => {
         const message = getStudentErrorMessage(err);

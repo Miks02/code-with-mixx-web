@@ -1,32 +1,10 @@
 <div class="grid grid-cols-1 lg:grid-cols-5 lg:grid-rows-3 w-full lg:h-full gap-4">
-  <app-students-list
-    class="min-w-0 lg:col-span-3 lg:row-span-2"
-    [pagedStudents]="studentsData()"
-    [selectedStudentId]="selectedStudent()?.id"
-    [selectedSort]="queryParams().sortBy"
-    (searchChanged)="onSearchChange($event)"
-    [selectedFilters]="queryParams().filters"
-    (studentSelected)="onStudentSelected($event)"
-    (sortChanged)="onSortChange($event)"
-    (filtersChanged)="onFilterChange($event)"
-    (openCreationForm)="isCreateFormVisible.set(true)"
-  ></app-students-list>
+  <app-admin-student-list class="min-w-0 lg:col-span-3 lg:row-span-2"></app-admin-student-list>
 
-  @if (studentToEdit()) {
-  <app-edit-student-form
-    class="min-w-0 lg:col-span-2 lg:row-span-2"
-    [selectedStudent]="studentToEdit()"
-    (closeForm)="studentToEdit.set(null)"
-    (updatedStudent)="onStudentEdited($event)"
-  ></app-edit-student-form>
+  @if (store.isEditing()) {
+    <app-edit-student-form class="min-w-0 lg:col-span-2 lg:row-span-2"></app-edit-student-form>
   } @else {
-  <app-student-details
-    class="min-w-0 lg:col-span-2 lg:row-span-2"
-    [student]="selectedStudent()"
-    (editStudent)="studentToEdit.set($event)"
-    (studentDeleted)="onStudentDeleted()"
-    (studentUpdated)="onStudentUpdated($event)"
-  ></app-student-details>
+    <app-student-details class="min-w-0 lg:col-span-2 lg:row-span-2"></app-student-details>
   }
 
   <div class="min-w-0 lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -35,8 +13,8 @@
       icon="faSolidUserCheck"
       iconBackground="emerald"
       description="Aktivni nalozi"
-      [value]="studentsSummaryData()?.activeStudents"
-      [isPending]="studentsSummaryPending()"
+      [value]="store.activeCount()"
+      [isPending]="store.summaryPending()"
     ></app-stats-card>
 
     <app-stats-card
@@ -44,8 +22,8 @@
       icon="faSolidUserClock"
       iconBackground="amber"
       description="Nalozi koji nisu aktivirani"
-      [value]="studentsSummaryData()?.pendingStudents"
-      [isPending]="studentsSummaryPending()"
+      [value]="store.pendingCount()"
+      [isPending]="store.summaryPending()"
     ></app-stats-card>
 
     <app-stats-card
@@ -53,8 +31,8 @@
       icon="faSolidUserSlash"
       iconBackground="orange"
       description="Deaktivirani nalozi"
-      [value]="studentsSummaryData()?.deactivatedStudents"
-      [isPending]="studentsSummaryPending()"
+      [value]="store.deactivatedCount()"
+      [isPending]="store.summaryPending()"
     ></app-stats-card>
 
     <app-stats-card
@@ -62,20 +40,16 @@
       icon="faSolidUserXmark"
       iconBackground="red"
       description="Obrisani nalozi"
-      [value]="studentsSummaryData()?.deletedStudents"
-      [isPending]="studentsSummaryPending()"
+      [value]="store.deletedCount()"
+      [isPending]="store.summaryPending()"
     ></app-stats-card>
   </div>
 
   <app-most-active-student
     class="min-w-0 lg:col-span-2"
-    [student]="mostActiveStudent()"
-    [isPending]="studentsSummaryPending()"
+    [student]="store.mostActiveStudent()"
+    [isPending]="store.summaryPending()"
   ></app-most-active-student>
 
-  <app-create-student-form
-    (closed)="isCreateFormVisible.set(false)"
-    [isVisible]="isCreateFormVisible()"
-  >
-  </app-create-student-form>
+  <app-create-student-form></app-create-student-form>
 </div>

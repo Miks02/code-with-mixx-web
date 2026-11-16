@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, OnInit, output, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FormField, submit } from '@angular/forms/signals';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
@@ -18,11 +18,8 @@ import { ToastService } from '@core/services/toast-service';
 import { dateConverter } from '@core/utilities/date-helpers';
 import { Button } from '@shared/components/button/button';
 import { createUpdateStudentForm } from '@features/students/factories/student-factories';
-import { StudentItem } from '@features/students/models/student-item';
-import {
-  UpdateStudentFormModel,
-  UpdateStudentResponse,
-} from '@features/students/models/update-student-request';
+import { AdminStudentStore } from '@features/students/admin/stores/admin-student-store';
+import { UpdateStudentFormModel } from '@features/students/models/update-student-request';
 import { StudentService } from '@features/students/services/student-service';
 import { getErrorCode } from '@core/utilities/problem-details-helpers';
 import { getStudentErrorMessage } from '@features/students/utilities/student-error-messages';
@@ -72,9 +69,9 @@ export class EditStudentForm implements OnInit {
   private studentService = inject(StudentService);
   private toastService = inject(ToastService);
 
-  selectedStudent = input.required<StudentItem | null>();
-  closeForm = output<void>();
-  updatedStudent = output<UpdateStudentResponse>();
+  protected store = inject(AdminStudentStore);
+
+  selectedStudent = this.store.selectedStudent;
 
   requestModel = signal<UpdateStudentFormModel>({
     id: '',
@@ -86,7 +83,6 @@ export class EditStudentForm implements OnInit {
   });
 
   updateForm = createUpdateStudentForm(this.requestModel);
-  isPending = this.studentService.updateStudentMutation.isPending;
 
   ngOnInit() {
     const student = this.selectedStudent();
@@ -128,10 +124,6 @@ export class EditStudentForm implements OnInit {
     ];
   });
 
-  onClose() {
-    this.closeForm.emit();
-  }
-
   onSubmit() {
     return submit(this.updateForm, async () => {
       try {
@@ -140,8 +132,8 @@ export class EditStudentForm implements OnInit {
         );
         this.updateForm().reset();
         this.toastService.showSuccess('Podaci studenta su uspešno izmenjeni.');
-        this.updatedStudent.emit(updated);
-        this.closeForm.emit();
+        this.store.updateSelectedStudent(updated);
+        this.store.stopEditing();
 
         return [];
       } catch (err) {

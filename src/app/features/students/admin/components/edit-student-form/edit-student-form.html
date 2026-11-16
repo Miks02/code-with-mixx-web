@@ -1,7 +1,7 @@
 <div
   class="bg-emerald-950/80 backdrop-blur-xl rounded-lg shadow-lg p-4 h-full min-h-80 flex flex-col gap-4 relative"
 >
-  @if (isPending()) {
+  @if (store.isUpdating()) {
     <div
       class="absolute w-full h-full top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 bg-emerald-900/50 z-10"
     >
@@ -196,16 +196,16 @@
         (clicked)="onSubmit()"
         class="w-full"
         [fullWidth]="true"
-        [loading]="isPending()"
+        [loading]="store.isUpdating()"
         variant="primary"
         icon="faSolidCheck"
         >Sačuvaj izmene</app-button
       >
       <app-button
-        (clicked)="onClose()"
+        (clicked)="store.stopEditing()"
         class="w-full"
         [fullWidth]="true"
-        [disabled]="isPending()"
+        [disabled]="store.isUpdating()"
         variant="ghost"
         icon="faSolidXmark"
         >Otkaži</app-button

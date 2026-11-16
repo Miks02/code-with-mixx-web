@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { StudentsList } from './students-list';
+import { AdminStudentList } from './admin-student-list';
 
-describe('StudentsList', () => {
-  let component: StudentsList;
-  let fixture: ComponentFixture<StudentsList>;
+describe('AdminStudentList', () => {
+  let component: AdminStudentList;
+  let fixture: ComponentFixture<AdminStudentList>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [StudentsList],
+      imports: [AdminStudentList],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(StudentsList);
+    fixture = TestBed.createComponent(AdminStudentList);
     component = fixture.componentInstance;
     fixture.componentRef.setInput('pagedStudents', {
       items: [],

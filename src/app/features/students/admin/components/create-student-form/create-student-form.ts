@@ -1,4 +1,4 @@
-import { Component, inject, input, output, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormField, submit } from '@angular/forms/signals';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
@@ -11,6 +11,7 @@ import {
 } from '@ng-icons/font-awesome/solid';
 import { ToastService } from '@core/services/toast-service';
 import { Button } from '@shared/components/button/button';
+import { AdminStudentStore } from '@features/students/admin/stores/admin-student-store';
 import { createStudentForm } from '@features/students/factories/student-factories';
 import { CreateStudentFormModel } from '@features/students/models/create-student-request';
 import { StudentService } from '@features/students/services/student-service';
@@ -45,17 +46,16 @@ export class CreateStudentForm {
   private studentService = inject(StudentService);
   private toastService = inject(ToastService);
 
-  isVisible = input.required<boolean>();
-  closed = output<void>();
+  protected store = inject(AdminStudentStore);
 
   studentModel = signal<CreateStudentFormModel>(emptyStudentModel);
   studentForm = createStudentForm(this.studentModel);
-  createStudentMutation = this.studentService.createStudentMutation;
+  private createStudentMutation = this.studentService.createStudentMutation;
 
   onClose() {
     this.studentModel.set(emptyStudentModel);
     this.studentForm().reset();
-    this.closed.emit();
+    this.store.closeCreateModal();
   }
 
   onSubmit() {
@@ -65,7 +65,7 @@ export class CreateStudentForm {
         this.studentModel.set(emptyStudentModel);
         this.studentForm().reset();
         this.toastService.showSuccess('Student je uspešno registrovan.');
-        this.closed.emit();
+        this.store.closeCreateModal();
 
         return [];
       } catch (err) {
