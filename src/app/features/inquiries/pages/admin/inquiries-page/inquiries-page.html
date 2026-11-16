@@ -1,34 +1,9 @@
 <div
   class="grid grid-cols-1 lg:grid-cols-5 lg:grid-rows-[minmax(0,1fr)_auto] w-full lg:h-full gap-4"
 >
-  <app-inquiries-list
-    class="min-w-0 lg:col-span-3"
-    [pagedInquiries]="inquiriesData()"
-    [selectedInquiryId]="selectedInquiry()?.id"
-    [checkedIds]="checkedIds()"
-    [selectedSort]="queryParams().sortBy"
-    [selectedFilters]="queryParams().filters"
-    [isPending]="inquiriesPending()"
-    [isFetching]="inquiriesFetching()"
-    [isDeleting]="isBulkDeleting()"
-    (inquirySelected)="onInquirySelected($event)"
-    (checkedToggled)="onCheckedToggled($event)"
-    (allCheckedToggled)="onAllCheckedToggled($event)"
-    (deleteChecked)="onDeleteCheckedInquiries()"
-    (searchChanged)="onSearchChange($event)"
-    (sortChanged)="onSortChange($event)"
-    (filtersChanged)="onFiltersChange($event)"
-    (pageChanged)="onPageChange($event)"
-  ></app-inquiries-list>
+  <app-admin-inquiry-list class="min-w-0 lg:col-span-3"></app-admin-inquiry-list>
 
-  <app-inquiry-details
-    class="min-w-0 lg:col-span-2"
-    [inquiry]="selectedInquiry()"
-    [isResolving]="isResolving()"
-    [isDeleting]="isDeleting()"
-    (resolveInquiry)="onResolveInquiry($event)"
-    (deleteInquiry)="onDeleteInquiry($event)"
-  ></app-inquiry-details>
+  <app-inquiry-details class="min-w-0 lg:col-span-2"></app-inquiry-details>
 
   <div class="min-w-0 lg:col-span-5 grid grid-cols-1 sm:grid-cols-3 gap-4">
     <app-stats-card
@@ -36,8 +11,8 @@
       icon="faSolidEnvelope"
       iconBackground="sky"
       description="Ukupno"
-      [value]="inquiriesSummaryData()?.totalInquiries"
-      [isPending]="inquiriesSummaryPending()"
+      [value]="store.summary()?.totalInquiries"
+      [isPending]="store.summaryPending()"
     ></app-stats-card>
 
     <app-stats-card
@@ -45,8 +20,8 @@
       icon="faSolidHourglassHalf"
       iconBackground="amber"
       description="Upiti koji čekaju odgovor"
-      [value]="inquiriesSummaryData()?.unresolvedInquiries"
-      [isPending]="inquiriesSummaryPending()"
+      [value]="store.summary()?.unresolvedInquiries"
+      [isPending]="store.summaryPending()"
     ></app-stats-card>
 
     <app-stats-card
@@ -54,8 +29,8 @@
       icon="faSolidCircleCheck"
       iconBackground="emerald"
       description="Upiti na koje je odgovoreno"
-      [value]="inquiriesSummaryData()?.resolvedInquiries"
-      [isPending]="inquiriesSummaryPending()"
+      [value]="store.summary()?.resolvedInquiries"
+      [isPending]="store.summaryPending()"
     ></app-stats-card>
   </div>
 </div>

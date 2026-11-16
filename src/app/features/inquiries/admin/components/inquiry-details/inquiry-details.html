@@ -102,8 +102,8 @@
         <app-button
           (clicked)="onResolve(inquiry.id)"
           [fullWidth]="true"
-          [loading]="isResolving()"
-          [disabled]="isDeleting()"
+          [loading]="store.isResolving()"
+          [disabled]="store.isDeleting()"
           variant="secondary"
           icon="faSolidCircleCheck"
           >Označi kao rešen</app-button
@@ -113,8 +113,8 @@
         (clicked)="onDelete(inquiry.id)"
         [class]="inquiry.isResolved ? 'sm:col-span-2' : ''"
         [fullWidth]="true"
-        [loading]="isDeleting()"
-        [disabled]="isResolving()"
+        [loading]="store.isDeleting()"
+        [disabled]="store.isResolving()"
         variant="danger"
         icon="faSolidTrash"
         >Obriši upit</app-button
