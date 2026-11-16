@@ -8,7 +8,7 @@ import { DialogService } from '@core/services/dialog-service';
 import { ToastService } from '@core/services/toast-service';
 
 export function createToastServiceMock() {
-  return { showError: vi.fn(), showSuccess: vi.fn() };
+  return { showError: vi.fn(), showSuccess: vi.fn(), showInfo: vi.fn() };
 }
 
 export function createDialogServiceMock() {
