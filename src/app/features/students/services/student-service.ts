@@ -35,11 +35,10 @@ export class StudentService {
   getStudentsSummaryQuery(queryParams: Signal<StudentQueryParams>) {
     const url = `${this.apiUrl}/admin/students/summary`;
 
-    const params = queryParams();
-
     return injectQuery<StudentsSummary>(() => ({
-      queryKey: studentKeys.summary(params),
+      queryKey: studentKeys.summary(),
       queryFn: async () => {
+        const params = queryParams();
         const response = await lastValueFrom(this.http.get<StudentsSummary>(url, { params }));
 
         this.queryClient.setQueryData(studentKeys.page(params), response.pagedStudents);
@@ -60,7 +59,7 @@ export class StudentService {
       queryFn: () =>
         lastValueFrom(this.http.get<PagedResult<StudentItem>>(url, { params: queryParams() })),
       placeholderData: keepPreviousData,
-      enabled: queryResult.isSuccess(),
+      enabled: queryResult.isSuccess() && !queryResult.isFetching(),
     }));
   }
 
@@ -103,11 +102,7 @@ export class StudentService {
 
       return lastValueFrom(this.http.post<void>(`${this.apiUrl}/admin/students`, request));
     },
-    onSuccess: () => {
-      this.queryClient.invalidateQueries({ queryKey: studentKeys.pages(), refetchType: 'none' });
-      this.queryClient.invalidateQueries({ queryKey: analyticsKeys.all(), refetchType: 'none' });
-      return this.queryClient.invalidateQueries({ queryKey: studentKeys.summaries() });
-    },
+    onSuccess: () => this.invalidateQueries(),
   }));
 
   searchStudentsQuery(searchTerm: Signal<string>) {
@@ -132,11 +127,7 @@ export class StudentService {
         this.http.put<UpdateStudentResponse>(`${this.apiUrl}/admin/students/${model.id}`, request),
       );
     },
-    onSuccess: () => {
-      this.queryClient.invalidateQueries({ queryKey: studentKeys.pages(), refetchType: 'none' });
-      this.queryClient.invalidateQueries({ queryKey: analyticsKeys.all(), refetchType: 'none' });
-      return this.queryClient.invalidateQueries({ queryKey: studentKeys.summaries() });
-    },
+    onSuccess: () => this.invalidateQueries(),
   }));
 
   sendInvitationMutation = injectMutation<void, ProblemDetails, string>(() => ({
@@ -152,9 +143,7 @@ export class StudentService {
         this.http.post<void>(`${this.apiUrl}/admin/students/${studentId}/activate`, null),
       ),
     onSuccess: () => {
-      this.queryClient.invalidateQueries({ queryKey: studentKeys.pages(), refetchType: 'none' });
-      this.queryClient.invalidateQueries({ queryKey: analyticsKeys.all(), refetchType: 'none' });
-      this.queryClient.invalidateQueries({ queryKey: studentKeys.summaries() });
+      this.invalidateQueries();
     },
   }));
 
@@ -164,19 +153,20 @@ export class StudentService {
         this.http.post<void>(`${this.apiUrl}/admin/students/${studentId}/deactivate`, null),
       ),
     onSuccess: () => {
-      this.queryClient.invalidateQueries({ queryKey: studentKeys.pages(), refetchType: 'none' });
-      this.queryClient.invalidateQueries({ queryKey: analyticsKeys.all(), refetchType: 'none' });
-      this.queryClient.invalidateQueries({ queryKey: studentKeys.summaries() });
+      this.invalidateQueries();
     },
   }));
 
   deleteStudentMutation = injectMutation<void, ProblemDetails, string>(() => ({
     mutationFn: (studentId: string) =>
       lastValueFrom(this.http.delete<void>(`${this.apiUrl}/admin/students/${studentId}`)),
-    onSuccess: () => {
-      this.queryClient.invalidateQueries({ queryKey: studentKeys.pages(), refetchType: 'none' });
-      this.queryClient.invalidateQueries({ queryKey: analyticsKeys.all(), refetchType: 'none' });
-      return this.queryClient.invalidateQueries({ queryKey: studentKeys.summaries() });
-    },
+    onSuccess: () => this.invalidateQueries(),
   }));
+
+  private invalidateQueries() {
+    this.queryClient.invalidateQueries({ queryKey: studentKeys.pages(), refetchType: 'none' });
+    this.queryClient.invalidateQueries({ queryKey: analyticsKeys.all(), refetchType: 'none' });
+    this.queryClient.invalidateQueries({ queryKey: studentKeys.lookup() });
+    return this.queryClient.invalidateQueries({ queryKey: studentKeys.summary() });
+  }
 }
