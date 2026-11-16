@@ -132,7 +132,9 @@ export class AuthService {
       .pipe(
         finalize(() => {
           this.clearSessionCookie();
-          window.location.href = '/auth/login?expired=true';
+          if (!window.location.pathname.includes('/auth/login')) {
+            window.location.href = '/auth/login?expired=true';
+          }
         }),
       )
       .subscribe();
@@ -148,6 +150,7 @@ export class AuthService {
   }
 
   private clearSessionCookie() {
-    document.cookie = 'Session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    const domain = environment.domain ? ` domain=.${environment.domain};` : '';
+    document.cookie = `Session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;${domain}`;
   }
 }
