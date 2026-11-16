@@ -43,6 +43,19 @@
         <ng-icon name="faSolidUserSlash" class="text-emerald-300! self-center!"></ng-icon>
       </button>
 
+      <button
+        type="button"
+        aria-label="Arhivirane rezervacije"
+        [attr.aria-pressed]="store.params.showOnlyDeletedReservations()"
+        (click)="store.toggleDeletedReservations()"
+        [class]="
+          store.params.showOnlyDeletedReservations() ? 'border-amber-500' : 'border-emerald-400'
+        "
+        class="xl:hidden shrink-0 rounded-full bg-emerald-700 p-2 flex justify-center items-center border-2 cursor-pointer shadow-lg active:scale-95 transition-200"
+      >
+        <ng-icon name="faSolidBoxArchive" class="text-emerald-300! self-center!"></ng-icon>
+      </button>
+
       <app-filter-menu
         placeholder="Predmet"
         [icon]="'faSolidBook'"
