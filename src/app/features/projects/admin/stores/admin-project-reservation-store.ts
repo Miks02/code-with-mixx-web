@@ -14,6 +14,9 @@ import { createReservationFormModel } from '@features/projects/factories/project
 import { ProjectFormService } from '@features/projects/services/project-form-service';
 import { ProjectService } from '@features/projects/services/project-service';
 
+const isValidReservationId = (id: number | null): id is number =>
+  id !== null && Number.isInteger(id) && id > 0;
+
 type AdminProjectReservationState = {
   reservationId: number | null;
 };
@@ -31,7 +34,10 @@ export const AdminProjectReservationStore = signalStore(
       subjectService = inject(SubjectService),
     ) => ({
       detailsQuery: projectService.getProjectReservationDetailsQuery(
-        computed(() => store.reservationId() ?? 0),
+        computed(() => {
+          const id = store.reservationId();
+          return isValidReservationId(id) ? id : 0;
+        }),
       ),
       studentsLookupQuery: studentService.getStudentsLookupQuery,
       subjectsLookupQuery: subjectService.getSubjectsLookupQuery(),
@@ -60,7 +66,7 @@ export const AdminProjectReservationStore = signalStore(
     isNotFound: computed(() => {
       const id = store.reservationId();
       if (id === null) return false;
-      if (!Number.isInteger(id) || id <= 0) return true;
+      if (!isValidReservationId(id)) return true;
       return store.detailsQuery.error()?.errorCode === 'Reservation.NotFound';
     }),
     isLoadError: computed(
