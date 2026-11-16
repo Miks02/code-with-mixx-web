@@ -79,7 +79,9 @@ export class StudentService {
               params,
             }),
           ),
-        placeholderData: keepPreviousData,
+        // Keep the previous page while paging, but never show another student's data.
+        placeholderData: (previous, previousQuery) =>
+          previousQuery?.queryKey[2] === studentId() ? keepPreviousData(previous) : undefined,
         // Reservations change from other pages (payments, statuses), so always refetch on visit.
         staleTime: 0,
         enabled: !!studentId(),
