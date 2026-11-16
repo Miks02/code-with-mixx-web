@@ -1,13 +1,4 @@
-import {
-  Component,
-  computed,
-  inject,
-  input,
-  linkedSignal,
-  output,
-  signal,
-  untracked,
-} from '@angular/core';
+import { Component, computed, inject, linkedSignal, signal, untracked } from '@angular/core';
 import { FormField, submit } from '@angular/forms/signals';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { faBrandGithub } from '@ng-icons/font-awesome/brands';
@@ -24,6 +15,7 @@ import {
 import { ToastService } from '@core/services/toast-service';
 import { Button } from '@shared/components/button/button';
 import { Slider } from '@shared/components/slider/slider';
+import { AdminProjectStore } from '@features/projects/admin/stores/admin-project-store';
 import {
   createUpdateProjectForm,
   createUpdateProjectFormModel,
@@ -56,9 +48,9 @@ export class ProjectEditModal {
   private projectService = inject(ProjectService);
   private toastService = inject(ToastService);
 
-  projectId = input<number>(0);
-  reservationId = input.required<number>();
-  closed = output<void>();
+  protected store = inject(AdminProjectStore);
+
+  private projectId = computed(() => this.store.editedProjectId() ?? 0);
 
   private projectDetailsQuery = this.projectService.getProjectDetailsQuery(this.projectId);
   project = computed(() => this.projectDetailsQuery.data());
@@ -87,7 +79,7 @@ export class ProjectEditModal {
     computation: () => createUpdateProjectFormModel(untracked(this.projectDetailsQuery.data)),
   });
   projectForm = createUpdateProjectForm(this.projectModel, this.isReadOnly);
-  updateProjectMutation = this.projectService.updateProjectMutation;
+  private updateProjectMutation = this.projectService.updateProjectMutation;
 
   newNote = signal('');
 
@@ -124,7 +116,7 @@ export class ProjectEditModal {
   }
 
   onClose() {
-    this.closed.emit();
+    this.store.closeProjectModal();
   }
 
   onSubmit() {
@@ -136,7 +128,7 @@ export class ProjectEditModal {
       try {
         await this.updateProjectMutation.mutateAsync({
           projectId: this.projectId(),
-          reservationId: this.reservationId(),
+          reservationId: this.store.selectedReservationId()!,
           request: {
             price: model.price,
             progress: model.progress,
@@ -149,7 +141,7 @@ export class ProjectEditModal {
           },
         });
         this.toastService.showSuccess('Projekat je uspešno ažuriran.');
-        this.closed.emit();
+        this.store.closeProjectModal();
 
         return [];
       } catch (err) {

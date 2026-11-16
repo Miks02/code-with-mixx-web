@@ -317,7 +317,7 @@
       <app-button
         size="sm"
         icon="faSolidCheck"
-        [loading]="updateProjectMutation.isPending()"
+        [loading]="store.isUpdatingProject()"
         [disabled]="!projectForm().valid()"
         (clicked)="onSubmit()"
       >

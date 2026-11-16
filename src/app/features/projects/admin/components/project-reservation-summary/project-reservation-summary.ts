@@ -1,13 +1,22 @@
-import { Component, computed, inject, input, output } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { faSolidCheck, faSolidCircleCheck, faSolidCircleXmark } from '@ng-icons/font-awesome/solid';
+import { ToastService } from '@core/services/toast-service';
 import { priceConverter } from '@core/utilities/price-helpers';
 import { Button } from '@shared/components/button/button';
 import { PaymentStatus } from '@features/reservations';
+import { AdminProjectReservationStore } from '@features/projects/admin/stores/admin-project-reservation-store';
+import {
+  createProjectReservationRequest,
+  createUpdateProjectReservationRequest,
+} from '@features/projects/factories/project-factories';
 import { ProjectFormService } from '@features/projects/services/project-form-service';
+import { ProjectService } from '@features/projects/services/project-service';
+import { getProjectReservationErrorMessage } from '@features/projects/utilities/project-error-messages';
 import { PROJECT_TYPE_LABELS } from '@features/projects/utilities/project-labels';
 import { PAYMENT_STATUS_META } from '@features/reservations';
-import { FormField } from '@angular/forms/signals';
+import { FormField, submit } from '@angular/forms/signals';
 
 type SummaryStat = {
   label: string;
@@ -28,10 +37,13 @@ type SummaryCheck = {
   templateUrl: './project-reservation-summary.html',
 })
 export class ProjectReservationSummary {
-  totalPaid = input<number>(0);
-  submitClicked = output<void>();
-
+  private store = inject(AdminProjectReservationStore);
+  private projectService = inject(ProjectService);
+  private toastService = inject(ToastService);
+  private router = inject(Router);
   projectFormService = inject(ProjectFormService);
+
+  totalPaid = computed(() => this.store.totalPaid() ?? 0);
 
   reservationModel = this.projectFormService.reservationModel;
   reservationForm = this.projectFormService.reservationForm;
@@ -114,7 +126,27 @@ export class ProjectReservationSummary {
   ]);
 
   onSubmitClicked() {
-    this.submitClicked.emit();
+    return submit(this.reservationForm, async () => {
+      const model = this.reservationModel();
+
+      try {
+        if (this.store.isEditMode()) {
+          await this.projectService.updateProjectReservationMutation.mutateAsync(
+            createUpdateProjectReservationRequest(model),
+          );
+          this.toastService.showSuccess('Rezervacija je uspešno ažurirana.');
+        } else {
+          await this.projectService.createProjectReservationMutation.mutateAsync(
+            createProjectReservationRequest(model),
+          );
+          this.toastService.showSuccess('Rezervacija je uspešno kreirana.');
+        }
+        this.router.navigateByUrl('/admin/projects');
+      } catch (err) {
+        const message = getProjectReservationErrorMessage(err);
+        if (message) this.toastService.showError(message);
+      }
+    });
   }
 
   resetForm() {
