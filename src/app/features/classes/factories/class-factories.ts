@@ -58,6 +58,8 @@ function earliestClassDate(classes: ClassItemRequest[]): string | undefined {
 
 export function createEmptyClass(startsAt = new Date()): ClassItemFormModel {
   const endsAt = new Date(startsAt.getTime() + MAX_CLASS_DURATION_MINUTES * MINUTE_MS);
+  const startDate = dateTimeInputValue(startsAt).slice(0, 10);
+  const today = dateInputValue();
 
   return {
     id: 0,
@@ -65,7 +67,7 @@ export function createEmptyClass(startsAt = new Date()): ClassItemFormModel {
     price: DEFAULT_CLASS_PRICE,
     startsAt: dateTimeInputValue(startsAt),
     endsAt: dateTimeInputValue(endsAt),
-    reservedAt: dateInputValue(),
+    reservedAt: startDate < today ? startDate : today,
   };
 }
 
