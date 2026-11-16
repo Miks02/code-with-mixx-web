@@ -75,6 +75,8 @@ export type StudentDetailsResponse = {
   reservations: PagedResult<StudentReservation>;
 };
 
+export type ReservationTypeFilter = ReservationType | 'All';
+
 export type StudentDetailsQueryParams = {
   pageNumber: number;
   pageSize: number;
