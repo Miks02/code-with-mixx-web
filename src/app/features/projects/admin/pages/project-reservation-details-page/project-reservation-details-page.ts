@@ -1,5 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { faSolidCalendarXmark } from '@ng-icons/font-awesome/solid';
 import { Button } from '@shared/components/button/button';
 import { StudentSelection } from '@features/students';
 import { ProjectFormService } from '@features/projects/services/project-form-service';
@@ -11,13 +13,18 @@ import { AdminProjectReservationStore } from '@features/projects/admin/stores/ad
 @Component({
   imports: [
     RouterLink,
+    NgIcon,
     Button,
     StudentSelection,
     ProjectReservationListForm,
     ProjectReservationPricing,
     ProjectReservationSummary,
   ],
-  providers: [ProjectFormService, AdminProjectReservationStore],
+  providers: [
+    ProjectFormService,
+    AdminProjectReservationStore,
+    provideIcons({ faSolidCalendarXmark }),
+  ],
   selector: 'app-project-reservation-details-page',
   styleUrl: './project-reservation-details-page.css',
   templateUrl: './project-reservation-details-page.html',
