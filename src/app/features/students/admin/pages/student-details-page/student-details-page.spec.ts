@@ -1,154 +1,176 @@
-import { Signal, signal } from '@angular/core';
+import { HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { provideRouter } from '@angular/router';
+import { provideRouter, Router } from '@angular/router';
 import { RouterTestingHarness } from '@angular/router/testing';
-import { AccountStatus } from '@core/models/account-status';
-import { ProblemDetails } from '@core/models/problem-details';
-import { ReservationType } from '@features/reservations';
+import { createProblemDetails, provideHttpTesting, settle } from '@core/testing/test-utils';
 import {
-  StudentDetailsQueryParams,
-  StudentDetailsResponse,
-} from '@features/students/models/student-details';
-import { StudentService } from '@features/students/services/student-service';
+  createPagedReservations,
+  createStudentDetails,
+  createStudentProfile,
+  createStudentReservation,
+  createStudentStats,
+  expectStudentDetailsRequest,
+  flushStudentDetails,
+  flushStudentsLookup,
+} from '@features/students/testing/student-test-utils';
 import { StudentDetailsPage } from './student-details-page';
-
-const DETAILS: StudentDetailsResponse = {
-  student: {
-    id: 'student-1',
-    firstName: 'Ana',
-    lastName: 'Anić',
-    email: 'ana@example.com',
-    phoneNumber: null,
-    university: null,
-    accountStatus: AccountStatus.Active,
-    registeredAt: '2026-09-01T10:00:00Z',
-    lastLoginAt: null,
-    deletedAt: null,
-  },
-  stats: {
-    totalReservations: 4,
-    classReservations: 3,
-    projectReservations: 1,
-    totalClasses: 9,
-    totalProjects: 1,
-    overdueReservations: 1,
-    totalPrice: 15600,
-    totalPaid: 9100,
-    totalRemaining: 6500,
-  },
-  reservations: {
-    items: [],
-    totalCount: 0,
-    pageNumber: 1,
-    pageSize: 10,
-    totalPages: 0,
-    hasPreviousPage: false,
-    hasNextPage: false,
-    paginatedCount: 0,
-  },
-};
 
 describe('StudentDetailsPage', () => {
   let harness: RouterTestingHarness;
-  let component: StudentDetailsPage;
+  let http: HttpTestingController;
 
-  const data = signal<StudentDetailsResponse | undefined>(undefined);
-  const error = signal<ProblemDetails | null>(null);
-  const isPending = signal(false);
-
-  let studentIdArg: Signal<string>;
-  let paramsArg: Signal<StudentDetailsQueryParams>;
-
-  const studentService = {
-    getStudentDetailsQuery: vi.fn(
-      (studentId: Signal<string>, params: Signal<StudentDetailsQueryParams>) => {
-        studentIdArg = studentId;
-        paramsArg = params;
-        return { data, error, isPending, isFetching: signal(false) };
-      },
-    ),
-  };
-
-  function text(): string {
-    return harness.routeNativeElement!.textContent ?? '';
-  }
+  const root = () => harness.routeNativeElement!;
+  const getButtonByLabel = (label: string) =>
+    root().querySelector<HTMLButtonElement>(`app-button[aria-label="${label}"] button`)!;
+  const statsValues = () =>
+    Array.from(root().querySelectorAll('app-stats-card p.text-3xl')).map((p) =>
+      p.textContent?.trim(),
+    );
 
   beforeEach(async () => {
-    vi.clearAllMocks();
-    data.set(DETAILS);
-    error.set(null);
-    isPending.set(false);
-
     TestBed.configureTestingModule({
       providers: [
-        provideRouter([{ path: 'admin/students/details/:id', component: StudentDetailsPage }]),
-        { provide: StudentService, useValue: studentService },
+        provideRouter([
+          { path: 'admin/students', children: [] },
+          { path: 'admin/students/details/:id', component: StudentDetailsPage },
+        ]),
+        provideHttpTesting(),
       ],
     });
-
     harness = await RouterTestingHarness.create();
-    component = await harness.navigateByUrl(
-      '/admin/students/details/student-1',
-      StudentDetailsPage,
+    await harness.navigateByUrl('/admin/students/details/student-1', StudentDetailsPage);
+    http = TestBed.inject(HttpTestingController);
+  });
+
+  afterEach(() => http.verify());
+
+  it('loads the student from the url', async () => {
+    await flushStudentDetails();
+    harness.detectChanges();
+
+    expect(root().querySelector('app-student-profile h1')?.textContent).toContain(
+      'Marko Jovanović',
     );
   });
 
-  it('should query details for the student id from the route', () => {
-    expect(studentService.getStudentDetailsQuery).toHaveBeenCalledTimes(1);
-    expect(studentIdArg()).toBe('student-1');
-    expect(paramsArg()).toEqual({ pageNumber: 1, pageSize: 10, reservationType: null });
+  it('shows the reservation stats, with class and project reservation counts', async () => {
+    await flushStudentDetails(
+      createStudentDetails({
+        stats: createStudentStats({
+          totalReservations: 5,
+          classReservations: 3,
+          projectReservations: 2,
+          totalClasses: 9,
+          totalProjects: 2,
+          overdueReservations: 1,
+        }),
+      }),
+    );
+    harness.detectChanges();
+
+    expect(statsValues()).toEqual(['5', '9', '2', '1']);
+    expect(root().textContent).toContain('U 3 rezervacija');
+    expect(root().textContent).toContain('U 2 rezervacija');
   });
 
-  it('should render the profile, stats and reservations list', () => {
-    expect(text()).toContain('Ana Anić');
-    expect(text()).toContain('Rezervacije');
-    expect(text()).toContain('Kasni uplata');
-    expect(text()).toContain('U 3 rezervacija');
-    expect(
-      harness.routeNativeElement!.querySelector('app-student-reservations-list'),
-    ).not.toBeNull();
-  });
+  describe('opening another student while already on the details page', () => {
+    // The header search navigates here; the router reuses the same page instance.
+    const openJelena = async () => {
+      await flushStudentDetails(
+        createStudentDetails({
+          reservations: createPagedReservations([createStudentReservation()], {
+            totalPages: 2,
+            hasNextPage: true,
+          }),
+        }),
+      );
+      harness.detectChanges();
+      await harness.navigateByUrl('/admin/students/details/student-2');
+      await settle();
+    };
 
-  it('should filter by type and reset to the first page', () => {
-    component.onPageChange(3);
-    component.onTypeChange(ReservationType.Project);
+    it('loads the new student from the url', async () => {
+      await openJelena();
 
-    expect(paramsArg()).toEqual({
-      pageNumber: 1,
-      pageSize: 10,
-      reservationType: ReservationType.Project,
+      expectStudentDetailsRequest({}, 'student-2').flush(
+        createStudentDetails({
+          student: createStudentProfile({
+            id: 'student-2',
+            firstName: 'Jelena',
+            lastName: 'Petrović',
+          }),
+        }),
+      );
+      await settle();
+      harness.detectChanges();
+
+      expect(root().querySelector('app-student-profile h1')?.textContent).toContain(
+        'Jelena Petrović',
+      );
     });
-    expect(component.selectedType()).toBe(ReservationType.Project);
+
+    it('does not show the previous student while the new one loads', async () => {
+      await openJelena();
+      harness.detectChanges();
+
+      expect(root().querySelector('app-student-profile h1')).toBeNull();
+      expect(root().querySelectorAll('app-student-profile app-skeleton').length).toBeGreaterThan(0);
+
+      expectStudentDetailsRequest({}, 'student-2').flush(createStudentDetails());
+      await settle();
+    });
+
+    it('starts the new student on the first page of all reservations', async () => {
+      await flushStudentDetails(
+        createStudentDetails({
+          reservations: createPagedReservations([createStudentReservation()], {
+            totalPages: 2,
+            hasNextPage: true,
+          }),
+        }),
+      );
+      harness.detectChanges();
+      getButtonByLabel('Sledeća strana').click();
+      await settle();
+      expectStudentDetailsRequest({ pageNumber: '2' }).flush(
+        createStudentDetails({
+          reservations: createPagedReservations([], { pageNumber: 2, totalPages: 2 }),
+        }),
+      );
+      await settle();
+
+      await harness.navigateByUrl('/admin/students/details/student-2');
+      await settle();
+
+      expectStudentDetailsRequest({ pageNumber: '1', reservationType: null }, 'student-2').flush(
+        createStudentDetails(),
+      );
+      await settle();
+    });
   });
 
-  it('should clear the type filter when "All" is selected', () => {
-    component.onTypeChange(ReservationType.Class);
-    component.onTypeChange('All');
+  it('goes back to the students list when the details fail to load', async () => {
+    await flushStudentsLookup();
+    expectStudentDetailsRequest().flush(
+      createProblemDetails('General.InternalServerError', { status: 500 }),
+      { status: 500, statusText: 'Internal Server Error' },
+    );
+    await settle();
 
-    expect(paramsArg().reservationType).toBeNull();
-    expect(component.selectedType()).toBe('All');
+    expect(TestBed.inject(Router).url).toBe('/admin/students');
   });
 
-  it('should change the page', () => {
-    component.onPageChange(2);
-    expect(paramsArg().pageNumber).toBe(2);
-  });
-
-  it('should show the not found state for Student.NotFound', () => {
-    data.set(undefined);
-    error.set({ type: '', title: '', status: 404, detail: '', errorCode: 'Student.NotFound' });
+  it('shows the not found state instead of the layout for Student.NotFound', async () => {
+    await flushStudentsLookup();
+    expectStudentDetailsRequest().flush(createProblemDetails('Student.NotFound'), {
+      status: 404,
+      statusText: 'Not Found',
+    });
+    await settle();
     harness.detectChanges();
 
-    expect(text()).toContain('Student nije pronađen.');
-    expect(harness.routeNativeElement!.querySelector('app-student-profile')).toBeNull();
-  });
-
-  it('should keep the layout for other errors', () => {
-    data.set(undefined);
-    error.set({ type: '', title: '', status: 0, detail: '', errorCode: 'Network.Unavailable' });
-    harness.detectChanges();
-
-    expect(text()).not.toContain('Student nije pronađen.');
-    expect(harness.routeNativeElement!.querySelector('app-student-profile')).not.toBeNull();
+    expect(root().textContent).toContain('Student nije pronađen.');
+    expect(root().querySelector('app-student-profile')).toBeNull();
+    expect(root().querySelector('app-student-reservations-list')).toBeNull();
   });
 });
