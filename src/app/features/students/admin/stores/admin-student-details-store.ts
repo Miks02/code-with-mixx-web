@@ -83,8 +83,6 @@ export const AdminStudentDetailsStore = signalStore(
     onInit(store) {
       const router = inject(Router);
 
-      // The router reuses this page when only `:id` changes (e.g. picking another student in the
-      // header search), so the id has to follow the route instead of being read once.
       inject(ActivatedRoute)
         .paramMap.pipe(takeUntilDestroyed())
         .subscribe((paramMap) => {
@@ -93,7 +91,6 @@ export const AdminStudentDetailsStore = signalStore(
           patchState(store, { studentId, params: initialParams });
         });
 
-      // The interceptor already toasted the error; NotFound has its own state on the page.
       effect(() => {
         if (!store.isLoadError()) return;
         untracked(() => router.navigate(['/admin/students']));
