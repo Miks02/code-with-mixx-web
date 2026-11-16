@@ -12,7 +12,7 @@ import {
   faSolidXmark,
 } from '@ng-icons/font-awesome/solid';
 import { StatsCard } from '@shared/components/stats-card/stats-card';
-import { SubjectsList } from '@features/subjects/components/subjects-list/subjects-list';
+import { AdminSubjectList } from '@features/subjects/admin/components/admin-subject-list/admin-subject-list';
 import { CreateSubjectForm } from '@features/subjects/admin/components/create-subject-form/create-subject-form';
 import { EditSubjectForm } from '@features/subjects/admin/components/edit-subject-form/edit-subject-form';
 import { MostPopularSubject } from '@features/subjects/admin/components/most-popular-subject/most-popular-subject';
@@ -22,7 +22,7 @@ import { AdminSubjectsStore } from '@features/subjects/admin/stores/admin-subjec
 @Component({
   imports: [
     FormsModule,
-    SubjectsList,
+    AdminSubjectList,
     SubjectDetails,
     MostPopularSubject,
     CreateSubjectForm,
