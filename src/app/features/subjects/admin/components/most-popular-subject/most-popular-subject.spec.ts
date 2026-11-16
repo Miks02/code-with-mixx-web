@@ -1,30 +1,35 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { createSubject } from '@features/subjects/testing/subject-test-utils';
 import { MostPopularSubject } from './most-popular-subject';
 
 describe('MostPopularSubject', () => {
-  let component: MostPopularSubject;
   let fixture: ComponentFixture<MostPopularSubject>;
+  let element: HTMLElement;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [MostPopularSubject],
-    }).compileComponents();
+    await TestBed.configureTestingModule({ imports: [MostPopularSubject] }).compileComponents();
 
     fixture = TestBed.createComponent(MostPopularSubject);
-    component = fixture.componentInstance;
-    fixture.componentRef.setInput('subject', undefined);
+    element = fixture.nativeElement;
+    fixture.componentRef.setInput(
+      'subject',
+      createSubject({ classesCount: 12, studentsCount: 30 }),
+    );
     await fixture.whenStable();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('shows skeletons instead of content while pending', async () => {
+    fixture.componentRef.setInput('isPending', true);
+    await fixture.whenStable();
+
+    expect(element.querySelectorAll('app-skeleton').length).toBeGreaterThan(0);
+    expect(element.textContent).not.toContain('Osnove programiranja');
   });
 
-  it('should render skeleton placeholders when isPending is true', () => {
-    fixture.componentRef.setInput('isPending', true);
-    fixture.detectChanges();
-
-    const skeletons = fixture.nativeElement.querySelectorAll('app-skeleton');
-    expect(skeletons.length).toBeGreaterThan(0);
+  it('shows the subject name, classes count and students count', () => {
+    expect(element.querySelector('app-skeleton')).toBeNull();
+    expect(element.textContent).toContain('Osnove programiranja');
+    expect(element.textContent).toMatch(/12\s*održanih časova/);
+    expect(element.textContent).toMatch(/30\s*studenata/);
   });
 });
