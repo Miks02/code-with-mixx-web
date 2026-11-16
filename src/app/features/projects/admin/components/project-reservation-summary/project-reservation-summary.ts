@@ -37,7 +37,7 @@ type SummaryCheck = {
   templateUrl: './project-reservation-summary.html',
 })
 export class ProjectReservationSummary {
-  private store = inject(AdminProjectReservationStore);
+  protected store = inject(AdminProjectReservationStore);
   private projectService = inject(ProjectService);
   private toastService = inject(ToastService);
   private router = inject(Router);
