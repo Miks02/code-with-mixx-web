@@ -1,8 +1,9 @@
-import { computed, inject, linkedSignal } from '@angular/core';
+import { computed, effect, inject, linkedSignal, untracked } from '@angular/core';
 import {
   patchState,
   signalStore,
   withComputed,
+  withHooks,
   withLinkedState,
   withMethods,
   withProps,
@@ -150,5 +151,16 @@ export const AdminProjectStore = signalStore(
         patchState(store, { editedProjectId: null });
       },
     };
+  }),
+  withHooks({
+    onInit(store) {
+      effect(() => {
+        const paged = store.reservationsQuery.data();
+        if (!paged || paged.items.length > 0 || paged.pageNumber <= 1) return;
+
+        const lastPage = Math.max(1, paged.totalPages);
+        untracked(() => patchState(store, { params: { ...store.params(), pageNumber: lastPage } }));
+      });
+    },
   }),
 );
