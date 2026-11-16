@@ -1,6 +1,7 @@
-import { Component, computed, inject, input, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { FormField } from '@angular/forms/signals';
 import { RESERVATION_STATUS_STYLES, ReservationStatus } from '@features/reservations';
+import { AdminProjectReservationStore } from '@features/projects/admin/stores/admin-project-reservation-store';
 import { ProjectFormService } from '@features/projects/services/project-form-service';
 
 @Component({
@@ -14,7 +15,7 @@ export class ProjectReservationPricing {
 
   reservationForm = this.projectFormService.reservationForm;
 
-  totalPaid = input<number>();
+  protected totalPaid = inject(AdminProjectReservationStore).totalPaid;
 
   reservationStatuses = Object.values(ReservationStatus);
   reservationStatusStyles = RESERVATION_STATUS_STYLES;

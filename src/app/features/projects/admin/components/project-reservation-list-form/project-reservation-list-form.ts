@@ -6,7 +6,6 @@ import {
   ElementRef,
   inject,
   Injector,
-  input,
   viewChild,
 } from '@angular/core';
 import { FormField } from '@angular/forms/signals';
@@ -20,8 +19,8 @@ import {
 import { priceConverter } from '@core/utilities/price-helpers';
 import { Button } from '@shared/components/button/button';
 import { Slider } from '@shared/components/slider/slider';
-import { SubjectLookupItem } from '@features/subjects';
 import { ProjectType } from '@features/projects/models/project-type';
+import { AdminProjectReservationStore } from '@features/projects/admin/stores/admin-project-reservation-store';
 import { ProjectFormService } from '@features/projects/services/project-form-service';
 import { PROJECT_TYPE_LABELS } from '@features/projects/utilities/project-labels';
 
@@ -33,8 +32,7 @@ import { PROJECT_TYPE_LABELS } from '@features/projects/utilities/project-labels
   templateUrl: './project-reservation-list-form.html',
 })
 export class ProjectReservationListForm {
-  subjectsLookup = input.required<SubjectLookupItem[] | undefined>();
-
+  protected store = inject(AdminProjectReservationStore);
   projectFormService = inject(ProjectFormService);
   private injector = inject(Injector);
 
@@ -69,7 +67,7 @@ export class ProjectReservationListForm {
 
   onSubjectChanged(projectIndex: number, event: Event) {
     const subjectId = Number((event.target as HTMLSelectElement).value);
-    const subject = this.subjectsLookup()?.find((s) => s.id === subjectId);
+    const subject = this.store.subjects()?.find((s) => s.id === subjectId);
     if (!subject) return;
 
     this.projectFormService.updateProject(projectIndex, {
