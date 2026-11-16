@@ -1,4 +1,4 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
   faSolidClock,
@@ -12,10 +12,7 @@ import { AccountStatus } from '@core/models/account-status';
 import { dateConverter, dateTimeConverter } from '@core/utilities/date-helpers';
 import { priceConverter } from '@core/utilities/price-helpers';
 import { Skeleton } from '@shared/components/skeleton/skeleton';
-import {
-  StudentProfile as StudentProfileModel,
-  StudentReservationsStats,
-} from '@features/students/models/student-details';
+import { AdminStudentDetailsStore } from '@features/students/admin/stores/admin-student-details-store';
 import { ACCOUNT_STATUS_META } from '@features/students/utilities/student-labels';
 
 type InfoRow = {
@@ -41,9 +38,10 @@ type InfoRow = {
   templateUrl: './student-profile.html',
 })
 export class StudentProfile {
-  student = input<StudentProfileModel>();
-  stats = input<StudentReservationsStats>();
-  isPending = input<boolean>(false);
+  protected store = inject(AdminStudentDetailsStore);
+
+  student = this.store.student;
+  stats = this.store.stats;
 
   readonly AccountStatus = AccountStatus;
   readonly skeletonRows = Array.from({ length: 6 });

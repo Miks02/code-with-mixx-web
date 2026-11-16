@@ -5,12 +5,12 @@
     <h2 class="text-xl font-semibold text-emerald-100">Rezervacije</h2>
     <app-sort-menu
       [options]="typeOptions"
-      [selected]="selectedType()"
-      (sortChanged)="typeChanged.emit($event)"
+      [selected]="store.selectedReservationType()"
+      (sortChanged)="store.setReservationType($event)"
     ></app-sort-menu>
   </div>
 
-  @if (isPending()) {
+  @if (store.detailsPending()) {
     <div class="flex flex-col gap-3">
       @for (item of skeletonItems; track $index) {
         <div class="p-4 rounded-lg bg-emerald-900/80 flex flex-col gap-3">
@@ -29,16 +29,16 @@
         </div>
       }
     </div>
-  } @else if (reservations().length) {
+  } @else if (store.reservations().length) {
     <div class="relative flex-1 min-h-80">
       <div
         class="absolute inset-0 grid grid-cols-1 sm:grid-cols-2 content-start gap-3 overflow-y-auto"
       >
-        @for (reservation of reservations(); track reservation.id) {
+        @for (reservation of store.reservations(); track reservation.id) {
           <app-student-reservation-card
             [class.sm:col-span-2]="$last && $count % 2 === 1"
             [reservation]="reservation"
-            [addOpacity]="isFetching()"
+            [addOpacity]="store.detailsFetching()"
           ></app-student-reservation-card>
         }
       </div>
@@ -49,7 +49,7 @@
         <ng-icon name="faSolidXmark" class="text-emerald-400! text-2xl self-center!"></ng-icon>
       </div>
       <p class="text-emerald-200 font-medium text-lg">
-        @if (selectedType() === 'All') {
+        @if (store.selectedReservationType() === 'All') {
           Student još nema nijednu rezervaciju.
         } @else {
           Student nema rezervacije ovog tipa.
@@ -59,7 +59,7 @@
   }
 
   <div class="flex items-center justify-between gap-3 flex-wrap mt-auto pt-2">
-    <p class="text-emerald-300 text-sm">Prikazano {{ paginatedCount() }} od {{ totalCount() }}</p>
+    <p class="text-emerald-300 text-sm">Prikazano {{ store.pagedCount() }} od {{ store.totalCount() }}</p>
 
     <div class="flex items-center gap-2">
       <app-button
@@ -67,19 +67,19 @@
         size="sm"
         icon="faSolidChevronLeft"
         aria-label="Prethodna strana"
-        [disabled]="!hasPreviousPage()"
-        (clicked)="onPreviousPage()"
+        [disabled]="!store.hasPreviousPage()"
+        (clicked)="store.previousPage()"
       ></app-button>
 
-      <span class="text-emerald-100 text-sm">{{ currentPage() }} / {{ totalPages() }}</span>
+      <span class="text-emerald-100 text-sm">{{ store.currentPage() }} / {{ store.totalPages() }}</span>
 
       <app-button
         variant="ghost"
         size="sm"
         icon="faSolidChevronRight"
         aria-label="Sledeća strana"
-        [disabled]="!hasNextPage()"
-        (clicked)="onNextPage()"
+        [disabled]="!store.hasNextPage()"
+        (clicked)="store.nextPage()"
       ></app-button>
     </div>
   </div>

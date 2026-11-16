@@ -12,7 +12,7 @@
     </app-button>
   </div>
 
-  @if (isNotFound()) {
+  @if (store.isNotFound()) {
     <div
       class="lg:col-span-3 bg-emerald-950/80 backdrop-blur-xl rounded-lg shadow-lg p-4 min-h-80 flex flex-col items-center justify-center gap-3 text-center"
     >
@@ -23,11 +23,7 @@
     </div>
   } @else {
     <div class="min-w-0 flex flex-col gap-4 lg:order-2">
-      <app-student-profile
-        [student]="student()"
-        [stats]="stats()"
-        [isPending]="isPending()"
-      ></app-student-profile>
+      <app-student-profile></app-student-profile>
     </div>
 
     <div class="min-w-0 flex flex-col gap-4 lg:col-span-2 lg:order-1">
@@ -37,26 +33,26 @@
           icon="faSolidCalendarCheck"
           iconBackground="emerald"
           description="Ukupno"
-          [value]="stats()?.totalReservations"
-          [isPending]="isPending()"
+          [value]="store.stats()?.totalReservations"
+          [isPending]="store.detailsPending()"
         ></app-stats-card>
 
         <app-stats-card
           title="Časovi"
           icon="faSolidChalkboardUser"
           iconBackground="sky"
-          [description]="'U ' + (stats()?.classReservations ?? 0) + ' rezervacija'"
-          [value]="stats()?.totalClasses"
-          [isPending]="isPending()"
+          [description]="'U ' + (store.stats()?.classReservations ?? 0) + ' rezervacija'"
+          [value]="store.stats()?.totalClasses"
+          [isPending]="store.detailsPending()"
         ></app-stats-card>
 
         <app-stats-card
           title="Projekti"
           icon="faSolidDiagramProject"
           iconBackground="violet"
-          [description]="'U ' + (stats()?.projectReservations ?? 0) + ' rezervacija'"
-          [value]="stats()?.totalProjects"
-          [isPending]="isPending()"
+          [description]="'U ' + (store.stats()?.projectReservations ?? 0) + ' rezervacija'"
+          [value]="store.stats()?.totalProjects"
+          [isPending]="store.detailsPending()"
         ></app-stats-card>
 
         <app-stats-card
@@ -64,19 +60,12 @@
           icon="faSolidTriangleExclamation"
           iconBackground="red"
           description="Rezervacije"
-          [value]="stats()?.overdueReservations"
-          [isPending]="isPending()"
+          [value]="store.stats()?.overdueReservations"
+          [isPending]="store.detailsPending()"
         ></app-stats-card>
       </div>
 
-      <app-student-reservations-list
-        [pagedReservations]="reservations()"
-        [selectedType]="selectedType()"
-        [isPending]="isPending()"
-        [isFetching]="isFetching()"
-        (typeChanged)="onTypeChange($event)"
-        (pageChanged)="onPageChange($event)"
-      ></app-student-reservations-list>
+      <app-student-reservations-list></app-student-reservations-list>
     </div>
   }
 </div>
