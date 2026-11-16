@@ -84,7 +84,7 @@ describe('StudentCard', () => {
     fixture.componentRef.setInput('addOpacity', true);
     fixture.detectChanges();
 
-    const host = fixture.nativeElement.querySelector('div');
+    const host = fixture.nativeElement.querySelector('button');
     expect(host.style.opacity).toBe('0.5');
   });
 });
