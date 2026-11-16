@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal, untracked } from '@angular/core';
 import { FormField } from '@angular/forms/signals';
 import { RESERVATION_STATUS_STYLES, ReservationStatus } from '@features/reservations';
 import { AdminProjectReservationStore } from '@features/projects/admin/stores/admin-project-reservation-store';
@@ -23,9 +23,7 @@ export class ProjectReservationPricing {
   private projects = computed(() => this.projectFormService.reservationModel().projects);
 
   private totalBasedOnProjectsPrice = computed(() => {
-    return this.projects()
-      .map((p) => p.price)
-      .reduce((p, curr) => p + curr);
+    return this.projects().reduce((sum, project) => sum + project.price, 0);
   });
 
   useProjectsSum = signal<boolean>(false);
@@ -34,6 +32,15 @@ export class ProjectReservationPricing {
 
     return this.reservationForm.totalPrice().value();
   });
+
+  constructor() {
+    effect(() => {
+      if (!this.useProjectsSum()) return;
+
+      const sum = this.totalBasedOnProjectsPrice();
+      untracked(() => this.reservationForm.totalPrice().value.set(sum));
+    });
+  }
 
   onStatusSelected(status: ReservationStatus) {
     this.reservationForm.reservationStatus().value.set(status);
