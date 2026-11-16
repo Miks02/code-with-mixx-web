@@ -1,5 +1,5 @@
 import { computed, effect, inject, untracked } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   signalStore,
   withComputed,
@@ -36,10 +36,15 @@ export const AdminProjectReservationStore = signalStore(
       studentsLookupQuery: studentService.getStudentsLookupQuery,
       subjectsLookupQuery: subjectService.getSubjectsLookupQuery(),
       _formService: inject(ProjectFormService),
+      _createMutation: projectService.createProjectReservationMutation,
+      _updateMutation: projectService.updateProjectReservationMutation,
     }),
   ),
   withComputed((store) => ({
     isEditMode: computed(() => store.reservationId() !== null),
+    isSaving: computed(
+      () => store._createMutation.isPending() || store._updateMutation.isPending(),
+    ),
     details: computed(() => store.detailsQuery.data()),
     availableStudents: computed(() => store.studentsLookupQuery.data()),
     subjects: computed(() => store.subjectsLookupQuery.data()),
@@ -52,6 +57,17 @@ export const AdminProjectReservationStore = signalStore(
     ),
   })),
   withComputed((store) => ({
+    isNotFound: computed(() => {
+      const id = store.reservationId();
+      if (id === null) return false;
+      if (!Number.isInteger(id) || id <= 0) return true;
+      return store.detailsQuery.error()?.errorCode === 'Reservation.NotFound';
+    }),
+    isLoadError: computed(
+      () =>
+        store.detailsQuery.isError() &&
+        store.detailsQuery.error()?.errorCode !== 'Reservation.NotFound',
+    ),
     totalPaid: computed(() =>
       store.isEditMode() ? (store.details()?.paidAmount ?? 0) : undefined,
     ),
@@ -63,6 +79,13 @@ export const AdminProjectReservationStore = signalStore(
   })),
   withHooks({
     onInit(store) {
+      const router = inject(Router);
+
+      effect(() => {
+        if (!store.isLoadError()) return;
+        untracked(() => router.navigate(['/admin/projects']));
+      });
+
       effect(() => {
         const details = store.details();
         if (!details) return;
