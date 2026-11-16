@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, output, signal, WritableSignal } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
   faSolidArrowsRotate,
@@ -16,20 +16,25 @@ import {
   faSolidPercent,
   faSolidTrash,
 } from '@ng-icons/font-awesome/solid';
+import { DialogResult } from '@core/components/dialog/dialog';
+import { DialogService } from '@core/services/dialog-service';
+import { ToastService } from '@core/services/toast-service';
 import { priceConverter } from '@core/utilities/price-helpers';
 import { Button } from '@shared/components/button/button';
 import { SrDatePipe } from '@shared/pipes/sr-date-pipe';
-import { ClassReservationItem } from '@features/classes/models/class-reservation-item';
 import { PAYMENT_STATUS_META, RESERVATION_STATUS_META, StatusMeta } from '@features/reservations';
 import { Router } from '@angular/router';
-import { ReservationModalType, UpdateStatusModal } from '@features/reservations';
+import { UpdateStatusModal } from '@features/reservations';
 import {
-  PaymentService,
   RegisterPaymentModal,
   ReservationPaymentHistoryModal,
   SubtractPaymentModal,
 } from '@features/payments';
 import { ClassCard } from '@features/classes/components/class-card/class-card';
+import { AdminClassStore } from '@features/classes/admin/stores/admin-class-store';
+import { ClassService } from '@features/classes/services/class-service';
+import { getClassReservationErrorMessage } from '@features/classes/utilities/class-error-messages';
+import { CLASS_RESERVATION_TOAST_MESSAGES } from '@features/classes/utilities/class-toast-messages';
 
 type ReservationStat = {
   icon: string;
@@ -71,26 +76,13 @@ type ReservationStat = {
   templateUrl: './class-reservation-details.html',
 })
 export class ClassReservationDetails {
-  reservation = input<ClassReservationItem>();
-  isArchiving = input<boolean>(false);
-  archiveReservation = output<number>();
-  restoreReservation = output<number>();
-  deleteReservation = output<number>();
-
+  protected store = inject(AdminClassStore);
+  private classService = inject(ClassService);
+  private toastService = inject(ToastService);
+  private dialogService = inject(DialogService);
   private router = inject(Router);
-  private paymentService = inject(PaymentService);
 
-  reservationModal: WritableSignal<ReservationModalType | null> = signal(null);
-
-  isReservationModalVisible = computed(() => this.reservationModal() !== null);
-
-  private reservationId = computed(() => this.reservation()?.id ?? 0);
-  private paymentHistoryQuery = this.paymentService.getPaymentHistoryForReservationQuery(
-    this.reservationId,
-    computed(() => this.reservationModal() === 'payment-history'),
-  );
-  paymentHistory = computed(() => this.paymentHistoryQuery.data());
-  isPaymentHistoryLoading = this.paymentHistoryQuery.isLoading;
+  reservation = this.store.selectedReservation;
 
   reservationStatus = computed<StatusMeta | null>(() => {
     const reservation = this.reservation();
@@ -127,23 +119,57 @@ export class ClassReservationDetails {
     return this.router.navigate([`admin/classes/details/${reservationId}`]);
   }
 
-  onArchive(reservationId: number) {
-    this.archiveReservation.emit(reservationId);
+  async onArchive(reservationId: number) {
+    const result = await this.dialogService.showDialog({
+      title: 'Arhiviranje rezervacije',
+      message: `Da li sigurno želiš da arhiviraš rezervaciju studenta „${this.reservation()?.studentFullName}”?`,
+    });
+
+    if (result !== DialogResult.Confirmed) return;
+
+    this.classService.archiveClassReservationMutation.mutate(reservationId, {
+      onSuccess: () =>
+        this.toastService.showSuccess(CLASS_RESERVATION_TOAST_MESSAGES.archiveSuccess),
+      onError: (err) => {
+        const message = getClassReservationErrorMessage(err);
+        if (message) this.toastService.showError(message);
+      },
+    });
   }
 
-  onRestore(reservationId: number) {
-    this.restoreReservation.emit(reservationId);
+  async onRestore(reservationId: number) {
+    const result = await this.dialogService.showDialog({
+      title: 'Vraćanje rezervacije',
+      message: `Da li sigurno želiš da vratiš rezervaciju studenta „${this.reservation()?.studentFullName}” iz arhive?`,
+    });
+
+    if (result !== DialogResult.Confirmed) return;
+
+    this.classService.restoreClassReservationMutation.mutate(reservationId, {
+      onSuccess: () =>
+        this.toastService.showSuccess(CLASS_RESERVATION_TOAST_MESSAGES.restoreSuccess),
+      onError: (err) => {
+        const message = getClassReservationErrorMessage(err);
+        if (message) this.toastService.showError(message);
+      },
+    });
   }
 
-  onDelete(reservationId: number) {
-    this.deleteReservation.emit(reservationId);
-  }
+  async onDelete(reservationId: number) {
+    const result = await this.dialogService.showDialog({
+      title: 'Brisanje rezervacije',
+      message: `Da li sigurno želiš da obrišeš rezervaciju studenta „${this.reservation()?.studentFullName}”?`,
+    });
 
-  openModal(type: ReservationModalType) {
-    this.reservationModal.set(type);
-  }
+    if (result !== DialogResult.Confirmed) return;
 
-  closeModal() {
-    this.reservationModal.set(null);
+    this.classService.deleteClassReservationMutation.mutate(reservationId, {
+      onSuccess: () =>
+        this.toastService.showSuccess(CLASS_RESERVATION_TOAST_MESSAGES.deleteSuccess),
+      onError: (err) => {
+        const message = getClassReservationErrorMessage(err);
+        if (message) this.toastService.showError(message);
+      },
+    });
   }
 }

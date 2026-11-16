@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, output } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
   faSolidBook,
@@ -11,7 +11,6 @@ import {
   faSolidUserSlash,
   faSolidXmark,
 } from '@ng-icons/font-awesome/solid';
-import { PagedResult } from '@core/models/paged-result';
 import { Button } from '@shared/components/button/button';
 import { FilterMenu } from '@shared/components/filter-menu/filter-menu';
 import { Skeleton } from '@shared/components/skeleton/skeleton';
@@ -19,12 +18,10 @@ import {
   CONFLICTING_RESERVATION_STATUSES,
   PaymentStatus,
   RESERVATION_STATUS_FILTER_LABELS,
-  ReservationStatus,
 } from '@features/reservations';
-import { SubjectLookupItem } from '@features/subjects';
-import { ClassReservationItem } from '@features/classes/models/class-reservation-item';
-import { ClassReservationCard } from '../class-reservation-card/class-reservation-card';
 import { Router } from '@angular/router';
+import { AdminClassStore } from '@features/classes/admin/stores/admin-class-store';
+import { ClassReservationCard } from '../class-reservation-card/class-reservation-card';
 
 @Component({
   imports: [ClassReservationCard, Button, FilterMenu, NgIcon, Skeleton],
@@ -46,47 +43,20 @@ import { Router } from '@angular/router';
   templateUrl: './class-reservations-list.html',
 })
 export class ClassReservationsList {
-  pagedReservations = input.required<PagedResult<ClassReservationItem> | undefined>();
-  selectedReservationId = input<number | undefined>(undefined);
-  subjects = input<SubjectLookupItem[]>([]);
-  selectedSubjectIds = input<number[]>([]);
-  selectedReservationStatuses = input<ReservationStatus[]>([]);
-  selectedPaymentStatuses = input<PaymentStatus[]>([]);
-  showOnlyDeletedStudents = input<boolean>(false);
-  showOnlyDeletedReservations = input<boolean>(false);
-  isPending = input<boolean>(false);
-  isFetching = input<boolean>(false);
+  protected store = inject(AdminClassStore);
+  private router = inject(Router);
 
-  router = inject(Router);
+  protected conflictingReservationStatuses = CONFLICTING_RESERVATION_STATUSES;
+  protected skeletonItems = Array.from({ length: 6 });
 
-  conflictingReservationStatuses = CONFLICTING_RESERVATION_STATUSES;
-
-  reservationSelected = output<ClassReservationItem | undefined>();
-  pageChanged = output<number>();
-  subjectIdsChanged = output<number[]>();
-  reservationStatusesChanged = output<ReservationStatus[]>();
-  paymentStatusesChanged = output<PaymentStatus[]>();
-  deletedReservationsToggled = output<boolean>();
-  deletedStudentsToggled = output<boolean>();
-  openCreationForm = output<void>();
-
-  subjectOptions = computed<Record<string, string>>(() =>
-    Object.fromEntries(this.subjects().map((subject) => [subject.id, subject.subjectName])),
+  protected subjectOptions = computed<Record<string, string>>(() =>
+    Object.fromEntries(this.store.subjects().map((subject) => [subject.id, subject.subjectName])),
   );
-  selectedSubjectOptions = computed(() => this.selectedSubjectIds().map(String));
+  protected selectedSubjectOptions = computed(() => this.store.params.subjectIds().map(String));
 
-  reservations = computed(() => this.pagedReservations()?.items);
-  skeletonItems = computed(() => Array.from({ length: 6 }));
-  totalCount = computed(() => this.pagedReservations()?.totalCount ?? 0);
-  paginatedCount = computed(() => this.pagedReservations()?.paginatedCount ?? 0);
-  currentPage = computed(() => this.pagedReservations()?.pageNumber ?? 1);
-  totalPages = computed(() => this.pagedReservations()?.totalPages ?? 1);
-  hasPreviousPage = computed(() => this.pagedReservations()?.hasPreviousPage ?? false);
-  hasNextPage = computed(() => this.pagedReservations()?.hasNextPage ?? false);
+  protected reservationStatuses = RESERVATION_STATUS_FILTER_LABELS;
 
-  reservationStatuses = RESERVATION_STATUS_FILTER_LABELS;
-
-  paymentStatuses: Record<PaymentStatus, string> = {
+  protected paymentStatuses: Record<PaymentStatus, string> = {
     [PaymentStatus.Pending]: 'Na čekanju',
     [PaymentStatus.Paid]: 'Plaćeno',
     [PaymentStatus.PartiallyPaid]: 'Delimično plaćeno',
@@ -94,41 +64,11 @@ export class ClassReservationsList {
     [PaymentStatus.Refunded]: 'Povraćen novac',
   };
 
-  onReservationSelected(reservation: ClassReservationItem | undefined) {
-    this.reservationSelected.emit(reservation);
-  }
-
   onSubjectsChanged(subjectIds: string[]) {
-    this.subjectIdsChanged.emit(subjectIds.map(Number));
-  }
-
-  onReservationStatusesChanged(reservationStatuses: ReservationStatus[]) {
-    this.reservationStatusesChanged.emit(reservationStatuses);
-  }
-
-  onPaymentStatusesChanged(paymentStatuses: PaymentStatus[]) {
-    this.paymentStatusesChanged.emit(paymentStatuses);
-  }
-
-  onDeletedReservationsToggle() {
-    this.deletedReservationsToggled.emit(!this.showOnlyDeletedReservations());
-  }
-
-  onDeletedStudentsToggle() {
-    this.deletedStudentsToggled.emit(!this.showOnlyDeletedStudents());
+    this.store.setSubjectIds(subjectIds.map(Number));
   }
 
   onOpenCreationForm() {
     this.router.navigate(['admin/classes/create']);
-  }
-
-  onPreviousPage() {
-    if (!this.hasPreviousPage()) return;
-    this.pageChanged.emit(this.currentPage() - 1);
-  }
-
-  onNextPage() {
-    if (!this.hasNextPage()) return;
-    this.pageChanged.emit(this.currentPage() + 1);
   }
 }

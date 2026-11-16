@@ -92,6 +92,7 @@
       icon="faSolidCheck"
       [fullWidth]="true"
       [disabled]="!reservationForm().valid()"
+      [loading]="store.isSaving()"
     >
       Sačuvaj
     </app-button>
