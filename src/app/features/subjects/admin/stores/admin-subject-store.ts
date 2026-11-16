@@ -59,7 +59,14 @@ export const AdminSubjectsStore = signalStore(
     summary: computed(() => store.summaryQuery.data()),
     summaryPending: computed(() => store.summaryQuery.isPending()),
     mostPopularSubject: computed(() => store.summaryQuery.data()?.mostPopularSubject ?? undefined),
-    pagedSubjects: computed(() => store.subjectsQuery.data()),
+    pagedSubjectsItems: computed(() => store.subjectsQuery.data()?.items),
+    pagedSubjectsTotalCount: computed(() => store.subjectsQuery.data()?.totalCount ?? 0),
+    pagedSubjectsCount: computed(() => store.subjectsQuery.data()?.items.length ?? 0),
+    currentPage: computed(() => store.subjectsQuery.data()?.pageNumber ?? 1),
+    totalPages: computed(() => store.subjectsQuery.data()?.totalPages ?? 1),
+    hasPreviousPage: computed(() => store.subjectsQuery.data()?.hasPreviousPage ?? false),
+    hasNextPage: computed(() => store.subjectsQuery.data()?.hasNextPage ?? false),
+    selectedSubjectId: computed(() => store.selectedSubject()?.id),
     subjectsPending: computed(() => store.subjectsQuery.isPending()),
     subjectsFetching: computed(() => store.subjectsQuery.isFetching()),
   })),
@@ -78,11 +85,16 @@ export const AdminSubjectsStore = signalStore(
       setSort(sortBy: SubjectSort) {
         patchParams({ sortBy, pageNumber: 1 });
       },
-      setOnlyArchived(onlyArchived: boolean) {
-        patchParams({ onlyArchived, pageNumber: 1 });
+      previousPage() {
+        if (!store.hasPreviousPage()) return;
+        patchParams({ pageNumber: store.currentPage() - 1 });
       },
-      setPageNumber(pageNumber: number) {
-        patchParams({ pageNumber });
+      nextPage() {
+        if (!store.hasNextPage()) return;
+        patchParams({ pageNumber: store.currentPage() + 1 });
+      },
+      toggleOnlyArchived() {
+        patchParams({ onlyArchived: !store.params.onlyArchived(), pageNumber: 1 });
       },
       selectSubject(subject: SubjectItem | undefined) {
         patchState(store, { selectedSubject: subject, isEditing: false });
