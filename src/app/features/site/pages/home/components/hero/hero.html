@@ -56,13 +56,16 @@
     class="mx-auto flex w-full max-w-7xl flex-wrap justify-center gap-x-14 gap-y-6 px-6 pb-12 lg:pb-16 3xl:max-w-[110rem] 3xl:gap-x-24 3xl:pb-24"
   >
     @for (stat of displayStats(); track stat.label) {
-    <div class="flex flex-col-reverse items-center text-center">
+    <div class="flex flex-col items-center text-center">
       <dt class="text-sm text-emerald-100/70 sm:text-base 3xl:text-xl">{{ stat.label }}</dt>
       <dd
-        class="text-3xl font-bold text-amber-400 tabular-nums drop-shadow-md sm:text-4xl 3xl:text-5xl"
+        class="order-first text-3xl font-bold text-amber-400 tabular-nums drop-shadow-md sm:text-4xl 3xl:text-5xl"
       >
         <span class="sr-only">{{ stat.final }}</span>
         <span aria-hidden="true">{{ stat.current }}</span>
+      </dd>
+      <dd class="mt-0.5 text-xs text-emerald-100/50 sm:text-sm 3xl:text-lg">
+        {{ stat.description }}
       </dd>
     </div>
     }

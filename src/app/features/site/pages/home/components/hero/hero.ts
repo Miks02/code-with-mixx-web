@@ -17,13 +17,13 @@ type CodeToken = { text: string; color: string };
 
 type HeroStat = {
   target: number;
-  decimals: number;
   suffix: string;
   durationMs: number;
   label: string;
+  description: string;
 };
 
-const formatStat = (stat: HeroStat, value: number) => value.toFixed(stat.decimals) + stat.suffix;
+const formatStat = (stat: HeroStat, value: number) => value.toFixed() + stat.suffix;
 
 const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
 
@@ -47,9 +47,9 @@ export class Hero {
   private readonly destroyRef = inject(DestroyRef);
 
   private readonly stats: HeroStat[] = [
-    { target: 120, decimals: 0, suffix: '+', durationMs: 1200, label: 'Održanih časova' },
-    { target: 9.5, decimals: 1, suffix: '', durationMs: 2600, label: 'Prosečna ocena' },
-    { target: 15, decimals: 0, suffix: '+', durationMs: 1900, label: 'Seminarskih radova' },
+    { target: 30, suffix: '+', durationMs: 1200, label: 'Studenata', description: 'Kolege sa kojima sam radio' },
+    { target: 150, suffix: '+', durationMs: 2600, label: 'Održanih časova', description: 'Iz raznih oblasti' },
+    { target: 10, suffix: '+', durationMs: 1900, label: 'Seminarskih radova', description: 'Uz mentorstvo' },
   ];
 
   private readonly elapsedMs = signal(0);
@@ -62,7 +62,8 @@ export class Hero {
 
       return {
         label: stat.label,
-        final: formatStat(stat, stat.target),
+        final: stat.target,
+        description: stat.description,
         current: formatStat(stat, stat.target * easeOutCubic(progress)),
       };
     });
@@ -163,5 +164,5 @@ export class Hero {
     this.destroyRef.onDestroy(() => cancelAnimationFrame(frameId));
   }
 
-  
+
 }
