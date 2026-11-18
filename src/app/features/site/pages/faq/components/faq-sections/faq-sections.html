@@ -1,0 +1,86 @@
+<section class="w-full bg-emerald-950 pb-12 lg:pb-16 3xl:pb-24">
+  <div
+    class="mx-auto grid w-full max-w-7xl gap-12 px-6 lg:grid-cols-[16rem_1fr] lg:gap-20 lg:px-10 3xl:max-w-[110rem] 3xl:grid-cols-[22rem_1fr] 3xl:gap-32"
+  >
+    <nav aria-label="Teme" class="lg:sticky lg:top-28 lg:self-start">
+      <p class="font-semibold text-white 3xl:text-xl">Teme</p>
+
+      <ol class="mt-4 border-l border-emerald-700/40 text-base 3xl:text-xl">
+        @for (group of groups; track group.id) {
+          <li>
+            <a
+              [routerLink]="[]"
+              [fragment]="group.id"
+              class="transition-200 -ml-px flex gap-3 border-l border-transparent py-1.5 pl-4 text-emerald-100/70 hover:border-emerald-400 hover:text-white"
+            >
+              <span class="tabular-nums" aria-hidden="true">0{{ $index + 1 }}</span>
+              {{ group.title }}
+            </a>
+          </li>
+        }
+      </ol>
+    </nav>
+
+    <div class="space-y-16 text-base text-emerald-100 3xl:space-y-24 3xl:text-xl">
+      @for (group of groups; track group.id; let groupIndex = $index) {
+        <section [id]="group.id" [attr.aria-labelledby]="group.id + '-title'">
+          <div class="flex items-baseline gap-4 3xl:gap-6">
+            <span
+              class="text-xl font-bold text-emerald-300 tabular-nums 3xl:text-2xl"
+              aria-hidden="true"
+              >0{{ groupIndex + 1 }}</span
+            >
+            <h2
+              [id]="group.id + '-title'"
+              class="text-3xl leading-tight font-bold text-white 3xl:text-4xl"
+            >
+              {{ group.title }}
+            </h2>
+          </div>
+
+          <ul
+            class="mt-6 max-w-4xl divide-y divide-emerald-700/40 border-y border-emerald-700/40 3xl:mt-8 3xl:max-w-6xl"
+          >
+            @for (item of group.items; track item.question) {
+              <li>
+                <details class="group">
+                  <summary
+                    class="transition-200 flex cursor-pointer list-none items-start justify-between gap-6 py-5 text-white hover:text-emerald-300 3xl:py-7"
+                  >
+                    <h3 class="text-lg font-semibold 3xl:text-2xl">{{ item.question }}</h3>
+                    <ng-icon
+                      name="faSolidPlus"
+                      class="transition-200 mt-1.5 shrink-0 text-emerald-300! group-open:rotate-45 3xl:mt-2 3xl:text-xl"
+                      aria-hidden="true"
+                    ></ng-icon>
+                  </summary>
+
+                  <div class="max-w-2xl space-y-3 pb-6 3xl:max-w-4xl 3xl:space-y-4 3xl:pb-8">
+                    @for (paragraph of item.answer; track paragraph) {
+                      <p>{{ paragraph }}</p>
+                    }
+
+                    @if (item.link; as link) {
+                      <a
+                        [routerLink]="link.path"
+                        [fragment]="link.fragment"
+                        class="transition-200 inline-flex items-center gap-2 font-semibold text-emerald-300 hover:text-white"
+                      >
+                        {{ link.label }}
+                        <ng-icon
+                          name="faSolidArrowRight"
+                          class="text-sm"
+                          aria-hidden="true"
+                        ></ng-icon>
+                      </a>
+                    }
+                  </div>
+                </details>
+              </li>
+            }
+          </ul>
+        </section>
+      }
+    </div>
+  </div>
+</section>

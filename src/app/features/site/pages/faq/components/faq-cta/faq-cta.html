@@ -1,0 +1,32 @@
+<section class="w-full bg-emerald-950 pb-16 lg:pb-24 3xl:pb-32">
+  <div class="mx-auto w-full max-w-7xl px-6 lg:px-10 3xl:max-w-[110rem]">
+    <div
+      class="flex flex-col items-start gap-6 rounded-lg bg-emerald-900 p-6 shadow-lg sm:p-9 lg:flex-row lg:items-center lg:justify-between lg:gap-12 3xl:p-12"
+    >
+      <div>
+        <h2 class="text-2xl font-bold text-white sm:text-3xl 3xl:text-4xl">
+          Nema odgovora na tvoje pitanje?
+        </h2>
+        <p class="mt-3 max-w-2xl text-base text-emerald-100 3xl:mt-4 3xl:max-w-3xl 3xl:text-xl">
+          Pošalji upit preko kontakt forme ili piši na
+          <a
+            [href]="'mailto:' + email"
+            class="transition-200 font-semibold text-emerald-300 hover:text-white"
+            >{{ email }}</a
+          >. Na poruke odgovaram u roku od 30 do 60 minuta, a prve konsultacije su besplatne.
+        </p>
+      </div>
+
+      <app-button
+        routerLink="/"
+        fragment="contact"
+        variant="secondary"
+        size="lg"
+        icon="faSolidPaperPlane"
+        class="shrink-0"
+      >
+        Pošalji upit
+      </app-button>
+    </div>
+  </div>
+</section>

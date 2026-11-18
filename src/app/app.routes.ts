@@ -4,6 +4,7 @@ import { guestGuard } from '@core/guard/guest-guard';
 import { adminGuard } from '@core/guard/admin-guard';
 import { resetPasswordGuardGuard } from '@core/guard/reset-password-guard-guard';
 import { HOME_STRUCTURED_DATA } from '@features/site/utilities/home-structured-data';
+import { FAQ_STRUCTURED_DATA } from '@features/site/utilities/faq-structured-data';
 
 export const pageTitle = (title: string) => `${title} • CodeWithMixx`;
 
@@ -197,6 +198,16 @@ export const routes: Routes = [
         },
         loadComponent: () =>
           import('@features/site/pages/about-project/about-project').then((c) => c.AboutProject),
+      },
+      {
+        title: pageTitle('Česta pitanja'),
+        path: 'faq',
+        data: {
+          description:
+            'Odgovori na najčešća pitanja o privatnim časovima programiranja: cene, paketi, otkazivanje, povraćaj novca, seminarski i diplomski radovi, nalog i privatnost.',
+          structuredData: FAQ_STRUCTURED_DATA,
+        },
+        loadComponent: () => import('@features/site/pages/faq/faq').then((c) => c.Faq),
       },
       {
         title: pageTitle('Politika privatnosti'),
