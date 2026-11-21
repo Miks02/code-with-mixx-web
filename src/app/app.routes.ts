@@ -3,6 +3,7 @@ import { authGuard } from '@core/guard/auth-guard';
 import { guestGuard } from '@core/guard/guest-guard';
 import { adminGuard } from '@core/guard/admin-guard';
 import { resetPasswordGuardGuard } from '@core/guard/reset-password-guard-guard';
+import { pageTitle } from '@core/utilities/page-title';
 import { HOME_STRUCTURED_DATA } from '@features/site/utilities/home-structured-data';
 import { FAQ_STRUCTURED_DATA } from '@features/site/utilities/faq-structured-data';
 import { SiteLayout } from '@layouts/site/site-layout/site-layout';
@@ -11,8 +12,6 @@ import { AboutProject } from '@features/site/pages/about-project/about-project';
 import { Faq } from '@features/site/pages/faq/faq';
 import { PrivacyPolicy } from '@features/site/pages/privacy-policy/privacy-policy';
 import { TermsOfService } from '@features/site/pages/terms-of-service/terms-of-service';
-
-export const pageTitle = (title: string) => `${title} • CodeWithMixx`;
 
 export const routes: Routes = [
   {
@@ -69,12 +68,8 @@ export const routes: Routes = [
         pathMatch: 'full',
       },
       {
-        title: pageTitle('Analitika'),
         path: 'analytics',
-        loadComponent: () =>
-          import('@features/analytics/pages/analytics-page/analytics-page').then(
-            (c) => c.AnalyticsPage,
-          ),
+        loadChildren: () => import('@features/analytics').then((m) => m.ANALYTICS_ROUTES),
       },
       {
         title: pageTitle('Predmeti'),
