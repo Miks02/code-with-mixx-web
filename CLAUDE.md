@@ -29,15 +29,17 @@ The app has three areas sharing one codebase: the **public site** (`/`, open to 
 ### Import aliases
 Path aliases are defined in `tsconfig.json` `paths`: `@core/*`, `@features/*`, `@layouts/*`, `@shared/*`, `@environments/*`. Convention: use an alias for anything outside the current module (a module = `core`, `shared`, `layouts`, or a single `features/<name>`), and for any import that would need `../../` or deeper; plain relative imports (`./`, `../`) only for nearby files within the same module. Another feature is imported only through its barrel (`@features/reservations`), never its internals.
 
-### Routing & guards (`src/app/app.routes.ts`)
-Three lazy-loaded (`loadComponent`) top-level branches:
-- `''` → `SiteLayout`, no guard (public): `home` (the empty path redirects to it). New public pages go here.
-- `'auth'` → `AuthLayout`, guarded by `guestGuard`: `login`, `forgot-password`, `reset-password` (also `resetPasswordGuardGuard`, requires `token` + `userId` query params), `activate-account`.
-- `'admin'` → `DashboardLayout`, guarded by `[authGuard, adminGuard]`: `analytics`, `subjects`, `students`, `projects` and `classes` (each with `create` and `details/:id`), `settings`.
+### Routing & guards
+`src/app/app.routes.ts` only holds the three top-level branches with their layouts and guards; every feature owns its child routes in its own routes file and exports them through its `index.ts` barrel:
+- `''` → `SiteLayout`, no guard (public): `children: SITE_ROUTES` from `features/site/site.routes.ts` (`''` is the home page, `home` redirects to it; `**` is the not-found page). Imported statically so the public routes stay eager for SSR/prerendering. New public pages go here.
+- `'auth'` → `AuthLayout`, guarded by `guestGuard`: `children: AUTH_ROUTES` from `features/auth/auth.routes.ts`: `login`, `forgot-password`, `reset-password` (also `resetPasswordGuardGuard`, requires `token` + `userId` query params), `activate-account`.
+- `'admin'` → `DashboardLayout`, guarded by `[authGuard, adminGuard]`: one `loadChildren: () => import('@features/<x>').then((m) => m.X_ROUTES)` entry per feature: `analytics`, `subjects`, `students` (`details/:id`), `projects` and `classes` (each with `create` and `details/:id`), `inquiries`, `settings`.
+
+Admin routes files live in `features/<x>/admin/<x>-admin.routes.ts` (`X_ADMIN_ROUTES`), or `features/<x>/<x>.routes.ts` (`X_ROUTES`) for features without an `admin/` folder (`analytics`, `settings`). Paths inside are relative to the feature's branch (`''`, `create`, `details/:id`) and pages are imported with relative paths. A new admin screen adds a route to its feature's routes file; a new admin feature adds one `loadChildren` entry to `app.routes.ts`.
 
 Auth routes live under the `/auth` prefix (`/auth/login`, not `/login`) since the root path belongs to the public site; links and redirects must use the prefixed paths.
 
-Every route sets its browser tab title with `title: pageTitle('...')` (helper in `app.routes.ts`, produces `Page • CodeWithMixx`).
+Every route sets its browser tab title with `title: pageTitle('...')` (helper in `@core/utilities/page-title`, produces `Page • CodeWithMixx`).
 
 Guards live in `core/guard/` and are synchronous signal checks against `UserState` (`isAuthenticated()`, `isAdmin()`). The session is resolved once at startup by `provideAppInitializer(() => inject(AuthService).checkSession())`, which calls `GET /auth/me` only in the browser and only if a `Session` cookie is present.
 
