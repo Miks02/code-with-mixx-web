@@ -1,6 +1,6 @@
-import { Routes } from "@angular/router";
-import { resetPasswordGuardGuard } from "@core/guard/reset-password-guard-guard";
-import { pageTitle } from "@core/utilities/page-title";
+import { Routes } from '@angular/router';
+import { resetPasswordGuardGuard } from '@core/guard/reset-password-guard-guard';
+import { pageTitle } from '@core/utilities/page-title';
 
 export const AUTH_ROUTES: Routes = [
   {
@@ -38,4 +38,4 @@ export const AUTH_ROUTES: Routes = [
         (c) => c.AccountActivation,
       ),
   },
-]
+];

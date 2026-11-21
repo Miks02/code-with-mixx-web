@@ -1,1 +1,1 @@
-export { AUTH_ROUTES } from './auth.routes'
+export { AUTH_ROUTES } from './auth.routes';
