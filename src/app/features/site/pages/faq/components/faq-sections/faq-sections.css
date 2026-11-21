@@ -1,0 +1,16 @@
+/* Safari still draws the native disclosure triangle unless the marker is hidden explicitly. */
+summary::-webkit-details-marker {
+  display: none;
+}
+
+summary:focus-visible {
+  outline: 2px solid var(--color-emerald-400);
+  outline-offset: 4px;
+  border-radius: var(--radius-lg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ng-icon {
+    transition: none;
+  }
+}

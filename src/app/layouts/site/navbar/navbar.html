@@ -19,7 +19,7 @@
 
     <div id="nav-menu" class="nav-menu" [class.open]="isMenuOpen()">
       <ul
-        class="flex flex-col gap-1 text-lg text-emerald-100 font-semibold lg:flex-row lg:gap-4 lg:text-base xl:gap-6 xl:text-lg"
+        class="flex flex-col gap-1 text-lg text-emerald-100 font-semibold lg:flex-row lg:gap-3 lg:text-base xl:gap-6 xl:text-lg"
       >
         <li>
           <a class="nav-link" routerLink="/" (click)="closeMenu()">Početna</a>
@@ -33,12 +33,20 @@
           >
         </li>
         <li>
+          <a class="nav-link" routerLink="/" fragment="testimonials" (click)="closeMenu()"
+            >Utisci</a
+          >
+        </li>
+        <li>
           <a class="nav-link" routerLink="/" fragment="pricing" (click)="closeMenu()"
             >Cenovnik</a
           >
         </li>
         <li>
           <a class="nav-link" routerLink="/about-project" (click)="closeMenu()">O projektu</a>
+        </li>
+        <li>
+          <a class="nav-link" routerLink="/faq" (click)="closeMenu()">Pitanja</a>
         </li>
         <li>
           <a class="nav-link" routerLink="/" fragment="contact" (click)="closeMenu()"
