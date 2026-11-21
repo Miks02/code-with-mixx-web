@@ -18,7 +18,7 @@ export const routes: Routes = [
     path: 'auth',
     canActivate: [guestGuard],
     loadComponent: () => import('@layouts/auth/auth-layout/auth-layout').then((c) => c.AuthLayout),
-    children: AUTH_ROUTES
+    children: AUTH_ROUTES,
   },
   {
     path: 'admin',
@@ -30,34 +30,18 @@ export const routes: Routes = [
         path: '',
         redirectTo: 'analytics',
         pathMatch: 'full',
-    },
+      },
       {
         path: 'analytics',
         loadChildren: () => import('@features/analytics').then((m) => m.ANALYTICS_ROUTES),
       },
       {
-        title: pageTitle('Predmeti'),
         path: 'subjects',
-        loadComponent: () =>
-          import('@features/subjects/admin/pages/subjects-page/subjects-page').then(
-            (c) => c.SubjectsPage,
-          ),
+        loadChildren: () => import('@features/subjects').then((m) => m.SUBJECTS_ADMIN_ROUTES),
       },
       {
-        title: pageTitle('Studenti'),
         path: 'students',
-        loadComponent: () =>
-          import('@features/students/admin/pages/students-page/students-page').then(
-            (c) => c.StudentsPage,
-          ),
-      },
-      {
-        title: pageTitle('Detalji studenta'),
-        path: 'students/details/:id',
-        loadComponent: () =>
-          import('@features/students/admin/pages/student-details-page/student-details-page').then(
-            (c) => c.StudentDetailsPage,
-          ),
+        loadChildren: () => import('@features/students').then((m) => m.STUDENTS_ADMIN_ROUTES),
       },
       {
         path: 'projects',
@@ -72,12 +56,8 @@ export const routes: Routes = [
         loadChildren: () => import('@features/inquiries').then((m) => m.INQUIRIES_ADMIN_ROUTES),
       },
       {
-        title: pageTitle('Podešavanje'),
         path: 'settings',
-        loadComponent: () =>
-          import('@features/settings/pages/settings-page/settings-page').then(
-            (c) => c.SettingsPage,
-          ),
+        loadChildren: () => import('@features/settings').then((m) => m.SETTINGS_ROUTES),
       },
     ],
   },
