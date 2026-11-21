@@ -5,6 +5,12 @@ import { adminGuard } from '@core/guard/admin-guard';
 import { resetPasswordGuardGuard } from '@core/guard/reset-password-guard-guard';
 import { HOME_STRUCTURED_DATA } from '@features/site/utilities/home-structured-data';
 import { FAQ_STRUCTURED_DATA } from '@features/site/utilities/faq-structured-data';
+import { SiteLayout } from '@layouts/site/site-layout/site-layout';
+import { Subjects } from '@features/site/pages/subjects/subjects';
+import { AboutProject } from '@features/site/pages/about-project/about-project';
+import { Faq } from '@features/site/pages/faq/faq';
+import { PrivacyPolicy } from '@features/site/pages/privacy-policy/privacy-policy';
+import { TermsOfService } from '@features/site/pages/terms-of-service/terms-of-service';
 
 export const pageTitle = (title: string) => `${title} • CodeWithMixx`;
 
@@ -162,7 +168,7 @@ export const routes: Routes = [
   },
   {
     path: '',
-    loadComponent: () => import('@layouts/site/site-layout/site-layout').then((c) => c.SiteLayout),
+    component: SiteLayout,
     children: [
       {
         path: 'home',
@@ -186,8 +192,7 @@ export const routes: Routes = [
           description:
             'Predmeti iz kojih držim privatne časove: programiranje u C-u, Javi, C#-u i Pythonu, OOP, web razvoj i baze podataka, sa temama koje prolazimo.',
         },
-        loadComponent: () =>
-          import('@features/site/pages/subjects/subjects').then((c) => c.Subjects),
+        component: Subjects,
       },
       {
         title: pageTitle('O projektu'),
@@ -196,8 +201,7 @@ export const routes: Routes = [
           description:
             'Kako je napravljen CodeWithMixx: Angular 22 sa SSR-om, ASP.NET Core na .NET 10 i PostgreSQL. Arhitektura, prijava, obrada grešaka i javni kod na GitHubu.',
         },
-        loadComponent: () =>
-          import('@features/site/pages/about-project/about-project').then((c) => c.AboutProject),
+        component: AboutProject,
       },
       {
         title: pageTitle('Česta pitanja'),
@@ -207,7 +211,7 @@ export const routes: Routes = [
             'Odgovori na najčešća pitanja o privatnim časovima programiranja: cene, paketi, otkazivanje, povraćaj novca, seminarski i diplomski radovi, nalog i privatnost.',
           structuredData: FAQ_STRUCTURED_DATA,
         },
-        loadComponent: () => import('@features/site/pages/faq/faq').then((c) => c.Faq),
+        component: Faq,
       },
       {
         title: pageTitle('Politika privatnosti'),
@@ -216,8 +220,7 @@ export const routes: Routes = [
           description:
             'Koje podatke CodeWithMixx prikuplja, zašto, koliko dugo ih čuva, koje kolačiće koristi i kako možeš da ih vidiš, ispraviš ili obrišeš.',
         },
-        loadComponent: () =>
-          import('@features/site/pages/privacy-policy/privacy-policy').then((c) => c.PrivacyPolicy),
+        component: PrivacyPolicy,
       },
       {
         title: pageTitle('Uslovi korišćenja'),
@@ -226,10 +229,7 @@ export const routes: Routes = [
           description:
             'Kako se na CodeWithMixx zakazuju, otkazuju i plaćaju časovi i radovi, kada se novac vraća i ko vodi tvoj nalog dok studentski panel ne bude gotov.',
         },
-        loadComponent: () =>
-          import('@features/site/pages/terms-of-service/terms-of-service').then(
-            (c) => c.TermsOfService,
-          ),
+        component: TermsOfService,
       },
       {
         title: pageTitle('Stranica nije pronađena'),
