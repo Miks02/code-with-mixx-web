@@ -2,7 +2,7 @@
   <div class="flex justify-between flex-wrap">
     <app-admin-action-bar></app-admin-action-bar>
 
-    <div class="flex gap-4 flex-wrap">
+    <div class="flex gap-4 overflow-x-auto scrollbar-none p-2 md:p-0">
       <app-analytics-card
         class="grow"
         variant="emerald"
@@ -46,13 +46,14 @@
       (selectedYearOutput)="onYearChange($event, 'finance')"
       class="flex-3"
     ></app-finance-chart>
-    <app-subjects-chart 
+    <app-subjects-chart
       [data]="subjectChartData()"
       [isLoading]="isLoading()"
       [availableYears]="availableYearsForSubjectsChart()"
       [selectedYear]="selectedYearForSubjectsChart()"
       (selectedYearOutput)="onYearChange($event, 'subjects')"
-      class="flex-2"></app-subjects-chart>
+      class="flex-2"
+    ></app-subjects-chart>
   </div>
 
   <div class="flex gap-4 w-full flex-col md:flex-row">

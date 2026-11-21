@@ -54,7 +54,7 @@ export class SubjectsChart {
       chart: {
         type: 'donut',
         width: '100%',
-        height: 400,
+        height: 360,
         animations: {
           enabled: true,
           speed: 400,
@@ -133,7 +133,7 @@ export class SubjectsChart {
         {
           breakpoint: 768,
           options: {
-            chart: { height: 300 },
+            chart: { height: 270 },
             legend: { show: false },
           },
         },
