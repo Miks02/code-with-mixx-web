@@ -64,36 +64,12 @@ export const routes: Routes = [
         loadChildren: () => import('@features/projects').then((m) => m.PROJECTS_ADMIN_ROUTES),
       },
       {
-        title: pageTitle('Časovi'),
         path: 'classes',
-        loadComponent: () =>
-          import('@features/classes/admin/pages/classes-page/classes-page').then(
-            (c) => c.ClassesPage,
-          ),
+        loadChildren: () => import('@features/classes').then((m) => m.CLASSES_ADMIN_ROUTES),
       },
       {
-        title: pageTitle('Nova rezervacija'),
-        path: 'classes/create',
-        loadComponent: () =>
-          import('@features/classes/admin/pages/create-class-reservation-page/create-class-reservation-page').then(
-            (c) => c.CreateClassReservationPage,
-          ),
-      },
-      {
-        title: pageTitle('Detalji rezervacije'),
-        path: 'classes/details/:id',
-        loadComponent: () =>
-          import('@features/classes/admin/pages/class-reservation-details-page/class-reservation-details-page').then(
-            (c) => c.ClassReservationDetailsPage,
-          ),
-      },
-      {
-        title: pageTitle('Upiti'),
         path: 'inquiries',
-        loadComponent: () =>
-          import('@features/inquiries/admin/pages/inquiries-page/inquiries-page').then(
-            (c) => c.InquiriesPage,
-          ),
+        loadChildren: () => import('@features/inquiries').then((m) => m.INQUIRIES_ADMIN_ROUTES),
       },
       {
         title: pageTitle('Podešavanje'),

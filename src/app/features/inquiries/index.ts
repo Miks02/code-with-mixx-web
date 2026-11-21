@@ -4,3 +4,4 @@ export { createEmptyInquiryRequest, createInquiryForm } from './factories/inquir
 export { InquiryService } from './services/inquiry-service';
 export { inquiryKeys } from './utilities/inquiry-keys';
 export { getInquiryErrorMessage } from './utilities/inquiry-error-messages';
+export { INQUIRIES_ADMIN_ROUTES } from './admin/inquiries-admin.routes';
