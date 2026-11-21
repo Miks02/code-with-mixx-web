@@ -37,14 +37,14 @@
     </div>
   </div>
 
-  <div class="flex w-full gap-6 flex-wrap">
+  <div class="grid grid-cols-1 xl:grid-cols-5 gap-6">
     <app-finance-chart
       [data]="financeChartData()"
       [isLoading]="isLoading()"
       [availableYears]="availableYearsForFinanceChart()"
       [selectedYear]="selectedYearForFinanceChart()"
       (selectedYearOutput)="onYearChange($event, 'finance')"
-      class="flex-3"
+      class="min-w-0 xl:col-span-3"
     ></app-finance-chart>
     <app-subjects-chart
       [data]="subjectChartData()"
@@ -52,18 +52,18 @@
       [availableYears]="availableYearsForSubjectsChart()"
       [selectedYear]="selectedYearForSubjectsChart()"
       (selectedYearOutput)="onYearChange($event, 'subjects')"
-      class="flex-2"
+      class="min-w-0 xl:col-span-2"
     ></app-subjects-chart>
   </div>
 
-  <div class="flex gap-4 w-full flex-col md:flex-row">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
     <app-upcoming-classes
-      class="flex-1 h-full"
+      class="min-w-0"
       [upcomingClasses]="upcomingClasses()"
       [isLoading]="isLoading()"
     ></app-upcoming-classes>
     <app-upcoming-projects
-      class="flex-1 h-full"
+      class="min-w-0"
       [upcomingProjects]="upcomingProjects()"
       [isLoading]="isLoading()"
     ></app-upcoming-projects>
