@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 import { authGuard } from '@core/guard/auth-guard';
 import { guestGuard } from '@core/guard/guest-guard';
 import { adminGuard } from '@core/guard/admin-guard';
-import { resetPasswordGuardGuard } from '@core/guard/reset-password-guard-guard';
 import { pageTitle } from '@core/utilities/page-title';
 import { HOME_STRUCTURED_DATA } from '@features/site/utilities/home-structured-data';
 import { FAQ_STRUCTURED_DATA } from '@features/site/utilities/faq-structured-data';
@@ -12,49 +11,14 @@ import { AboutProject } from '@features/site/pages/about-project/about-project';
 import { Faq } from '@features/site/pages/faq/faq';
 import { PrivacyPolicy } from '@features/site/pages/privacy-policy/privacy-policy';
 import { TermsOfService } from '@features/site/pages/terms-of-service/terms-of-service';
+import { AUTH_ROUTES } from '@features/auth';
 
 export const routes: Routes = [
   {
     path: 'auth',
     canActivate: [guestGuard],
     loadComponent: () => import('@layouts/auth/auth-layout/auth-layout').then((c) => c.AuthLayout),
-    children: [
-      {
-        path: '',
-        redirectTo: 'login',
-        pathMatch: 'full',
-      },
-      {
-        title: pageTitle('Prijava'),
-        path: 'login',
-        loadComponent: () => import('@features/auth/components/login/login').then((c) => c.Login),
-      },
-      {
-        title: pageTitle('Zaboravljena lozinka'),
-        path: 'forgot-password',
-        loadComponent: () =>
-          import('@features/auth/components/forgot-password/forgot-password').then(
-            (c) => c.ForgotPassword,
-          ),
-      },
-      {
-        title: pageTitle('Reset lozinke'),
-        canActivate: [resetPasswordGuardGuard],
-        path: 'reset-password',
-        loadComponent: () =>
-          import('@features/auth/components/reset-password/reset-password').then(
-            (c) => c.ResetPassword,
-          ),
-      },
-      {
-        title: pageTitle('Aktivacija naloga'),
-        path: 'activate-account',
-        loadComponent: () =>
-          import('@features/auth/components/account-activation/account-activation').then(
-            (c) => c.AccountActivation,
-          ),
-      },
-    ],
+    children: AUTH_ROUTES
   },
   {
     path: 'admin',
@@ -66,7 +30,7 @@ export const routes: Routes = [
         path: '',
         redirectTo: 'analytics',
         pathMatch: 'full',
-      },
+    },
       {
         path: 'analytics',
         loadChildren: () => import('@features/analytics').then((m) => m.ANALYTICS_ROUTES),
