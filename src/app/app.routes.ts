@@ -60,28 +60,8 @@ export const routes: Routes = [
           ),
       },
       {
-        title: pageTitle('Projekti'),
         path: 'projects',
-        loadComponent: () =>
-          import('@features/projects/admin/pages/projects-page/projects-page').then(
-            (c) => c.ProjectsPage,
-          ),
-      },
-      {
-        title: pageTitle('Nova rezervacija'),
-        path: 'projects/create',
-        loadComponent: () =>
-          import('@features/projects/admin/pages/create-project-reservation-page/create-project-reservation-page').then(
-            (c) => c.CreateProjectReservationPage,
-          ),
-      },
-      {
-        title: pageTitle('Detalji rezervacije'),
-        path: 'projects/details/:id',
-        loadComponent: () =>
-          import('@features/projects/admin/pages/project-reservation-details-page/project-reservation-details-page').then(
-            (c) => c.ProjectReservationDetailsPage,
-          ),
+        loadChildren: () => import('@features/projects').then((m) => m.PROJECTS_ADMIN_ROUTES),
       },
       {
         title: pageTitle('Časovi'),
