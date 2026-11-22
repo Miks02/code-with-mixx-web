@@ -2,6 +2,7 @@ import {
   Component,
   DestroyRef,
   ElementRef,
+  InjectionToken,
   computed,
   effect,
   inject,
@@ -16,6 +17,8 @@ import {
   faSolidFilter,
   faSolidXmark,
 } from '@ng-icons/font-awesome/solid';
+
+export const FILTER_CONTAINER = new InjectionToken<boolean>('FILTER_CONTAINER');
 
 export type FilterVariant = 'default' | 'blue';
 
@@ -71,12 +74,17 @@ export class FilterMenu<T extends string = string> {
   conflictingOptions = input<Record<T, T[]>>();
   selected = input<T[]>([]);
   placeholder = input<string>('Filteri');
-  icon = input<string>('fa-solid-filter');
+  icon = input<string>('faSolidFilter');
   variant = input<FilterVariant>('default');
 
   selectedChanged = output<T[]>();
 
   private elementRef = inject(ElementRef<HTMLElement>);
+  readonly inContainer = inject(FILTER_CONTAINER, { optional: true }) ?? false;
+
+  triggerWrapperClasses = this.inContainer
+    ? 'relative w-full xl:flex-1 xl:min-w-40 xl:max-w-64'
+    : 'relative hidden xl:block flex-1 min-w-40 max-w-64';
   private destroyRef = inject(DestroyRef);
 
   private closeController: AbortController | null = null;

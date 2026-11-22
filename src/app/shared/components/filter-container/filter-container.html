@@ -1,0 +1,45 @@
+<button
+  type="button"
+  aria-label="Filteri"
+  [attr.aria-expanded]="isOpen()"
+  (click)="open()"
+  [class]="triggerBorder()"
+  class="xl:hidden shrink-0 rounded-full bg-emerald-700 p-2 flex justify-center items-center border-2 cursor-pointer shadow-lg active:scale-95 transition-200"
+>
+  <ng-icon name="faSolidFilter" class="text-emerald-300! self-center!"></ng-icon>
+</button>
+
+<dialog
+  #dialog
+  aria-label="Filteri"
+  (close)="onClosed()"
+  class="xl:contents open:flex xl:open:flex items-center justify-center fixed inset-0 m-0 w-full h-full max-w-none max-h-none p-0 border-0 bg-transparent overflow-visible backdrop:bg-transparent"
+>
+  <button
+    type="button"
+    tabindex="-1"
+    aria-label="Zatvori"
+    (click)="close()"
+    class="backdrop-in xl:hidden fixed inset-0 bg-emerald-900/60 backdrop-blur-xs"
+  ></button>
+
+  <div
+    class="modal-in relative flex flex-col gap-4 w-11/12 max-w-md p-4 bg-emerald-200 rounded-xl shadow-lg xl:contents"
+  >
+    <div class="flex items-center justify-between xl:hidden">
+      <p class="text-xl font-semibold text-emerald-900">Filteri</p>
+      <button
+        type="button"
+        aria-label="Zatvori filtere"
+        (click)="close()"
+        class="text-2xl text-red-900 cursor-pointer hover:opacity-70 active:opacity-50 transition-200"
+      >
+        <ng-icon name="faSolidXmark"></ng-icon>
+      </button>
+    </div>
+
+    <div class="flex flex-col gap-3 xl:contents">
+      <ng-content />
+    </div>
+  </div>
+</dialog>
