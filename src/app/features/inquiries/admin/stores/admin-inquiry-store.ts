@@ -25,6 +25,7 @@ import {
 
 type AdminInquiryState = {
   params: InquiryQueryParams;
+  detailsScrollRequests: number;
 };
 
 const initialState: AdminInquiryState = {
@@ -35,6 +36,7 @@ const initialState: AdminInquiryState = {
     sortBy: InquiriesSortBy.CreatedAtDescending,
     filters: [],
   },
+  detailsScrollRequests: 0,
 };
 
 const isStatusFilter = (filter: InquiriesFilterBy): filter is InquiryStatusFilter =>
@@ -128,7 +130,12 @@ export const AdminInquiryStore = signalStore(
         patchParams({ pageNumber: store.currentPage() + 1 });
       },
       selectInquiry(inquiry: InquiryItem | undefined) {
-        patchState(store, { selectedInquiry: inquiry });
+        patchState(store, {
+          selectedInquiry: inquiry,
+          detailsScrollRequests: inquiry
+            ? store.detailsScrollRequests() + 1
+            : store.detailsScrollRequests(),
+        });
       },
       toggleChecked(inquiryId: number) {
         const ids = store.checkedIds();

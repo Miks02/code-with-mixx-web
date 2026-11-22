@@ -134,6 +134,18 @@ describe('AdminStudentStore', () => {
       expect(store.selectedStudent()).toBeUndefined();
     });
 
+    it('requests a scroll to the details on every selection, including the same student', () => {
+      store.selectStudent(jelena);
+      store.selectStudent(jelena);
+      expect(store.detailsScrollRequests()).toBe(2);
+    });
+
+    it('does not request a scroll when the selection is cleared', () => {
+      store.selectStudent(jelena);
+      store.selectStudent(undefined);
+      expect(store.detailsScrollRequests()).toBe(1);
+    });
+
     it('startEditing does nothing without a selected student', () => {
       store.startEditing();
       expect(store.isEditing()).toBe(false);

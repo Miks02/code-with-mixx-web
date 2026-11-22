@@ -21,6 +21,7 @@ type AdminStudentState = {
   selectedStudent: StudentItem | undefined;
   isEditing: boolean;
   isCreateModalVisible: boolean;
+  detailsScrollRequests: number;
 };
 
 const initialState: AdminStudentState = {
@@ -34,6 +35,7 @@ const initialState: AdminStudentState = {
   selectedStudent: undefined,
   isEditing: false,
   isCreateModalVisible: false,
+  detailsScrollRequests: 0,
 };
 
 export const AdminStudentStore = signalStore(
@@ -106,7 +108,13 @@ export const AdminStudentStore = signalStore(
         patchParams({ pageNumber: store.currentPage() + 1 });
       },
       selectStudent(student: StudentItem | undefined) {
-        patchState(store, { selectedStudent: student, isEditing: false });
+        patchState(store, {
+          selectedStudent: student,
+          isEditing: false,
+          detailsScrollRequests: student
+            ? store.detailsScrollRequests() + 1
+            : store.detailsScrollRequests(),
+        });
       },
       updateSelectedStudent(changes: Partial<StudentItem>) {
         const student = store.selectedStudent();

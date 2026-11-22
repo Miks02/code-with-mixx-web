@@ -18,6 +18,7 @@ type AdminSubjectState = {
   params: AdminSubjectParams;
   selectedSubject: SubjectItem | undefined;
   isEditing: boolean;
+  detailsScrollRequests: number;
 };
 
 const initialState: AdminSubjectState = {
@@ -30,6 +31,7 @@ const initialState: AdminSubjectState = {
   },
   selectedSubject: undefined,
   isEditing: false,
+  detailsScrollRequests: 0,
 };
 
 export const AdminSubjectStore = signalStore(
@@ -97,7 +99,13 @@ export const AdminSubjectStore = signalStore(
         patchParams({ onlyArchived: !store.params.onlyArchived(), pageNumber: 1 });
       },
       selectSubject(subject: SubjectItem | undefined) {
-        patchState(store, { selectedSubject: subject, isEditing: false });
+        patchState(store, {
+          selectedSubject: subject,
+          isEditing: false,
+          detailsScrollRequests: subject
+            ? store.detailsScrollRequests() + 1
+            : store.detailsScrollRequests(),
+        });
       },
       updateSelectedSubject(changes: Partial<SubjectItem>) {
         const subject = store.selectedSubject();

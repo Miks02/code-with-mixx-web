@@ -12,6 +12,7 @@ import {
   faSolidXmark,
 } from '@ng-icons/font-awesome/solid';
 import { StatsCard } from '@shared/components/stats-card/stats-card';
+import { ScrollIntoViewOn } from '@shared/directives/scroll-into-view-on';
 import { AdminSubjectList } from '@features/subjects/admin/components/admin-subject-list/admin-subject-list';
 import { CreateSubjectForm } from '@features/subjects/admin/components/create-subject-form/create-subject-form';
 import { EditSubjectForm } from '@features/subjects/admin/components/edit-subject-form/edit-subject-form';
@@ -28,6 +29,7 @@ import { AdminSubjectStore } from '@features/subjects/admin/stores/admin-subject
     CreateSubjectForm,
     StatsCard,
     EditSubjectForm,
+    ScrollIntoViewOn,
   ],
   providers: [
     AdminSubjectStore,
