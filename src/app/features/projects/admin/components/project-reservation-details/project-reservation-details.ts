@@ -1,4 +1,20 @@
 import { Component, computed, inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { DialogResult } from '@core/components/dialog/dialog';
+import { DialogService } from '@core/services/dialog-service';
+import { ToastService } from '@core/services/toast-service';
+import { priceConverter } from '@core/utilities/price-helpers';
+import {
+  RegisterPaymentModal,
+  ReservationPaymentHistoryModal,
+  SubtractPaymentModal,
+} from '@features/payments';
+import { AdminProjectStore } from '@features/projects/admin/stores/admin-project-store';
+import { ProjectCard } from '@features/projects/components/project-card/project-card';
+import { ProjectService } from '@features/projects/services/project-service';
+import { getProjectReservationErrorMessage } from '@features/projects/utilities/project-error-messages';
+import { PROJECT_RESERVATION_TOAST_MESSAGES } from '@features/projects/utilities/project-toast-messages';
+import { PAYMENT_STATUS_META, RESERVATION_STATUS_META, StatusMeta, UpdateStatusModal } from '@features/reservations';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
   faSolidArrowsRotate,
@@ -15,26 +31,9 @@ import {
   faSolidPercent,
   faSolidTrash,
 } from '@ng-icons/font-awesome/solid';
-import { DialogResult } from '@core/components/dialog/dialog';
-import { DialogService } from '@core/services/dialog-service';
-import { ToastService } from '@core/services/toast-service';
-import { priceConverter } from '@core/utilities/price-helpers';
 import { Button } from '@shared/components/button/button';
 import { SrDatePipe } from '@shared/pipes/sr-date-pipe';
-import { ProjectCard } from '@features/projects/components/project-card/project-card';
-import { AdminProjectStore } from '@features/projects/admin/stores/admin-project-store';
-import { ProjectService } from '@features/projects/services/project-service';
-import { getProjectReservationErrorMessage } from '@features/projects/utilities/project-error-messages';
-import { PROJECT_RESERVATION_TOAST_MESSAGES } from '@features/projects/utilities/project-toast-messages';
 import { ProjectEditModal } from '../project-edit-modal/project-edit-modal';
-import { PAYMENT_STATUS_META, RESERVATION_STATUS_META, StatusMeta } from '@features/reservations';
-import { Router } from '@angular/router';
-import { UpdateStatusModal } from '@features/reservations';
-import {
-  RegisterPaymentModal,
-  ReservationPaymentHistoryModal,
-  SubtractPaymentModal,
-} from '@features/payments';
 
 type ReservationStat = {
   icon: string;
@@ -52,7 +51,7 @@ type ReservationStat = {
     ReservationPaymentHistoryModal,
     SubtractPaymentModal,
     UpdateStatusModal,
-    SrDatePipe,
+    SrDatePipe
   ],
   providers: [
     provideIcons({
