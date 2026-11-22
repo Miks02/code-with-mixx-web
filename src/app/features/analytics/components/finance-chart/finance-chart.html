@@ -3,13 +3,15 @@
 >
   <div class="p-4 flex justify-between items-center">
     <h2 class="text-xl font-semibold text-white">Analiza prihoda</h2>
-    <app-filter-menu
-      [options]="availableYearsOptions()"
-      icon="faSolidCalendar"
-      [selected]="selectedYearOptions()"
-      (selectedChanged)="onYearChange($event)"
-      placeholder="Odaberi godinu"
-    ></app-filter-menu>
+    <app-filter-container>
+      <app-filter-menu
+        [options]="availableYearsOptions()"
+        icon="faSolidCalendar"
+        [selected]="selectedYearOptions()"
+        (selectedChanged)="onYearChange($event)"
+        placeholder="Odaberi godinu"
+      ></app-filter-menu>
+    </app-filter-container>
   </div>
   @if (isLoading()) {
   <div class="px-4 pb-4 grow">

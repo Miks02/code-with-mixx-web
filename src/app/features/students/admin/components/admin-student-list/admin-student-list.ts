@@ -8,6 +8,7 @@ import {
   faSolidXmark,
 } from '@ng-icons/font-awesome/solid';
 import { Button } from '@shared/components/button/button';
+import { FilterContainer } from '@shared/components/filter-container/filter-container';
 import { FilterMenu } from '@shared/components/filter-menu/filter-menu';
 import { SearchBar } from '@shared/components/search-bar/search-bar';
 import { Skeleton } from '@shared/components/skeleton/skeleton';
@@ -29,7 +30,7 @@ const CONFLICTING_FILTERS: Record<StudentFilter, StudentFilter[]> = {
 };
 
 @Component({
-  imports: [StudentCard, Button, SearchBar, SortMenu, FilterMenu, NgIcon, Skeleton],
+  imports: [StudentCard, Button, SearchBar, SortMenu, FilterContainer, FilterMenu, NgIcon, Skeleton],
   providers: [
     provideIcons({
       faSolidChevronLeft,

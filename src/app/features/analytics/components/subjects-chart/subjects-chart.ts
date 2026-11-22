@@ -2,12 +2,13 @@ import { Component, computed, input, output } from '@angular/core';
 import { SubjectChart } from '@features/analytics/models/subject-chart';
 import { provideIcons } from '@ng-icons/core';
 import { faSolidCalendar } from '@ng-icons/font-awesome/solid';
+import { FilterContainer } from '@shared/components/filter-container/filter-container';
 import { FilterMenu } from '@shared/components/filter-menu/filter-menu';
 import { ApexOptions, NgApexchartsModule } from 'ng-apexcharts';
 import { Skeleton } from '@shared/components/skeleton/skeleton';
 
 @Component({
-  imports: [NgApexchartsModule, FilterMenu, Skeleton],
+  imports: [NgApexchartsModule, FilterContainer, FilterMenu, Skeleton],
   providers: [provideIcons({ faSolidCalendar })],
   selector: 'app-subjects-chart',
   styleUrl: './subjects-chart.css',

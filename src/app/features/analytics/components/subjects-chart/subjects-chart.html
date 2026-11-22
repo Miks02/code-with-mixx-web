@@ -3,14 +3,16 @@
 >
   <div class="p-4 flex justify-between items-center">
     <h2 class="text-xl font-semibold text-white">Grafikon održanih časova</h2>
-    <app-filter-menu
-      [options]="availableYearsOptions()"
-      icon="faSolidCalendar"
-      variant="blue"
-      [selected]="selectedYearOptions()"
-      (selectedChanged)="onYearChange($event)"
-      placeholder="Odaberi godinu"
-    ></app-filter-menu>
+    <app-filter-container variant="blue">
+      <app-filter-menu
+        [options]="availableYearsOptions()"
+        icon="faSolidCalendar"
+        variant="blue"
+        [selected]="selectedYearOptions()"
+        (selectedChanged)="onYearChange($event)"
+        placeholder="Odaberi godinu"
+      ></app-filter-menu>
+    </app-filter-container>
   </div>
   @if (isLoading()) {
   <div class="p-4 grow flex justify-center items-center">
