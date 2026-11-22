@@ -5,7 +5,7 @@ import {
   inject,
   signal,
   viewChild,
-  WritableSignal
+  WritableSignal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
@@ -29,6 +29,7 @@ export class DashboardLayout {
   private vantaEffect: unknown;
 
   isSidebarOpen: WritableSignal<boolean> = signal(false);
+  heading = signal(this.currentHeading());
 
   constructor() {
     THREE.ColorManagement.enabled = false;
@@ -57,6 +58,15 @@ export class DashboardLayout {
         takeUntilDestroyed(),
         filter((event) => event instanceof NavigationEnd),
       )
-      .subscribe(() => this.mainContainer()?.nativeElement.scrollTo({ top: 0 }));
+      .subscribe(() => {
+        this.heading.set(this.currentHeading());
+        this.mainContainer()?.nativeElement.scrollTo({ top: 0 });
+      });
+  }
+
+  private currentHeading(): string | undefined {
+    let route = this.router.routerState.snapshot.root;
+    while (route.firstChild) route = route.firstChild;
+    return route.data['heading'];
   }
 }

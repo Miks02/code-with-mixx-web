@@ -5,6 +5,7 @@ import {
   afterNextRender,
   computed,
   inject,
+  input,
   output,
   signal,
   viewChild,
@@ -43,6 +44,7 @@ export class Header {
   studentService = inject(StudentService);
   private router = inject(Router);
   private injector = inject(Injector);
+  heading = input<string>();
   toggleSidebar = output<void>();
 
   searchString = signal('');

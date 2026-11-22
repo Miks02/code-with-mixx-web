@@ -25,30 +25,51 @@ export const routes: Routes = [
         pathMatch: 'full',
       },
       {
+        data: {
+          heading: 'Analitika',
+        },
         path: 'analytics',
         loadChildren: () => import('@features/analytics').then((m) => m.ANALYTICS_ROUTES),
       },
       {
+        data: {
+          heading: 'Predmeti',
+        },
         path: 'subjects',
         loadChildren: () => import('@features/subjects').then((m) => m.SUBJECTS_ADMIN_ROUTES),
       },
       {
+        data: {
+          heading: 'Studenti',
+        },
         path: 'students',
         loadChildren: () => import('@features/students').then((m) => m.STUDENTS_ADMIN_ROUTES),
       },
       {
+        data: {
+          heading: 'Projekti',
+        },
         path: 'projects',
         loadChildren: () => import('@features/projects').then((m) => m.PROJECTS_ADMIN_ROUTES),
       },
       {
+        data: {
+          heading: 'Časovi',
+        },
         path: 'classes',
         loadChildren: () => import('@features/classes').then((m) => m.CLASSES_ADMIN_ROUTES),
       },
       {
+        data: {
+          heading: 'Upiti',
+        },
         path: 'inquiries',
         loadChildren: () => import('@features/inquiries').then((m) => m.INQUIRIES_ADMIN_ROUTES),
       },
       {
+        data: {
+          heading: 'Podešavanje',
+        },
         path: 'settings',
         loadChildren: () => import('@features/settings').then((m) => m.SETTINGS_ROUTES),
       },
