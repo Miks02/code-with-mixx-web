@@ -1,12 +1,15 @@
 import {
-    afterNextRender,
-    Component,
-    ElementRef,
-    signal,
-    ViewChild,
-    WritableSignal,
+  afterNextRender,
+  Component,
+  ElementRef,
+  inject,
+  signal,
+  viewChild,
+  WritableSignal
 } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { filter } from 'rxjs';
 import * as THREE from 'three';
 import FOG from 'vanta/dist/vanta.fog.min';
 import { Header } from '../header/header';
@@ -19,7 +22,10 @@ import { Sidebar } from '../sidebar/sidebar';
   templateUrl: './dashboard-layout.html',
 })
 export class DashboardLayout {
-  @ViewChild('vantaRef') vantaRef!: ElementRef<HTMLDivElement>;
+  private router = inject(Router);
+
+  private mainContainer = viewChild<ElementRef<HTMLDivElement>>('mainContainer');
+  private vantaRef = viewChild<ElementRef<HTMLDivElement>>('vantaRef');
   private vantaEffect: unknown;
 
   isSidebarOpen: WritableSignal<boolean> = signal(false);
@@ -29,7 +35,7 @@ export class DashboardLayout {
 
     afterNextRender(() => {
       this.vantaEffect = FOG({
-        el: this.vantaRef.nativeElement,
+        el: this.vantaRef()!.nativeElement,
         THREE: THREE,
         mouseControls: true,
         touchControls: true,
@@ -45,5 +51,12 @@ export class DashboardLayout {
         zoom: 1.0,
       });
     });
+
+    this.router.events
+      .pipe(
+        takeUntilDestroyed(),
+        filter((event) => event instanceof NavigationEnd),
+      )
+      .subscribe(() => this.mainContainer()?.nativeElement.scrollTo({ top: 0 }));
   }
 }

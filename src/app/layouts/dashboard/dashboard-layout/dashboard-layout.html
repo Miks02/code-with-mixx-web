@@ -11,7 +11,7 @@
   ></app-sidebar>
   <div class="relative flex flex-col w-full grow overflow-hidden min-h-0">
     <app-header (toggleSidebar)="isSidebarOpen.set(true)"></app-header>
-    <div class="p-2 md:p-4 w-full grow overflow-y-auto min-h-0">
+    <div #mainContainer class="p-2 md:p-4 w-full grow overflow-y-auto min-h-0">
       <router-outlet></router-outlet>
     </div>
   </div>
