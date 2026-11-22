@@ -12,7 +12,7 @@ export class SubjectCard {
   subject = input.required<SubjectItem>();
   isSelected = input<boolean>(false);
   addOpacity = input<boolean>(false);
-  selected = output<SubjectItem>();
+  selected = output<SubjectItem | undefined>();
 
   subjectName = computed(() => this.subject().subjectName);
   subjectDescription = computed(() => {
@@ -27,6 +27,10 @@ export class SubjectCard {
   );
 
   onClick() {
+    if (this.isSelected()) {
+      this.selected.emit(undefined);
+      return;
+    }
     this.selected.emit(this.subject());
   }
 }

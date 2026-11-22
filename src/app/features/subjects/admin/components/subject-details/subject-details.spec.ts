@@ -54,6 +54,7 @@ describe('SubjectDetails', () => {
   });
 
   it('asks to pick a subject when nothing is selected', async () => {
+    store.selectSubject(undefined);
     await fixture.whenStable();
     expect(element.textContent).toContain('Izaberi predmet iz liste da vidiš detalje');
   });

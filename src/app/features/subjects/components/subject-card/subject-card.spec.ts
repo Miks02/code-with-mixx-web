@@ -36,6 +36,17 @@ describe('SubjectCard', () => {
     expect(emitted).toEqual(subject);
   });
 
+  it('emits undefined to clear the selection when the selected card is clicked again', async () => {
+    fixture.componentRef.setInput('isSelected', true);
+    await fixture.whenStable();
+    const emitted: (SubjectItem | undefined)[] = [];
+    fixture.componentInstance.selected.subscribe((value) => emitted.push(value));
+
+    button().click();
+
+    expect(emitted).toEqual([undefined]);
+  });
+
   it('highlights the card when it is selected', async () => {
     expect(button().classList).not.toContain('bg-emerald-600');
 

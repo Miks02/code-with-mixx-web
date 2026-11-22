@@ -241,7 +241,36 @@ describe('AdminSubjectStore', () => {
 
   describe('selection and editing', () => {
     beforeEach(async () => {
-      await flushSummary();
+      await flushSummary(createSubjectsSummary({ pagedSubjects: firstPage }));
+    });
+
+    it('selects the first subject automatically', () => {
+      expect(store.selectedSubjectId()).toBe(1);
+    });
+
+    it('keeps the selected subject with fresh data after the list reloads', async () => {
+      store.selectSubject(store.pagedSubjectsItems()?.[1]);
+
+      store.setSort(SubjectSort.NameAscending);
+      await settle();
+      expectSubjectsRequest({ pageNumber: '1' }).flush(
+        createPagedSubjects([createSubject(), createSubject({ id: 2, classesCount: 9 })]),
+      );
+      await settle();
+
+      expect(store.selectedSubjectId()).toBe(2);
+      expect(store.selectedSubject()?.classesCount).toBe(9);
+    });
+
+    it('falls back to the first subject when the selected one leaves the list', async () => {
+      store.selectSubject(store.pagedSubjectsItems()?.[1]);
+
+      store.nextPage();
+      await settle();
+      expectSubjectsRequest({ pageNumber: '2' }).flush(secondPage);
+      await settle();
+
+      expect(store.selectedSubjectId()).toBe(3);
     });
 
     it('selectSubject sets the selected subject and its id', () => {
@@ -269,6 +298,7 @@ describe('AdminSubjectStore', () => {
     });
 
     it('startEditing is ignored when nothing is selected', () => {
+      store.selectSubject(undefined);
       store.startEditing();
       expect(store.isEditing()).toBe(false);
     });
@@ -292,6 +322,7 @@ describe('AdminSubjectStore', () => {
     });
 
     it('updateSelectedSubject does nothing without a selection', () => {
+      store.selectSubject(undefined);
       store.updateSelectedSubject({ deletedAt: '16. novembar 2026.' });
       expect(store.selectedSubject()).toBeUndefined();
     });

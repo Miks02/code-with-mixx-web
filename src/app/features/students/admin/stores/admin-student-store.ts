@@ -1,9 +1,10 @@
-import { computed, effect, inject, untracked } from '@angular/core';
+import { computed, effect, inject, linkedSignal, untracked } from '@angular/core';
 import {
   patchState,
   signalStore,
   withComputed,
   withHooks,
+  withLinkedState,
   withMethods,
   withProps,
   withState,
@@ -18,7 +19,6 @@ import { StudentService } from '@features/students/services/student-service';
 
 type AdminStudentState = {
   params: StudentQueryParams;
-  selectedStudent: StudentItem | undefined;
   isEditing: boolean;
   isCreateModalVisible: boolean;
   detailsScrollRequests: number;
@@ -32,7 +32,6 @@ const initialState: AdminStudentState = {
     sortBy: StudentSort.CreatedAscending,
     filters: [],
   },
-  selectedStudent: undefined,
   isEditing: false,
   isCreateModalVisible: false,
   detailsScrollRequests: 0,
@@ -54,6 +53,13 @@ export const AdminStudentStore = signalStore(
       _sendInvitationMutation: studentService.sendInvitationMutation,
     };
   }),
+  withLinkedState((store) => ({
+    selectedStudent: linkedSignal<StudentItem[], StudentItem | undefined>({
+      source: () => store.studentsQuery.data()?.items ?? [],
+      computation: (students, previous) =>
+        students.find((student) => student.id === previous?.value?.id) ?? students[0],
+    }),
+  })),
   withComputed((store) => ({
     summaryPending: computed(() => store.summaryQuery.isPending()),
     activeCount: computed(() => store.summaryQuery.data()?.activeStudents),

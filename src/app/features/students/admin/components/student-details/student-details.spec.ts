@@ -64,7 +64,10 @@ describe('StudentDetails', () => {
     http.verify();
   });
 
-  it('shows the placeholder when no student is selected', () => {
+  it('shows the placeholder when no student is selected', async () => {
+    store.selectStudent(undefined);
+    await fixture.whenStable();
+
     expect(element.textContent).toContain('Izaberi studenta iz liste da vidiš detalje');
     expect(buttonLabels()).toEqual([]);
   });

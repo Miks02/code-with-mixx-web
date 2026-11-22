@@ -118,13 +118,38 @@ describe('AdminStudentStore', () => {
       expect(store.hasNextPage()).toBe(true);
     });
 
-    it('does not select a student automatically', () => {
-      expect(store.selectedStudent()).toBeUndefined();
+    it('selects the first student automatically', () => {
+      expect(store.selectedStudentId()).toBe('student-1');
     });
   });
 
   describe('selection and editing', () => {
     beforeEach(loadFirstPage);
+
+    it('keeps the selected student with fresh data after the list reloads', async () => {
+      store.selectStudent(jelena);
+
+      store.setSort(StudentSort.NameDescending);
+      await settle();
+      expectStudentsRequest({ pageNumber: '1' }).flush(
+        createPagedStudents([marko, { ...jelena, firstName: 'Jelena Marija' }]),
+      );
+      await settle();
+
+      expect(store.selectedStudentId()).toBe('student-2');
+      expect(store.selectedStudent()?.firstName).toBe('Jelena Marija');
+    });
+
+    it('falls back to the first student when the selected one leaves the list', async () => {
+      store.selectStudent(jelena);
+
+      store.nextPage();
+      await settle();
+      expectStudentsRequest({ pageNumber: '2' }).flush(secondPage);
+      await settle();
+
+      expect(store.selectedStudentId()).toBe('student-3');
+    });
 
     it('selectStudent selects a student or clears the selection', () => {
       store.selectStudent(jelena);
@@ -147,6 +172,7 @@ describe('AdminStudentStore', () => {
     });
 
     it('startEditing does nothing without a selected student', () => {
+      store.selectStudent(undefined);
       store.startEditing();
       expect(store.isEditing()).toBe(false);
     });
@@ -182,6 +208,7 @@ describe('AdminStudentStore', () => {
     });
 
     it('updateSelectedStudent does nothing without a selected student', () => {
+      store.selectStudent(undefined);
       store.updateSelectedStudent({ firstName: 'Petar' });
       expect(store.selectedStudent()).toBeUndefined();
     });
