@@ -75,4 +75,17 @@ describe('FilterContainer', () => {
   it('renders the filters without their own mobile trigger', () => {
     expect(element.querySelectorAll('app-filter-menu button').length).toBe(1);
   });
+
+  it('switches the filters to the light variant only while the dialog is open', async () => {
+    const filterTrigger = () => element.querySelector<HTMLButtonElement>('app-filter-menu button')!;
+    expect(filterTrigger().className).toContain('bg-emerald-900/80');
+
+    trigger().click();
+    await fixture.whenStable();
+    expect(filterTrigger().className).toContain('bg-emerald-50');
+
+    element.querySelector<HTMLButtonElement>('button[aria-label="Zatvori"]')!.click();
+    await fixture.whenStable();
+    expect(filterTrigger().className).toContain('bg-emerald-900/80');
+  });
 });

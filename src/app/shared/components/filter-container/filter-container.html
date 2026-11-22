@@ -4,9 +4,9 @@
   [attr.aria-expanded]="isOpen()"
   (click)="open()"
   [class]="triggerBorder()"
-  class="xl:hidden shrink-0 rounded-full bg-emerald-700 p-2 flex justify-center items-center border-2 cursor-pointer shadow-lg active:scale-95 transition-200"
+  class="xl:hidden shrink-0 rounded-full p-2 flex justify-center items-center border-2 cursor-pointer shadow-lg active:scale-95 transition-200"
 >
-  <ng-icon name="faSolidFilter" class="text-emerald-300! self-center!"></ng-icon>
+  <ng-icon name="faSolidFilter" [class]="triggerClasses().icon" class="self-center!"></ng-icon>
 </button>
 
 <dialog
