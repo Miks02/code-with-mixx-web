@@ -59,4 +59,20 @@ describe('ProjectReservationCard', () => {
     await render({ reservationStatus: ReservationStatus.Cancelled }, true);
     expect(button().className).toContain('bg-red-600/50');
   });
+
+  it('shows the archive date only when archived', async () => {
+    await render({
+      reservationStatus: ReservationStatus.Completed,
+      reservedAt: '2026-10-15T10:00:00Z',
+    });
+    expect(element.textContent).toContain('15.10.2026');
+    expect(element.textContent).not.toContain('Arhivirana');
+
+    await render({
+      reservationStatus: ReservationStatus.Completed,
+      deletedAt: '2026-11-03T10:00:00Z',
+    });
+    expect(element.textContent).toContain('Arhivirana');
+    expect(element.textContent).toContain('03.11.2026');
+  });
 });
