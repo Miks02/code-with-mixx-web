@@ -1,5 +1,5 @@
 <div
-  class="bg-emerald-950/80 backdrop-blur-xl rounded-lg shadow-lg p-4 flex flex-col gap-3 h-full min-h-80"
+  class="bg-emerald-950/80 backdrop-blur-xl rounded-lg shadow-lg p-4 flex flex-col gap-3 h-full min-h-120"
 >
   <div class="relative flex items-center justify-between gap-3 flex-wrap">
     <h2 class="text-xl font-semibold text-emerald-100">Projekti</h2>
@@ -56,36 +56,39 @@
         <ng-icon name="faSolidBoxArchive" class="text-emerald-300! self-center!"></ng-icon>
       </button>
 
-      <app-filter-menu
-        placeholder="Predmet"
-        [icon]="'faSolidBook'"
-        [options]="subjectOptions()"
-        [selected]="selectedSubjectOptions()"
-        (selectedChanged)="onSubjectsChanged($event)"
-      ></app-filter-menu>
+      <app-filter-container>
+        <app-filter-menu
+          placeholder="Predmet"
+          [icon]="'faSolidBook'"
+          [options]="subjectOptions()"
+          [selected]="selectedSubjectOptions()"
+          (selectedChanged)="onSubjectsChanged($event)"
+        ></app-filter-menu>
 
-      <app-filter-menu
-        placeholder="Tip projekta"
-        [options]="projectTypes"
-        [selected]="store.params.projectTypes()"
-        (selectedChanged)="store.setProjectTypes($event)"
-      ></app-filter-menu>
+        <app-filter-menu
+          placeholder="Tip projekta"
+          [icon]="'faSolidLayerGroup'"
+          [options]="projectTypes"
+          [selected]="store.params.projectTypes()"
+          (selectedChanged)="store.setProjectTypes($event)"
+        ></app-filter-menu>
 
-      <app-filter-menu
-        placeholder="Status rezervacije"
-        [icon]="'faSolidChartDiagram'"
-        [options]="reservationStatuses"
-        [conflictingOptions]="conflictingReservationStatuses"
-        [selected]="store.params.reservationStatuses()"
-        (selectedChanged)="store.setReservationStatuses($event)"
-      ></app-filter-menu>
-      <app-filter-menu
-        placeholder="Status plaćanja"
-        [icon]="'faSolidMoneyBillTransfer'"
-        [options]="paymentStatuses"
-        [selected]="store.params.paymentStatuses()"
-        (selectedChanged)="store.setPaymentStatuses($event)"
-      ></app-filter-menu>
+        <app-filter-menu
+          placeholder="Status rezervacije"
+          [icon]="'faSolidChartDiagram'"
+          [options]="reservationStatuses"
+          [conflictingOptions]="conflictingReservationStatuses"
+          [selected]="store.params.reservationStatuses()"
+          (selectedChanged)="store.setReservationStatuses($event)"
+        ></app-filter-menu>
+        <app-filter-menu
+          placeholder="Status plaćanja"
+          [icon]="'faSolidMoneyBillTransfer'"
+          [options]="paymentStatuses"
+          [selected]="store.params.paymentStatuses()"
+          (selectedChanged)="store.setPaymentStatuses($event)"
+        ></app-filter-menu>
+      </app-filter-container>
 
       <app-button
         class="hidden xl:inline-flex self-center"
@@ -109,57 +112,59 @@
   </div>
 
   @if (store.reservationsPending()) {
-    <div class="relative flex-1 min-h-80">
-      <div class="absolute inset-0 flex flex-wrap content-start gap-3 overflow-y-auto">
-        @for (item of skeletonItems; track $index) {
-          <div
-            class="w-full sm:w-[calc(50%-0.375rem)] p-4 rounded-lg bg-emerald-900/80 flex flex-col gap-3"
-          >
-            <div class="flex gap-3 items-center">
-              <app-skeleton variant="circular" width="2.5rem" />
-              <div class="flex flex-col gap-2 flex-1 min-w-0">
-                <app-skeleton width="60%" />
-                <app-skeleton width="90%" />
-              </div>
-            </div>
-            <div class="flex flex-col md:flex-row gap-x-4 gap-y-1 pt-2">
-              <app-skeleton width="5.5rem" height="0.75rem" />
-              <app-skeleton width="5.5rem" height="0.75rem" />
-              <app-skeleton width="5.5rem" height="0.75rem" />
-            </div>
+  <div class="relative flex-1 min-h-80">
+    <div class="absolute inset-0 flex flex-wrap content-start gap-3 overflow-y-auto">
+      @for (item of skeletonItems; track $index) {
+      <div
+        class="w-full sm:w-[calc(50%-0.375rem)] p-4 rounded-lg bg-emerald-900/80 flex flex-col gap-3"
+      >
+        <div class="flex gap-3 items-center">
+          <app-skeleton variant="circular" width="2.5rem" />
+          <div class="flex flex-col gap-2 flex-1 min-w-0">
+            <app-skeleton width="60%" />
+            <app-skeleton width="90%" />
           </div>
-        }
+        </div>
+        <div class="flex flex-col md:flex-row gap-x-4 gap-y-1 pt-2">
+          <app-skeleton width="5.5rem" height="0.75rem" />
+          <app-skeleton width="5.5rem" height="0.75rem" />
+          <app-skeleton width="5.5rem" height="0.75rem" />
+        </div>
       </div>
+      }
     </div>
+  </div>
   } @else if (store.reservations().length) {
-    <div class="relative flex-1 min-h-80">
-      <div class="absolute inset-0 flex flex-wrap content-start gap-3 overflow-y-auto">
-        @for (reservation of store.reservations(); track reservation.id) {
-          <app-project-reservation-card
-            class="w-full sm:w-[calc(50%-0.375rem)]"
-            [reservation]="reservation"
-            [addOpacity]="store.reservationsFetching()"
-            [isSelected]="reservation.id === store.selectedReservationId()"
-            (selected)="store.selectReservation($event)"
-          ></app-project-reservation-card>
-        }
-      </div>
+  <div class="relative flex-1 min-h-80">
+    <div class="absolute inset-0 flex flex-wrap content-start gap-3 overflow-y-auto">
+      @for (reservation of store.reservations(); track reservation.id) {
+      <app-project-reservation-card
+        class="w-full sm:w-[calc(50%-0.375rem)]"
+        [reservation]="reservation"
+        [addOpacity]="store.reservationsFetching()"
+        [isSelected]="reservation.id === store.selectedReservationId()"
+        (selected)="store.selectReservation($event)"
+      ></app-project-reservation-card>
+      }
     </div>
+  </div>
   } @else {
-    <div
-      class="flex flex-col items-center justify-center gap-3 text-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-    >
-      <div class="flex justify-center items-center bg-emerald-900 rounded-full h-14 w-14">
-        <ng-icon name="faSolidXmark" class="text-emerald-400! text-2xl self-center!"></ng-icon>
-      </div>
-      <p class="text-emerald-200 font-medium text-lg w-full">
-        Nije pronadjena nijedna rezervacija projekta. Promeni filtere.
-      </p>
+  <div
+    class="flex flex-col items-center justify-center gap-3 text-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+  >
+    <div class="flex justify-center items-center bg-emerald-900 rounded-full h-14 w-14">
+      <ng-icon name="faSolidXmark" class="text-emerald-400! text-2xl self-center!"></ng-icon>
     </div>
+    <p class="text-emerald-200 font-medium text-lg w-full">
+      Nije pronadjena nijedna rezervacija projekta. Promeni filtere.
+    </p>
+  </div>
   }
 
   <div class="flex items-center justify-between gap-3 flex-wrap mt-auto pt-2">
-    <p class="text-emerald-300 text-sm">Prikazano {{ store.pagedCount() }} od {{ store.totalCount() }}</p>
+    <p class="text-emerald-300 text-sm">
+      Prikazano {{ store.pagedCount() }} od {{ store.totalCount() }}
+    </p>
 
     <div class="flex items-center gap-2">
       <app-button
@@ -170,7 +175,9 @@
         (click)="store.previousPage()"
       ></app-button>
 
-      <span class="text-emerald-100 text-sm">{{ store.currentPage() }} / {{ store.totalPages() }}</span>
+      <span class="text-emerald-100 text-sm"
+        >{{ store.currentPage() }} / {{ store.totalPages() }}</span
+      >
 
       <app-button
         variant="ghost"

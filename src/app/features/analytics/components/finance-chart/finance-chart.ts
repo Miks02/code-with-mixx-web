@@ -2,13 +2,14 @@ import { Component, computed, input, output } from '@angular/core';
 import { FinanceChart as FinanceChartModel } from '@features/analytics/models/finance-chart';
 import { provideIcons } from '@ng-icons/core';
 import { faSolidCalendar } from '@ng-icons/font-awesome/solid';
+import { FilterContainer } from '@shared/components/filter-container/filter-container';
 import { FilterMenu } from '@shared/components/filter-menu/filter-menu';
 import { ApexOptions } from 'apexcharts';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { Skeleton } from '@shared/components/skeleton/skeleton';
 
 @Component({
-  imports: [NgApexchartsModule, FilterMenu, Skeleton],
+  imports: [NgApexchartsModule, FilterContainer, FilterMenu, Skeleton],
   providers: [provideIcons({ faSolidCalendar })],
   selector: 'app-finance-chart',
   styleUrl: './finance-chart.css',

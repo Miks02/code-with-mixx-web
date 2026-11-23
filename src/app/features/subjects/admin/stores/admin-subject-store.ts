@@ -1,8 +1,9 @@
-import { computed, inject } from '@angular/core';
+import { computed, inject, linkedSignal } from '@angular/core';
 import {
   patchState,
   signalStore,
   withComputed,
+  withLinkedState,
   withMethods,
   withProps,
   withState,
@@ -16,8 +17,8 @@ import { SubjectService } from '@features/subjects/services/subject-service';
 
 type AdminSubjectState = {
   params: AdminSubjectParams;
-  selectedSubject: SubjectItem | undefined;
   isEditing: boolean;
+  detailsScrollRequests: number;
 };
 
 const initialState: AdminSubjectState = {
@@ -28,8 +29,8 @@ const initialState: AdminSubjectState = {
     onlyArchived: false,
     sortBy: SubjectSort.CreatedAscending,
   },
-  selectedSubject: undefined,
   isEditing: false,
+  detailsScrollRequests: 0,
 };
 
 export const AdminSubjectStore = signalStore(
@@ -55,6 +56,13 @@ export const AdminSubjectStore = signalStore(
       ),
     };
   }),
+  withLinkedState((store) => ({
+    selectedSubject: linkedSignal<SubjectItem[], SubjectItem | undefined>({
+      source: () => store.subjectsQuery.data()?.items ?? [],
+      computation: (subjects, previous) =>
+        subjects.find((subject) => subject.id === previous?.value?.id) ?? subjects[0],
+    }),
+  })),
   withComputed((store) => ({
     summary: computed(() => store.summaryQuery.data()),
     summaryPending: computed(() => store.summaryQuery.isPending()),
@@ -97,7 +105,13 @@ export const AdminSubjectStore = signalStore(
         patchParams({ onlyArchived: !store.params.onlyArchived(), pageNumber: 1 });
       },
       selectSubject(subject: SubjectItem | undefined) {
-        patchState(store, { selectedSubject: subject, isEditing: false });
+        patchState(store, {
+          selectedSubject: subject,
+          isEditing: false,
+          detailsScrollRequests: subject
+            ? store.detailsScrollRequests() + 1
+            : store.detailsScrollRequests(),
+        });
       },
       updateSelectedSubject(changes: Partial<SubjectItem>) {
         const subject = store.selectedSubject();

@@ -13,6 +13,7 @@ import { DialogResult } from '@core/components/dialog/dialog';
 import { DialogService } from '@core/services/dialog-service';
 import { ToastService } from '@core/services/toast-service';
 import { Button } from '@shared/components/button/button';
+import { FilterContainer } from '@shared/components/filter-container/filter-container';
 import { FilterMenu } from '@shared/components/filter-menu/filter-menu';
 import { SearchBar } from '@shared/components/search-bar/search-bar';
 import { Skeleton } from '@shared/components/skeleton/skeleton';
@@ -30,7 +31,7 @@ import {
 import { INQUIRY_TOAST_MESSAGES } from '@features/inquiries/utilities/inquiry-toast-messages';
 
 @Component({
-  imports: [InquiryCard, Button, FilterMenu, SearchBar, SortMenu, NgIcon, Skeleton],
+  imports: [InquiryCard, Button, FilterContainer, FilterMenu, SearchBar, SortMenu, NgIcon, Skeleton],
   providers: [
     provideIcons({
       faSolidCheck,

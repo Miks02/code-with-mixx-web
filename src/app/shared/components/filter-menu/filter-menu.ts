@@ -2,6 +2,8 @@ import {
   Component,
   DestroyRef,
   ElementRef,
+  InjectionToken,
+  Signal,
   computed,
   effect,
   inject,
@@ -17,7 +19,13 @@ import {
   faSolidXmark,
 } from '@ng-icons/font-awesome/solid';
 
-export type FilterVariant = 'default' | 'blue';
+export type FilterContainerContext = {
+  isOpen: Signal<boolean>;
+};
+
+export const FILTER_CONTAINER = new InjectionToken<FilterContainerContext>('FILTER_CONTAINER');
+
+export type FilterVariant = 'default' | 'blue' | 'light';
 
 type FilterClasses = {
   trigger: string;
@@ -57,6 +65,18 @@ const FILTER_CLASSES: Record<FilterVariant, FilterClasses> = {
     mobileTriggerBorder: 'border-sky-400',
     mobileIcon: 'text-sky-300!',
   },
+  light: {
+    trigger: 'bg-emerald-300 shadow-sm',
+    triggerText: 'text-emerald-900',
+    icon: 'text-emerald-900!',
+    menu: 'bg-emerald-300',
+    optionIdle: 'text-emerald-900 hover:bg-emerald-100 cursor-pointer',
+    optionSelected: 'bg-emerald-300 text-emerald-950 cursor-pointer',
+    optionDisabled: 'text-emerald-900/40 cursor-not-allowed opacity-60',
+    mobileTrigger: 'bg-emerald-700',
+    mobileTriggerBorder: 'border-emerald-400',
+    mobileIcon: 'text-emerald-300!',
+  },
 };
 
 @Component({
@@ -71,12 +91,18 @@ export class FilterMenu<T extends string = string> {
   conflictingOptions = input<Record<T, T[]>>();
   selected = input<T[]>([]);
   placeholder = input<string>('Filteri');
-  icon = input<string>('fa-solid-filter');
+  icon = input<string>('faSolidFilter');
   variant = input<FilterVariant>('default');
 
   selectedChanged = output<T[]>();
 
   private elementRef = inject(ElementRef<HTMLElement>);
+  private container = inject(FILTER_CONTAINER, { optional: true });
+  readonly inContainer = this.container !== null;
+
+  triggerWrapperClasses = this.inContainer
+    ? 'relative w-full xl:flex-1 xl:min-w-40 xl:max-w-64'
+    : 'relative hidden xl:block flex-1 min-w-40 max-w-64';
   private destroyRef = inject(DestroyRef);
 
   private closeController: AbortController | null = null;
@@ -104,7 +130,9 @@ export class FilterMenu<T extends string = string> {
 
   isOpen = signal(false);
 
-  classes = computed(() => FILTER_CLASSES[this.variant()]);
+  classes = computed(() =>
+    this.container?.isOpen() ? FILTER_CLASSES.light : FILTER_CLASSES[this.variant()],
+  );
 
   mobileTriggerClasses = computed(() => {
     const classes = this.classes();

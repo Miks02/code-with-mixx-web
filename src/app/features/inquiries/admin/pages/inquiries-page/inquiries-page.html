@@ -3,7 +3,10 @@
 >
   <app-admin-inquiry-list class="min-w-0 lg:col-span-3"></app-admin-inquiry-list>
 
-  <app-inquiry-details class="min-w-0 lg:col-span-2"></app-inquiry-details>
+  <app-inquiry-details
+    [appScrollIntoViewOn]="store.detailsScrollRequests()"
+    class="min-w-0 lg:col-span-2"
+  ></app-inquiry-details>
 
   <div class="min-w-0 lg:col-span-5 grid grid-cols-1 sm:grid-cols-3 gap-4">
     <app-stats-card

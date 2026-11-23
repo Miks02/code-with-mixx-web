@@ -73,6 +73,7 @@ export function createProjectReservation(
     description: null,
     createdAt: '2026-10-01T10:00:00Z',
     deletedAt: null,
+    reservedAt: '2026-10-01T10:00:00Z',
     isHardDeletable: false,
     projects: [createProjectListItem()],
     ...overrides,

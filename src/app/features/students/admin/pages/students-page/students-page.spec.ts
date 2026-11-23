@@ -72,9 +72,9 @@ describe('StudentsPage', () => {
     );
   });
 
-  it('shows the details of the student clicked in the list', async () => {
-    expect(element.querySelector('app-student-details')?.textContent).toContain(
-      'Izaberi studenta iz liste',
+  it('shows the first student right away and then the one clicked in the list', async () => {
+    expect(element.querySelector('app-student-details h2')?.textContent).toContain(
+      'Marko Jovanović',
     );
 
     cards()[1].click();
@@ -86,9 +86,6 @@ describe('StudentsPage', () => {
   });
 
   it('swaps the details for the edit form and back', async () => {
-    cards()[0].click();
-    await fixture.whenStable();
-
     getButton(element, 'Izmeni')!.click();
     await fixture.whenStable();
     expect(element.querySelector('app-edit-student-form')).not.toBeNull();
@@ -103,8 +100,6 @@ describe('StudentsPage', () => {
   });
 
   it('closes the edit form when another student is picked from the list', async () => {
-    cards()[0].click();
-    await fixture.whenStable();
     getButton(element, 'Izmeni')!.click();
     await fixture.whenStable();
 

@@ -15,6 +15,7 @@ export type ProjectReservationItem = {
   createdAt: string;
   deletedAt: string | null;
   isHardDeletable: boolean;
+  reservedAt: string;
   projects: ProjectListItem[];
 };
 

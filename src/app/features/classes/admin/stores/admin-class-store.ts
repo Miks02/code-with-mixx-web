@@ -20,6 +20,7 @@ import { ClassService } from '@features/classes/services/class-service';
 type AdminClassState = {
   params: ClassQueryParams;
   reservationModal: ReservationModalType | null;
+  detailsScrollRequests: number;
 };
 
 const initialState: AdminClassState = {
@@ -34,6 +35,7 @@ const initialState: AdminClassState = {
     showOnlyDeletedStudents: false,
   },
   reservationModal: null,
+  detailsScrollRequests: 0,
 };
 
 export const AdminClassStore = signalStore(
@@ -124,7 +126,12 @@ export const AdminClassStore = signalStore(
         patchParams({ pageNumber: store.currentPage() + 1 });
       },
       selectReservation(reservation: ClassReservationItem | undefined) {
-        patchState(store, { selectedReservation: reservation });
+        patchState(store, {
+          selectedReservation: reservation,
+          detailsScrollRequests: reservation
+            ? store.detailsScrollRequests() + 1
+            : store.detailsScrollRequests(),
+        });
       },
       openModal(reservationModal: ReservationModalType) {
         patchState(store, { reservationModal });

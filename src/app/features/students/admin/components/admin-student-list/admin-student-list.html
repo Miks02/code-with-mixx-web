@@ -5,12 +5,14 @@
     <h2 class="text-xl font-semibold text-emerald-100">Studenti</h2>
 
     <div class="flex gap-2 ml-auto">
-      <app-filter-menu
-        [options]="filters"
-        [conflictingOptions]="conflictingFilters"
-        [selected]="store.params.filters()"
-        (selectedChanged)="store.setFilters($event)"
-      ></app-filter-menu>
+      <app-filter-container>
+        <app-filter-menu
+          [options]="filters"
+          [conflictingOptions]="conflictingFilters"
+          [selected]="store.params.filters()"
+          (selectedChanged)="store.setFilters($event)"
+        ></app-filter-menu>
+      </app-filter-container>
 
       <app-sort-menu
         [options]="sort"

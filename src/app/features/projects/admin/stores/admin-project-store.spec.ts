@@ -118,6 +118,22 @@ describe('AdminProjectStore', () => {
       store.selectReservation(undefined);
       expect(store.selectedReservation()).toBeUndefined();
     });
+
+    it('does not request a scroll to the details for the automatic selection', () => {
+      expect(store.detailsScrollRequests()).toBe(0);
+    });
+
+    it('requests a scroll to the details on every selection, including the same reservation', () => {
+      store.selectReservation(jelena);
+      store.selectReservation(jelena);
+      expect(store.detailsScrollRequests()).toBe(2);
+    });
+
+    it('does not request a scroll when the selection is cleared', () => {
+      store.selectReservation(jelena);
+      store.selectReservation(undefined);
+      expect(store.detailsScrollRequests()).toBe(1);
+    });
   });
 
   describe('filters', () => {

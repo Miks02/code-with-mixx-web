@@ -5,22 +5,24 @@
     <h2 class="text-xl font-semibold text-emerald-100">Upiti</h2>
 
     <div class="flex gap-2 ml-auto">
-      <app-filter-menu
-        placeholder="Status"
-        [icon]="'faSolidCircleCheck'"
-        [options]="statusOptions"
-        [conflictingOptions]="conflictingStatusOptions"
-        [selected]="store.selectedStatusFilters()"
-        (selectedChanged)="store.setStatusFilters($event)"
-      ></app-filter-menu>
+      <app-filter-container>
+        <app-filter-menu
+          placeholder="Status"
+          [icon]="'faSolidCircleCheck'"
+          [options]="statusOptions"
+          [conflictingOptions]="conflictingStatusOptions"
+          [selected]="store.selectedStatusFilters()"
+          (selectedChanged)="store.setStatusFilters($event)"
+        ></app-filter-menu>
 
-      <app-filter-menu
-        placeholder="Vrsta upita"
-        [icon]="'faSolidLayerGroup'"
-        [options]="typeOptions"
-        [selected]="store.selectedTypeFilters()"
-        (selectedChanged)="store.setTypeFilters($event)"
-      ></app-filter-menu>
+        <app-filter-menu
+          placeholder="Vrsta upita"
+          [icon]="'faSolidLayerGroup'"
+          [options]="typeOptions"
+          [selected]="store.selectedTypeFilters()"
+          (selectedChanged)="store.setTypeFilters($event)"
+        ></app-filter-menu>
+      </app-filter-container>
 
       <app-sort-menu
         [options]="sortOptions"

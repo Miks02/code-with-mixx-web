@@ -12,6 +12,7 @@ import {
   faSolidXmark,
 } from '@ng-icons/font-awesome/solid';
 import { Button } from '@shared/components/button/button';
+import { FilterContainer } from '@shared/components/filter-container/filter-container';
 import { FilterMenu } from '@shared/components/filter-menu/filter-menu';
 import { Skeleton } from '@shared/components/skeleton/skeleton';
 import {
@@ -24,7 +25,7 @@ import { AdminClassStore } from '@features/classes/admin/stores/admin-class-stor
 import { ClassReservationCard } from '../class-reservation-card/class-reservation-card';
 
 @Component({
-  imports: [ClassReservationCard, Button, FilterMenu, NgIcon, Skeleton],
+  imports: [ClassReservationCard, Button, FilterContainer, FilterMenu, NgIcon, Skeleton],
   providers: [
     provideIcons({
       faSolidBoxArchive,

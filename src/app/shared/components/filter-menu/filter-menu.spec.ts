@@ -12,7 +12,10 @@ describe('FilterMenu', () => {
 
     fixture = TestBed.createComponent(FilterMenu);
     component = fixture.componentInstance;
-    fixture.componentRef.setInput('options', { WithClasses: 'Sa časovima', WithProjects: 'Sa projektima' });
+    fixture.componentRef.setInput('options', {
+      WithClasses: 'Sa časovima',
+      WithProjects: 'Sa projektima',
+    });
     await fixture.whenStable();
   });
 

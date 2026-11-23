@@ -21,6 +21,7 @@ type AdminProjectState = {
   params: ProjectQueryParams;
   reservationModal: ReservationModalType | null;
   editedProjectId: number | null;
+  detailsScrollRequests: number;
 };
 
 const initialState: AdminProjectState = {
@@ -36,6 +37,7 @@ const initialState: AdminProjectState = {
   },
   reservationModal: null,
   editedProjectId: null,
+  detailsScrollRequests: 0,
 };
 
 export const AdminProjectStore = signalStore(
@@ -136,7 +138,12 @@ export const AdminProjectStore = signalStore(
         patchParams({ pageNumber: store.currentPage() + 1 });
       },
       selectReservation(reservation: ProjectReservationItem | undefined) {
-        patchState(store, { selectedReservation: reservation });
+        patchState(store, {
+          selectedReservation: reservation,
+          detailsScrollRequests: reservation
+            ? store.detailsScrollRequests() + 1
+            : store.detailsScrollRequests(),
+        });
       },
       openModal(reservationModal: ReservationModalType) {
         patchState(store, { reservationModal });

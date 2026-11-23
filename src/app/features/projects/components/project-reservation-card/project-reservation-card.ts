@@ -2,16 +2,16 @@ import { DatePipe } from '@angular/common';
 import { Component, computed, input, output } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
+  faSolidBoxArchive,
+  faSolidCalendarCheck,
   faSolidCalendarPlus,
   faSolidCoins,
   faSolidDiagramProject,
   faSolidMoneyBillWave,
 } from '@ng-icons/font-awesome/solid';
 import { priceConverter } from '@core/utilities/price-helpers';
-import { ReservationStatus } from '@features/reservations';
+import { PAYMENT_STATUS_META, ReservationStatus } from '@features/reservations';
 import { ProjectReservationItem } from '@features/projects/models/project-reservation-item';
-import { PAYMENT_STATUS_META } from '@features/reservations';
-
 
 const BASE_CLASSES =
   'w-full text-left p-4 rounded-lg flex flex-col gap-2.5 active:scale-95 transition-200 cursor-pointer flex-1 grow';
@@ -76,6 +76,8 @@ const STATUS_CLASSES: Record<ReservationStatus, StatusClasses> = {
   imports: [NgIcon, DatePipe],
   providers: [
     provideIcons({
+      faSolidBoxArchive,
+      faSolidCalendarCheck,
       faSolidCalendarPlus,
       faSolidCoins,
       faSolidDiagramProject,

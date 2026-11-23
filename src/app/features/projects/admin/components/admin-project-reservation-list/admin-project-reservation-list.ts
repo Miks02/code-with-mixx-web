@@ -6,12 +6,14 @@ import {
   faSolidChartDiagram,
   faSolidChevronLeft,
   faSolidChevronRight,
+  faSolidLayerGroup,
   faSolidMoneyBillTransfer,
   faSolidPlus,
   faSolidUserSlash,
   faSolidXmark,
 } from '@ng-icons/font-awesome/solid';
 import { Button } from '@shared/components/button/button';
+import { FilterContainer } from '@shared/components/filter-container/filter-container';
 import { FilterMenu } from '@shared/components/filter-menu/filter-menu';
 import { Skeleton } from '@shared/components/skeleton/skeleton';
 import {
@@ -25,7 +27,7 @@ import { AdminProjectStore } from '@features/projects/admin/stores/admin-project
 import { PROJECT_TYPE_LABELS } from '@features/projects/utilities/project-labels';
 
 @Component({
-  imports: [ProjectReservationCard, Button, FilterMenu, NgIcon, Skeleton],
+  imports: [ProjectReservationCard, Button, FilterContainer, FilterMenu, NgIcon, Skeleton],
   providers: [
     provideIcons({
       faSolidBoxArchive,
@@ -37,6 +39,7 @@ import { PROJECT_TYPE_LABELS } from '@features/projects/utilities/project-labels
       faSolidBook,
       faSolidChartDiagram,
       faSolidMoneyBillTransfer,
+      faSolidLayerGroup,
     }),
   ],
   selector: 'app-admin-project-reservation-list',

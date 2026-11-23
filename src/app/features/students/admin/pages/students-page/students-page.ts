@@ -7,6 +7,7 @@ import {
   faSolidUserXmark,
 } from '@ng-icons/font-awesome/solid';
 import { StatsCard } from '@shared/components/stats-card/stats-card';
+import { ScrollIntoViewOn } from '@shared/directives/scroll-into-view-on';
 import { AdminStudentList } from '@features/students/admin/components/admin-student-list/admin-student-list';
 import { CreateStudentForm } from '@features/students/admin/components/create-student-form/create-student-form';
 import { EditStudentForm } from '@features/students/admin/components/edit-student-form/edit-student-form';
@@ -22,6 +23,7 @@ import { AdminStudentStore } from '@features/students/admin/stores/admin-student
     MostActiveStudent,
     CreateStudentForm,
     EditStudentForm,
+    ScrollIntoViewOn,
   ],
   providers: [
     AdminStudentStore,
