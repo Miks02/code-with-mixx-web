@@ -63,6 +63,6 @@ export class MyStory {
   readonly technologies = ['.NET', 'Angular', 'MS SQL', 'PostgreSQL'];
 
   navigateToPortfolio() {
-    window.open('https://my-personal-portfolio-website-7vh5.vercel.app/', '_blank');
+    window.open('https://milannikolic.dev', '_blank');
   }
 }
