@@ -52,6 +52,9 @@ describe('CreateProjectReservationPage', () => {
     const subject = element.querySelector<HTMLSelectElement>('#project-subject-0')!;
     subject.value = '1';
     subject.dispatchEvent(new Event('change'));
+    const name = element.querySelector<HTMLInputElement>('#project-name-0')!;
+    name.value = 'Biblioteka';
+    name.dispatchEvent(new Event('input'));
     await fixture.whenStable();
 
     expect(checks()).toContain('Student je izabran');
@@ -65,6 +68,7 @@ describe('CreateProjectReservationPage', () => {
     );
     expect(request.request.body.studentId).toBe('student-2');
     expect(request.request.body.projects[0].subjectId).toBe(1);
+    expect(request.request.body.projects[0].name).toBe('Biblioteka');
     request.flush(null);
     await settle();
 
