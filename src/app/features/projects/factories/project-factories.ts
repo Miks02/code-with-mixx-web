@@ -31,6 +31,7 @@ const DEFAULT_PROJECT_DURATION_DAYS = 7;
 export function createEmptyProject(): ProjectItemFormModel {
   return {
     id: 0,
+    name: '',
     subjectId: 0,
     startDate: dateInputValue(),
     subjectName: '',
@@ -72,6 +73,7 @@ export function createReservationFormModel(
     projectsToDelete: [],
     projects: details.projects.map((project) => ({
       id: project.id,
+      name: project.name,
       subjectId: project.subjectId,
       subjectName: project.subjectName,
       projectType: project.projectType,
@@ -146,6 +148,10 @@ export function createProjectReservationFormFactory(
     });
     minLength(schemaPath.projects, 1, { message: 'Rezervacija mora imati barem 1 projekat' });
     applyEach(schemaPath.projects, (project) => {
+      required(project.name, { message: 'Unesi naziv projekta.' });
+      maxLength(project.name, 100, {
+        message: 'Naziv projekta može imati najviše 100 karaktera',
+      });
       min(project.subjectId, 1, { message: 'Izaberi predmet projekta.' });
       required(project.price, { message: 'Unesi cenu projekta.' });
       min(project.price, 0, { message: 'Cena ne može biti manja od 0 RSD.' });

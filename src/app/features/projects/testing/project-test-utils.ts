@@ -42,6 +42,7 @@ export const STUDENTS_LOOKUP = [
 export function createProjectListItem(overrides: Partial<ProjectListItem> = {}): ProjectListItem {
   return {
     id: 10,
+    name: 'Biblioteka',
     subjectId: 1,
     subjectName: 'Baze podataka',
     projectType: ProjectType.Seminar,
@@ -133,6 +134,7 @@ export function createProjectReservationDetails(
     projects: [
       {
         id: 21,
+        name: 'Biblioteka',
         subjectId: 1,
         subjectName: 'Baze podataka',
         projectType: ProjectType.Seminar,
@@ -251,7 +253,7 @@ export function createValidReservationModel(
     studentId: 'student-1',
     totalPrice: 6000,
     projects: [
-      { ...createEmptyProject(), subjectId: 1, subjectName: 'Baze podataka', price: 6000 },
+      { ...createEmptyProject(), name: 'Biblioteka', subjectId: 1, subjectName: 'Baze podataka', price: 6000 },
     ],
     ...overrides,
   };
