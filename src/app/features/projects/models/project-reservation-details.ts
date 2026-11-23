@@ -10,6 +10,7 @@ export type ProjectNoteDetails = {
 
 export type ProjectDetailsItem = {
   id: number;
+  name: string;
   subjectId: number;
   subjectName: string;
   projectType: ProjectType;

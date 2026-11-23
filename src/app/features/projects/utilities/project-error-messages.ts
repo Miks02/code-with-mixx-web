@@ -7,6 +7,8 @@ export const PROJECT_RESERVATION_ERROR_MESSAGES: Record<string, string> = {
   'Reservation.NoProjectsProvided': 'Rezervacija mora imati barem jedan projekat.',
   'Reservation.InvalidTotalPrice': 'Ukupna cena ne može biti negativna.',
   'Reservation.InvalidAmount': 'Plaćeni iznos ne može biti negativan.',
+  'Project.EmptyName': 'Naziv projekta je obavezan',
+  'Project.NameTooLong': 'Naziv projekta je prevazilazi limit',
   'Project.NegativePrice': 'Cena projekta ne može biti negativna.',
   'Project.InvalidProgress': 'Napredak projekta mora biti između 0 i 100.',
   'Project.InvalidDateRange': 'Početak projekta ne može biti posle roka.',

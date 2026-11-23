@@ -3,6 +3,7 @@ import { ProjectType } from './project-type';
 
 export type ProjectItem = {
   id: number;
+  name: string;
   subjectId: number;
   subjectName: string;
   projectType: ProjectType;

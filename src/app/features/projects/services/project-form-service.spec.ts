@@ -59,4 +59,23 @@ describe('ProjectFormService', () => {
       expect(service.reservationModel()).toBe(before);
     });
   });
+
+  describe('project name validation', () => {
+    function nameErrors(name: string) {
+      service.updateProject(0, { name });
+      return service.reservationForm.projects[0].name().errors();
+    }
+
+    it('should require a name', () => {
+      expect(nameErrors('')).toEqual([expect.objectContaining({ kind: 'required' })]);
+    });
+
+    it('should accept a name of exactly 100 characters', () => {
+      expect(nameErrors('a'.repeat(100))).toEqual([]);
+    });
+
+    it('should reject a name longer than 100 characters', () => {
+      expect(nameErrors('a'.repeat(101))).toEqual([expect.objectContaining({ kind: 'maxLength' })]);
+    });
+  });
 });
