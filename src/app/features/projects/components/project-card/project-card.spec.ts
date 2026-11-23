@@ -25,6 +25,17 @@ describe('ProjectCard', () => {
     expect((fixture.nativeElement as HTMLElement).textContent).toContain(`${expected}%`);
   });
 
+  it('shows the subject above the project name', async () => {
+    await render({ name: 'Biblioteka', subjectName: 'Baze podataka' });
+    const card = (fixture.nativeElement as HTMLElement).querySelector<HTMLElement>(
+      '[role="button"]',
+    )!;
+    const text = card.textContent!;
+
+    expect(card.getAttribute('aria-label')).toBe('Detalji projekta Biblioteka');
+    expect(text.indexOf('Baze podataka')).toBeLessThan(text.indexOf('Biblioteka'));
+  });
+
   it('emits clicked on click and on Enter', async () => {
     await render();
     const clicked = vi.fn();
