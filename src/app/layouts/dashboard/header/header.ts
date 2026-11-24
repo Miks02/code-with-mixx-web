@@ -47,11 +47,13 @@ export class Header {
   heading = input<string>();
   toggleSidebar = output<void>();
 
+  private studentsLookupQuery = this.studentService.getStudentsLookupQuery();
+
   searchString = signal('');
 
   students = computed(() => {
     const search = this.searchString().toLowerCase();
-    const all = this.studentService.getStudentsLookupQuery.data() ?? [];
+    const all = this.studentsLookupQuery.data() ?? [];
 
     return all.filter(
       (s) => s.email.toLowerCase().includes(search) || s.fullName.toLowerCase().includes(search),

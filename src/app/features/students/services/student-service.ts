@@ -89,11 +89,13 @@ export class StudentService {
     });
   }
 
-  getStudentsLookupQuery = injectQuery<StudentLookup[]>(() => ({
-    queryKey: studentKeys.lookup(),
-    queryFn: () =>
-      lastValueFrom(this.http.get<StudentLookup[]>(`${this.apiUrl}/admin/students/lookup`, {})),
-  }));
+  getStudentsLookupQuery() {
+    return injectQuery<StudentLookup[]>(() => ({
+      queryKey: studentKeys.lookup(),
+      queryFn: () =>
+        lastValueFrom(this.http.get<StudentLookup[]>(`${this.apiUrl}/admin/students/lookup`, {})),
+    }));
+  }
 
   createStudentMutation = injectMutation<void, ProblemDetails, CreateStudentFormModel>(() => ({
     mutationFn: (model: CreateStudentFormModel) => {

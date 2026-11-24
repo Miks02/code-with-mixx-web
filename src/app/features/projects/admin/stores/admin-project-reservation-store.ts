@@ -39,7 +39,7 @@ export const AdminProjectReservationStore = signalStore(
           return isValidReservationId(id) ? id : 0;
         }),
       ),
-      studentsLookupQuery: studentService.getStudentsLookupQuery,
+      studentsLookupQuery: studentService.getStudentsLookupQuery(),
       subjectsLookupQuery: subjectService.getSubjectsLookupQuery(),
       _formService: inject(ProjectFormService),
       _createMutation: projectService.createProjectReservationMutation,

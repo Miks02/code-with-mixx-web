@@ -16,7 +16,7 @@ describe('Header', () => {
   let fixture: ComponentFixture<Header>;
   let router: Router;
 
-  const studentService = { getStudentsLookupQuery: { data: signal(STUDENTS) } };
+  const studentService = { getStudentsLookupQuery: () => ({ data: signal(STUDENTS) }) };
   const userState = { fullName: signal('Admin Adminović') };
 
   function element(): HTMLElement {
