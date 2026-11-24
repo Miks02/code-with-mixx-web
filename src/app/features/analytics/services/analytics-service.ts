@@ -6,19 +6,33 @@ import { injectQuery, keepPreviousData } from '@tanstack/angular-query-experimen
 import { AdminAnalytics } from '../models/admin-analytics';
 import { lastValueFrom } from 'rxjs';
 import { analyticsKeys } from '../utility/analytics-keys';
+import { StudentAnalytics } from '../student/models/student-analytics';
 
 @Service()
 export class AnalyticsService {
-  private apiUrl = environment.apiUrl; 
+  private apiUrl = environment.apiUrl;
 
   private http = inject(HttpClient);
 
   getAdminAnalyticsQuery(queryParams: Signal<AdminQueryParams>) {
     return injectQuery(() => ({
       queryKey: analyticsKeys.page(queryParams()),
-      queryFn: () => lastValueFrom(this.http.get<AdminAnalytics>(`${this.apiUrl}/admin/analytics`, { params: queryParams() })),
+      queryFn: () =>
+        lastValueFrom(
+          this.http.get<AdminAnalytics>(`${this.apiUrl}/admin/analytics`, {
+            params: queryParams(),
+          }),
+        ),
       placeholderData: keepPreviousData,
-    }))    
+    }));
   }
-  
+
+  getStudentAnalyticsQuery() {
+    return injectQuery(() => ({
+      queryKey: analyticsKeys.page(null),
+      queryFn: () =>
+        lastValueFrom(this.http.get<StudentAnalytics>(`${this.apiUrl}/student/analytics`)),
+      placeholderData: keepPreviousData,
+    }));
+  }
 }
