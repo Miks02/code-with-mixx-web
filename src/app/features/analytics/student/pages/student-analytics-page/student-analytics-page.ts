@@ -6,6 +6,7 @@ import {
   AnalyticsCard,
   AnalyticsCardItem,
 } from '@features/analytics/components/analytics-card/analytics-card';
+import { AnalyticsService } from '@features/analytics/services/analytics-service';
 import { provideIcons } from '@ng-icons/core';
 import {
   faSolidCalendar,
@@ -38,13 +39,6 @@ const STUDENT_ACTIONS: ActionButton[] = [
   },
 ];
 
-const FAKE_STUDENT_ANALYTICS = {
-  totalPaid: 48000,
-  remainingDebt: 12000,
-  completedClasses: 14,
-  activeProjects: 2,
-};
-
 @Component({
   imports: [ActionBar, AnalyticsCard],
   providers: [
@@ -63,34 +57,38 @@ const FAKE_STUDENT_ANALYTICS = {
   templateUrl: './student-analytics-page.html',
 })
 export class StudentAnalyticsPage {
+  analyticsService = inject(AnalyticsService);
   userState = inject(UserState);
   studentActions = STUDENT_ACTIONS;
 
+  private analyticsQuery = this.analyticsService.getStudentAnalyticsQuery();
+  private analyticsData = this.analyticsQuery.data();
+  
   analyticsCards = computed<AnalyticsCardItem[]>(() => {
-    const data = FAKE_STUDENT_ANALYTICS;
+    const data = this.analyticsData;
 
     return [
       {
         title: 'Ukupno plaćeno',
-        value: priceConverter(data.totalPaid),
+        value: priceConverter(data?.totalPaid ?? 0),
         icon: 'faSolidSackDollar',
         variant: 'emerald',
       },
       {
         title: 'Dugovanje',
-        value: priceConverter(data.remainingDebt),
+        value: priceConverter(0),
         icon: 'faSolidWallet',
         variant: 'amber',
       },
       {
         title: 'Održani časovi',
-        value: data.completedClasses,
+        value: data?.completedClasses ?? 0,
         icon: 'faSolidChalkboardUser',
         variant: 'violet',
       },
       {
         title: 'Aktivni projekti',
-        value: data.activeProjects,
+        value: data?.activeProjects ?? 0,
         icon: 'faSolidFileLines',
         variant: 'sky',
       },
