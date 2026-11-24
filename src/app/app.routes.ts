@@ -29,7 +29,7 @@ export const routes: Routes = [
           heading: 'Analitika',
         },
         path: 'analytics',
-        loadChildren: () => import('@features/analytics').then((m) => m.ANALYTICS_ROUTES),
+        loadChildren: () => import('@features/analytics').then((m) => m.ANALYTICS_ADMIN_ROUTES),
       },
       {
         data: {

@@ -1,9 +1,9 @@
 import { Component, computed, inject, signal, WritableSignal } from '@angular/core';
 import { priceConverter } from '@core/utilities/price-helpers';
-import { AdminActionBar } from '@features/analytics/components/admin-action-bar/admin-action-bar';
+import { AdminActionBar } from '@features/analytics/admin/components/admin-action-bar/admin-action-bar';
 import { AnalyticsCard } from '@features/analytics/components/analytics-card/analytics-card';
-import { FinanceChart } from '@features/analytics/components/finance-chart/finance-chart';
-import { SubjectsChart } from '@features/analytics/components/subjects-chart/subjects-chart';
+import { FinanceChart } from '@features/analytics/admin/components/finance-chart/finance-chart';
+import { SubjectsChart } from '@features/analytics/admin/components/subjects-chart/subjects-chart';
 import { UpcomingClasses } from '@features/analytics/components/upcoming-classes/upcoming-classes';
 import { UpcomingProjects } from '@features/analytics/components/upcoming-projects/upcoming-projects';
 import { AdminQueryParams } from '@features/analytics/models/admin-query-params';
@@ -41,11 +41,11 @@ import {
       faSolidFileLines,
     }),
   ],
-  selector: 'app-analytics-page',
-  styleUrl: './analytics-page.css',
-  templateUrl: './analytics-page.html',
+  selector: 'app-admin-analytics-page',
+  styleUrl: './admin-analytics-page.css',
+  templateUrl: './admin-analytics-page.html',
 })
-export class AnalyticsPage {
+export class AdminAnalyticsPage {
   private queryParams: WritableSignal<AdminQueryParams> = signal({
     selectedYearForFinanceChart: new Date().getFullYear(),
     selectedYearForSubjectsChart: new Date().getFullYear(),
