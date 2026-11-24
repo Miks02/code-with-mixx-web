@@ -5,6 +5,6 @@ import { UserState } from '../services/user-state';
 export const guestGuard: CanActivateFn = () => {
   const userState = inject(UserState);
   const router = inject(Router);
-
-  return userState.isAuthenticated() ? router.createUrlTree(['/admin/analytics']) : true;
+  
+  return userState.isAuthenticated() ? router.createUrlTree([userState.dashboardEntry()]) : true;
 };

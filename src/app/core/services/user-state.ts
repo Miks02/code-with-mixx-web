@@ -18,6 +18,7 @@ export class UserState {
   userRoles = computed<string[]>(() => this._userDetails()?.roles ?? []);
   isAuthenticated = computed(() => !!this._userDetails());
   isAdmin = computed(() => this.userRoles().includes('Admin'));
+  isStudent = computed(() => this.userRoles().includes('Student'));
   userInitials = computed(() => {
     const details = this._userDetails();
     return details ? `${details.firstName[0]}${details.lastName[0]}` : '';
@@ -26,6 +27,14 @@ export class UserState {
   activeSessionsCount = computed(() => this.activeSessions().length ?? 0);
   lastLogin = computed(() => this._userDetails()?.lastLogin ?? '');
   accountStatus = computed(() => this._userDetails()?.accountStatus ?? null);
+
+  dashboardEntry = computed(() => {
+    if (this.isAdmin()) return '/admin/analytics';
+    if (this.isStudent()) return '/student/analytics';
+
+    return '/';
+  });
+
 
   updateUserDetails(details: UserDetails | null): void {
     this._userDetails.set(details);
