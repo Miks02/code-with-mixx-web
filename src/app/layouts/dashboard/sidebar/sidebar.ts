@@ -59,7 +59,7 @@ const STUDENT_LINKS = [
 export class Sidebar {
   showSidebar = input(false);
   closeSidebar = output<void>();
-  heading = input<string>('Naslov');
+  heading = input<string>();
 
   private userState = inject(UserState);
   private authService = inject(AuthService);
