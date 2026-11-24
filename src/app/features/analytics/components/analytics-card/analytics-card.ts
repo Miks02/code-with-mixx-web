@@ -3,6 +3,13 @@ import { NgIcon } from '@ng-icons/core';
 
 export type DashboardCardVariant = 'emerald' | 'amber' | 'violet' | 'sky';
 
+export type AnalyticsCardItem = {
+  title: string;
+  value: string | number | undefined;
+  icon: string;
+  variant: DashboardCardVariant;
+};
+
 type VariantStyle = {
   gradient: string;
   iconBg: string;

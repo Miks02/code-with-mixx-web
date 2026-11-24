@@ -5,5 +5,17 @@
       [roles]="userState.userRoles()"
       [actions]="studentActions"
     ></app-action-bar>
+
+    <div class="flex gap-4 overflow-x-auto scrollbar-none p-2 md:p-0">
+      @for (card of analyticsCards(); track card.title) {
+        <app-analytics-card
+          class="grow"
+          [variant]="card.variant"
+          [title]="card.title"
+          [value]="card.value"
+          [icon]="card.icon"
+        ></app-analytics-card>
+      }
+    </div>
   </div>
 </div>
