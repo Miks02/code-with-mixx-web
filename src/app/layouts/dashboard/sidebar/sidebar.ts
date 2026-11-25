@@ -32,7 +32,7 @@ const STUDENT_LINKS = [
   { name: 'Predmeti', icon: 'faSolidBook', navigateTo: '/student/subjects' },
   { name: 'Časovi', icon: 'faSolidCalendar', navigateTo: '/student/classes' },
   { name: 'Projekti', icon: 'faSolidFile', navigateTo: '/student/projects' },
-  { name: 'Finansije', icon: 'faSolidMoneyBillTransfer', navigateTo: '/student/projects' },
+  { name: 'Finansije', icon: 'faSolidMoneyBillTransfer', navigateTo: '/student/payments' },
   { name: 'Podešavanje', icon: 'faSolidGear', navigateTo: '/student/settings' },
 ];
 

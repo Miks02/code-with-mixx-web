@@ -2,7 +2,10 @@ import { Component, computed, inject, signal, WritableSignal } from '@angular/co
 import { UserState } from '@core/services/user-state';
 import { priceConverter } from '@core/utilities/price-helpers';
 import { ActionBar, ActionButton } from '@features/analytics/components/action-bar/action-bar';
-import { AnalyticsCard } from '@features/analytics/components/analytics-card/analytics-card';
+import {
+  AnalyticsCard,
+  AnalyticsCardItem,
+} from '@features/analytics/components/analytics-card/analytics-card';
 import { FinanceChart } from '@features/analytics/admin/components/finance-chart/finance-chart';
 import { SubjectsChart } from '@features/analytics/admin/components/subjects-chart/subjects-chart';
 import { UpcomingClasses } from '@features/analytics/admin/components/upcoming-classes/upcoming-classes';
@@ -78,10 +81,36 @@ export class AdminAnalyticsPage {
   analyticsData = computed(() => this.analyticsQuery.data());
   isLoading = computed(() => this.analyticsQuery.isPending());
 
-  completedClasses = computed(() => this.analyticsData()?.completedClasses ?? 0);
-  completedProjects = computed(() => this.analyticsData()?.completedProjects ?? 0);
-  totalRevenue = computed(() => priceConverter(this.analyticsData()?.totalRevenue ?? 0));
-  totalStudents = computed(() => this.analyticsData()?.totalStudents ?? 0);
+  analyticsCards = computed<AnalyticsCardItem[]>(() => {
+    const data = this.analyticsData();
+
+    return [
+      {
+        title: 'Ukupan prihod',
+        value: priceConverter(data?.totalRevenue ?? 0),
+        icon: 'faSolidSackDollar',
+        variant: 'emerald',
+      },
+      {
+        title: 'Broj studenata',
+        value: data?.totalStudents ?? 0,
+        icon: 'faSolidUserGraduate',
+        variant: 'sky',
+      },
+      {
+        title: 'Održani časovi',
+        value: data?.completedClasses ?? 0,
+        icon: 'faSolidChalkboardUser',
+        variant: 'violet',
+      },
+      {
+        title: 'Projekti',
+        value: data?.completedProjects ?? 0,
+        icon: 'faSolidFileLines',
+        variant: 'amber',
+      },
+    ];
+  });
   upcomingClasses = computed(() => this.analyticsData()?.upcomingClasses);
   upcomingProjects = computed(() => this.analyticsData()?.upcomingProjects);
 
