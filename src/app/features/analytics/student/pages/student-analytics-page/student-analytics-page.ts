@@ -19,6 +19,7 @@ import {
   faSolidWallet,
 } from '@ng-icons/font-awesome/solid';
 import { ActiveProjects } from '@features/analytics/student/components/active-projects/active-projects';
+import { RecentPayments } from '@features/analytics/student/components/recent-payments/recent-payments';
 import { OpenBalance } from '@features/analytics/student/components/open-balance/open-balance';
 import { ClassReservations } from '@features/analytics/student/components/class-reservations/class-reservations';
 
@@ -44,7 +45,7 @@ const STUDENT_ACTIONS: ActionButton[] = [
 ];
 
 @Component({
-  imports: [ActionBar, AnalyticsCard, StudentUpcomingClasses, ClassReservations, ActiveProjects, OpenBalance],
+  imports: [ActionBar, AnalyticsCard, StudentUpcomingClasses, ClassReservations, ActiveProjects, OpenBalance, RecentPayments],
   providers: [
     provideIcons({
       faSolidFile,
@@ -104,4 +105,5 @@ export class StudentAnalyticsPage {
   classReservationsSummary = computed(() => this.analyticsData()?.classReservationsSummary);
   activeProjects = computed(() => this.analyticsData()?.activeProjectsList ?? []);
   openBalanceSummary = computed(() => this.analyticsData()?.openBalanceSummary);
+  recentPayments = computed(() => this.analyticsData()?.recentPayments ?? []);
 }
