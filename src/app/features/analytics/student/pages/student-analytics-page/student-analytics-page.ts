@@ -7,6 +7,7 @@ import {
   AnalyticsCardItem,
 } from '@features/analytics/components/analytics-card/analytics-card';
 import { AnalyticsService } from '@features/analytics/services/analytics-service';
+import { StudentUpcomingClasses } from '@features/analytics/student/components/student-upcoming-classes/student-upcoming-classes';
 import { provideIcons } from '@ng-icons/core';
 import {
   faSolidCalendar,
@@ -40,7 +41,7 @@ const STUDENT_ACTIONS: ActionButton[] = [
 ];
 
 @Component({
-  imports: [ActionBar, AnalyticsCard],
+  imports: [ActionBar, AnalyticsCard, StudentUpcomingClasses],
   providers: [
     provideIcons({
       faSolidFile,
@@ -62,10 +63,11 @@ export class StudentAnalyticsPage {
   studentActions = STUDENT_ACTIONS;
 
   private analyticsQuery = this.analyticsService.getStudentAnalyticsQuery();
-  private analyticsData = this.analyticsQuery.data();
-  
+  private analyticsData = this.analyticsQuery.data;
+
+  isLoading = computed(() => this.analyticsQuery.isPending());
   analyticsCards = computed<AnalyticsCardItem[]>(() => {
-    const data = this.analyticsData;
+    const data = this.analyticsData();
 
     return [
       {
@@ -94,4 +96,7 @@ export class StudentAnalyticsPage {
       },
     ];
   });
+
+  upcomingClasses = computed(() => this.analyticsData()?.upcomingClasses ?? []);
+
 }

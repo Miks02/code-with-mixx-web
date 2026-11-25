@@ -1,0 +1,72 @@
+<div class="flex flex-col gap-4 bg-emerald-950/80 p-4 rounded-md shadow-md relative min-h-125">
+  <h2 class="text-xl font-semibold text-emerald-100">Sledeći čas</h2>
+
+  @if(upcomingClasses()?.length === 0) {
+
+  <div class="flex flex-col items-center justify-center gap-3 text-center p-4 my-auto">
+    <div class="flex justify-center items-center bg-emerald-900 rounded-full h-14 w-14">
+      <ng-icon
+        name="faSolidCalendarXmark"
+        class="text-emerald-400! text-2xl self-center!"
+      ></ng-icon>
+    </div>
+    <p class="text-emerald-200 font-medium text-lg">Trenutno nema predstojećih časova.</p>
+    <p class="text-emerald-200/70">
+      Svi zakazani časovi koji nastupaju u narednih 7 dana će se pojaviti ovde
+    </p>
+  </div>
+
+  } @else {
+
+  <div class="flex flex-col gap-4">
+    <div class="flex gap-4">
+      <app-date-card [date]="nextClass()?.startsAt!"></app-date-card>
+
+      <div class="flex flex-col gap-2">
+        <p class="text-emerald-300 font-semibold text-xl">{{nextClass()?.subjectName}}</p>
+        <div class="flex px-1 gap-2 items-center">
+          <ng-icon name="faSolidClock" class="text-emerald-300!"></ng-icon>
+          <p class="text-emerald-300">
+            {{ timeConverter(nextClass()?.startsAt!) + ' - ' + timeConverter(nextClass()?.endsAt!)
+            }}
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="h-px bg-emerald-400"></div>
+
+    <div class="flex flex-col gap-4">
+      <div class="flex w-full justify-between items-center">
+        <h3 class="font-semibold text-emerald-100">Predstojeći časovi</h3>
+        <a
+          routerLink="/student/classes"
+          class="text-sm text-amber-400 hover:opacity-70 active:opacity-50 transition-200 cursor-pointer"
+          >Pogledaj sve</a
+        >
+      </div>
+
+      <div class="flex flex-col gap-2 h-67 overflow-y-auto">
+        @for(class of upcomingClassesAfterNext(); track class.reservationId) {
+        <div class="flex gap-4 p-2 py-2 rounded-lg bg-emerald-900/80 items-center">
+          <app-date-card [date]="class.startsAt" variant="compact"></app-date-card>
+          <div class="flex flex-col gap-2">
+            <p
+              class="md:text-lg text-emerald-300 font-semibold truncate text-ellipsis w-50 md:text-clip sm:w-auto"
+            >
+              {{class.subjectName}}
+            </p>
+            <div class="flex gap-2 items-center text-sm md:text-base">
+              <ng-icon name="faSolidClock" class="text-emerald-300!"></ng-icon>
+              <p class="text-emerald-300">
+                {{ timeConverter(class.startsAt) + ' - ' + timeConverter(class.endsAt) }}
+              </p>
+            </div>
+          </div>
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+
+  }
+</div>
