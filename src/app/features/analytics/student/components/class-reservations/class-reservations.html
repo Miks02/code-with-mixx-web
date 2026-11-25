@@ -29,7 +29,7 @@
     <p class="text-emerald-200 font-medium text-lg">Nije pronadjena nijedna rezervacija časova.</p>
   </div>
   } @else {
-  <div class="flex flex-col gap-2 max-h-67 overflow-y-auto">
+  <div class="flex flex-col gap-2 max-h-70 overflow-y-auto">
     @for (reservation of reservations(); track reservation.reservationId) {
     <div class="flex flex-col gap-3 p-3 rounded-lg bg-emerald-900/80">
       <div class="flex justify-between items-start gap-2">
