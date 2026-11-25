@@ -4,7 +4,12 @@ import { priceConverter } from '@core/utilities/price-helpers';
 import { RecentPayment } from '@features/analytics/student/models/recent-payment';
 import { ReservationType } from '@features/reservations';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { faSolidReceipt, faSolidWallet } from '@ng-icons/font-awesome/solid';
+import {
+  faSolidCalendar,
+  faSolidFileContract,
+  faSolidReceipt,
+  faSolidWallet,
+} from '@ng-icons/font-awesome/solid';
 
 const PAYMENT_TITLES: Record<ReservationType, string> = {
   [ReservationType.Class]: 'Uplata za paket časova',
@@ -13,7 +18,7 @@ const PAYMENT_TITLES: Record<ReservationType, string> = {
 
 @Component({
   imports: [NgIcon],
-  providers: [provideIcons({ faSolidReceipt, faSolidWallet })],
+  providers: [provideIcons({ faSolidCalendar, faSolidReceipt, faSolidWallet, faSolidFileContract })],
   selector: 'app-recent-payments',
   templateUrl: './recent-payments.html',
 })

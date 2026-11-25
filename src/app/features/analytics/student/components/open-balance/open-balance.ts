@@ -3,11 +3,16 @@ import { priceConverter } from '@core/utilities/price-helpers';
 import { OpenBalanceSummary } from '@features/analytics/student/models/open-balance-summary';
 import { PAYMENT_STATUS_META, ReservationType } from '@features/reservations';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { faSolidCircleCheck, faSolidTriangleExclamation } from '@ng-icons/font-awesome/solid';
+import {
+  faSolidChalkboardUser,
+  faSolidCircleCheck,
+  faSolidFileLines,
+  faSolidTriangleExclamation,
+} from '@ng-icons/font-awesome/solid';
 
-const RESERVATION_TYPE_LABELS: Record<ReservationType, string> = {
-  [ReservationType.Class]: 'Paket časova',
-  [ReservationType.Project]: 'Projekat',
+const RESERVATION_TYPES: Record<ReservationType, { label: string; icon: string }> = {
+  [ReservationType.Class]: { label: 'Paket časova', icon: 'faSolidChalkboardUser' },
+  [ReservationType.Project]: { label: 'Projekat', icon: 'faSolidFileLines' },
 };
 
 function overdueLabel(count: number) {
@@ -23,7 +28,14 @@ function overdueLabel(count: number) {
 
 @Component({
   imports: [NgIcon],
-  providers: [provideIcons({ faSolidCircleCheck, faSolidTriangleExclamation })],
+  providers: [
+    provideIcons({
+      faSolidChalkboardUser,
+      faSolidCircleCheck,
+      faSolidFileLines,
+      faSolidTriangleExclamation,
+    }),
+  ],
   selector: 'app-open-balance',
   templateUrl: './open-balance.html',
 })
@@ -37,7 +49,7 @@ export class OpenBalance {
   items = computed(() =>
     (this.summary()?.openBalanceItems ?? []).map((item) => ({
       ...item,
-      typeLabel: RESERVATION_TYPE_LABELS[item.reservationType],
+      type: RESERVATION_TYPES[item.reservationType],
       status: PAYMENT_STATUS_META[item.paymentStatus],
       totalPrice: priceConverter(item.totalPrice),
       paidAmount: priceConverter(item.paidAmount),

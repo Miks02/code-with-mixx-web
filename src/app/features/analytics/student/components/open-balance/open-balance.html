@@ -47,11 +47,14 @@
       @for (item of items(); track item.reservationId) {
         <div class="flex flex-col gap-3 p-3 rounded-lg bg-emerald-900/80">
           <div class="flex justify-between items-start gap-2">
-            <div class="flex flex-col">
-              <p class="text-emerald-300 font-semibold text-lg">
+            <div class="flex flex-col gap-2">
+              <p class="text-emerald-100 text-base md:text-lg font-semibold">
                 Rezervacija #{{ item.reservationId }}
               </p>
-              <p class="text-sm text-emerald-100/70">{{ item.typeLabel }}</p>
+              <div class="flex items-center gap-2 text-amber-300 text-sm md:text-base">
+                <ng-icon [name]="item.type.icon"></ng-icon>
+                <p>{{ item.type.label }}</p>
+              </div>
             </div>
             <span
               class="text-xs font-semibold px-2 py-1 rounded-full shrink-0"
@@ -60,18 +63,18 @@
             >
           </div>
 
-          <div class="grid grid-cols-3 gap-2 text-sm">
+          <div class="grid grid-cols-3 gap-2 text-sm md:text-base">
             <div class="flex flex-col">
               <span class="text-emerald-100/70">Ukupno</span>
               <span class="text-emerald-100 font-semibold">{{ item.totalPrice }}</span>
             </div>
             <div class="flex flex-col">
               <span class="text-emerald-100/70">Plaćeno</span>
-              <span class="text-emerald-300 font-semibold">{{ item.paidAmount }}</span>
+              <span class="text-emerald-100 font-semibold">{{ item.paidAmount }}</span>
             </div>
             <div class="flex flex-col">
               <span class="text-emerald-100/70">Preostalo</span>
-              <span class="text-emerald-100 font-bold">{{ item.remainingAmount }}</span>
+              <span class="text-emerald-300 font-bold">{{ item.remainingAmount }}</span>
             </div>
           </div>
         </div>

@@ -21,11 +21,11 @@
         <div class="flex flex-col gap-3 p-3 rounded-lg bg-emerald-900/80">
           <div class="flex justify-between items-start gap-2">
             <div class="flex flex-col min-w-0">
-              <p class="text-emerald-300 font-semibold text-lg truncate">
+              <p class="text-emerald-100 text-base md:text-lg font-semibold truncate">
                 {{ project.projectName }}
               </p>
-              <p class="text-sm text-emerald-100/70">
-                {{ project.subjectName }} · Rezervacija #{{ project.reservationId }}
+              <p class="text-emerald-100/70 text-sm md:text-base truncate">
+                {{ project.subjectName }}
               </p>
             </div>
             <span
@@ -37,13 +37,20 @@
             >
           </div>
 
-          <p class="flex items-center gap-2 text-sm text-emerald-100">
-            <ng-icon name="faSolidCalendar" class="text-amber-400!"></ng-icon>
-            Rok: {{ project.deadline }}
-            <span [class]="project.isOverdue ? 'text-red-400' : 'text-emerald-100/70'"
-              >· {{ project.deadlineLabel }}</span
-            >
-          </p>
+          <div class="flex items-center gap-2 text-amber-300 text-sm md:text-base">
+            <ng-icon name="faSolidFileContract"></ng-icon>
+            <p>Rezervacija #{{ project.reservationId }}</p>
+          </div>
+
+          <div class="flex items-center justify-between gap-2 text-sm md:text-base">
+            <div class="flex items-center gap-2 text-amber-300">
+              <ng-icon name="faSolidCalendar"></ng-icon>
+              <p>Rok: {{ project.deadline }}</p>
+            </div>
+            <p class="font-bold" [class]="project.isOverdue ? 'text-red-400' : 'text-emerald-300'">
+              {{ project.deadlineLabel }}
+            </p>
+          </div>
         </div>
       }
     </div>

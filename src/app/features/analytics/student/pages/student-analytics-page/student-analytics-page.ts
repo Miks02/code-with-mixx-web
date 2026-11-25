@@ -7,22 +7,22 @@ import {
   AnalyticsCardItem,
 } from '@features/analytics/components/analytics-card/analytics-card';
 import { AnalyticsService } from '@features/analytics/services/analytics-service';
+import { ActiveProjects } from '@features/analytics/student/components/active-projects/active-projects';
+import { ClassReservations } from '@features/analytics/student/components/class-reservations/class-reservations';
+import { OpenBalance } from '@features/analytics/student/components/open-balance/open-balance';
+import { RecentPayments } from '@features/analytics/student/components/recent-payments/recent-payments';
+import { StudentAnalyticsSkeleton } from '@features/analytics/student/components/student-analytics-skeleton/student-analytics-skeleton';
 import { StudentUpcomingClasses } from '@features/analytics/student/components/student-upcoming-classes/student-upcoming-classes';
 import { provideIcons } from '@ng-icons/core';
 import {
+  faSolidBook,
   faSolidCalendar,
   faSolidChalkboardUser,
   faSolidFile,
   faSolidFileLines,
   faSolidMoneyBillTransfer,
-  faSolidSackDollar,
-  faSolidWallet,
+  faSolidSackDollar
 } from '@ng-icons/font-awesome/solid';
-import { ActiveProjects } from '@features/analytics/student/components/active-projects/active-projects';
-import { StudentAnalyticsSkeleton } from '@features/analytics/student/components/student-analytics-skeleton/student-analytics-skeleton';
-import { RecentPayments } from '@features/analytics/student/components/recent-payments/recent-payments';
-import { OpenBalance } from '@features/analytics/student/components/open-balance/open-balance';
-import { ClassReservations } from '@features/analytics/student/components/class-reservations/class-reservations';
 
 const STUDENT_ACTIONS: ActionButton[] = [
   {
@@ -62,7 +62,7 @@ const STUDENT_ACTIONS: ActionButton[] = [
       faSolidCalendar,
       faSolidMoneyBillTransfer,
       faSolidSackDollar,
-      faSolidWallet,
+      faSolidBook,
       faSolidChalkboardUser,
       faSolidFileLines,
     }),
@@ -93,7 +93,7 @@ export class StudentAnalyticsPage {
       {
         title: 'Održani predmeti',
         value: data?.heldSubjects ?? 0,
-        icon: 'faSolidWallet',
+        icon: 'faSolidBook',
         variant: 'amber',
       },
       {
