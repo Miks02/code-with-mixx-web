@@ -1,0 +1,18 @@
+@if (variant() === 'full') {
+<time
+  [attr.datetime]="isoDate()"
+  class="flex min-w-16 shrink-0 flex-col items-center rounded-lg bg-emerald-900 px-2 py-1.5 text-emerald-950 shadow-lg"
+>
+  <span class="text-xs font-semibold uppercase text-amber-400">{{ month() }}</span>
+  <span class="text-3xl font-bold leading-none text-emerald-100">{{ day() }}</span>
+  <span class="text-xs text-emerald-200">{{ weekday() }}</span>
+</time>
+} @else {
+<time
+  [attr.datetime]="isoDate()"
+  class="flex w-12 shrink-0 flex-col bg-emerald-800/80 p-4 items-center rounded-md"
+>
+  <span class="text-sm font-semibold text-amber-400">{{ shortWeekday() }}</span>
+  <span class="text-xs text-amber-400">{{ shortDate() }}</span>
+</time>
+}

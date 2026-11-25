@@ -62,6 +62,7 @@ The site should feel personal and calm, like one instructor's own site, not a Sa
 - Buttons and button-looking links are always `app-button`. Variants: `secondary` main CTA, `primary` supporting action, `danger` destructive, `ghost` outlined on dark, `ghost-light` and `ghost-danger` outlined on light.
 - Before building a search field, filter, sort menu, slider, skeleton, spinner or stat tile, use the one in `shared/components/`.
 - Every `app-filter-menu` goes inside `app-filter-container` (`variant="blue"` on sky cards): inline from `xl` up, one round filter button that opens the filters in a modal below `xl`. Inside the open modal the filters switch to the `light` variant on their own; it is not set by hand.
+- Dates shown as a block next to an item (next class, upcoming list) use `app-date-card`: `full` is the light tile with short month on top, day number in the middle and weekday below (one highlighted date); `compact` is short weekday in amber over `dd.MM.` in muted text (rows of a list). Formatting goes through `Intl` with the `locale` input (`sr-Latn-RS` by default).
 - Loading states use `app-skeleton` in the shape of the final content, not a spinner in an empty box.
 - Icons come from `@ng-icons` (Font Awesome solid), registered per component.
 
