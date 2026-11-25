@@ -1,6 +1,7 @@
 import { Component, computed, inject, signal, WritableSignal } from '@angular/core';
+import { UserState } from '@core/services/user-state';
 import { priceConverter } from '@core/utilities/price-helpers';
-import { AdminActionBar } from '@features/analytics/admin/components/admin-action-bar/admin-action-bar';
+import { ActionBar, ActionButton } from '@features/analytics/components/action-bar/action-bar';
 import { AnalyticsCard } from '@features/analytics/components/analytics-card/analytics-card';
 import { FinanceChart } from '@features/analytics/admin/components/finance-chart/finance-chart';
 import { SubjectsChart } from '@features/analytics/admin/components/subjects-chart/subjects-chart';
@@ -15,14 +16,34 @@ import {
   faSolidFileCirclePlus,
   faSolidFileLines,
   faSolidSackDollar,
-  faSolidUser,
   faSolidUserGraduate,
   faSolidUserPlus,
 } from '@ng-icons/font-awesome/solid';
 
+const ADMIN_ACTIONS: ActionButton[] = [
+  {
+    variant: 'ghost',
+    label: 'Dodaj studenta',
+    icon: 'faSolidUserPlus',
+    navigateTo: '/admin/students',
+  },
+  {
+    variant: 'ghost',
+    label: 'Dodaj projekat',
+    icon: 'faSolidFileCirclePlus',
+    navigateTo: '/admin/projects/create',
+  },
+  {
+    variant: 'secondary',
+    label: 'Zakaži čas',
+    icon: 'faSolidCalendarPlus',
+    navigateTo: '/admin/classes/create',
+  },
+];
+
 @Component({
   imports: [
-    AdminActionBar,
+    ActionBar,
     AnalyticsCard,
     FinanceChart,
     SubjectsChart,
@@ -31,7 +52,6 @@ import {
   ],
   providers: [
     provideIcons({
-      faSolidUser,
       faSolidUserPlus,
       faSolidCalendarPlus,
       faSolidFileCirclePlus,
@@ -51,6 +71,8 @@ export class AdminAnalyticsPage {
     selectedYearForSubjectsChart: new Date().getFullYear(),
   });
   private analyticsService = inject(AnalyticsService);
+  userState = inject(UserState);
+  adminActions = ADMIN_ACTIONS;
 
   analyticsQuery = this.analyticsService.getAdminAnalyticsQuery(this.queryParams);
   analyticsData = computed(() => this.analyticsQuery.data());
