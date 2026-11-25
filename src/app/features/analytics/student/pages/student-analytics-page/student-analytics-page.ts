@@ -19,6 +19,7 @@ import {
   faSolidWallet,
 } from '@ng-icons/font-awesome/solid';
 import { ActiveProjects } from '@features/analytics/student/components/active-projects/active-projects';
+import { StudentAnalyticsSkeleton } from '@features/analytics/student/components/student-analytics-skeleton/student-analytics-skeleton';
 import { RecentPayments } from '@features/analytics/student/components/recent-payments/recent-payments';
 import { OpenBalance } from '@features/analytics/student/components/open-balance/open-balance';
 import { ClassReservations } from '@features/analytics/student/components/class-reservations/class-reservations';
@@ -45,7 +46,7 @@ const STUDENT_ACTIONS: ActionButton[] = [
 ];
 
 @Component({
-  imports: [ActionBar, AnalyticsCard, StudentUpcomingClasses, ClassReservations, ActiveProjects, OpenBalance, RecentPayments],
+  imports: [ActionBar, AnalyticsCard, StudentUpcomingClasses, ClassReservations, ActiveProjects, OpenBalance, RecentPayments, StudentAnalyticsSkeleton],
   providers: [
     provideIcons({
       faSolidFile,
@@ -82,7 +83,7 @@ export class StudentAnalyticsPage {
       },
       {
         title: 'Dugovanje',
-        value: priceConverter(0),
+        value: priceConverter(data?.openBalanceSummary.remainingDebt ?? 0),
         icon: 'faSolidWallet',
         variant: 'amber',
       },
