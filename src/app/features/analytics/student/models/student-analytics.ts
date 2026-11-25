@@ -8,6 +8,7 @@ export type StudentAnalytics = {
   totalPaid: number;
   completedClasses: number;
   activeProjects: number;
+  heldSubjects: number; 
   upcomingClasses: StudentUpcomingClass[];
   activeProjectsList: StudentUpcomingProject[];
   classReservationsSummary: ClassReservationsSummary;

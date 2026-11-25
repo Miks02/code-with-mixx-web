@@ -46,7 +46,16 @@ const STUDENT_ACTIONS: ActionButton[] = [
 ];
 
 @Component({
-  imports: [ActionBar, AnalyticsCard, StudentUpcomingClasses, ClassReservations, ActiveProjects, OpenBalance, RecentPayments, StudentAnalyticsSkeleton],
+  imports: [
+    ActionBar,
+    AnalyticsCard,
+    StudentUpcomingClasses,
+    ClassReservations,
+    ActiveProjects,
+    OpenBalance,
+    RecentPayments,
+    StudentAnalyticsSkeleton,
+  ],
   providers: [
     provideIcons({
       faSolidFile,
@@ -82,8 +91,8 @@ export class StudentAnalyticsPage {
         variant: 'emerald',
       },
       {
-        title: 'Dugovanje',
-        value: priceConverter(data?.openBalanceSummary.remainingDebt ?? 0),
+        title: 'Održani predmeti',
+        value: data?.heldSubjects ?? 0,
         icon: 'faSolidWallet',
         variant: 'amber',
       },
