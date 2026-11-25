@@ -1,8 +1,12 @@
+import { PaymentStatus, ReservationType } from '@features/reservations';
+
 export type OpenBalanceItem = {
   reservationId: number;
-  transactionId: number;
-  amount: number;
-  transactionDate: string;
+  reservationType: ReservationType;
+  totalPrice: number;
+  paidAmount: number;
+  remainingAmount: number;
+  paymentStatus: PaymentStatus;
 };
 
 export type OpenBalanceSummary = {

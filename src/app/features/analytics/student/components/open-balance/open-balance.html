@@ -1,0 +1,81 @@
+<div
+  class="flex flex-col gap-4 bg-emerald-950/80 p-4 rounded-md shadow-md relative h-full min-h-100"
+>
+  <h2 class="text-xl font-semibold text-emerald-100">Otvorena dugovanja</h2>
+
+  <div class="flex gap-2 w-full flex-wrap sm:flex-nowrap">
+    <div class="p-4 rounded-md flex flex-col bg-emerald-900/80 grow basis-0 min-w-48 shadow-md">
+      <p class="text-emerald-100/90 font-semibold">Preostalo za uplatu</p>
+      <p class="text-amber-400 font-bold text-2xl">{{ remainingDebt() }}</p>
+    </div>
+
+    @if (overdueCount() > 0) {
+      <div
+        class="p-4 rounded-md flex items-center gap-3 bg-red-950/60 grow basis-0 min-w-48 shadow-md"
+      >
+        <div class="flex justify-center items-center bg-red-900/60 rounded-full h-10 w-10 shrink-0">
+          <ng-icon name="faSolidTriangleExclamation" class="text-red-400!"></ng-icon>
+        </div>
+        <div class="flex flex-col">
+          <p class="text-red-100 font-bold text-2xl leading-none">{{ overdueCount() }}</p>
+          <p class="text-sm text-red-100/80">{{ overdueLabel() }}</p>
+        </div>
+      </div>
+    } @else {
+      <div
+        class="p-4 rounded-md flex items-center gap-3 bg-emerald-900/80 grow basis-0 min-w-48 shadow-md"
+      >
+        <div
+          class="flex justify-center items-center bg-emerald-800 rounded-full h-10 w-10 shrink-0"
+        >
+          <ng-icon name="faSolidCircleCheck" class="text-emerald-400!"></ng-icon>
+        </div>
+        <p class="text-emerald-100 font-semibold">Nijedna uplata ne kasni</p>
+      </div>
+    }
+  </div>
+
+  @if (items().length === 0) {
+    <div class="flex flex-col items-center justify-center gap-3 text-center p-4 my-auto">
+      <div class="flex justify-center items-center bg-emerald-900 rounded-full h-14 w-14">
+        <ng-icon name="faSolidCircleCheck" class="text-emerald-400! text-2xl"></ng-icon>
+      </div>
+      <p class="text-emerald-200 font-medium text-lg">Nemaš otvorenih dugovanja.</p>
+    </div>
+  } @else {
+    <div class="flex flex-col gap-2 max-h-80 overflow-y-auto">
+      @for (item of items(); track item.reservationId) {
+        <div class="flex flex-col gap-3 p-3 rounded-lg bg-emerald-900/80">
+          <div class="flex justify-between items-start gap-2">
+            <div class="flex flex-col">
+              <p class="text-emerald-300 font-semibold text-lg">
+                Rezervacija #{{ item.reservationId }}
+              </p>
+              <p class="text-sm text-emerald-100/70">{{ item.typeLabel }}</p>
+            </div>
+            <span
+              class="text-xs font-semibold px-2 py-1 rounded-full shrink-0"
+              [class]="item.status.classes"
+              >{{ item.status.label }}</span
+            >
+          </div>
+
+          <div class="grid grid-cols-3 gap-2 text-sm">
+            <div class="flex flex-col">
+              <span class="text-emerald-100/70">Ukupno</span>
+              <span class="text-emerald-100 font-semibold">{{ item.totalPrice }}</span>
+            </div>
+            <div class="flex flex-col">
+              <span class="text-emerald-100/70">Plaćeno</span>
+              <span class="text-emerald-300 font-semibold">{{ item.paidAmount }}</span>
+            </div>
+            <div class="flex flex-col">
+              <span class="text-emerald-100/70">Preostalo</span>
+              <span class="text-emerald-100 font-bold">{{ item.remainingAmount }}</span>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>
