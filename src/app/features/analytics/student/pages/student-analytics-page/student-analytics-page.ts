@@ -18,6 +18,7 @@ import {
   faSolidSackDollar,
   faSolidWallet,
 } from '@ng-icons/font-awesome/solid';
+import { ActiveProjects } from '@features/analytics/student/components/active-projects/active-projects';
 import { ClassReservations } from '@features/analytics/student/components/class-reservations/class-reservations';
 
 const STUDENT_ACTIONS: ActionButton[] = [
@@ -42,7 +43,7 @@ const STUDENT_ACTIONS: ActionButton[] = [
 ];
 
 @Component({
-  imports: [ActionBar, AnalyticsCard, StudentUpcomingClasses, ClassReservations],
+  imports: [ActionBar, AnalyticsCard, StudentUpcomingClasses, ClassReservations, ActiveProjects],
   providers: [
     provideIcons({
       faSolidFile,
@@ -100,5 +101,5 @@ export class StudentAnalyticsPage {
 
   upcomingClasses = computed(() => this.analyticsData()?.upcomingClasses ?? []);
   classReservationsSummary = computed(() => this.analyticsData()?.classReservationsSummary);
-
+  activeProjects = computed(() => this.analyticsData()?.activeProjectsList ?? []);
 }
