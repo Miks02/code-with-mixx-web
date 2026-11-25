@@ -45,6 +45,10 @@ describe('StudentUpcomingClasses', () => {
     return fixture.nativeElement.textContent;
   }
 
+  function upcomingCount(): string | undefined {
+    return fixture.nativeElement.querySelector('h3 span')?.textContent.trim();
+  }
+
   function dateCards(variant: 'full' | 'compact'): DateCard[] {
     return fixture.debugElement
       .queryAll(By.directive(DateCard))
@@ -72,6 +76,7 @@ describe('StudentUpcomingClasses', () => {
       algorithms.startsAt,
     ]);
     expect(text().match(/Web programiranje/g)?.length).toBe(1);
+    expect(upcomingCount()).toBe('2');
   });
 
   it('shows a single class as the next class with an empty list below it', async () => {
@@ -79,6 +84,7 @@ describe('StudentUpcomingClasses', () => {
 
     expect(dateCards('full').map((card) => card.date())).toEqual([webProgramming.startsAt]);
     expect(dateCards('compact').length).toBe(0);
+    expect(upcomingCount()).toBe('0');
     expect(text()).not.toContain('Trenutno nema predstojećih časova.');
   });
 

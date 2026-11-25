@@ -37,12 +37,15 @@
 
     <div class="flex flex-col gap-4">
       <div class="flex w-full justify-between items-center">
-        <h3 class="font-semibold text-emerald-100">Predstojeći časovi</h3>
-        <a
-          routerLink="/student/classes"
-          class="text-sm text-amber-400 hover:opacity-70 active:opacity-50 transition-200 cursor-pointer"
-          >Pogledaj sve</a
-        >
+        <h3 class="font-semibold text-emerald-100 flex gap-2 items-center">
+          Predstojeći časovi
+          <span
+            class="rounded-full bg-emerald-900 w-7 h-7 flex items-center justify-center shrink-0 text-sm"
+          >
+            {{ upcomingClassesAfterNext()?.length ?? 0 }}
+          </span>
+        </h3>
+       
       </div>
 
       <div class="flex flex-col gap-2 h-67 overflow-y-auto">

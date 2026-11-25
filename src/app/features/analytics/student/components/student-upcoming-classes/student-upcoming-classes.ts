@@ -1,5 +1,4 @@
 import { Component, computed, input } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { timeConverter } from '@core/utilities/date-helpers';
 import { StudentUpcomingClass } from '@features/analytics/student/models/student-upcoming-class';
 import { NgIcon, provideIcons } from '@ng-icons/core';
@@ -7,7 +6,7 @@ import { faSolidCalendarXmark, faSolidClock } from '@ng-icons/font-awesome/solid
 import { DateCard } from '@shared/components/date-card/date-card';
 
 @Component({
-  imports: [DateCard, NgIcon, RouterLink],
+  imports: [DateCard, NgIcon],
   providers: [provideIcons({ faSolidClock, faSolidCalendarXmark })],
   selector: 'app-student-upcoming-classes',
   styleUrl: './student-upcoming-classes.css',
