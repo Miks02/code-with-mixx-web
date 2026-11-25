@@ -6,6 +6,7 @@
   ></div>
 
   <app-sidebar
+    [heading]="heading()"
     (closeSidebar)="isSidebarOpen.set(false)"
     [showSidebar]="isSidebarOpen()"
   ></app-sidebar>

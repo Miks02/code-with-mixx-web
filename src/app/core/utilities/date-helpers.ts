@@ -64,3 +64,11 @@ export function isBefore(date: string, other: string): boolean {
 export function timeConverter(date: string) {
   return new Date(date).toLocaleTimeString('sr-Latn-RS', { hour: '2-digit', minute: '2-digit' });
 }
+
+export function daysUntil(date: string, today = new Date()) {
+  const [year, month, day] = date.split('-').map(Number);
+  const target = new Date(year, month - 1, day);
+  const start = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+  return Math.round((target.getTime() - start.getTime()) / 86_400_000);
+}

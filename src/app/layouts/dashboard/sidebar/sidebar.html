@@ -15,11 +15,11 @@
 >
   <div class="flex flex-col p-4 items-center gap-4 border-b border-gray-100">
     <h2 class="text-2xl text-white font-bold"><span class="text-amber-600">Code</span>WithMixx</h2>
-    <p class="text-white text-lg font-semibold hidden md:block">Administracija</p>
+    <p class="text-white text-lg font-semibold hidden md:block">{{ heading() }}</p>
   </div>
 
   <ul class="flex flex-col gap-2 mt-6 h-full w-full">
-    @for (link of SIDEBAR_LINKS; track $index) {
+    @for (link of sidebarLinks(); track $index) {
     <app-sidebar-link
       (click)="onCloseSidebar()"
       [linkName]="link.name"

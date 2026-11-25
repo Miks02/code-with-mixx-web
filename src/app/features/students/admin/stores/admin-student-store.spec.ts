@@ -61,6 +61,7 @@ describe('AdminStudentStore', () => {
     TestBed.configureTestingModule({ providers: [AdminStudentStore, provideHttpTesting()] });
     store = TestBed.inject(AdminStudentStore);
     http = TestBed.inject(HttpTestingController);
+    TestBed.runInInjectionContext(() => TestBed.inject(StudentService).getStudentsLookupQuery());
   });
 
   afterEach(() => http.verify());

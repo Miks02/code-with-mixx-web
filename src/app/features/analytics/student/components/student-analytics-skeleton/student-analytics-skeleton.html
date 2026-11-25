@@ -1,0 +1,106 @@
+<div class="flex flex-col gap-4">
+  <div class="flex justify-between flex-wrap">
+    <div class="p-4 flex flex-col gap-6">
+      <div class="flex gap-2 items-center">
+        <app-skeleton variant="circular" width="3.5rem" />
+        <div class="flex flex-col gap-2">
+          <app-skeleton width="10rem" height="1.25rem" />
+          <app-skeleton width="5rem" />
+        </div>
+      </div>
+      <div class="flex gap-4 flex-wrap">
+        @for (action of actionButtons; track action) {
+          <app-skeleton variant="rectangular" width="8.5rem" height="2.75rem" />
+        }
+      </div>
+    </div>
+
+    <div class="flex gap-4 overflow-x-auto scrollbar-none pl-2 -mr-2 md:p-0">
+      @for (card of analyticsCards; track card) {
+        <div class="flex flex-col gap-4 rounded-xl p-6 bg-emerald-950/80 shadow-lg grow min-w-60">
+          <div class="flex justify-between items-start">
+            <app-skeleton width="55%" height="1.125rem" />
+            <app-skeleton variant="circular" width="2.75rem" />
+          </div>
+          <app-skeleton width="65%" height="2.25rem" />
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="flex w-full gap-4 flex-wrap md:flex-nowrap">
+    <div class="flex flex-col gap-4 w-full bg-emerald-950/80 p-4 rounded-md shadow-md min-h-125">
+      <app-skeleton width="40%" height="1.5rem" />
+      <div class="flex gap-4">
+        <app-skeleton variant="rectangular" width="4rem" height="5.5rem" />
+        <div class="flex flex-col gap-3 grow justify-center">
+          <app-skeleton width="70%" height="1.5rem" />
+          <app-skeleton width="45%" />
+        </div>
+      </div>
+      <app-skeleton width="100%" height="1px" />
+      <div class="flex items-center gap-2">
+        <app-skeleton width="35%" height="1.25rem" />
+        <app-skeleton variant="circular" width="1.75rem" />
+      </div>
+      @for (row of upcomingRows; track row) {
+        <app-skeleton variant="rectangular" height="4.5rem" />
+      }
+    </div>
+
+    <div class="flex flex-col gap-4 w-full bg-emerald-950/80 p-4 rounded-md shadow-md min-h-125">
+      <div class="flex justify-between items-center">
+        <app-skeleton width="50%" height="1.5rem" />
+        <app-skeleton width="25%" />
+      </div>
+      <div class="flex gap-2">
+        <app-skeleton variant="rectangular" height="5.5rem" />
+        <app-skeleton variant="rectangular" height="5.5rem" />
+      </div>
+      @for (card of reservationCards; track card) {
+        <app-skeleton variant="rectangular" height="7.5rem" />
+      }
+    </div>
+
+    <div class="flex flex-col gap-4 w-full bg-emerald-950/80 p-4 rounded-md shadow-md min-h-125">
+      <div class="flex justify-between items-center">
+        <app-skeleton width="45%" height="1.5rem" />
+        <app-skeleton width="20%" />
+      </div>
+      @for (card of projectCards; track card) {
+        <app-skeleton variant="rectangular" height="7rem" />
+      }
+    </div>
+  </div>
+
+  <div class="flex w-full gap-4 flex-wrap md:flex-nowrap">
+    <div
+      class="flex flex-col gap-4 w-full md:flex-3 bg-emerald-950/80 p-4 rounded-md shadow-md min-h-100"
+    >
+      <app-skeleton width="35%" height="1.5rem" />
+      <div class="flex gap-2">
+        <app-skeleton variant="rectangular" height="5.5rem" />
+        <app-skeleton variant="rectangular" height="5.5rem" />
+      </div>
+      @for (card of balanceCards; track card) {
+        <app-skeleton variant="rectangular" height="7.5rem" />
+      }
+    </div>
+
+    <div
+      class="flex flex-col gap-4 w-full md:flex-2 bg-emerald-950/80 p-4 rounded-md shadow-md min-h-100"
+    >
+      <app-skeleton width="45%" height="1.5rem" />
+      @for (row of paymentRows; track row) {
+        <div class="flex items-center gap-4 p-4 rounded-lg bg-emerald-900/80">
+          <app-skeleton variant="circular" width="3rem" />
+          <div class="flex flex-col gap-2 grow">
+            <app-skeleton width="70%" height="1.125rem" />
+            <app-skeleton width="50%" />
+          </div>
+          <app-skeleton width="4.5rem" height="1.125rem" />
+        </div>
+      }
+    </div>
+  </div>
+</div>

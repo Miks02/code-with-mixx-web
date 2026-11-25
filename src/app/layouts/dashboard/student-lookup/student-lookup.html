@@ -1,0 +1,82 @@
+<div
+  id="student-search"
+  class="md:block md:static md:inset-auto md:mt-0 md:w-70"
+  [class]="isMobileOpen() ? 'block absolute inset-x-6 top-full mt-2 z-30' : 'hidden'"
+  (focusout)="onSearchFocusOut($event)"
+>
+  <div class="relative">
+    <div
+      class="flex items-center px-3 bg-emerald-800 rounded-lg shadow-lg md:shadow-none transition duration-200 focus-within:ring-2 focus-within:ring-emerald-500/20"
+    >
+      <label for="search" class="flex items-center">
+        <ng-icon name="faSolidMagnifyingGlass" class="text-emerald-300! text-lg self-center!" />
+        <span class="sr-only">Pretraži studenta</span>
+      </label>
+
+      <input
+        #searchInput
+        id="search"
+        type="text"
+        role="combobox"
+        autocomplete="off"
+        aria-autocomplete="list"
+        aria-controls="student-search-results"
+        [attr.aria-expanded]="showResults()"
+        [attr.aria-activedescendant]="
+          activeIndex() >= 0 ? 'student-search-result-' + activeIndex() : null
+        "
+        placeholder="Pretraži studenta..."
+        class="w-full px-2.5 py-2.5 bg-transparent text-sm text-white placeholder:text-emerald-300 outline-none"
+        [value]="searchString()"
+        (input)="onSearchInput($any($event.target).value)"
+        (focus)="isOpen.set(true)"
+        (keydown)="onSearchKeydown($event)"
+      />
+    </div>
+
+    @if (showResults()) {
+      <div class="absolute left-0 right-0 top-full mt-2 z-20 rounded-lg bg-emerald-900 shadow-lg">
+        @if (results().length) {
+          <ul
+            id="student-search-results"
+            role="listbox"
+            class="flex flex-col p-1 max-h-80 overflow-y-auto"
+          >
+            @for (student of results(); track student.id; let i = $index) {
+              <li
+                [id]="'student-search-result-' + i"
+                role="option"
+                [attr.aria-selected]="i === activeIndex()"
+              >
+                <a
+                  [routerLink]="['/admin/students/details', student.id]"
+                  (mousedown)="$event.preventDefault()"
+                  (click)="onStudentSelected()"
+                  tabindex="-1"
+                  class="flex flex-col min-w-0 rounded-lg px-3 py-2 transition-200 hover:bg-emerald-800"
+                  [class.bg-emerald-800]="i === activeIndex()"
+                >
+                  <span class="text-sm font-semibold text-emerald-100 truncate">{{
+                    student.fullName
+                  }}</span>
+                  <span class="text-xs text-emerald-300 truncate">{{ student.email }}</span>
+                </a>
+              </li>
+            }
+          </ul>
+        } @else {
+          <div
+            id="student-search-results"
+            class="flex items-center gap-2 px-3 py-3 text-sm text-emerald-100/70"
+          >
+            <ng-icon
+              name="faSolidUserXmark"
+              class="text-emerald-400! self-center! shrink-0"
+            ></ng-icon>
+            <span>Nijedan student ne odgovara pretrazi.</span>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>

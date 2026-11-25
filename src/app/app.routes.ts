@@ -5,6 +5,7 @@ import { adminGuard } from '@core/guard/admin-guard';
 import { SiteLayout } from '@layouts/site/site-layout/site-layout';
 import { AUTH_ROUTES } from '@features/auth';
 import { SITE_ROUTES } from '@features/site';
+import { studentGuard } from '@core/guard/student-guard';
 
 export const routes: Routes = [
   {
@@ -12,6 +13,26 @@ export const routes: Routes = [
     canActivate: [guestGuard],
     loadComponent: () => import('@layouts/auth/auth-layout/auth-layout').then((c) => c.AuthLayout),
     children: AUTH_ROUTES,
+  },
+  {
+    path: 'student',
+    canActivate: [authGuard, studentGuard],
+    loadComponent: () =>
+      import('@layouts/dashboard/dashboard-layout/dashboard-layout').then((c) => c.DashboardLayout),
+    children: [
+      {
+        path: '',
+        redirectTo: 'analytics',
+        pathMatch: 'full',
+      },
+      {
+        data: {
+          heading: 'Analitika',
+        },
+        path: 'analytics',
+        loadChildren: () => import('@features/analytics').then((m) => m.ANALYTICS_STUDENT_ROUTES),
+      },
+    ],
   },
   {
     path: 'admin',
@@ -29,7 +50,7 @@ export const routes: Routes = [
           heading: 'Analitika',
         },
         path: 'analytics',
-        loadChildren: () => import('@features/analytics').then((m) => m.ANALYTICS_ROUTES),
+        loadChildren: () => import('@features/analytics').then((m) => m.ANALYTICS_ADMIN_ROUTES),
       },
       {
         data: {

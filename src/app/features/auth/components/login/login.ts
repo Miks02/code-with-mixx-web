@@ -14,6 +14,7 @@ import { LoginRequest } from '@features/auth/models/login-request';
 import { getErrorCode } from '@core/utilities/problem-details-helpers';
 import { ToastService } from '@core/services/toast-service';
 import { getAuthErrorMessage } from '@features/auth/utilities/auth-error-messages';
+import { UserState } from '@core/services/user-state';
 
 @Component({
   imports: [NgIcon, FormField, Button, RouterLink],
@@ -28,6 +29,7 @@ export class Login {
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
   private toastService = inject(ToastService);
+  private userState = inject(UserState);
 
   constructor() {
     if (this.activatedRoute.snapshot.queryParamMap.get('expired') === 'true') {
@@ -43,7 +45,7 @@ export class Login {
     return submit(this.loginForm, async () => {
       try {
         await this.loginMutation.mutateAsync(this.loginModel());
-        await this.router.navigate(['/admin/analytics']);
+        await this.router.navigate([this.userState.dashboardEntry()]);
         return [];
       } catch (err) {
         if (getErrorCode(err) === 'Auth.LoginFailed') {
