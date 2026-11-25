@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, input } from '@angular/core';
-import { UpcomingClass } from '@features/analytics/models/upcoming-class-';
+import { UpcomingClass } from '@features/analytics/admin/models/upcoming-class';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { faSolidCalendarXmark, faSolidClock } from '@ng-icons/font-awesome/solid';
 import { RouterLink } from '@angular/router';

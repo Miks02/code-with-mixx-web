@@ -1,5 +1,5 @@
 import { Component, computed, input, output } from '@angular/core';
-import { FinanceChart as FinanceChartModel } from '@features/analytics/models/finance-chart';
+import { FinanceChart as FinanceChartModel } from '@features/analytics/admin/models/finance-chart';
 import { provideIcons } from '@ng-icons/core';
 import { faSolidCalendar } from '@ng-icons/font-awesome/solid';
 import { FilterContainer } from '@shared/components/filter-container/filter-container';

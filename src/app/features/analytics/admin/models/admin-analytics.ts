@@ -1,6 +1,6 @@
 import { FinanceChart } from './finance-chart';
 import { SubjectChart } from './subject-chart';
-import { UpcomingClass } from './upcoming-class-';
+import { UpcomingClass } from './upcoming-class';
 import { UpcomingProject } from './upcoming-project';
 
 export type AdminAnalytics = {

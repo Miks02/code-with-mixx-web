@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { UpcomingProject } from '@features/analytics/models/upcoming-project';
+import { UpcomingProject } from '@features/analytics/admin/models/upcoming-project';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { faSolidCalendarDays, faSolidCalendarXmark } from '@ng-icons/font-awesome/solid';
 import { Skeleton } from '@shared/components/skeleton/skeleton';

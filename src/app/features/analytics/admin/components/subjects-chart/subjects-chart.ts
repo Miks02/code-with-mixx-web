@@ -1,5 +1,5 @@
 import { Component, computed, input, output } from '@angular/core';
-import { SubjectChart } from '@features/analytics/models/subject-chart';
+import { SubjectChart } from '@features/analytics/admin/models/subject-chart';
 import { provideIcons } from '@ng-icons/core';
 import { faSolidCalendar } from '@ng-icons/font-awesome/solid';
 import { FilterContainer } from '@shared/components/filter-container/filter-container';

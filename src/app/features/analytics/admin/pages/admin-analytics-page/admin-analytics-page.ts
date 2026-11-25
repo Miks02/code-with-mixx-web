@@ -5,9 +5,9 @@ import { ActionBar, ActionButton } from '@features/analytics/components/action-b
 import { AnalyticsCard } from '@features/analytics/components/analytics-card/analytics-card';
 import { FinanceChart } from '@features/analytics/admin/components/finance-chart/finance-chart';
 import { SubjectsChart } from '@features/analytics/admin/components/subjects-chart/subjects-chart';
-import { UpcomingClasses } from '@features/analytics/components/upcoming-classes/upcoming-classes';
-import { UpcomingProjects } from '@features/analytics/components/upcoming-projects/upcoming-projects';
-import { AdminQueryParams } from '@features/analytics/models/admin-query-params';
+import { UpcomingClasses } from '@features/analytics/admin/components/upcoming-classes/upcoming-classes';
+import { UpcomingProjects } from '@features/analytics/admin/components/upcoming-projects/upcoming-projects';
+import { AdminQueryParams } from '@features/analytics/admin/models/admin-query-params';
 import { AnalyticsService } from '@features/analytics/services/analytics-service';
 import { provideIcons } from '@ng-icons/core';
 import {
