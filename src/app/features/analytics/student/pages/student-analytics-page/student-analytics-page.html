@@ -22,15 +22,16 @@
   <div class="flex w-full gap-4 flex-wrap md:flex-nowrap">
     <app-student-upcoming-classes
       class="w-full"
+      [upcomingClasses]="upcomingClasses()"
+    ></app-student-upcoming-classes>
+    <app-class-reservations
+      class="w-full"
+      [summary]="classReservationsSummary()"
+    ></app-class-reservations>
+    <app-student-upcoming-classes
+      class="w-full"
       [upcomingClasses]="[]"
     ></app-student-upcoming-classes>
-    <app-student-upcoming-classes
-      class="w-full"
-      [upcomingClasses]="upcomingClasses()"
-    ></app-student-upcoming-classes>
-    <app-student-upcoming-classes
-      class="w-full"
-      [upcomingClasses]="upcomingClasses()"
-    ></app-student-upcoming-classes>
+  
   </div>
 </div>
