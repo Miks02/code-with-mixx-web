@@ -12,7 +12,6 @@ export type StatusMeta = {
   classes: string;
 };
 
-
 export const RESERVATION_STATUS_STYLES: Record<ReservationStatus, ReservationStatusStyle> = {
   [ReservationStatus.Confirmed]: {
     label: 'Potvrđena',
@@ -31,11 +30,10 @@ export const RESERVATION_STATUS_STYLES: Record<ReservationStatus, ReservationSta
   },
 };
 
-
 export const RESERVATION_STATUS_META: Record<ReservationStatus, StatusMeta> = {
   [ReservationStatus.Confirmed]: {
     label: 'Potvrđena',
-    classes: 'bg-emerald-900/80 text-emerald-100',
+    classes: 'bg-emerald-950/80 text-emerald-100',
   },
   [ReservationStatus.Completed]: { label: 'Završena', classes: 'bg-sky-900/60 text-sky-100' },
   [ReservationStatus.Cancelled]: { label: 'Otkazana', classes: 'bg-red-950/60 text-red-100' },
@@ -51,7 +49,6 @@ export const PAYMENT_STATUS_META: Record<PaymentStatus, StatusMeta> = {
   [PaymentStatus.Overdue]: { label: 'Kasni uplata', classes: 'bg-red-900/60 text-red-100' },
   [PaymentStatus.Refunded]: { label: 'Refundirano', classes: 'bg-violet-900/60 text-violet-100' },
 };
-
 
 export const RESERVATION_STATUS_FILTER_LABELS: Record<ReservationStatus, string> = {
   [ReservationStatus.Confirmed]: 'Potvrđene',
