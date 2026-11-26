@@ -10,4 +10,5 @@ import { Component, input } from '@angular/core';
 export class Panel {
   title = input.required<string>();
   count = input<number>();
+  description = input<string>();
 }

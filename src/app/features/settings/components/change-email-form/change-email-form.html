@@ -1,9 +1,4 @@
-<div class="bg-emerald-950/80 rounded-md shadow-md p-4 flex flex-col gap-4">
-  <div class="flex flex-col gap-1">
-    <h2 class="text-lg font-semibold text-emerald-100">Email adresa</h2>
-    <p class="text-sm text-emerald-300">Koristi se za prijavu i obaveštenja.</p>
-  </div>
-
+<app-panel title="Email adresa">
   <form
     class="grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-2"
     (submit)="$event.preventDefault(); onSubmit()"
@@ -104,7 +99,7 @@
       >Promeni email</app-button
     >
   </div>
-</div>
+</app-panel>
 
 <app-email-token-modal
   [isVisible]="isTokenModalVisible()"

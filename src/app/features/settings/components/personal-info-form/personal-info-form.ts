@@ -4,6 +4,7 @@ import { NgIcon, provideIcons } from '@ng-icons/core';
 import { faSolidCheck, faSolidUser, faSolidXmark } from '@ng-icons/font-awesome/solid';
 import { UserState } from '@core/services/user-state';
 import { Button } from '@shared/components/button/button';
+import { Panel } from '@shared/components/panel/panel';
 import {
   createPersonalInfoForm,
   createPersonalInfoFormModel,
@@ -14,7 +15,7 @@ import { ToastService } from '@core/services/toast-service';
 import { getSettingsErrorMessage } from '@features/settings/utilities/settings-error-messages';
 
 @Component({
-  imports: [NgIcon, Button, FormField],
+  imports: [NgIcon, Button, FormField, Panel],
   providers: [provideIcons({ faSolidCheck, faSolidUser, faSolidXmark })],
   selector: 'app-personal-info-form',
   styleUrl: './personal-info-form.css',

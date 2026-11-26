@@ -10,6 +10,7 @@ import {
   faSolidXmark,
 } from '@ng-icons/font-awesome/solid';
 import { Button } from '@shared/components/button/button';
+import { Panel } from '@shared/components/panel/panel';
 import {
   createChangePasswordForm,
   createEmptyChangePasswordFormModel,
@@ -22,7 +23,7 @@ import { getSettingsErrorMessage } from '@features/settings/utilities/settings-e
 import { DialogResult } from '@core/components/dialog/dialog';
 
 @Component({
-  imports: [NgIcon, Button, FormField],
+  imports: [NgIcon, Button, FormField, Panel],
   providers: [
     provideIcons({
       faSolidCheck,
