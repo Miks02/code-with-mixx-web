@@ -16,6 +16,7 @@ import { ChangePasswordRequest } from '../models/change-password-request';
 import { EmailTokenFormModel } from '../models/email-token-form-model';
 import { UpdatePersonalInfoRequest } from '../models/update-personal-info-request';
 import { UpdatePhoneNumberRequest } from '../models/update-phone-number-request';
+import { UpdateUniversityRequest } from '../models/update-university-request';
 
 export function createPersonalInfoFormModel(user?: UserDetails | null): UpdatePersonalInfoRequest {
   return {
@@ -113,5 +114,20 @@ export function createEmailTokenForm(request: WritableSignal<EmailTokenFormModel
     required(schemaPath.token, { message: 'Kod je obavezan.' });
     maxLength(schemaPath.token, 6);
     pattern(schemaPath.token, /^\d{6}$/, { message: 'Kod mora imati 6 cifara.' });
+  });
+}
+
+export function createUniversityFormModel(university?: string | null): UpdateUniversityRequest {
+  return {
+    university: university ?? '',
+  };
+}
+
+export function createUniversityForm(request: WritableSignal<UpdateUniversityRequest>) {
+  return form(request, (schemaPath) => {
+    required(schemaPath.university, { message: 'Fakultet je obavezan.' });
+    maxLength(schemaPath.university, 100, {
+      message: 'Naziv fakulteta može imati najviše 100 karaktera.',
+    });
   });
 }

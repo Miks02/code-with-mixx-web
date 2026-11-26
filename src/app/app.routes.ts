@@ -32,6 +32,13 @@ export const routes: Routes = [
         path: 'analytics',
         loadChildren: () => import('@features/analytics').then((m) => m.ANALYTICS_STUDENT_ROUTES),
       },
+      {
+        data: {
+          heading: 'Podešavanje',
+        },
+        path: 'settings',
+        loadChildren: () => import('@features/settings').then((m) => m.SETTINGS_STUDENT_ROUTES),
+      },
     ],
   },
   {
@@ -92,7 +99,7 @@ export const routes: Routes = [
           heading: 'Podešavanje',
         },
         path: 'settings',
-        loadChildren: () => import('@features/settings').then((m) => m.SETTINGS_ROUTES),
+        loadChildren: () => import('@features/settings').then((m) => m.SETTINGS_ADMIN_ROUTES),
       },
     ],
   },

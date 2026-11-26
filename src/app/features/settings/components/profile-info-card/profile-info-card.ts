@@ -1,6 +1,10 @@
 import { Component, computed, input } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { faSolidClockRotateLeft, faSolidShieldHalved } from '@ng-icons/font-awesome/solid';
+import {
+  faSolidBuildingColumns,
+  faSolidClockRotateLeft,
+  faSolidShieldHalved,
+} from '@ng-icons/font-awesome/solid';
 import { AccountStatus } from '@core/models/account-status';
 import { UserDetails } from '@core/models/user-details';
 import { dateConverter, timeConverter } from '@core/utilities/date-helpers';
@@ -46,7 +50,7 @@ const STATUS_META: Record<AccountStatus, StatusMeta> = {
 
 @Component({
   imports: [NgIcon],
-  providers: [provideIcons({ faSolidClockRotateLeft, faSolidShieldHalved })],
+  providers: [provideIcons({ faSolidBuildingColumns, faSolidClockRotateLeft, faSolidShieldHalved })],
   selector: 'app-profile-info-card',
   styleUrl: './profile-info-card.css',
   templateUrl: './profile-info-card.html',
@@ -59,7 +63,8 @@ export class ProfileInfoCard {
   roles = computed(() => this.user().roles);
   email = computed(() => this.user().email);
   phoneNumber = computed(() => this.user().phoneNumber);
-
+  university = computed(() => this.user().university);
+  
   status = computed(() => STATUS_META[this.user().accountStatus] ?? null);
 
   lastLoginDate = computed(() => {

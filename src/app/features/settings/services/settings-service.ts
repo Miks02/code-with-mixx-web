@@ -10,6 +10,10 @@ import { UpdatePhoneNumberRequest } from '../models/update-phone-number-request'
 import { ChangeEmailRequest } from '../models/change-email-request';
 import { ChangeEmailFormModel } from '../models/change-email-form-model';
 import { ChangePasswordRequest } from '../models/change-password-request';
+import {
+  UpdateUniversityRequest,
+  UpdateUniversityResponse,
+} from '../models/update-university-request';
 
 @Service()
 export class SettingsService {
@@ -63,5 +67,17 @@ export class SettingsService {
   changePasswordMutation = injectMutation(() => ({
     mutationFn: (request: ChangePasswordRequest) =>
       lastValueFrom(this.http.put(`${this.apiUrl}/account/password`, request)),
+  }));
+
+  updateUniversityMutation = injectMutation(() => ({
+    mutationFn: (request: UpdateUniversityRequest) =>
+      lastValueFrom(
+        this.http.put<UpdateUniversityResponse>(`${this.apiUrl}/account/university`, {
+          university: request.university.trim(),
+        }),
+      ),
+    onSuccess: (res: UpdateUniversityResponse) => {
+      this.userState.updateUniversity(res.university);
+    },
   }));
 }
