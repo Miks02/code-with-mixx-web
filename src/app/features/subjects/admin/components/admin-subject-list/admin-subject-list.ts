@@ -8,9 +8,10 @@ import { SortMenu } from '@shared/components/sort-menu/sort-menu';
 import { SubjectCard } from '@features/subjects/components/subject-card/subject-card';
 import { SubjectSort } from '@features/subjects/models/subject-sort';
 import { AdminSubjectStore } from '@features/subjects/admin/stores/admin-subject-store';
+import { PagedList } from '@shared/components/paged-list/paged-list';
 
 @Component({
-  imports: [SubjectCard, Button, SearchBar, SortMenu, NgIcon, Skeleton],
+  imports: [SubjectCard, Button, SearchBar, SortMenu, NgIcon, Skeleton, PagedList],
   providers: [provideIcons({ faSolidChevronLeft, faSolidChevronRight })],
   selector: 'app-admin-subject-list',
   styleUrl: './admin-subject-list.css',
@@ -18,8 +19,6 @@ import { AdminSubjectStore } from '@features/subjects/admin/stores/admin-subject
 })
 export class AdminSubjectList {
   protected store = inject(AdminSubjectStore);
-
-  protected skeletonItems = Array.from({ length: 6 });
 
   protected sort: Record<SubjectSort, string> = {
     [SubjectSort.NameAscending]: 'Po imenu (A-Z)',
