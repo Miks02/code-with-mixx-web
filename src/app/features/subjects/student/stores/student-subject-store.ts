@@ -10,8 +10,8 @@ import {
 } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { debounceTime, distinctUntilChanged, pipe, tap } from 'rxjs';
-import { StudentSubjectItem } from '@features/subjects/models/student-subject-item';
-import { StudentSubjectParams } from '@features/subjects/models/student-subject-params';
+import { StudentSubjectItem } from '@features/subjects/student/models/student-subject-item';
+import { StudentSubjectParams } from '@features/subjects/student/models/student-subject-params';
 import { SubjectSort } from '@features/subjects/models/subject-sort';
 import { SubjectService } from '@features/subjects/services/subject-service';
 

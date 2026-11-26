@@ -3,6 +3,4 @@ export type StudentSubjectItem = {
   subjectName: string;
   subjectDescription: string;
   classesCount: number;
-  studentsCount: number;
-  createdAt: string;
 };

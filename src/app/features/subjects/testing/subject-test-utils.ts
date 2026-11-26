@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { environment } from '@environments/environment';
 import { PagedResult } from '@core/models/paged-result';
 import { createToastServiceMock, provideHttpTesting, settle } from '@core/testing/test-utils';
-import { StudentSubjectItem } from '@features/subjects/models/student-subject-item';
+import { StudentSubjectItem } from '@features/subjects/student/models/student-subject-item';
 import { SubjectItem } from '@features/subjects/models/subject-item';
 import { SubjectsSummary } from '@features/subjects/models/subjects-summary';
 
@@ -82,8 +82,6 @@ export function createStudentSubject(
     subjectName: 'Osnove programiranja',
     subjectDescription: 'Promenljive, petlje i funkcije u JavaScript-u',
     classesCount: 4,
-    studentsCount: 7,
-    createdAt: '2026-01-15T00:00:00.000Z',
     ...overrides,
   };
 }

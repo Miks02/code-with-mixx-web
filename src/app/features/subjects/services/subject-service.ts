@@ -15,7 +15,7 @@ import { dateConverter } from '@core/utilities/date-helpers';
 import { CreateSubjectRequest } from '../models/create-subject-request';
 import { SubjectItem } from '../models/subject-item';
 import { SubjectLookupItem } from '../models/subject-lookup-item';
-import { StudentSubjectItem } from '../models/student-subject-item';
+import { StudentSubjectItem } from '../student/models/student-subject-item';
 import { SubjectSort } from '../models/subject-sort';
 import { SubjectsSummary } from '../models/subjects-summary';
 import { UpdateSubjectRequest } from '../models/update-subject-request';
