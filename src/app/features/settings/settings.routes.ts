@@ -5,6 +5,9 @@ export const SETTINGS_ROUTES: Routes = [
   {
     title: pageTitle('Podešavanje'),
     path: '',
-    loadComponent: () => import('./pages/settings-page/settings-page').then((c) => c.SettingsPage),
+    loadComponent: () =>
+      import('./admin/pages/admin-settings-page/admin-settings-page').then(
+        (c) => c.AdminSettingsPage,
+      ),
   },
 ];

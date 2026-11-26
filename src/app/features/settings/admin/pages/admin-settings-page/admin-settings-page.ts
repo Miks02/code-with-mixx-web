@@ -19,11 +19,11 @@ import { LoadingOverlay } from '@shared/components/loading-overlay/loading-overl
     SessionActions,
     LoadingOverlay,
   ],
-  selector: 'app-settings-page',
-  styleUrl: './settings-page.css',
-  templateUrl: './settings-page.html',
+  selector: 'app-admin-settings-page',
+  styleUrl: './admin-settings-page.css',
+  templateUrl: './admin-settings-page.html',
 })
-export class SettingsPage {
+export class AdminSettingsPage {
   private settingsService = inject(SettingsService);
   isPasswordChanging = this.settingsService.changePasswordMutation.isPending;
   userDetails = inject(UserState).userDetails;
