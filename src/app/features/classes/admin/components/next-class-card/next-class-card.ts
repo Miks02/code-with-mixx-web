@@ -9,12 +9,13 @@ import {
 } from '@ng-icons/font-awesome/solid';
 import { dateConverter, timeConverter } from '@core/utilities/date-helpers';
 import { Skeleton } from '@shared/components/skeleton/skeleton';
+import { Panel } from '@shared/components/panel/panel';
 import { NextClass } from '@features/classes/models/classes-summary';
 
 const DAY_IN_MS = 24 * 60 * 60 * 1000;
 
 @Component({
-  imports: [NgIcon, Skeleton],
+  imports: [NgIcon, Skeleton, Panel],
   providers: [
     provideIcons({
       faSolidBuildingColumns,

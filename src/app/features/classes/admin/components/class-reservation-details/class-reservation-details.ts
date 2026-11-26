@@ -21,6 +21,8 @@ import { DialogService } from '@core/services/dialog-service';
 import { ToastService } from '@core/services/toast-service';
 import { priceConverter } from '@core/utilities/price-helpers';
 import { Button } from '@shared/components/button/button';
+import { EmptyState } from '@shared/components/empty-state/empty-state';
+import { Panel } from '@shared/components/panel/panel';
 import { SrDatePipe } from '@shared/pipes/sr-date-pipe';
 import { PAYMENT_STATUS_META, RESERVATION_STATUS_META, StatusMeta } from '@features/reservations';
 import { Router } from '@angular/router';
@@ -46,6 +48,8 @@ type ReservationStat = {
   imports: [
     NgIcon,
     Button,
+    Panel,
+    EmptyState,
     RegisterPaymentModal,
     ReservationPaymentHistoryModal,
     SubtractPaymentModal,
