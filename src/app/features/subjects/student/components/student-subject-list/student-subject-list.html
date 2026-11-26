@@ -1,4 +1,5 @@
 <app-paged-list
+  class="lg:min-h-130"
   title="Predmeti"
   emptyMessage="Nije pronađen nijedan predmet."
   [page]="store.pagedSubjects()"
@@ -21,14 +22,14 @@
 
   <ng-container>
     @for (subject of store.pagedSubjectsItems(); track subject.id) {
-      <app-subject-card
-        [subjectName]="subject.subjectName"
-        [subjectDescription]="subject.subjectDescription"
-        [classesCount]="subject.classesCount"
-        [addOpacity]="store.subjectsFetching()"
-        [isSelected]="subject.id === store.selectedSubjectId()"
-        (selected)="toggleSubject(subject)"
-      ></app-subject-card>
+    <app-subject-card
+      [subjectName]="subject.subjectName"
+      [subjectDescription]="subject.subjectDescription"
+      [classesCount]="subject.classesCount"
+      [addOpacity]="store.subjectsFetching()"
+      [isSelected]="subject.id === store.selectedSubjectId()"
+      (selected)="toggleSubject(subject)"
+    ></app-subject-card>
     }
   </ng-container>
 </app-paged-list>
