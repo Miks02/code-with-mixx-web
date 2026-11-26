@@ -39,6 +39,7 @@ export const STUDENTS_LOOKUP = [
 export function createClassItem(overrides: Partial<ClassItem> = {}): ClassItem {
   return {
     id: 10,
+    name: 'Normalizacija',
     subjectId: 1,
     subjectName: 'Baze podataka',
     price: 1300,
@@ -207,6 +208,7 @@ export function createFormClass(
 ): ClassItemFormModel {
   return {
     id: 0,
+    name: 'Normalizacija',
     subjectId: 1,
     price: 1300,
     startsAt: dateTimeInputValue(startsAt),

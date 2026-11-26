@@ -1,5 +1,9 @@
 import { isProblemDetails } from '@core/utilities/problem-details-helpers';
-import { MAX_BREAK_BETWEEN_CLASSES_MINUTES, MAX_CLASS_DURATION_MINUTES } from './class-constants';
+import {
+  MAX_BREAK_BETWEEN_CLASSES_MINUTES,
+  MAX_CLASS_DURATION_MINUTES,
+  MAX_CLASS_NAME_LENGTH,
+} from './class-constants';
 
 export const CLASS_RESERVATION_ERROR_MESSAGES: Record<string, string> = {
   'Student.NotFound': 'Izabrani student više ne postoji. Osveži stranicu i izaberi drugog.',
@@ -20,6 +24,8 @@ export const CLASS_RESERVATION_ERROR_MESSAGES: Record<string, string> = {
   'Reservation.CantUpdateAnArchivedReservation': 'Nije moguće izmeniti arhiviranu rezervaciju.',
   'Reservation.RequiresHistoryRetention':
     'Rezervacija ne može biti trajno obrisana jer zahteva čuvanje istorije.',
+  'Class.EmptyName': 'Naziv časa ne može biti prazan.',
+  'Class.NameTooLong': `Naziv časa može imati najviše ${MAX_CLASS_NAME_LENGTH} karaktera.`,
   'Class.NotFound': 'Čas više ne postoji. Osveži stranicu.',
   'Class.InvalidSchedule': 'Početak časa mora biti pre njegovog kraja.',
   'Class.InvalidPrice': 'Cena časa mora biti veća od 0 RSD.',

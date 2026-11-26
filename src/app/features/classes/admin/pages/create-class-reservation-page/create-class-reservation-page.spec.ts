@@ -53,6 +53,9 @@ describe('CreateClassReservationPage', () => {
     const subject = element.querySelector<HTMLSelectElement>('#class-subject-0')!;
     subject.value = '1';
     subject.dispatchEvent(new Event('change'));
+    const name = element.querySelector<HTMLInputElement>('#class-name-0')!;
+    name.value = 'Normalizacija';
+    name.dispatchEvent(new Event('input'));
     await fixture.whenStable();
 
     expect(checks()).toContain('Student je izabran');
@@ -67,9 +70,30 @@ describe('CreateClassReservationPage', () => {
     expect(request.request.body.studentId).toBe('student-2');
     expect(request.request.body.totalPrice).toBeNull();
     expect(request.request.body.classes[0].subjectId).toBe(1);
+    expect(request.request.body.classes[0].name).toBe('Normalizacija');
     request.flush(null);
     await settle();
 
     expect(navigateByUrl).toHaveBeenCalledWith('/admin/classes');
+  });
+
+  it('keeps saving disabled until every class has a name', async () => {
+    studentButton('Jelena Petrović').click();
+    await fixture.whenStable();
+    const subject = element.querySelector<HTMLSelectElement>('#class-subject-0')!;
+    subject.value = '1';
+    subject.dispatchEvent(new Event('change'));
+    await fixture.whenStable();
+
+    expect(getButton(element, 'Sačuvaj')!.disabled).toBe(true);
+    expect(checks()).toContain('Neka polja časova nisu ispravna');
+
+    const name = element.querySelector<HTMLInputElement>('#class-name-0')!;
+    name.value = 'Normalizacija';
+    name.dispatchEvent(new Event('input'));
+    await fixture.whenStable();
+
+    expect(getButton(element, 'Sačuvaj')!.disabled).toBe(false);
+    expect(checks()).toContain('Polja svih časova su ispravna');
   });
 });
