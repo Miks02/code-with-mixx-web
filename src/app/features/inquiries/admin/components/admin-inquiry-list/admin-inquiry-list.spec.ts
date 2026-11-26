@@ -38,7 +38,8 @@ describe('AdminInquiryList', () => {
   const cardBody = (index: number) => cards()[index].querySelector<HTMLElement>('[role="button"]')!;
   const cardCheckbox = (index: number) =>
     cards()[index].querySelector<HTMLButtonElement>('button[role="checkbox"]')!;
-  const selectAll = () => getButton(element, 'Označi sve na strani')!;
+  const selectAll = () =>
+    element.querySelector<HTMLButtonElement>('button[aria-label="Označi sve na strani"]')!;
   const pageButton = (label: string) =>
     element.querySelector<HTMLButtonElement>(`app-button[aria-label="${label}"] button`)!;
 
@@ -69,7 +70,7 @@ describe('AdminInquiryList', () => {
     await settle();
     expect(element.querySelectorAll('app-skeleton').length).toBeGreaterThan(0);
     expect(cards().length).toBe(0);
-    expect(getButton(element, 'Označi sve na strani')).toBeUndefined();
+    expect(selectAll().disabled).toBe(true);
   });
 
   it('shows the empty state when there are no inquiries', async () => {

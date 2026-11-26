@@ -1,7 +1,7 @@
 import { Component, computed, inject } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
-  faSolidCheck,
+  faSolidListCheck,
   faSolidCircleCheck,
   faSolidLayerGroup,
   faSolidTrash,
@@ -40,7 +40,7 @@ import { INQUIRY_TOAST_MESSAGES } from '@features/inquiries/utilities/inquiry-to
   ],
   providers: [
     provideIcons({
-      faSolidCheck,
+      faSolidListCheck,
       faSolidCircleCheck,
       faSolidLayerGroup,
       faSolidTrash,
@@ -61,11 +61,13 @@ export class AdminInquiryList {
   protected conflictingStatusOptions = CONFLICTING_INQUIRY_STATUS_FILTERS;
   protected typeOptions = INQUIRY_TYPE_FILTER_LABELS;
 
-  protected selectAllClasses = computed(() =>
-    this.store.areAllChecked()
-      ? 'bg-amber-500 border-amber-500'
-      : 'bg-emerald-950/60 border-emerald-400 hover:bg-emerald-800',
-  );
+  protected selectAllClasses = computed(() => {
+    const base =
+      'shrink-0 self-center flex items-center justify-center gap-2 rounded-full p-2 border-2 bg-emerald-700 shadow-lg text-sm font-semibold text-emerald-100 cursor-pointer active:scale-95 transition-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100 xl:rounded-lg xl:px-3 xl:py-1.5 xl:border xl:shadow-none';
+    return this.store.areAllChecked()
+      ? `${base} border-amber-500 xl:bg-emerald-700`
+      : `${base} border-emerald-400 xl:border-emerald-200 xl:bg-transparent xl:hover:opacity-70`;
+  });
 
   protected isChecked(inquiryId: number) {
     return this.store.checkedIds().includes(inquiryId);
