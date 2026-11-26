@@ -9,6 +9,8 @@ import {
 import { Button } from '@shared/components/button/button';
 import { Skeleton } from '@shared/components/skeleton/skeleton';
 
+export type PagedListLayout = 'two-column' | 'single-column';
+
 @Component({
   host: {
     class:
@@ -24,11 +26,19 @@ export class PagedList {
   page = input<PagedResult<unknown>>();
   isPending = input(false);
   emptyMessage = input('Nije pronađen nijedan rezultat.');
+  layout = input<PagedListLayout>('two-column');
 
   previousPage = output<void>();
   nextPage = output<void>();
 
   protected skeletonItems = Array.from({ length: 8 });
+
+  protected gridClasses = computed(
+    () =>
+      `absolute inset-0 grid grid-cols-1 content-start gap-3 overflow-y-auto ${
+        this.layout() === 'two-column' ? 'sm:grid-cols-2' : ''
+      }`,
+  );
 
   protected isEmpty = computed(() => this.page()?.totalCount === 0);
   protected shownCount = computed(() => this.page()?.paginatedCount ?? 0);

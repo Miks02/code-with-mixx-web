@@ -1,6 +1,6 @@
 import { Component, computed, input } from '@angular/core';
 import { priceConverter } from '@core/utilities/price-helpers';
-import { OpenBalanceSummary } from '@features/analytics/student/models/open-balance-summary';
+import { OpenBalanceSummary } from '@features/payments/models/open-balance-summary';
 import { PAYMENT_STATUS_META, ReservationType } from '@features/reservations';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { Panel } from '@shared/components/panel/panel';

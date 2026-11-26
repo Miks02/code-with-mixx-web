@@ -11,6 +11,7 @@ import {
   faSolidReceipt,
   faSolidWallet,
 } from '@ng-icons/font-awesome/solid';
+import { RouterLink } from '@angular/router';
 
 const PAYMENT_TITLES: Record<ReservationType, string> = {
   [ReservationType.Class]: 'Uplata za paket časova',
@@ -18,7 +19,7 @@ const PAYMENT_TITLES: Record<ReservationType, string> = {
 };
 
 @Component({
-  imports: [NgIcon, Panel],
+  imports: [NgIcon, Panel, RouterLink],
   providers: [
     provideIcons({ faSolidCalendar, faSolidReceipt, faSolidWallet, faSolidFileContract }),
   ],

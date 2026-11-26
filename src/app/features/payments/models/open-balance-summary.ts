@@ -2,6 +2,8 @@ import { PaymentStatus, ReservationType } from '@features/reservations';
 
 export type OpenBalanceItem = {
   reservationId: number;
+  studentId: string | null;
+  studentFullName: string | null;
   reservationType: ReservationType;
   totalPrice: number;
   paidAmount: number;

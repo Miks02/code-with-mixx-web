@@ -24,6 +24,7 @@ const ADMIN_LINKS = [
   { name: 'Časovi', icon: 'faSolidCalendar', navigateTo: '/admin/classes' },
   { name: 'Projekti', icon: 'faSolidFile', navigateTo: '/admin/projects' },
   { name: 'Upiti', icon: 'faSolidEnvelope', navigateTo: '/admin/inquiries' },
+  { name: 'Finansije', icon: 'faSolidMoneyBillTransfer', navigateTo: '/admin/payments' },
   { name: 'Podešavanje', icon: 'faSolidGear', navigateTo: '/admin/settings' },
 ];
 

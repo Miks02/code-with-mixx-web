@@ -1,5 +1,5 @@
 import { ClassReservationsSummary } from './class-reservations-summary';
-import { OpenBalanceSummary } from './open-balance-summary';
+import { OpenBalanceSummary } from '@features/payments';
 import { RecentPayment } from './recent-payment';
 import { StudentUpcomingClass } from './student-upcoming-class';
 import { StudentUpcomingProject } from './student-upcoming-project';

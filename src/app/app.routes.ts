@@ -41,6 +41,13 @@ export const routes: Routes = [
       },
       {
         data: {
+          heading: 'Finansije',
+        },
+        path: 'payments',
+        loadChildren: () => import('@features/payments').then((m) => m.PAYMENTS_STUDENT_ROUTES),
+      },
+      {
+        data: {
           heading: 'Podešavanje',
         },
         path: 'settings',
@@ -107,6 +114,13 @@ export const routes: Routes = [
         },
         path: 'settings',
         loadChildren: () => import('@features/settings').then((m) => m.SETTINGS_ADMIN_ROUTES),
+      },
+      {
+        data: {
+          heading: 'Finansije',
+        },
+        path: 'payments',
+        loadChildren: () => import('@features/payments').then((m) => m.PAYMENTS_ADMIN_ROUTES),
       },
     ],
   },
