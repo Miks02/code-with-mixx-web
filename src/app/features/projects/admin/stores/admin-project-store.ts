@@ -80,12 +80,6 @@ export const AdminProjectStore = signalStore(
     summary: computed(() => store.summaryQuery.data()),
     summaryPending: computed(() => store.summaryQuery.isPending()),
     reservations: computed(() => store.reservationsQuery.data()?.items ?? []),
-    pagedCount: computed(() => store.reservationsQuery.data()?.paginatedCount ?? 0),
-    totalCount: computed(() => store.reservationsQuery.data()?.totalCount ?? 0),
-    currentPage: computed(() => store.reservationsQuery.data()?.pageNumber ?? 1),
-    totalPages: computed(() => store.reservationsQuery.data()?.totalPages ?? 1),
-    hasPreviousPage: computed(() => store.reservationsQuery.data()?.hasPreviousPage ?? false),
-    hasNextPage: computed(() => store.reservationsQuery.data()?.hasNextPage ?? false),
     reservationsPending: computed(() => store.reservationsQuery.isPending()),
     reservationsFetching: computed(() => store.reservationsQuery.isFetching()),
     subjects: computed(() => store.subjectsLookupQuery.data() ?? []),
@@ -130,12 +124,14 @@ export const AdminProjectStore = signalStore(
         });
       },
       previousPage() {
-        if (!store.hasPreviousPage()) return;
-        patchParams({ pageNumber: store.currentPage() - 1 });
+        const page = store.reservationsQuery.data();
+        if (!page?.hasPreviousPage) return;
+        patchParams({ pageNumber: page.pageNumber - 1 });
       },
       nextPage() {
-        if (!store.hasNextPage()) return;
-        patchParams({ pageNumber: store.currentPage() + 1 });
+        const page = store.reservationsQuery.data();
+        if (!page?.hasNextPage) return;
+        patchParams({ pageNumber: page.pageNumber + 1 });
       },
       selectReservation(reservation: ProjectReservationItem | undefined) {
         patchState(store, {

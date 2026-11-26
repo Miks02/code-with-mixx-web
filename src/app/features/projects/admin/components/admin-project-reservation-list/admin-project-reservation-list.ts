@@ -4,18 +4,15 @@ import {
   faSolidBook,
   faSolidBoxArchive,
   faSolidChartDiagram,
-  faSolidChevronLeft,
-  faSolidChevronRight,
   faSolidLayerGroup,
   faSolidMoneyBillTransfer,
   faSolidPlus,
   faSolidUserSlash,
-  faSolidXmark,
 } from '@ng-icons/font-awesome/solid';
 import { Button } from '@shared/components/button/button';
 import { FilterContainer } from '@shared/components/filter-container/filter-container';
 import { FilterMenu } from '@shared/components/filter-menu/filter-menu';
-import { Skeleton } from '@shared/components/skeleton/skeleton';
+import { PagedList } from '@shared/components/paged-list/paged-list';
 import {
   CONFLICTING_RESERVATION_STATUSES,
   PaymentStatus,
@@ -27,15 +24,12 @@ import { AdminProjectStore } from '@features/projects/admin/stores/admin-project
 import { PROJECT_TYPE_LABELS } from '@features/projects/utilities/project-labels';
 
 @Component({
-  imports: [ProjectReservationCard, Button, FilterContainer, FilterMenu, NgIcon, Skeleton],
+  imports: [ProjectReservationCard, Button, FilterContainer, FilterMenu, NgIcon, PagedList],
   providers: [
     provideIcons({
       faSolidBoxArchive,
-      faSolidChevronLeft,
-      faSolidChevronRight,
       faSolidPlus,
       faSolidUserSlash,
-      faSolidXmark,
       faSolidBook,
       faSolidChartDiagram,
       faSolidMoneyBillTransfer,
@@ -51,7 +45,6 @@ export class AdminProjectReservationList {
   private router = inject(Router);
 
   protected conflictingReservationStatuses = CONFLICTING_RESERVATION_STATUSES;
-  protected skeletonItems = Array.from({ length: 6 });
 
   protected subjectOptions = computed<Record<string, string>>(() =>
     Object.fromEntries(this.store.subjects().map((subject) => [subject.id, subject.subjectName])),
