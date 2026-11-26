@@ -15,6 +15,7 @@ import { dateConverter } from '@core/utilities/date-helpers';
 import { CreateSubjectRequest } from '../models/create-subject-request';
 import { SubjectItem } from '../models/subject-item';
 import { SubjectLookupItem } from '../models/subject-lookup-item';
+import { StudentSubjectItem } from '../models/student-subject-item';
 import { SubjectSort } from '../models/subject-sort';
 import { SubjectsSummary } from '../models/subjects-summary';
 import { UpdateSubjectRequest } from '../models/update-subject-request';
@@ -100,6 +101,29 @@ export class SubjectService {
         ),
       select: (data) => this.mapPagedSubjects(data),
       enabled: queryResult.isSuccess(),
+      placeholderData: keepPreviousData,
+    }));
+  }
+
+  getPagedSubjectsForStudentQuery(
+    pageNumber: Signal<number>,
+    pageSize: Signal<number>,
+    searchTerm: Signal<string>,
+    sortBy: Signal<SubjectSort>,
+  ) {
+    return injectQuery(() => ({
+      queryKey: ['paged-subjects-student', pageNumber(), pageSize(), searchTerm(), sortBy()],
+      queryFn: () =>
+        lastValueFrom(
+          this.http.get<PagedResult<StudentSubjectItem>>(`${this.apiUrl}/student/subjects`, {
+            params: {
+              pageNumber: pageNumber(),
+              pageSize: pageSize(),
+              searchTerm: searchTerm(),
+              sortBy: sortBy(),
+            },
+          }),
+        ),
       placeholderData: keepPreviousData,
     }));
   }

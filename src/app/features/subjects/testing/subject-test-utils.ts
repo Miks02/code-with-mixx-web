@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { environment } from '@environments/environment';
 import { PagedResult } from '@core/models/paged-result';
 import { createToastServiceMock, provideHttpTesting, settle } from '@core/testing/test-utils';
+import { StudentSubjectItem } from '@features/subjects/models/student-subject-item';
 import { SubjectItem } from '@features/subjects/models/subject-item';
 import { SubjectsSummary } from '@features/subjects/models/subjects-summary';
 
@@ -16,6 +17,7 @@ export {
 
 export const SUBJECTS_URL = `${environment.apiUrl}/admin/subjects`;
 export const SUBJECTS_SUMMARY_URL = `${environment.apiUrl}/admin/subjects/summary`;
+export const STUDENT_SUBJECTS_URL = `${environment.apiUrl}/student/subjects`;
 
 export function createSubject(overrides: Partial<SubjectItem> = {}): SubjectItem {
   return {
@@ -70,4 +72,35 @@ export async function flushSummary(summary: SubjectsSummary = createSubjectsSumm
     .match((req) => req.url === SUBJECTS_SUMMARY_URL)
     .forEach((req) => req.flush(summary));
   await settle();
+}
+
+export function createStudentSubject(
+  overrides: Partial<StudentSubjectItem> = {},
+): StudentSubjectItem {
+  return {
+    id: 1,
+    subjectName: 'Osnove programiranja',
+    subjectDescription: 'Promenljive, petlje i funkcije u JavaScript-u',
+    classesCount: 4,
+    studentsCount: 7,
+    createdAt: '2026-01-15T00:00:00.000Z',
+    ...overrides,
+  };
+}
+
+export function createPagedStudentSubjects(
+  items: StudentSubjectItem[] = [createStudentSubject()],
+  overrides: Partial<PagedResult<StudentSubjectItem>> = {},
+): PagedResult<StudentSubjectItem> {
+  return {
+    items,
+    totalCount: items.length,
+    pageNumber: 1,
+    pageSize: 15,
+    totalPages: 1,
+    hasPreviousPage: false,
+    hasNextPage: false,
+    paginatedCount: items.length,
+    ...overrides,
+  };
 }
