@@ -5,10 +5,10 @@
     @if (store.isEditing()) {
       <app-edit-subject-form class="flex-1 min-w-0"></app-edit-subject-form>
     } @else {
-      <app-subject-details
+      <app-admin-subject-details
         [appScrollIntoViewOn]="store.detailsScrollRequests()"
         class="flex-1 min-w-0"
-      ></app-subject-details>
+      ></app-admin-subject-details>
     }
   </div>
 

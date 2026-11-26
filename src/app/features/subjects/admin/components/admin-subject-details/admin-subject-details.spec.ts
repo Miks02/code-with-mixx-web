@@ -13,10 +13,10 @@ import {
   settle,
   SUBJECTS_URL,
 } from '@features/subjects/testing/subject-test-utils';
-import { SubjectDetails } from './subject-details';
+import { AdminSubjectDetails } from './admin-subject-details';
 
-describe('SubjectDetails', () => {
-  let fixture: ComponentFixture<SubjectDetails>;
+describe('AdminSubjectDetails', () => {
+  let fixture: ComponentFixture<AdminSubjectDetails>;
   let element: HTMLElement;
   let store: InstanceType<typeof AdminSubjectStore>;
   let http: HttpTestingController;
@@ -33,7 +33,7 @@ describe('SubjectDetails', () => {
     dialog = { showDialog: vi.fn() };
 
     await TestBed.configureTestingModule({
-      imports: [SubjectDetails],
+      imports: [AdminSubjectDetails],
       providers: [
         AdminSubjectStore,
         provideSubjectTesting(toast),
@@ -41,7 +41,7 @@ describe('SubjectDetails', () => {
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(SubjectDetails);
+    fixture = TestBed.createComponent(AdminSubjectDetails);
     element = fixture.nativeElement;
     store = TestBed.inject(AdminSubjectStore);
     http = TestBed.inject(HttpTestingController);

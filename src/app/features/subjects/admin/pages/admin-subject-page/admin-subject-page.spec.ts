@@ -7,10 +7,10 @@ import {
   provideSubjectTesting,
   settle,
 } from '@features/subjects/testing/subject-test-utils';
-import { SubjectsPage } from './subjects-page';
+import { AdminSubjectPage } from './admin-subject-page';
 
-describe('SubjectsPage', () => {
-  let fixture: ComponentFixture<SubjectsPage>;
+describe('AdminSubjectPage', () => {
+  let fixture: ComponentFixture<AdminSubjectPage>;
   let element: HTMLElement;
   let store: InstanceType<typeof AdminSubjectStore>;
 
@@ -21,11 +21,11 @@ describe('SubjectsPage', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SubjectsPage],
+      imports: [AdminSubjectPage],
       providers: [provideSubjectTesting()],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(SubjectsPage);
+    fixture = TestBed.createComponent(AdminSubjectPage);
     element = fixture.nativeElement;
     // The page provides its own store instance.
     store = fixture.debugElement.injector.get(AdminSubjectStore);
@@ -43,7 +43,7 @@ describe('SubjectsPage', () => {
 
   it('renders the list, details, most popular subject and the create form', () => {
     expect(element.querySelector('app-admin-subject-list')).not.toBeNull();
-    expect(element.querySelector('app-subject-details')).not.toBeNull();
+    expect(element.querySelector('app-admin-subject-details')).not.toBeNull();
     expect(element.querySelector('app-edit-subject-form')).toBeNull();
     expect(element.querySelector('app-create-subject-form')).not.toBeNull();
     expect(element.querySelector('app-most-popular-subject')?.textContent).toContain(
@@ -62,12 +62,12 @@ describe('SubjectsPage', () => {
     await fixture.whenStable();
 
     expect(element.querySelector('app-edit-subject-form')).not.toBeNull();
-    expect(element.querySelector('app-subject-details')).toBeNull();
+    expect(element.querySelector('app-admin-subject-details')).toBeNull();
 
     store.stopEditing();
     await fixture.whenStable();
 
-    expect(element.querySelector('app-subject-details')).not.toBeNull();
+    expect(element.querySelector('app-admin-subject-details')).not.toBeNull();
     expect(element.querySelector('app-edit-subject-form')).toBeNull();
   });
 
