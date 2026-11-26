@@ -4,6 +4,7 @@ import { priceConverter } from '@core/utilities/price-helpers';
 import { RecentPayment } from '@features/analytics/student/models/recent-payment';
 import { ReservationType } from '@features/reservations';
 import { NgIcon, provideIcons } from '@ng-icons/core';
+import { Panel } from '@shared/components/panel/panel';
 import {
   faSolidCalendar,
   faSolidFileContract,
@@ -17,8 +18,10 @@ const PAYMENT_TITLES: Record<ReservationType, string> = {
 };
 
 @Component({
-  imports: [NgIcon],
-  providers: [provideIcons({ faSolidCalendar, faSolidReceipt, faSolidWallet, faSolidFileContract })],
+  imports: [NgIcon, Panel],
+  providers: [
+    provideIcons({ faSolidCalendar, faSolidReceipt, faSolidWallet, faSolidFileContract }),
+  ],
   selector: 'app-recent-payments',
   templateUrl: './recent-payments.html',
 })

@@ -3,6 +3,7 @@ import { RouterLink } from '@angular/router';
 import { dateConverter, daysUntil } from '@core/utilities/date-helpers';
 import { StudentUpcomingProject } from '@features/analytics/student/models/student-upcoming-project';
 import { NgIcon, provideIcons } from '@ng-icons/core';
+import { Panel } from '@shared/components/panel/panel';
 import {
   faSolidCalendar,
   faSolidFileContract,
@@ -20,7 +21,7 @@ function deadlineLabel(daysLeft: number) {
 }
 
 @Component({
-  imports: [NgIcon, RouterLink],
+  imports: [NgIcon, RouterLink, Panel],
   providers: [provideIcons({ faSolidCalendar, faSolidFileContract, faSolidFolderOpen })],
   selector: 'app-active-projects',
   templateUrl: './active-projects.html',

@@ -1,14 +1,7 @@
-<div class="flex flex-col gap-4 bg-emerald-950/80 p-4 rounded-md shadow-md relative min-h-125">
-  <div class="flex w-full justify-between items-center">
-    <h2 class="text-xl font-semibold text-emerald-100">Rezervacije časova</h2>
-    @if(reservations().length > 0) {
-    <a
-      routerLink="/student/classes"
-      class="text-sm text-amber-400 hover:opacity-70 active:opacity-50 transition-200 cursor-pointer"
-      >Pogledaj sve</a
-    >
-    }
-  </div>
+<app-panel class="relative min-h-125" title="Rezervacije časova">
+  @if (reservations().length > 0) {
+    <a panelAction class="action-link" routerLink="/student/classes">Pogledaj sve</a>
+  }
 
   <div class="flex gap-2 w-full">
     <div class="p-4 rounded-md flex flex-col bg-emerald-900/80 grow shadow-md">
@@ -22,40 +15,42 @@
   </div>
 
   @if (reservations().length === 0) {
-  <div class="flex flex-col items-center justify-center gap-3 text-center p-4 my-auto">
-    <div class="flex justify-center items-center bg-emerald-900 rounded-full h-14 w-14">
-      <ng-icon name="faSolidCalendarXmark" class="text-emerald-400! text-2xl"></ng-icon>
-    </div>
-    <p class="text-emerald-200 font-medium text-lg">Nije pronadjena nijedna rezervacija časova.</p>
-  </div>
-  } @else {
-  <div class="flex flex-col gap-2 max-h-70 overflow-y-auto">
-    @for (reservation of reservations(); track reservation.reservationId) {
-    <div class="flex flex-col gap-3 p-3 rounded-lg bg-emerald-900/80">
-      <div class="flex justify-between items-start gap-2">
-        <div class="flex flex-col">
-          <p class="text-emerald-100 font-semibold text-lg">
-            Rezervacija #{{ reservation.reservationId }}
-          </p>
-          <p class="text-sm text-emerald-100/70">Rezervisano {{ reservedAt(reservation) }}</p>
-        </div>
-        <span
-          class="text-xs font-semibold px-2 py-1 rounded-full shrink-0"
-          [class]="statusMeta(reservation).classes"
-          >{{ statusMeta(reservation).label }}</span
-        >
+    <div class="flex flex-col items-center justify-center gap-3 text-center p-4 my-auto">
+      <div class="flex justify-center items-center bg-emerald-900 rounded-full h-14 w-14">
+        <ng-icon name="faSolidCalendarXmark" class="text-emerald-400! text-2xl"></ng-icon>
       </div>
-
-      <app-slider
-        label="Odslušani časovi"
-        [value]="reservation.completedClassesCount"
-        [min]="0"
-        [max]="reservation.scheduledClassesCount"
-        [unit]="' / ' + reservation.scheduledClassesCount"
-        [disabled]="true"
-      ></app-slider>
+      <p class="text-emerald-200 font-medium text-lg">
+        Nije pronadjena nijedna rezervacija časova.
+      </p>
     </div>
-    }
-  </div>
+  } @else {
+    <div class="flex flex-col gap-2 max-h-70 overflow-y-auto">
+      @for (reservation of reservations(); track reservation.reservationId) {
+        <div class="flex flex-col gap-3 p-3 rounded-lg bg-emerald-900/80">
+          <div class="flex justify-between items-start gap-2">
+            <div class="flex flex-col">
+              <p class="text-emerald-100 font-semibold text-lg">
+                Rezervacija #{{ reservation.reservationId }}
+              </p>
+              <p class="text-sm text-emerald-100/70">Rezervisano {{ reservedAt(reservation) }}</p>
+            </div>
+            <span
+              class="text-xs font-semibold px-2 py-1 rounded-full shrink-0"
+              [class]="statusMeta(reservation).classes"
+              >{{ statusMeta(reservation).label }}</span
+            >
+          </div>
+
+          <app-slider
+            label="Odslušani časovi"
+            [value]="reservation.completedClassesCount"
+            [min]="0"
+            [max]="reservation.scheduledClassesCount"
+            [unit]="' / ' + reservation.scheduledClassesCount"
+            [disabled]="true"
+          ></app-slider>
+        </div>
+      }
+    </div>
   }
-</div>
+</app-panel>

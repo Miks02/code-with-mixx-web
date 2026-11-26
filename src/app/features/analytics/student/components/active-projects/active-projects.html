@@ -1,12 +1,5 @@
-<div class="flex flex-col gap-4 bg-emerald-950/80 p-4 rounded-md shadow-md relative min-h-125">
-  <div class="flex w-full justify-between items-center">
-    <h2 class="text-xl font-semibold text-emerald-100">Aktivni projekti</h2>
-    <a
-      routerLink="/student/projects"
-      class="text-sm text-amber-400 hover:opacity-70 active:opacity-50 transition-200 cursor-pointer"
-      >Svi projekti</a
-    >
-  </div>
+<app-panel class="relative min-h-125" title="Aktivni projekti">
+  <a panelAction class="action-link" routerLink="/student/projects">Svi projekti</a>
 
   @if (projectCards().length === 0) {
     <div class="flex flex-col items-center justify-center gap-3 text-center p-4 my-auto">
@@ -55,4 +48,4 @@
       }
     </div>
   }
-</div>
+</app-panel>
