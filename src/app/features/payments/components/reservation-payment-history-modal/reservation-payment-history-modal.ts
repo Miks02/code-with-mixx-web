@@ -4,11 +4,11 @@ import {
   faSolidCircleMinus,
   faSolidCirclePlus,
   faSolidClockRotateLeft,
-  faSolidXmark,
 } from '@ng-icons/font-awesome/solid';
 import { dateTimeConverter } from '@core/utilities/date-helpers';
 import { priceConverter } from '@core/utilities/price-helpers';
 import { Button } from '@shared/components/button/button';
+import { ModalOverlay } from '@shared/components/modal-overlay/modal-overlay';
 import { PaymentType } from '@features/payments/models/payment-type';
 import { ReservationPaymentHistory } from '@features/payments/models/reservation-payment-history';
 
@@ -45,13 +45,12 @@ const PAYMENT_TYPE_META: Record<PaymentType, PaymentTypeMeta> = {
 };
 
 @Component({
-  imports: [NgIcon, Button],
+  imports: [NgIcon, Button, ModalOverlay],
   providers: [
     provideIcons({
       faSolidCircleMinus,
       faSolidCirclePlus,
       faSolidClockRotateLeft,
-      faSolidXmark,
     }),
   ],
   selector: 'app-reservation-payment-history-modal',
