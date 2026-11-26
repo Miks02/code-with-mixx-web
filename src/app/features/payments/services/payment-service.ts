@@ -69,6 +69,49 @@ export class PaymentService {
     }));
   }
 
+  getStudentPaymentsSummaryQuery(queryParams: Signal<PaymentQueryParams>) {
+    const url = `${this.apiUrl}/student/payments/summary`;
+
+    return injectQuery<PaymentsSummary>(() => ({
+      queryKey: paymentKeys.summary(),
+      queryFn: async () => {
+        const response = await lastValueFrom(
+          this.http.get<PaymentsSummary>(url, { params: queryParams() }),
+        );
+
+        this.queryClient.setQueryData(paymentKeys.page(queryParams()), response.pagedPayments);
+        return response;
+      },
+    }));
+  }
+
+  getStudentPagedPaymentsQuery(
+    queryParams: Signal<PaymentQueryParams>,
+    queryResult: CreateQueryResult<PaymentsSummary>,
+  ) {
+    const url = `${this.apiUrl}/student/payments`;
+
+    return injectQuery<PagedResult<PaymentTransactionItem>>(() => ({
+      queryKey: paymentKeys.page(queryParams()),
+      queryFn: () =>
+        lastValueFrom(
+          this.http.get<PagedResult<PaymentTransactionItem>>(url, { params: queryParams() }),
+        ),
+      placeholderData: keepPreviousData,
+      enabled: queryResult.isSuccess() && !queryResult.isFetching(),
+    }));
+  }
+
+  getStudentOpenBalanceQuery() {
+    return injectQuery<OpenBalanceSummary>(() => ({
+      queryKey: paymentKeys.openBalance(),
+      queryFn: () =>
+        lastValueFrom(
+          this.http.get<OpenBalanceSummary>(`${this.apiUrl}/student/reservations/open-balance`),
+        ),
+    }));
+  }
+
   getPaymentHistoryForReservationQuery(reservationId: Signal<number>, enabled: Signal<boolean>) {
     return injectQuery(() => ({
       queryKey: reservationKeys.payments(reservationId()),
