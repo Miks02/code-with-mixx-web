@@ -1,10 +1,11 @@
-<div
-  class="bg-emerald-950/80 backdrop-blur-xl rounded-lg shadow-lg p-4 h-115 relative flex flex-col"
->
-  <h2 class="text-xl font-semibold text-emerald-100">Predstojeći projekti</h2>
+<app-panel title="Predstojeći projekti">
+  <ng-container panelAction>
+    <a class="action-link" routerLink="/admin/projects">Pogledaj sve</a>
+  </ng-container>
+
   @if (isLoading()) {
   <div
-    class="p-2 gap-4 grid grid-cols-1 min-[1600px]:grid-cols-2 auto-rows-max mt-2 grow min-h-0 overflow-hidden"
+    class="gap-4 grid grid-cols-1 min-[1600px]:grid-cols-2 auto-rows-max grow min-h-0 overflow-hidden"
   >
     @for (item of [1, 2, 3, 4]; track item) {
     <div class="p-4 bg-emerald-900/80 rounded-lg flex flex-col gap-3">
@@ -23,7 +24,7 @@
   </div>
   } @else if (upcomingProjects()?.length! > 0) {
   <div
-    class="p-2 gap-4 grid grid-cols-1 min-[1600px]:grid-cols-2 auto-rows-max mt-2 grow min-h-0 overflow-y-auto"
+    class="gap-4 grid grid-cols-1 min-[1600px]:grid-cols-2 auto-rows-max grow min-h-0 overflow-y-auto"
   >
     @for (project of upcomingProjects(); track project.reservationId) {
     <a
@@ -58,19 +59,10 @@
     }
   </div>
   } @else {
-  <div
-    class="flex flex-col items-center justify-center gap-3 py-10 text-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-  >
-    <div class="flex justify-center items-center bg-emerald-900 rounded-full h-14 w-14">
-      <ng-icon
-        name="faSolidCalendarXmark"
-        class="text-emerald-400! text-2xl self-center!"
-      ></ng-icon>
-    </div>
-    <p class="text-emerald-200 font-medium">Trenutno nema predstojećih projekata.</p>
-    <p class="text-emerald-200/70">
-      Svi projekti čije je početno vreme rada u roku od 2 nedelje prikazaće se ovde
-    </p>
-  </div>
+  <app-empty-state
+    icon="faSolidCalendarXmark"
+    message="Trenutno nema predstojećih projekata."
+    description="Svi projekti čije je početno vreme rada u roku od 2 nedelje prikazaće se ovde"
+  ></app-empty-state>
   }
-</div>
+</app-panel>

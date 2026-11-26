@@ -5,9 +5,11 @@ import { UpcomingProject } from '@features/analytics/admin/models/upcoming-proje
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { faSolidCalendarDays, faSolidCalendarXmark } from '@ng-icons/font-awesome/solid';
 import { Skeleton } from '@shared/components/skeleton/skeleton';
+import { Panel } from '@shared/components/panel/panel';
+import { EmptyState } from '@shared/components/empty-state/empty-state';
 
 @Component({
-  imports: [NgIcon, DatePipe, RouterLink, Skeleton],
+  imports: [NgIcon, DatePipe, RouterLink, Skeleton, Panel, EmptyState],
   providers: [provideIcons({ faSolidCalendarDays, faSolidCalendarXmark })],
   selector: 'app-upcoming-projects',
   styleUrl: './upcoming-projects.css',
