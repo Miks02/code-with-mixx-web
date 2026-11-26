@@ -1,0 +1,35 @@
+<app-paged-list
+  class="h-full min-h-120"
+  title="Transakcije"
+  emptyMessage="Nije pronađena nijedna transakcija."
+  layout="single-column"
+  [page]="store.paymentsQuery.data()"
+  [isPending]="store.paymentsPending()"
+  (previousPage)="store.previousPage()"
+  (nextPage)="store.nextPage()"
+>
+  <ng-container filters>
+    <app-filter-container>
+      <app-filter-menu
+        placeholder="Vrsta transakcije"
+        [icon]="'faSolidMoneyBillTransfer'"
+        [options]="paymentTypes"
+        [selected]="store.params.paymentTypes()"
+        (selectedChanged)="store.setPaymentTypes($event)"
+      ></app-filter-menu>
+    </app-filter-container>
+
+    <app-sort-menu
+      [options]="sortOptions"
+      [selected]="store.params.sortBy()"
+      (sortChanged)="store.setSortBy($event)"
+    ></app-sort-menu>
+  </ng-container>
+
+  @for (payment of store.payments(); track payment.id) {
+    <app-payment-card
+      [payment]="payment"
+      [addOpacity]="store.paymentsFetching()"
+    ></app-payment-card>
+  }
+</app-paged-list>
