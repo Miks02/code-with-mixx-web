@@ -144,7 +144,7 @@ export function provideReservationRoute(reservationId: string | null) {
   return [
     provideRouter([
       { path: 'admin/classes', children: [] },
-      { path: 'admin/classes/details/:id', children: [] },
+      { path: 'admin/classes/update/:id', children: [] },
     ]),
     {
       provide: ActivatedRoute,

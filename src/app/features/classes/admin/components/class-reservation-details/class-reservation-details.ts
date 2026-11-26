@@ -122,7 +122,7 @@ export class ClassReservationDetails {
   });
 
   goToDetails(reservationId: number) {
-    return this.router.navigate([`admin/classes/details/${reservationId}`]);
+    return this.router.navigate([`admin/classes/update/${reservationId}`]);
   }
 
   async onArchive(reservationId: number) {

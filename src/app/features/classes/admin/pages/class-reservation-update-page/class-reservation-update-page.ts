@@ -20,10 +20,10 @@ import { AdminClassReservationStore } from '@features/classes/admin/stores/admin
     ReservationSummary,
   ],
   providers: [ClassFormService, AdminClassReservationStore, provideIcons({ faSolidCalendarXmark })],
-  selector: 'app-class-reservation-details-page',
-  templateUrl: './class-reservation-details-page.html',
+  selector: 'app-class-reservation-update-page',
+  templateUrl: './class-reservation-update-page.html',
 })
-export class ClassReservationDetailsPage {
+export class ClassReservationUpdatePage {
   protected store = inject(AdminClassReservationStore);
   protected formService = inject(ClassFormService);
 }

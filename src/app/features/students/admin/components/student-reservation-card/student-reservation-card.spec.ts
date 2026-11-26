@@ -84,7 +84,7 @@ describe('StudentReservationCard', () => {
 
     it('should link to the class reservation details', () => {
       const link = element().querySelector('a');
-      expect(link?.getAttribute('href')).toBe('/admin/classes/details/7');
+      expect(link?.getAttribute('href')).toBe('/admin/classes/update/7');
     });
 
     it('should show the type label and unique subject names', () => {
