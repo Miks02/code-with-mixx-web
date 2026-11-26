@@ -70,4 +70,28 @@ describe('StudentSubjectList', () => {
     expect(cards().length).toBe(0);
     expect(element.textContent).toContain('Nije pronađen nijedan predmet');
   });
+
+  it('selects a subject when its card is clicked and clears it on a second click', async () => {
+    await flushPage(
+      createPagedStudentSubjects([
+        createStudentSubject({ id: 1 }),
+        createStudentSubject({ id: 2 }),
+      ]),
+    );
+    const store = TestBed.inject(StudentSubjectStore);
+    const button = (index: number) => cards()[index].querySelector('button')!;
+
+    button(1).click();
+    await fixture.whenStable();
+
+    expect(store.selectedSubjectId()).toBe(2);
+    expect(button(1).classList).toContain('bg-emerald-600');
+    expect(button(0).classList).not.toContain('bg-emerald-600');
+
+    button(1).click();
+    await fixture.whenStable();
+
+    expect(store.selectedSubject()).toBeUndefined();
+    expect(button(1).classList).not.toContain('bg-emerald-600');
+  });
 });
