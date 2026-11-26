@@ -1,0 +1,36 @@
+<app-panel
+  title="Uplate"
+  [count]="isPending() ? undefined : payments().length"
+  [description]="description()"
+>
+  @if (isPending()) {
+    <div class="flex flex-col gap-2">
+      @for (row of skeletonRows; track row) {
+        <div class="flex items-center gap-4 p-4 rounded-lg bg-emerald-900/80">
+          <app-skeleton variant="circular" width="3rem" />
+          <div class="flex flex-col gap-2 flex-1">
+            <app-skeleton width="40%" />
+            <app-skeleton width="60%" height="0.75rem" />
+          </div>
+          <app-skeleton width="5rem" />
+        </div>
+      }
+    </div>
+  } @else {
+    <div class="flex flex-col gap-2">
+      @for (payment of payments(); track payment.id) {
+        <app-payment-card [payment]="payment" [showReservation]="false"></app-payment-card>
+      } @empty {
+        <div class="flex flex-col items-center justify-center gap-3 text-center py-8">
+          <div class="flex justify-center items-center bg-emerald-900 rounded-full h-14 w-14">
+            <ng-icon
+              name="faSolidReceipt"
+              class="text-emerald-400! text-2xl self-center!"
+            ></ng-icon>
+          </div>
+          <p class="text-emerald-200 font-medium">Za ovu rezervaciju još nema uplata.</p>
+        </div>
+      }
+    </div>
+  }
+</app-panel>

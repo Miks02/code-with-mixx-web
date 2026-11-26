@@ -16,6 +16,7 @@ import { PAYMENT_TYPE_LABELS } from '@features/payments/utilities/payment-labels
 export class PaymentCard {
   payment = input.required<PaymentTransactionItem>();
   addOpacity = input(false);
+  showReservation = input(true);
 
   protected isNoteOpen = signal(false);
 

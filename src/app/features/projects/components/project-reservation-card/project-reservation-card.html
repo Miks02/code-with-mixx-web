@@ -9,12 +9,20 @@
       class="flex justify-center items-center rounded-full h-10 w-10 shrink-0"
       [class]="accentColor().avatar"
     >
-      <span class="text-sm font-semibold" [class]="accentColor().initials">{{
-        studentInitials()
-      }}</span>
+      @if (studentFullName()) {
+        <span class="text-sm font-semibold" [class]="accentColor().initials">{{
+          studentInitials()
+        }}</span>
+      } @else {
+        <ng-icon
+          name="faSolidFile"
+          class="self-center! text-emerald-900!"
+          [class]="accentColor().initials"
+        ></ng-icon>
+      }
     </div>
     <div class="flex flex-col min-w-0 flex-1">
-      <p class="text-emerald-100 font-semibold truncate">{{ reservation().studentFullName }}</p>
+      <p class="text-emerald-100 font-semibold truncate">{{ title() }}</p>
       <p class="text-sm truncate" [class]="accentColor().mutedText">{{ subjectNames() }}</p>
     </div>
     <app-badge [text]="paymentStatus().label" [color]="paymentStatus().classes" />
@@ -52,7 +60,7 @@
           reservation().reservedAt | date: 'dd.MM.yyyy'
         }}</span>
       </div>
-      @if (reservation().deletedAt; as deletedAt) {
+      @if (deletedAt(); as deletedAt) {
         <div class="flex items-center gap-1.5">
           <ng-icon name="faSolidBoxArchive" class="self-center! shrink-0 text-amber-300!"></ng-icon>
           <span>Arhivirana</span>

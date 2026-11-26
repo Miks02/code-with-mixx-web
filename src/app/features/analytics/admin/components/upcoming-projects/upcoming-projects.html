@@ -28,7 +28,7 @@
     >
       @for (project of upcomingProjects(); track project.reservationId) {
         <a
-          [routerLink]="['/admin/projects/details', project.reservationId]"
+          [routerLink]="['/admin/projects/update', project.reservationId]"
           class="p-4 bg-emerald-900/80 rounded-lg flex flex-col gap-3 hover:bg-emerald-800/80 active:scale-95 transition-200 cursor-pointer"
         >
           <div class="flex gap-3 items-center">

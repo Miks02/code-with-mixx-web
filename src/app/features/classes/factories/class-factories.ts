@@ -32,6 +32,7 @@ import {
   DEFAULT_CLASS_PRICE,
   MAX_BREAK_BETWEEN_CLASSES_MINUTES,
   MAX_CLASS_DURATION_MINUTES,
+  MAX_CLASS_NAME_LENGTH,
 } from '../utilities/class-constants';
 
 const MINUTE_MS = 60 * 1000;
@@ -63,6 +64,7 @@ export function createEmptyClass(startsAt = new Date()): ClassItemFormModel {
 
   return {
     id: 0,
+    name: '',
     subjectId: 0,
     price: DEFAULT_CLASS_PRICE,
     startsAt: dateTimeInputValue(startsAt),
@@ -95,6 +97,7 @@ export function createClassReservationFormModel(
     classesToDelete: [],
     classes: details.classes.map((c) => ({
       id: c.id,
+      name: c.name,
       subjectId: c.subjectId,
       price: c.price,
       startsAt: dateTimeInputValue(new Date(c.startsAt)),
@@ -106,6 +109,7 @@ export function createClassReservationFormModel(
 
 function createClassItemRequest(item: ClassItemFormModel): ClassItemRequest {
   return {
+    name: item.name,
     subjectId: item.subjectId,
     price: item.price,
     startsAt: new Date(item.startsAt).toISOString(),
@@ -171,6 +175,10 @@ export function createClassReservationForm(
     });
     minLength(schemaPath.classes, 1, { message: 'Rezervacija mora imati barem 1 čas' });
     applyEach(schemaPath.classes, (classItem) => {
+      required(classItem.name, { message: 'Unesi naziv časa.' });
+      maxLength(classItem.name, MAX_CLASS_NAME_LENGTH, {
+        message: `Naziv časa može imati najviše ${MAX_CLASS_NAME_LENGTH} karaktera`,
+      });
       min(classItem.subjectId, 1, { message: 'Izaberi predmet časa.' });
       required(classItem.price, { message: 'Unesi cenu časa.' });
       validate(classItem.price, ({ value }) => {

@@ -14,18 +14,26 @@
     </div>
   </div>
   @if (classesCount() !== undefined || studentsCount() !== undefined) {
-  <div class="flex items-center gap-3 border-t border-emerald-700/40 pt-2 text-amber-300 text-sm">
-    @if (classesCount() !== undefined) {
-    <div class="flex items-center gap-1">
-      <ng-icon name="faSolidCalendar" class="text-amber-300! text-base self-center!"></ng-icon>
-      <span>Časovi: <span class="text-emerald-100">{{ classesCount() }}</span></span>
+    <div class="flex items-center gap-3 border-t border-emerald-700/40 pt-2 text-amber-300 text-sm">
+      @if (classesCount() !== undefined) {
+        <div class="flex items-center gap-1">
+          <ng-icon name="faSolidCalendar" class="text-amber-300! text-base self-center!"></ng-icon>
+          <span
+            >Časovi: <span class="text-emerald-100">{{ classesCount() }}</span></span
+          >
+        </div>
+      }
+      @if (studentsCount() !== undefined) {
+        <div class="flex items-center gap-1">
+          <ng-icon
+            name="faSolidUserGraduate"
+            class="text-amber-300! text-base self-center!"
+          ></ng-icon>
+          <span
+            >Studenti: <span class="text-emerald-100">{{ studentsCount() }}</span></span
+          >
+        </div>
+      }
     </div>
-    } @if (studentsCount() !== undefined) {
-    <div class="flex items-center gap-1">
-      <ng-icon name="faSolidUserGraduate" class="text-amber-300! text-base self-center!"></ng-icon>
-      <span>Studenti: <span class="text-emerald-100">{{ studentsCount() }}</span></span>
-    </div>
-    }
-  </div>
   }
 </button>

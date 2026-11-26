@@ -13,6 +13,7 @@ describe('NextClassCard', () => {
     startsAt: inDays(3).toISOString(),
     university: null,
     subjectName: 'Baze podataka',
+    className: 'Normalizacija',
     ...overrides,
   });
   const render = async (value: NextClass | null | undefined, isPending = false) => {

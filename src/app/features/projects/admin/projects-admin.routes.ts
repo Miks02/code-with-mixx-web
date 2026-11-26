@@ -16,6 +16,14 @@ export const PROJECTS_ADMIN_ROUTES: Routes = [
       ),
   },
   {
+    title: pageTitle('Ažuriranje rezervacije'),
+    path: 'update/:id',
+    loadComponent: () =>
+      import('./pages/project-reservation-update-page/project-reservation-update-page').then(
+        (c) => c.ProjectReservationUpdatePage,
+      ),
+  },
+  {
     title: pageTitle('Detalji rezervacije'),
     path: 'details/:id',
     loadComponent: () =>

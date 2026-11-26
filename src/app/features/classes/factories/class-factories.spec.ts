@@ -20,6 +20,7 @@ describe('class factories', () => {
   function createClass(changes: Partial<ClassItemFormModel> = {}): ClassItemFormModel {
     return {
       id: 0,
+      name: 'Normalizacija',
       subjectId: 1,
       price: 1300,
       startsAt: '2026-11-03T10:00',
@@ -52,6 +53,7 @@ describe('class factories', () => {
   function classErrors(form: ReturnType<typeof setup>['form'], index: number) {
     const field = form.classes[index];
     return [
+      ...field.name().errors(),
       ...field.subjectId().errors(),
       ...field.price().errors(),
       ...field.startsAt().errors(),
@@ -66,6 +68,7 @@ describe('class factories', () => {
 
       expect(classItem).toEqual({
         id: 0,
+        name: '',
         subjectId: 0,
         price: 1300,
         startsAt: '2026-11-03T10:00',
@@ -94,6 +97,7 @@ describe('class factories', () => {
         classes: [
           {
             id: 4,
+            name: 'Sortiranje',
             subjectId: 2,
             subjectName: 'Algoritmi',
             price: 1300,
@@ -115,6 +119,7 @@ describe('class factories', () => {
       });
       expect(model.classes[0]).toEqual({
         id: 4,
+        name: 'Sortiranje',
         subjectId: 2,
         price: 1300,
         startsAt: '2026-11-03T10:00',
@@ -157,6 +162,7 @@ describe('class factories', () => {
 
       expect(request.description).toBeNull();
       expect(request.classes[0]).toEqual({
+        name: 'Normalizacija',
         subjectId: 1,
         price: 1300,
         startsAt: new Date('2026-11-03T10:00').toISOString(),
@@ -172,6 +178,7 @@ describe('class factories', () => {
       expect(request.totalPrice).toBeNull();
       expect(request.classesToDelete).toEqual([9]);
       expect(request.classes.map((c) => c.id)).toEqual([3, 0]);
+      expect(request.classes.map((c) => c.name)).toEqual(['Normalizacija', 'Normalizacija']);
     });
   });
 
@@ -237,6 +244,20 @@ describe('class factories', () => {
     });
 
     describe('class', () => {
+      it('should require a class name', () => {
+        const { form } = setup(createModel({ classes: [createClass({ name: '' })] }));
+
+        expect(classErrors(form, 0)).toEqual(['Unesi naziv časa.']);
+      });
+
+      it('should accept a name of exactly 100 characters and reject 101', () => {
+        const { form } = setup(createModel({ classes: [createClass({ name: 'a'.repeat(100) })] }));
+        expect(classErrors(form, 0)).toEqual([]);
+
+        form.classes[0].name().value.set('a'.repeat(101));
+        expect(classErrors(form, 0)).toEqual(['Naziv časa može imati najviše 100 karaktera']);
+      });
+
       it.each([
         [{ price: 0 }, 'Cena časa mora biti veća od 0 RSD.'],
         [{ endsAt: '2026-11-03T09:00' }, 'Kraj časa mora biti posle početka'],

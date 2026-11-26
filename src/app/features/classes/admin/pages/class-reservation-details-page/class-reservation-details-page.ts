@@ -1,29 +1,45 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { faSolidCalendarXmark } from '@ng-icons/font-awesome/solid';
+import {
+  faSolidArrowLeft,
+  faSolidCalendarXmark,
+  faSolidPenToSquare,
+} from '@ng-icons/font-awesome/solid';
+import { ReservationPayments } from '@features/payments';
 import { Button } from '@shared/components/button/button';
-import { StudentSelection } from '@features/students';
-import { ReservationPricing, ReservationSummary } from '@features/reservations';
-import { ClassFormService } from '@features/classes/services/class-form-service';
-import { ClassReservationListForm } from '@features/classes/admin/components/class-reservation-list-form/class-reservation-list-form';
-import { AdminClassReservationStore } from '@features/classes/admin/stores/admin-class-reservation-store';
+import { Panel } from '@shared/components/panel/panel';
+import { Skeleton } from '@shared/components/skeleton/skeleton';
+import { ClassCard } from '@features/classes/components/class-card/class-card';
+import { ClassReservationOverview } from '@features/classes/components/class-reservation-overview/class-reservation-overview';
+import { AdminClassReservationDetailsStore } from '@features/classes/admin/stores/admin-class-reservation-details-store';
 
 @Component({
   imports: [
     RouterLink,
     NgIcon,
     Button,
-    StudentSelection,
-    ClassReservationListForm,
-    ReservationPricing,
-    ReservationSummary,
+    Panel,
+    Skeleton,
+    ClassCard,
+    ClassReservationOverview,
+    ReservationPayments,
   ],
-  providers: [ClassFormService, AdminClassReservationStore, provideIcons({ faSolidCalendarXmark })],
+  providers: [
+    AdminClassReservationDetailsStore,
+    provideIcons({ faSolidArrowLeft, faSolidCalendarXmark, faSolidPenToSquare }),
+  ],
   selector: 'app-class-reservation-details-page',
   templateUrl: './class-reservation-details-page.html',
 })
 export class ClassReservationDetailsPage {
-  protected store = inject(AdminClassReservationStore);
-  protected formService = inject(ClassFormService);
+  protected store = inject(AdminClassReservationDetailsStore);
+
+  protected skeletonCards = [0, 1, 2, 3];
+
+  protected classesGridClasses = computed(() =>
+    this.store.details()?.classes.length === 1
+      ? 'grid grid-cols-1 gap-3'
+      : 'grid grid-cols-1 sm:grid-cols-2 gap-3',
+  );
 }

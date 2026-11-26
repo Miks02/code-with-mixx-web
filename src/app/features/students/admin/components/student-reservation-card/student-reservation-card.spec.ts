@@ -20,6 +20,7 @@ const CLASS_RESERVATION: StudentReservation = {
   createdAt: '2026-10-18T09:00:00Z',
   classes: [1, 2, 3].map((id) => ({
     id,
+    name: `Čas ${id}`,
     subjectId: id === 3 ? 2 : 1,
     subjectName: id === 3 ? 'Baze podataka' : 'Objektno orijentisano programiranje',
     price: 1300,
@@ -83,7 +84,7 @@ describe('StudentReservationCard', () => {
 
     it('should link to the class reservation details', () => {
       const link = element().querySelector('a');
-      expect(link?.getAttribute('href')).toBe('/admin/classes/details/7');
+      expect(link?.getAttribute('href')).toBe('/admin/classes/update/7');
     });
 
     it('should show the type label and unique subject names', () => {
@@ -115,7 +116,7 @@ describe('StudentReservationCard', () => {
 
     it('should link to the project reservation details', () => {
       const link = element().querySelector('a');
-      expect(link?.getAttribute('href')).toBe('/admin/projects/details/12');
+      expect(link?.getAttribute('href')).toBe('/admin/projects/update/12');
     });
 
     it('should list subjects with their project type', () => {

@@ -2,6 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component, computed, input, output } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
+  faSolidCalendar,
   faSolidCalendarPlus,
   faSolidChalkboardUser,
   faSolidCoins,
@@ -11,6 +12,7 @@ import { priceConverter } from '@core/utilities/price-helpers';
 import { ReservationStatus } from '@features/reservations';
 import { PAYMENT_STATUS_META } from '@features/reservations';
 import { ClassReservationItem } from '@features/classes/models/class-reservation-item';
+import { StudentClassReservationItem } from '@features/classes/student/models/student-class-reservation-item';
 import { Badge } from '@shared/components/badge/badge';
 
 const BASE_CLASSES =
@@ -72,6 +74,7 @@ const STATUS_CLASSES: Record<ReservationStatus, StatusClasses> = {
   imports: [Badge, NgIcon, DatePipe],
   providers: [
     provideIcons({
+      faSolidCalendar,
       faSolidCalendarPlus,
       faSolidChalkboardUser,
       faSolidCoins,
@@ -82,15 +85,26 @@ const STATUS_CLASSES: Record<ReservationStatus, StatusClasses> = {
   templateUrl: './class-reservation-card.html',
   host: { class: 'grow' },
 })
-export class ClassReservationCard {
-  reservation = input.required<ClassReservationItem>();
+export class ClassReservationCard<T extends ClassReservationItem | StudentClassReservationItem> {
+  reservation = input.required<T>();
   isSelected = input<boolean>(false);
   addOpacity = input<boolean>(false);
-  selected = output<ClassReservationItem | undefined>();
+  selected = output<T | undefined>();
+
+  studentFullName = computed(() => {
+    const reservation = this.reservation();
+    return 'studentFullName' in reservation ? reservation.studentFullName : null;
+  });
+
+  title = computed(
+    () =>
+      this.studentFullName() ??
+      [...new Set(this.reservation().classes.map((classItem) => classItem.name))].join(', '),
+  );
 
   studentInitials = computed(() =>
-    this.reservation()
-      .studentFullName.split(' ')
+    (this.studentFullName() ?? '')
+      .split(' ')
       .filter(Boolean)
       .slice(0, 2)
       .map((part) => part.charAt(0))

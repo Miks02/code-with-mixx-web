@@ -1,11 +1,12 @@
 <div
   tabindex="0"
-  [attr.aria-label]="'Detalji časa ' + class().subjectName"
+  [attr.aria-label]="'Detalji časa ' + class().name"
   class="p-3 rounded-lg bg-emerald-900/80 flex flex-col gap-2.5 transition-200"
 >
   <div class="flex items-center justify-between gap-3 min-w-0">
-    <div class="flex items-center gap-2 min-w-0">
-      <p class="text-emerald-100 font-semibold truncate">{{ class().subjectName }}</p>
+    <div class="flex flex-col min-w-0">
+      <p class="text-emerald-100 font-semibold truncate">{{ class().name }}</p>
+      <p class="text-sm text-emerald-100/70 truncate">{{ class().subjectName }}</p>
     </div>
     <span class="text-sm font-semibold text-emerald-100 shrink-0">{{ priceLabel() }}</span>
   </div>

@@ -59,6 +59,7 @@ describe('ClassesPage', () => {
             startsAt: '2030-01-01T10:00:00Z',
             university: 'ETF',
             subjectName: 'Baze podataka',
+            className: 'Normalizacija',
           },
           reservations: createPagedClassReservations(
             [

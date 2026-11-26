@@ -314,6 +314,7 @@ describe('ClassFormService on the reservation pages', () => {
         }),
       );
       expect(request.request.body.classes[0]).toEqual({
+        name: 'Normalizacija',
         subjectId: 1,
         price: 1300,
         startsAt: new Date(model.classes[0].startsAt).toISOString(),
@@ -418,7 +419,7 @@ describe('ClassFormService on the reservation pages', () => {
     it('sends the removed classes and an id of 0 for the new ones', async () => {
       form.removeClass(1);
       form.addClass();
-      form.updateClass(1, { subjectId: 2 });
+      form.updateClass(1, { subjectId: 2, name: 'Rekurzija' });
 
       form.save(7);
       await settle();

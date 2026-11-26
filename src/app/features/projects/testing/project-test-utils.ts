@@ -20,6 +20,11 @@ import { ProjectReservationFormModel } from '@features/projects/models/project-r
 import { ProjectType } from '@features/projects/models/project-type';
 import { ProjectsSummary } from '@features/projects/models/projects-summary';
 import { ProjectFormService } from '@features/projects/services/project-form-service';
+import { StudentProjectReservationDetails } from '@features/projects/student/models/student-project-reservation-details';
+import {
+  StudentProjectReservationItem,
+  StudentProjectsSummary,
+} from '@features/projects/student/models/student-project-reservation-item';
 
 export const PROJECT_RESERVATIONS_URL = `${environment.apiUrl}/admin/reservations/projects`;
 export const PROJECTS_SUMMARY_URL = `${PROJECT_RESERVATIONS_URL}/summary`;
@@ -28,6 +33,10 @@ export const STUDENTS_LOOKUP_URL = `${environment.apiUrl}/admin/students/lookup`
 export const RESERVATIONS_URL = `${environment.apiUrl}/admin/reservations`;
 export const paymentHistoryUrl = (reservationId: number) =>
   `${environment.apiUrl}/reservations/${reservationId}/payments`;
+export const STUDENT_PROJECT_RESERVATIONS_URL = `${environment.apiUrl}/student/reservations/projects`;
+export const STUDENT_PROJECTS_SUMMARY_URL = `${environment.apiUrl}/student/reservations/projects/summary`;
+export const studentPaymentHistoryUrl = (reservationId: number) =>
+  `${environment.apiUrl}/student/reservations/${reservationId}/payments`;
 
 export const SUBJECTS_LOOKUP = [
   { id: 1, subjectName: 'Baze podataka' },
@@ -157,6 +166,31 @@ export function createProjectReservationDetails(
   };
 }
 
+export function createStudentProjectReservationDetails(
+  overrides: Partial<StudentProjectReservationDetails> = {},
+): StudentProjectReservationDetails {
+  const {
+    studentId: _studentId,
+    studentFullName: _studentFullName,
+    studentEmail: _studentEmail,
+    studentUniversity: _studentUniversity,
+    notes: _notes,
+    deletedAt: _deletedAt,
+    isHardDeletable: _isHardDeletable,
+    projects,
+    ...reservation
+  } = createProjectReservationDetails();
+
+  return {
+    ...reservation,
+    adminId: 'admin-1',
+    adminFullName: 'Nikola Marković',
+    adminEmail: 'admin@example.com',
+    projects: projects.map(({ notesToDelete: _notesToDelete, ...project }) => project),
+    ...overrides,
+  };
+}
+
 export function createProjectDetails(overrides: Partial<ProjectDetails> = {}): ProjectDetails {
   return {
     id: 10,
@@ -187,7 +221,8 @@ export function provideReservationRoute(reservationId: string | null) {
   return [
     provideRouter([
       { path: 'admin/projects', children: [] },
-      { path: 'admin/projects/details/:id', children: [] },
+      { path: 'student/projects', children: [] },
+      { path: 'admin/projects/update/:id', children: [] },
     ]),
     {
       provide: ActivatedRoute,
@@ -263,4 +298,64 @@ export function createValidReservationModel(
     ],
     ...overrides,
   };
+}
+
+export function createStudentProjectReservation(
+  overrides: Partial<StudentProjectReservationItem> = {},
+): StudentProjectReservationItem {
+  const {
+    studentId: _studentId,
+    studentFullName: _studentFullName,
+    deletedAt: _deletedAt,
+    isHardDeletable: _isHardDeletable,
+    ...reservation
+  } = createProjectReservation();
+
+  return { ...reservation, updatedAt: null, ...overrides };
+}
+
+export function createStudentProjectsSummary(
+  overrides: Partial<StudentProjectsSummary> = {},
+): StudentProjectsSummary {
+  const items = [createStudentProjectReservation()];
+  return {
+    totalProjects: 1,
+    activeProjects: 1,
+    completedProjects: 0,
+    pendingProjects: 0,
+    reservations: {
+      items,
+      totalCount: items.length,
+      pageNumber: 1,
+      pageSize: 15,
+      totalPages: 1,
+      hasPreviousPage: false,
+      hasNextPage: false,
+      paginatedCount: items.length,
+    },
+    ...overrides,
+  };
+}
+
+export async function flushStudentProjectsSummary(
+  summary: StudentProjectsSummary = createStudentProjectsSummary(),
+) {
+  await flushLookups();
+  TestBed.inject(HttpTestingController)
+    .match((req) => req.url === STUDENT_PROJECTS_SUMMARY_URL)
+    .forEach((req) => req.flush(summary));
+  await settle();
+}
+
+export function expectStudentProjectReservationsRequest(params: Record<string, string | string[]>) {
+  return TestBed.inject(HttpTestingController).expectOne(
+    (req) =>
+      req.url === STUDENT_PROJECT_RESERVATIONS_URL &&
+      req.method === 'GET' &&
+      Object.entries(params).every(([key, value]) =>
+        Array.isArray(value)
+          ? JSON.stringify(req.params.getAll(key) ?? []) === JSON.stringify(value)
+          : req.params.get(key) === value,
+      ),
+  );
 }

@@ -9,20 +9,20 @@ import {
   flushReservationDetailsRefetch,
   provideReservationRoute,
 } from '@features/classes/testing/class-test-utils';
-import { ClassReservationDetailsPage } from './class-reservation-details-page';
+import { ClassReservationUpdatePage } from './class-reservation-update-page';
 
-describe('ClassReservationDetailsPage', () => {
-  let fixture: ComponentFixture<ClassReservationDetailsPage>;
+describe('ClassReservationUpdatePage', () => {
+  let fixture: ComponentFixture<ClassReservationUpdatePage>;
   let element: HTMLElement;
   let http: HttpTestingController;
 
   const setup = async (reservationId: string) => {
     await TestBed.configureTestingModule({
-      imports: [ClassReservationDetailsPage],
+      imports: [ClassReservationUpdatePage],
       providers: [provideReservationRoute(reservationId), provideHttpTesting()],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ClassReservationDetailsPage);
+    fixture = TestBed.createComponent(ClassReservationUpdatePage);
     element = fixture.nativeElement;
     http = TestBed.inject(HttpTestingController);
     await flushLookups();

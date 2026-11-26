@@ -1,33 +1,39 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { faSolidCalendarXmark } from '@ng-icons/font-awesome/solid';
+import {
+  faSolidArrowLeft,
+  faSolidCalendarXmark,
+  faSolidPenToSquare,
+} from '@ng-icons/font-awesome/solid';
+import { ReservationPayments } from '@features/payments';
 import { Button } from '@shared/components/button/button';
-import { StudentSelection } from '@features/students';
-import { ReservationPricing, ReservationSummary } from '@features/reservations';
-import { ProjectFormService } from '@features/projects/services/project-form-service';
-import { ProjectReservationListForm } from '@features/projects/admin/components/project-reservation-list-form/project-reservation-list-form';
-import { AdminProjectReservationStore } from '@features/projects/admin/stores/admin-project-reservation-store';
+import { Panel } from '@shared/components/panel/panel';
+import { Skeleton } from '@shared/components/skeleton/skeleton';
+import { ProjectDetailsCard } from '@features/projects/components/project-details-card/project-details-card';
+import { ProjectReservationOverview } from '@features/projects/components/project-reservation-overview/project-reservation-overview';
+import { AdminProjectReservationDetailsStore } from '@features/projects/admin/stores/admin-project-reservation-details-store';
 
 @Component({
   imports: [
     RouterLink,
     NgIcon,
     Button,
-    StudentSelection,
-    ProjectReservationListForm,
-    ReservationPricing,
-    ReservationSummary,
+    Panel,
+    Skeleton,
+    ProjectDetailsCard,
+    ProjectReservationOverview,
+    ReservationPayments,
   ],
   providers: [
-    ProjectFormService,
-    AdminProjectReservationStore,
-    provideIcons({ faSolidCalendarXmark }),
+    AdminProjectReservationDetailsStore,
+    provideIcons({ faSolidArrowLeft, faSolidCalendarXmark, faSolidPenToSquare }),
   ],
   selector: 'app-project-reservation-details-page',
   templateUrl: './project-reservation-details-page.html',
 })
 export class ProjectReservationDetailsPage {
-  protected store = inject(AdminProjectReservationStore);
-  protected formService = inject(ProjectFormService);
+  protected store = inject(AdminProjectReservationDetailsStore);
+
+  protected skeletonCards = [0, 1];
 }

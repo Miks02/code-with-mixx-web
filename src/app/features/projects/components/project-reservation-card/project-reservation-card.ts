@@ -6,12 +6,13 @@ import {
   faSolidCalendarCheck,
   faSolidCalendarPlus,
   faSolidCoins,
-  faSolidDiagramProject,
+  faSolidFile,
   faSolidMoneyBillWave,
 } from '@ng-icons/font-awesome/solid';
 import { priceConverter } from '@core/utilities/price-helpers';
 import { PAYMENT_STATUS_META, ReservationStatus } from '@features/reservations';
 import { ProjectReservationItem } from '@features/projects/models/project-reservation-item';
+import { StudentProjectReservationItem } from '@features/projects/student/models/student-project-reservation-item';
 import { Badge } from '@shared/components/badge/badge';
 
 const BASE_CLASSES =
@@ -77,7 +78,7 @@ const STATUS_CLASSES: Record<ReservationStatus, StatusClasses> = {
       faSolidCalendarCheck,
       faSolidCalendarPlus,
       faSolidCoins,
-      faSolidDiagramProject,
+      faSolidFile,
       faSolidMoneyBillWave,
     }),
   ],
@@ -85,15 +86,35 @@ const STATUS_CLASSES: Record<ReservationStatus, StatusClasses> = {
   templateUrl: './project-reservation-card.html',
   host: { class: 'grow' },
 })
-export class ProjectReservationCard {
-  reservation = input.required<ProjectReservationItem>();
+export class ProjectReservationCard<
+  T extends ProjectReservationItem | StudentProjectReservationItem,
+> {
+  reservation = input.required<T>();
   isSelected = input<boolean>(false);
   addOpacity = input<boolean>(false);
-  selected = output<ProjectReservationItem | undefined>();
+  selected = output<T | undefined>();
+
+  studentFullName = computed(() => {
+    const reservation = this.reservation();
+    return 'studentFullName' in reservation ? reservation.studentFullName : null;
+  });
+
+  deletedAt = computed(() => {
+    const reservation = this.reservation();
+    return 'deletedAt' in reservation ? reservation.deletedAt : null;
+  });
+
+  title = computed(
+    () =>
+      this.studentFullName() ??
+      this.reservation()
+        .projects.map((project) => project.name)
+        .join(', '),
+  );
 
   studentInitials = computed(() =>
-    this.reservation()
-      .studentFullName.split(' ')
+    (this.studentFullName() ?? '')
+      .split(' ')
       .filter(Boolean)
       .slice(0, 2)
       .map((part) => part.charAt(0))
@@ -112,7 +133,7 @@ export class ProjectReservationCard {
   stats = computed(() => {
     const { projects, totalPrice, paidAmount } = this.reservation();
     return [
-      { icon: 'faSolidDiagramProject', label: 'Projekti', value: projects.length },
+      { icon: 'faSolidFile', label: 'Projekti', value: projects.length },
       { icon: 'faSolidCoins', label: 'Cena', value: priceConverter(totalPrice) },
       { icon: 'faSolidMoneyBillWave', label: 'Plaćeno', value: priceConverter(paidAmount) },
     ];

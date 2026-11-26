@@ -14,6 +14,12 @@ import { PagedResult } from '@core/models/paged-result';
 import { classReservationKeys } from '@features/reservations';
 import { ClassQueryParams } from '../models/class-query-params';
 import { ClassReservationDetails } from '../models/class-reservation-details';
+import { StudentClassReservationDetails } from '../student/models/student-class-reservation-details';
+import {
+  StudentClassesSummary,
+  StudentClassQueryParams,
+  StudentClassReservationItem,
+} from '../student/models/student-class-reservation-item';
 import { ClassReservationItem } from '../models/class-reservation-item';
 import { ClassesSummary } from '../models/classes-summary';
 import { CreateClassReservationRequest } from '../models/create-class-reservation-request';
@@ -69,6 +75,57 @@ export class ClassService {
         lastValueFrom(
           this.http.get<ClassReservationDetails>(
             `${this.apiUrl}/admin/reservations/classes/${reservationId()}`,
+          ),
+        ),
+      enabled: reservationId() > 0,
+      refetchOnWindowFocus: false,
+    }));
+  }
+  getStudentClassesSummaryQuery(queryParams: Signal<StudentClassQueryParams>) {
+    const url = `${this.apiUrl}/student/reservations/classes/summary`;
+
+    return injectQuery<StudentClassesSummary>(() => ({
+      queryKey: classReservationKeys.summary(),
+      queryFn: async () => {
+        const response = await lastValueFrom(
+          this.http.get<StudentClassesSummary>(url, { params: queryParams() }),
+        );
+
+        this.queryClient.setQueryData(
+          classReservationKeys.page(queryParams()),
+          response.reservations,
+        );
+        return response;
+      },
+    }));
+  }
+
+  getStudentPagedClassReservationsQuery(
+    queryParams: Signal<StudentClassQueryParams>,
+    queryResult: CreateQueryResult<StudentClassesSummary>,
+  ) {
+    const url = `${this.apiUrl}/student/reservations/classes`;
+
+    return injectQuery<PagedResult<StudentClassReservationItem>>(() => ({
+      queryKey: classReservationKeys.page(queryParams()),
+      queryFn: () =>
+        lastValueFrom(
+          this.http.get<PagedResult<StudentClassReservationItem>>(url, {
+            params: queryParams(),
+          }),
+        ),
+      placeholderData: keepPreviousData,
+      enabled: queryResult.isSuccess() && !queryResult.isFetching(),
+    }));
+  }
+
+  getStudentClassReservationDetailsQuery(reservationId: Signal<number>) {
+    return injectQuery<StudentClassReservationDetails>(() => ({
+      queryKey: classReservationKeys.detail(reservationId()),
+      queryFn: () =>
+        lastValueFrom(
+          this.http.get<StudentClassReservationDetails>(
+            `${this.apiUrl}/student/reservations/classes/${reservationId()}`,
           ),
         ),
       enabled: reservationId() > 0,

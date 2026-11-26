@@ -16,13 +16,15 @@
           <span>Datum: </span>
           <p class="font-semibold text-emerald-100">{{ date() }}</p>
         </div>
-        <div class="flex items-center gap-2">
-          <ng-icon name="faSolidFileContract"></ng-icon>
-          <p>
-            Rezervacija:
-            <span class="font-semibold text-emerald-100">#{{ payment().reservationId }}</span>
-          </p>
-        </div>
+        @if (showReservation()) {
+          <div class="flex items-center gap-2">
+            <ng-icon name="faSolidFileContract"></ng-icon>
+            <p>
+              Rezervacija:
+              <span class="font-semibold text-emerald-100">#{{ payment().reservationId }}</span>
+            </p>
+          </div>
+        }
       </div>
       <p class="sm:hidden" [class]="amountClasses()">{{ amount() }}</p>
     </div>
