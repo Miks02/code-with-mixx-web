@@ -19,7 +19,7 @@ import {
 } from '@features/reservations';
 import { Router } from '@angular/router';
 import { AdminClassStore } from '@features/classes/admin/stores/admin-class-store';
-import { ClassReservationCard } from '../class-reservation-card/class-reservation-card';
+import { ClassReservationCard } from '@features/classes/components/class-reservation-card/class-reservation-card';
 
 @Component({
   imports: [ClassReservationCard, Button, FilterContainer, FilterMenu, NgIcon, PagedList],

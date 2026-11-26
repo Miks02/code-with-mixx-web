@@ -67,7 +67,7 @@ export class ProjectReservationOverview {
       };
     }
     return {
-      role: 'Instruktor',
+      role: 'Predavač',
       fullName: details.adminFullName,
       email: details.adminEmail,
       university: null,

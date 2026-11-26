@@ -18,6 +18,10 @@ import {
 } from '@features/classes/models/create-class-reservation-request';
 import { ClassFormService } from '@features/classes/services/class-form-service';
 import { StudentClassReservationDetails } from '@features/classes/student/models/student-class-reservation-details';
+import {
+  StudentClassesSummary,
+  StudentClassReservationItem,
+} from '@features/classes/student/models/student-class-reservation-item';
 
 export const CLASS_RESERVATIONS_URL = `${environment.apiUrl}/admin/reservations/classes`;
 export const CLASSES_SUMMARY_URL = `${CLASS_RESERVATIONS_URL}/summary`;
@@ -27,6 +31,7 @@ export const RESERVATIONS_URL = `${environment.apiUrl}/admin/reservations`;
 export const paymentHistoryUrl = (reservationId: number) =>
   `${environment.apiUrl}/reservations/${reservationId}/payments`;
 export const STUDENT_CLASS_RESERVATIONS_URL = `${environment.apiUrl}/student/reservations/classes`;
+export const STUDENT_CLASSES_SUMMARY_URL = `${environment.apiUrl}/student/reservations/classes/summary`;
 export const studentPaymentHistoryUrl = (reservationId: number) =>
   `${environment.apiUrl}/student/reservations/${reservationId}/payments`;
 
@@ -260,4 +265,65 @@ export function createValidReservationModel(
     classes: [createFormClass(inDays(3))],
     ...overrides,
   };
+}
+
+export function createStudentClassReservation(
+  overrides: Partial<StudentClassReservationItem> = {},
+): StudentClassReservationItem {
+  const {
+    studentId: _studentId,
+    studentFullName: _studentFullName,
+    deletedAt: _deletedAt,
+    isHardDeletable: _isHardDeletable,
+    ...reservation
+  } = createClassReservation();
+
+  return { ...reservation, ...overrides };
+}
+
+export function createStudentClassesSummary(
+  overrides: Partial<StudentClassesSummary> = {},
+): StudentClassesSummary {
+  const items = [createStudentClassReservation()];
+  return {
+    totalClassesCount: 1,
+    heldClassesCount: 0,
+    scheduledClassesCount: 1,
+    cancelledClassesCount: 0,
+    nextClassItem: null,
+    reservations: {
+      items,
+      totalCount: items.length,
+      pageNumber: 1,
+      pageSize: 15,
+      totalPages: 1,
+      hasPreviousPage: false,
+      hasNextPage: false,
+      paginatedCount: items.length,
+    },
+    ...overrides,
+  };
+}
+
+export async function flushStudentClassesSummary(
+  summary: StudentClassesSummary = createStudentClassesSummary(),
+) {
+  await flushLookups();
+  TestBed.inject(HttpTestingController)
+    .match((req) => req.url === STUDENT_CLASSES_SUMMARY_URL)
+    .forEach((req) => req.flush(summary));
+  await settle();
+}
+
+export function expectStudentClassReservationsRequest(params: Record<string, string | string[]>) {
+  return TestBed.inject(HttpTestingController).expectOne(
+    (req) =>
+      req.url === STUDENT_CLASS_RESERVATIONS_URL &&
+      req.method === 'GET' &&
+      Object.entries(params).every(([key, value]) =>
+        Array.isArray(value)
+          ? JSON.stringify(req.params.getAll(key) ?? []) === JSON.stringify(value)
+          : req.params.get(key) === value,
+      ),
+  );
 }

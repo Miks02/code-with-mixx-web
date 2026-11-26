@@ -9,7 +9,7 @@ import {
 import { ClassReservationCard } from './class-reservation-card';
 
 describe('ClassReservationCard', () => {
-  let fixture: ComponentFixture<ClassReservationCard>;
+  let fixture: ComponentFixture<ClassReservationCard<ClassReservationItem>>;
   let element: HTMLElement;
   let selected: (ClassReservationItem | undefined)[];
 
@@ -22,10 +22,32 @@ describe('ClassReservationCard', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({ imports: [ClassReservationCard] }).compileComponents();
-    fixture = TestBed.createComponent(ClassReservationCard);
+    fixture =
+      TestBed.createComponent<ClassReservationCard<ClassReservationItem>>(ClassReservationCard);
     element = fixture.nativeElement;
     selected = [];
     fixture.componentInstance.selected.subscribe((reservation) => selected.push(reservation));
+  });
+
+  it('shows each class name once instead of a student for a student reservation', async () => {
+    const {
+      studentId: _studentId,
+      studentFullName: _studentFullName,
+      deletedAt: _deletedAt,
+      isHardDeletable: _isHardDeletable,
+      ...reservation
+    } = createClassReservation({
+      classes: [
+        createClassItem({ id: 1, name: 'Normalizacija' }),
+        createClassItem({ id: 2, name: 'Normalizacija' }),
+        createClassItem({ id: 3, name: 'Indeksi' }),
+      ],
+    });
+    fixture.componentRef.setInput('reservation', reservation);
+    await fixture.whenStable();
+
+    expect(element.querySelector('p')?.textContent?.trim()).toBe('Normalizacija, Indeksi');
+    expect(element.textContent).not.toContain('Marko');
   });
 
   it('uses the first letters of the first two names as initials', async () => {

@@ -1,0 +1,86 @@
+<app-panel class="h-full min-h-80 relative backdrop-blur-xl" [title]="title()">
+  @if (reservation()) {
+    <div panelAction class="flex items-center gap-2 shrink-0">
+      @if (reservationStatus(); as status) {
+        <app-badge [text]="status.label" [color]="status.classes" />
+      }
+      @if (paymentStatus(); as status) {
+        <app-badge [text]="status.label" [color]="status.classes" />
+      }
+    </div>
+  }
+
+  @if (reservation(); as reservation) {
+    <div class="flex flex-wrap items-center justify-between gap-x-4 gap-y-1">
+      <p class="text-emerald-100/80 font-semibold">
+        Kreirano: {{ reservation.createdAt | srDate }}
+      </p>
+    </div>
+
+    <div class="flex gap-2 flex-wrap">
+      @for (stat of stats(); track stat.label) {
+        <div
+          class="flex items-center gap-2 rounded-lg px-2.5 py-1.5 flex-1 min-w-32 bg-emerald-900/80 text-emerald-100"
+        >
+          <ng-icon [name]="stat.icon" class="text-base self-center! text-emerald-400!"></ng-icon>
+          <div class="flex flex-col min-w-0">
+            <span class="text-sm font-semibold leading-tight truncate">{{ stat.value }}</span>
+            <span class="text-xs text-emerald-300">{{ stat.label }}</span>
+          </div>
+        </div>
+      }
+    </div>
+
+    @if (reservation.description) {
+      <div class="flex flex-col gap-1">
+        <h3 class="text-emerald-100 font-semibold">Opis</h3>
+        <p
+          class="rounded-lg bg-emerald-900/80 px-3 py-2 text-sm text-emerald-100 whitespace-pre-line wrap-break-word max-h-32 overflow-y-auto"
+        >
+          {{ reservation.description }}
+        </p>
+      </div>
+    }
+
+    <div class="flex flex-col gap-2 flex-1 min-h-0">
+      <h3 class="text-emerald-100 font-semibold">Časovi ({{ reservation.classes.length }})</h3>
+      <div class="relative flex-1 min-h-60">
+        <div class="absolute inset-0 flex flex-col gap-3 overflow-y-auto">
+          @for (class of reservation.classes; track class.id) {
+            <app-class-card [class]="class"></app-class-card>
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full mt-auto">
+      <app-button
+        (clicked)="store.openPaymentHistory()"
+        [fullWidth]="true"
+        variant="ghost"
+        icon="faSolidMoneyBill1"
+        >Pregled uplata</app-button
+      >
+      <app-button
+        (clicked)="goToDetails(reservation.id)"
+        [fullWidth]="true"
+        variant="secondary"
+        icon="faSolidEye"
+        >Detalji rezervacije</app-button
+      >
+    </div>
+  } @else {
+    <app-empty-state
+      icon="faSolidHandPointer"
+      message="Izaberi rezervaciju iz liste da vidiš detalje"
+    ></app-empty-state>
+  }
+</app-panel>
+
+@if (store.isPaymentHistoryOpen() && reservation()) {
+  <app-reservation-payment-history-modal
+    [paymentHistory]="store.paymentHistory()"
+    [isLoading]="store.isPaymentHistoryLoading()"
+    (closed)="store.closePaymentHistory()"
+  ></app-reservation-payment-history-modal>
+}

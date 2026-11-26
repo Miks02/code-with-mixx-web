@@ -1,0 +1,54 @@
+<div class="grid grid-cols-1 lg:grid-cols-5 lg:grid-rows-3 w-full lg:h-full gap-4">
+  <app-student-class-reservation-list
+    class="min-w-0 lg:col-span-3 lg:row-span-2"
+  ></app-student-class-reservation-list>
+
+  <app-student-class-reservation-details
+    [appScrollIntoViewOn]="store.detailsScrollRequests()"
+    class="min-w-0 lg:col-span-2 lg:row-span-3"
+  ></app-student-class-reservation-details>
+
+  <div class="min-w-0 lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+    <app-next-class-card
+      class="sm:col-span-2 xl:col-span-1 xl:row-span-2"
+      [nextClass]="store.summary()?.nextClassItem"
+      [isPending]="store.summaryPending()"
+    ></app-next-class-card>
+
+    <app-stats-card
+      title="Časovi"
+      icon="faSolidChalkboardUser"
+      iconBackground="sky"
+      description="Ukupno"
+      [value]="store.summary()?.totalClassesCount"
+      [isPending]="store.summaryPending()"
+    ></app-stats-card>
+
+    <app-stats-card
+      title="Zakazani"
+      icon="faSolidCalendarCheck"
+      iconBackground="emerald"
+      description="Predstojeći časovi"
+      [value]="store.summary()?.scheduledClassesCount"
+      [isPending]="store.summaryPending()"
+    ></app-stats-card>
+
+    <app-stats-card
+      title="Održani"
+      icon="faSolidCircleCheck"
+      iconBackground="violet"
+      description="Završeni časovi"
+      [value]="store.summary()?.heldClassesCount"
+      [isPending]="store.summaryPending()"
+    ></app-stats-card>
+
+    <app-stats-card
+      title="Otkazani"
+      icon="faSolidCalendarXmark"
+      iconBackground="red"
+      description="Otkazani časovi"
+      [value]="store.summary()?.cancelledClassesCount"
+      [isPending]="store.summaryPending()"
+    ></app-stats-card>
+  </div>
+</div>

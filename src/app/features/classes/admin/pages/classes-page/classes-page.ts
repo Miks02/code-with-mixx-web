@@ -9,7 +9,7 @@ import {
 import { StatsCard } from '@shared/components/stats-card/stats-card';
 import { ClassReservationDetails } from '@features/classes/admin/components/class-reservation-details/class-reservation-details';
 import { ClassReservationsList } from '@features/classes/admin/components/class-reservations-list/class-reservations-list';
-import { NextClassCard } from '@features/classes/admin/components/next-class-card/next-class-card';
+import { NextClassCard } from '@features/classes/components/next-class-card/next-class-card';
 import { AdminClassStore } from '@features/classes/admin/stores/admin-class-store';
 import { ScrollIntoViewOn } from '@shared/directives/scroll-into-view-on';
 
