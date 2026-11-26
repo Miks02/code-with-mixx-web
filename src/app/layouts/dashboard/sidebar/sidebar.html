@@ -11,47 +11,50 @@
 <aside
   [class.translate-x-0]="showSidebar()"
   [class.-translate-x-full]="!showSidebar()"
-  class="max-w-80 w-[80%] md:w-auto md:max-w-64 bg-emerald-950 h-screen p-4 px-8 fixed md:static z-50 md:translate-x-0 md:flex flex-col transition-200"
+  class="max-w-80 w-[80%] md:w-auto md:max-w-64 bg-emerald-950 h-dvh p-4 px-8 fixed md:static z-50 md:translate-x-0 flex flex-col transition-200"
 >
-  <div class="flex flex-col p-4 items-center gap-4 border-b border-gray-100">
+  <div class="flex flex-col p-4 items-center gap-4 border-b border-gray-100 shrink-0">
     <h2 class="text-2xl text-white font-bold"><span class="text-amber-600">Code</span>WithMixx</h2>
     <p class="text-white text-lg font-semibold hidden md:block">{{ heading() }}</p>
   </div>
 
-  <ul class="flex flex-col gap-2 mt-6 h-full w-full">
-    @for (link of sidebarLinks(); track $index) {
-      <app-sidebar-link
-        (click)="onCloseSidebar()"
-        [linkName]="link.name"
-        [linkIcon]="link.icon"
-        [navigateTo]="link.navigateTo"
-      ></app-sidebar-link>
-    }
+  <nav class="flex-1 min-h-0 overflow-y-auto mt-4 md:mt-6 -mx-2 px-2">
+    <ul class="flex flex-col gap-1 md:gap-2 w-full">
+      @for (link of sidebarLinks(); track $index) {
+        <app-sidebar-link
+          (click)="onCloseSidebar()"
+          [linkName]="link.name"
+          [linkIcon]="link.icon"
+          [navigateTo]="link.navigateTo"
+        ></app-sidebar-link>
+      }
+    </ul>
+  </nav>
 
-    <div class="md:mt-auto mt-6 flex flex-col gap-2 w-full">
-      <li
-        class="hover:bg-yellow-400/70 rounded-lg transition-200 active:scale-95 active:opacity-90 w-full"
+  <ul class="flex flex-col gap-1 md:gap-2 w-full shrink-0 border-t border-emerald-700/40 pt-3 mt-3">
+    <li
+      class="hover:bg-yellow-400/70 rounded-lg transition-200 active:scale-95 active:opacity-90 w-full"
+    >
+      <a
+        routerLink="/"
+        class="flex gap-2 items-center font-semibold hover:ml-4 px-2 py-2.5 md:py-3 rounded-lg transition-200 cursor-pointer"
       >
-        <a
-          routerLink="/"
-          class="flex gap-2 items-center font-semibold hover:ml-4 px-2 py-3 rounded-lg transition-200 cursor-pointer"
-        >
-          <ng-icon name="faSolidArrowLeftLong" class="text-xl text-yellow-100!"></ng-icon>
-          <span class="text-lg text-yellow-100">Nazad na sajt</span>
-        </a>
-      </li>
+        <ng-icon name="faSolidArrowLeftLong" class="text-xl text-yellow-100!"></ng-icon>
+        <span class="text-lg text-yellow-100">Nazad na sajt</span>
+      </a>
+    </li>
 
-      <li
-        class="hover:bg-red-400/70 rounded-lg transition-200 active:scale-95 active:opacity-90 w-full"
+    <li
+      class="hover:bg-red-400/70 rounded-lg transition-200 active:scale-95 active:opacity-90 w-full"
+    >
+      <button
+        type="button"
+        (click)="onLogout()"
+        class="flex gap-2 items-center font-semibold hover:ml-4 px-2 py-2.5 md:py-3 rounded-lg transition-200 cursor-pointer w-full"
       >
-        <button
-          (click)="onLogout()"
-          class="flex gap-2 items-center font-semibold hover:ml-4 px-2 py-3 rounded-lg transition-200 cursor-pointer w-full"
-        >
-          <ng-icon name="faSolidArrowRightFromBracket" class="text-xl text-red-100!"></ng-icon>
-          <span class="text-lg text-red-100">Odjavi se</span>
-        </button>
-      </li>
-    </div>
+        <ng-icon name="faSolidArrowRightFromBracket" class="text-xl text-red-100!"></ng-icon>
+        <span class="text-lg text-red-100">Odjavi se</span>
+      </button>
+    </li>
   </ul>
 </aside>
