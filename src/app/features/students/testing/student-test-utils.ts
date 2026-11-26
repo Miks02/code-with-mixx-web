@@ -143,6 +143,7 @@ export function createStudentReservation(
     classes: [
       {
         id: 1,
+        name: 'Normalizacija',
         subjectId: 1,
         subjectName: 'Baze podataka',
         price: 1300,

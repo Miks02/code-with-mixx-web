@@ -20,6 +20,7 @@ const CLASS_RESERVATION: StudentReservation = {
   createdAt: '2026-10-18T09:00:00Z',
   classes: [1, 2, 3].map((id) => ({
     id,
+    name: `Čas ${id}`,
     subjectId: id === 3 ? 2 : 1,
     subjectName: id === 3 ? 'Baze podataka' : 'Objektno orijentisano programiranje',
     price: 1300,

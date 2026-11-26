@@ -18,7 +18,10 @@
         <app-date-card [date]="nextClass()?.startsAt!"></app-date-card>
 
         <div class="flex flex-col gap-2">
-          <p class="text-emerald-100 font-semibold text-xl">{{ nextClass()?.subjectName }}</p>
+          <div class="flex flex-col">
+            <p class="text-emerald-100 font-semibold text-xl">{{ nextClass()?.className }}</p>
+            <p class="text-emerald-100/70">{{ nextClass()?.subjectName }}</p>
+          </div>
           <div class="flex px-1 gap-2 items-center text-amber-300">
             <ng-icon name="faSolidClock"></ng-icon>
             <p class="font-semibold text-emerald-100">
@@ -48,11 +51,16 @@
             <div class="flex gap-4 p-2 py-2 rounded-lg bg-emerald-900/80 items-center">
               <app-date-card [date]="class.startsAt" variant="compact"></app-date-card>
               <div class="flex flex-col gap-2">
-                <p
-                  class="md:text-lg text-emerald-100 font-semibold truncate text-ellipsis w-50 md:text-clip sm:w-auto"
-                >
-                  {{ class.subjectName }}
-                </p>
+                <div class="flex flex-col">
+                  <p
+                    class="md:text-lg text-emerald-100 font-semibold truncate text-ellipsis w-50 md:text-clip sm:w-auto"
+                  >
+                    {{ class.className }}
+                  </p>
+                  <p class="text-sm text-emerald-100/70 truncate w-50 sm:w-auto">
+                    {{ class.subjectName }}
+                  </p>
+                </div>
                 <div class="flex gap-2 items-center text-sm md:text-base text-amber-300">
                   <ng-icon name="faSolidClock"></ng-icon>
                   <p class="font-semibold text-emerald-100">

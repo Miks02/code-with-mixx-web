@@ -7,6 +7,7 @@ export type NextClass = {
   startsAt: string;
   university: string | null;
   subjectName: string;
+  className: string;
 };
 
 export type ClassesSummary = {

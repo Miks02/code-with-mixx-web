@@ -30,6 +30,7 @@ export type StudentReservationsStats = {
 
 export type StudentReservationClass = {
   id: number;
+  name: string;
   subjectId: number;
   subjectName: string;
   price: number;
