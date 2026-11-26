@@ -34,6 +34,9 @@ export const routes: Routes = [
       },
       {
         path: 'subjects',
+        data: {
+          heading: 'Predmeti',
+        },
         loadChildren: () => import('@features/subjects').then((m) => m.SUBJECTS_STUDENT_ROUTES),
       },
       {
