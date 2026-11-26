@@ -8,7 +8,7 @@ import {
 import { ProjectReservationCard } from './project-reservation-card';
 
 describe('ProjectReservationCard', () => {
-  let fixture: ComponentFixture<ProjectReservationCard>;
+  let fixture: ComponentFixture<ProjectReservationCard<ProjectReservationItem>>;
   let element: HTMLElement;
   let selected: (ProjectReservationItem | undefined)[];
 
@@ -21,10 +21,33 @@ describe('ProjectReservationCard', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({ imports: [ProjectReservationCard] }).compileComponents();
-    fixture = TestBed.createComponent(ProjectReservationCard);
+    fixture =
+      TestBed.createComponent<ProjectReservationCard<ProjectReservationItem>>(
+        ProjectReservationCard,
+      );
     element = fixture.nativeElement;
     selected = [];
     fixture.componentInstance.selected.subscribe((reservation) => selected.push(reservation));
+  });
+
+  it('shows the project names instead of a student for a student reservation', async () => {
+    const {
+      studentId: _studentId,
+      studentFullName: _studentFullName,
+      deletedAt: _deletedAt,
+      isHardDeletable: _isHardDeletable,
+      ...reservation
+    } = createProjectReservation({
+      projects: [
+        createProjectListItem({ name: 'Biblioteka' }),
+        createProjectListItem({ id: 11, name: 'Apoteka' }),
+      ],
+    });
+    fixture.componentRef.setInput('reservation', { ...reservation, updatedAt: null });
+    await fixture.whenStable();
+
+    expect(element.querySelector('p')?.textContent?.trim()).toBe('Biblioteka, Apoteka');
+    expect(element.textContent).not.toContain('Marko');
   });
 
   it('uses the first letters of the first two names as initials', async () => {

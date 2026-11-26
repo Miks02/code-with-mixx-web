@@ -6,7 +6,7 @@ import { provideIcons } from '@ng-icons/core';
 import {
   faSolidBarsProgress,
   faSolidCircleCheck,
-  faSolidDiagramProject,
+  faSolidFile,
   faSolidHourglassHalf,
 } from '@ng-icons/font-awesome/solid';
 import { StatsCard } from '@shared/components/stats-card/stats-card';
@@ -19,7 +19,7 @@ import { ScrollIntoViewOn } from '@shared/directives/scroll-into-view-on';
     provideIcons({
       faSolidBarsProgress,
       faSolidCircleCheck,
-      faSolidDiagramProject,
+      faSolidFile,
       faSolidHourglassHalf,
     }),
   ],

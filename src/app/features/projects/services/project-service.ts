@@ -15,6 +15,11 @@ import { ProjectDetails } from '../models/project-details';
 import { ProjectQueryParams } from '../models/project-query-params';
 import { ProjectReservationDetails } from '../models/project-reservation-details';
 import { StudentProjectReservationDetails } from '../student/models/student-project-reservation-details';
+import {
+  StudentProjectQueryParams,
+  StudentProjectReservationItem,
+  StudentProjectsSummary,
+} from '../student/models/student-project-reservation-item';
 import { ProjectReservationItem } from '../models/project-reservation-item';
 import { ProjectReservationRequest } from '../models/project-reservation-request';
 import { ProjectsSummary } from '../models/projects-summary';
@@ -76,6 +81,44 @@ export class ProjectService {
         ),
       enabled: reservationId() > 0,
       refetchOnWindowFocus: false,
+    }));
+  }
+
+  getStudentProjectsSummaryQuery(queryParams: Signal<StudentProjectQueryParams>) {
+    const url = `${this.apiUrl}/student/reservations/projects/summary`;
+
+    return injectQuery<StudentProjectsSummary>(() => ({
+      queryKey: projectReservationKeys.summary(),
+      queryFn: async () => {
+        const response = await lastValueFrom(
+          this.http.get<StudentProjectsSummary>(url, { params: queryParams() }),
+        );
+
+        this.queryClient.setQueryData(
+          projectReservationKeys.page(queryParams()),
+          response.reservations,
+        );
+        return response;
+      },
+    }));
+  }
+
+  getStudentPagedProjectReservationsQuery(
+    queryParams: Signal<StudentProjectQueryParams>,
+    queryResult: CreateQueryResult<StudentProjectsSummary>,
+  ) {
+    const url = `${this.apiUrl}/student/reservations/projects`;
+
+    return injectQuery<PagedResult<StudentProjectReservationItem>>(() => ({
+      queryKey: projectReservationKeys.page(queryParams()),
+      queryFn: () =>
+        lastValueFrom(
+          this.http.get<PagedResult<StudentProjectReservationItem>>(url, {
+            params: queryParams(),
+          }),
+        ),
+      placeholderData: keepPreviousData,
+      enabled: queryResult.isSuccess() && !queryResult.isFetching(),
     }));
   }
 
