@@ -1,0 +1,50 @@
+<div
+  class="flex items-center gap-4 p-4 rounded-lg bg-emerald-900/80 transition-200"
+  [class.opacity-60]="addOpacity()"
+>
+  <div
+    class="hidden sm:flex justify-center items-center bg-emerald-800 rounded-full h-12 w-12 shrink-0"
+  >
+    <ng-icon name="faSolidWallet" class="text-emerald-300! text-lg md:text-xl"></ng-icon>
+  </div>
+  <div class="flex flex-col gap-2 min-w-0 grow w-full">
+    <p class="text-emerald-100 text-base md:text-lg font-semibold w-full">{{ title() }}</p>
+    <div class="flex justify-between items-end gap-2">
+      <div class="flex flex-wrap md:gap-2 items-center text-amber-300 text-sm md:text-base gap-1">
+        <div class="flex items-center gap-2">
+          <ng-icon name="faSolidCalendar"></ng-icon>
+          <span>Datum: </span>
+          <p class="font-semibold text-emerald-100">{{ date() }}</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <ng-icon name="faSolidFileContract"></ng-icon>
+          <p>
+            Rezervacija:
+            <span class="font-semibold text-emerald-100">#{{ payment().reservationId }}</span>
+          </p>
+        </div>
+      </div>
+      <p class="sm:hidden" [class]="amountClasses()">{{ amount() }}</p>
+    </div>
+    @if (payment().note) {
+      <button
+        type="button"
+        class="action-link self-start cursor-pointer"
+        [attr.aria-expanded]="isNoteOpen()"
+        (click)="toggleNote()"
+      >
+        {{ isNoteOpen() ? 'Sakrij beleške' : 'Pogledaj beleške' }}
+      </button>
+      @if (isNoteOpen()) {
+        <p
+          class="rounded-md bg-emerald-800 px-3 py-2 text-sm text-emerald-100/70 whitespace-pre-line wrap-break-word"
+        >
+          {{ payment().note }}
+        </p>
+      }
+    } @else {
+      <span class="text-sm text-emerald-100/70">Nema beleški</span>
+    }
+  </div>
+  <p class="hidden sm:block md:text-lg" [class]="amountClasses()">{{ amount() }}</p>
+</div>
