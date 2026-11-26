@@ -37,6 +37,7 @@ import { AdminClassStore } from '@features/classes/admin/stores/admin-class-stor
 import { ClassService } from '@features/classes/services/class-service';
 import { getClassReservationErrorMessage } from '@features/classes/utilities/class-error-messages';
 import { CLASS_RESERVATION_TOAST_MESSAGES } from '@features/classes/utilities/class-toast-messages';
+import { Badge } from '@shared/components/badge/badge';
 
 type ReservationStat = {
   icon: string;
@@ -46,6 +47,7 @@ type ReservationStat = {
 
 @Component({
   imports: [
+    Badge,
     NgIcon,
     Button,
     Panel,

@@ -17,6 +17,7 @@ import { UserState } from '@core/services/user-state';
 import { Button } from '@shared/components/button/button';
 import { Panel } from '@shared/components/panel/panel';
 import { SrDatePipe } from '@shared/pipes/sr-date-pipe';
+import { Badge } from '@shared/components/badge/badge';
 
 const DEVICE_ICONS: Record<Device, string> = {
   [Device.Desktop]: 'faSolidComputer',
@@ -25,7 +26,7 @@ const DEVICE_ICONS: Record<Device, string> = {
 };
 
 @Component({
-  imports: [Button, NgIcon, SrDatePipe, Panel],
+  imports: [Badge, Button, NgIcon, SrDatePipe, Panel],
   providers: [
     provideIcons({
       faSolidArrowRightFromBracket,

@@ -4,16 +4,12 @@
 >
   @if (reservation()) {
     <div panelAction class="flex items-center gap-2 shrink-0">
-      <span
-        class="text-xs font-semibold px-2 py-1 rounded-full"
-        [class]="reservationStatus()?.classes"
-        >{{ reservationStatus()?.label }}</span
-      >
-      <span
-        class="text-xs font-semibold px-2 py-1 rounded-full"
-        [class]="paymentStatus()?.classes"
-        >{{ paymentStatus()?.label }}</span
-      >
+      @if (reservationStatus(); as status) {
+        <app-badge [text]="status.label" [color]="status.classes" />
+      }
+      @if (paymentStatus(); as status) {
+        <app-badge [text]="status.label" [color]="status.classes" />
+      }
     </div>
   }
 

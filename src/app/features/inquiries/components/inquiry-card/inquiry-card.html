@@ -32,11 +32,7 @@
       <p class="text-sm truncate text-emerald-300">{{ inquiryType() }}</p>
     </div>
 
-    <span
-      class="text-xs font-semibold px-2 py-1 rounded-full shrink-0"
-      [class]="status().classes"
-      >{{ status().label }}</span
-    >
+    <app-badge [text]="status().label" [color]="status().classes" />
   </div>
 
   <p class="text-sm text-emerald-100/70 line-clamp-2 wrap-break-word">{{ inquiry().message }}</p>

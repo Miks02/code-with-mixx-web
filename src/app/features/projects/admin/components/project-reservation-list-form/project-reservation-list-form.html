@@ -222,9 +222,10 @@
               <ng-icon name="faSolidComment" class="text-emerald-300!"></ng-icon>
               Beleške
             </p>
-            <span class="rounded-full bg-emerald-950/80 px-3 py-0.5 text-sm text-emerald-100">
-              {{ projectField.notes().value().length }}
-            </span>
+            <app-badge
+              [text]="projectField.notes().value().length"
+              color="bg-emerald-950/80 text-emerald-100"
+            />
           </div>
 
           @for (noteField of projectField.notes; track $index; let n = $index) {

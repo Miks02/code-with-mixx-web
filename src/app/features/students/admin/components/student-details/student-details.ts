@@ -31,6 +31,7 @@ import { StudentService } from '@features/students/services/student-service';
 import { getStudentErrorMessage } from '@features/students/utilities/student-error-messages';
 import { ACCOUNT_STATUS_META } from '@features/students/utilities/student-labels';
 import { StatusMeta } from '@features/reservations';
+import { Badge } from '@shared/components/badge/badge';
 
 type StudentStat = {
   icon: string;
@@ -40,7 +41,7 @@ type StudentStat = {
 };
 
 @Component({
-  imports: [NgIcon, Button, RouterLink, Panel, EmptyState],
+  imports: [Badge, NgIcon, Button, RouterLink, Panel, EmptyState],
   providers: [
     provideIcons({
       faSolidCalendar,

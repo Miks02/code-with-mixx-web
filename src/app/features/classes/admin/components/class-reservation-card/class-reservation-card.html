@@ -17,11 +17,7 @@
       <p class="text-emerald-100 font-semibold truncate">{{ reservation().studentFullName }}</p>
       <p class="text-sm truncate" [class]="accentColor().mutedText">{{ subjectNames() }}</p>
     </div>
-    <span
-      class="text-xs font-semibold px-2 py-1 rounded-full shrink-0"
-      [class]="paymentStatus().classes"
-      >{{ paymentStatus().label }}</span
-    >
+    <app-badge [text]="paymentStatus().label" [color]="paymentStatus().classes" />
   </div>
 
   <div

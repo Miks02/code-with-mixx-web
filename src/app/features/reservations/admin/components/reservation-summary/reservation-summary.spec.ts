@@ -47,7 +47,7 @@ describe('ReservationSummary', () => {
         stat.querySelector('p.text-lg')?.textContent?.trim(),
       ]),
     );
-  const paymentBadge = () => element.querySelector('span.rounded-full')?.textContent?.trim();
+  const paymentBadge = () => element.querySelector('app-badge')?.textContent?.trim();
   const checks = () =>
     Array.from(element.querySelectorAll('li')).map((check) => check.textContent?.trim());
   const saveButton = () => getButton(element, 'Sačuvaj')!;

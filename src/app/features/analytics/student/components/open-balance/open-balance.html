@@ -52,11 +52,7 @@
                 <p>{{ item.type.label }}</p>
               </div>
             </div>
-            <span
-              class="text-xs font-semibold px-2 py-1 rounded-full shrink-0"
-              [class]="item.status.classes"
-              >{{ item.status.label }}</span
-            >
+            <app-badge [text]="item.status.label" [color]="item.status.classes" />
           </div>
 
           <div class="grid grid-cols-3 gap-2 text-sm md:text-base">

@@ -18,6 +18,7 @@ import {
 } from '@features/reservations';
 import { PROJECT_TYPE_LABELS } from '@features/projects';
 import { StudentReservation } from '@features/students/models/student-details';
+import { Badge } from '@shared/components/badge/badge';
 
 const BASE_CLASSES =
   'h-full p-4 rounded-lg flex flex-col gap-2.5 active:scale-95 transition-200 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-emerald-300';
@@ -29,7 +30,7 @@ const STATUS_BACKGROUNDS: Record<ReservationStatus, string> = {
 };
 
 @Component({
-  imports: [NgIcon, DatePipe, RouterLink],
+  imports: [Badge, NgIcon, DatePipe, RouterLink],
   providers: [
     provideIcons({
       faSolidCalendarPlus,

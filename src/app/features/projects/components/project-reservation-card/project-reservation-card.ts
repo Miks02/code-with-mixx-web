@@ -12,6 +12,7 @@ import {
 import { priceConverter } from '@core/utilities/price-helpers';
 import { PAYMENT_STATUS_META, ReservationStatus } from '@features/reservations';
 import { ProjectReservationItem } from '@features/projects/models/project-reservation-item';
+import { Badge } from '@shared/components/badge/badge';
 
 const BASE_CLASSES =
   'w-full text-left p-4 rounded-lg flex flex-col gap-2.5 active:scale-95 transition-200 cursor-pointer flex-1 grow';
@@ -69,7 +70,7 @@ const STATUS_CLASSES: Record<ReservationStatus, StatusClasses> = {
 };
 
 @Component({
-  imports: [NgIcon, DatePipe],
+  imports: [Badge, NgIcon, DatePipe],
   providers: [
     provideIcons({
       faSolidBoxArchive,

@@ -9,6 +9,7 @@ import {
   faSolidFileContract,
   faSolidFolderOpen,
 } from '@ng-icons/font-awesome/solid';
+import { Badge } from '@shared/components/badge/badge';
 
 function dayLabel(days: number) {
   return days % 10 === 1 && days % 100 !== 11 ? `${days} dan` : `${days} dana`;
@@ -21,7 +22,7 @@ function deadlineLabel(daysLeft: number) {
 }
 
 @Component({
-  imports: [NgIcon, RouterLink, Panel],
+  imports: [Badge, NgIcon, RouterLink, Panel],
   providers: [provideIcons({ faSolidCalendar, faSolidFileContract, faSolidFolderOpen })],
   selector: 'app-active-projects',
   templateUrl: './active-projects.html',

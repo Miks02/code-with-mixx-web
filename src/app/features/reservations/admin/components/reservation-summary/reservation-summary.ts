@@ -8,6 +8,7 @@ import { Panel } from '@shared/components/panel/panel';
 import { PaymentStatus } from '@features/reservations/models/payment-status';
 import { ReservationCheck } from '@features/reservations/models/reservation-check';
 import { PAYMENT_STATUS_META } from '@features/reservations/utilities/reservation-labels';
+import { Badge } from '@shared/components/badge/badge';
 
 type SummaryStat = {
   label: string;
@@ -15,7 +16,7 @@ type SummaryStat = {
 };
 
 @Component({
-  imports: [Button, NgIcon, FormField, Panel],
+  imports: [Badge, Button, NgIcon, FormField, Panel],
   providers: [provideIcons({ faSolidCheck, faSolidCircleCheck, faSolidCircleXmark })],
   selector: 'app-reservation-summary',
   templateUrl: './reservation-summary.html',

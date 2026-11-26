@@ -2,51 +2,54 @@
   <a panelAction class="action-link" routerLink="/student/projects">Svi projekti</a>
 
   @if (projectCards().length === 0) {
-  <div class="flex flex-col items-center justify-center gap-3 text-center p-4 my-auto">
-    <div class="flex justify-center items-center bg-emerald-900 rounded-full h-14 w-14">
-      <ng-icon name="faSolidFolderOpen" class="text-emerald-400! text-2xl"></ng-icon>
+    <div class="flex flex-col items-center justify-center gap-3 text-center p-4 my-auto">
+      <div class="flex justify-center items-center bg-emerald-900 rounded-full h-14 w-14">
+        <ng-icon name="faSolidFolderOpen" class="text-emerald-400! text-2xl"></ng-icon>
+      </div>
+      <p class="text-emerald-200 font-medium text-lg">Trenutno nemaš aktivnih projekata.</p>
     </div>
-    <p class="text-emerald-200 font-medium text-lg">Trenutno nemaš aktivnih projekata.</p>
-  </div>
   } @else {
-  <div class="flex flex-col gap-2 max-h-100 overflow-y-auto">
-    @for (project of projectCards(); track project.reservationId) {
-    <div class="flex flex-col gap-3 p-3 rounded-lg bg-emerald-900/80">
-      <div class="flex justify-between items-start gap-2">
-        <div class="flex flex-col min-w-0">
-          <p class="text-emerald-100 text-base md:text-lg font-semibold truncate">
-            {{ project.projectName }}
-          </p>
-          <p class="text-emerald-100/70 text-sm md:text-base truncate">{{ project.subjectName }}</p>
-        </div>
-        <span
-          class="text-xs font-semibold px-2 py-1 rounded-full shrink-0"
-          [class]="
+    <div class="flex flex-col gap-2 max-h-100 overflow-y-auto">
+      @for (project of projectCards(); track project.reservationId) {
+        <div class="flex flex-col gap-3 p-3 rounded-lg bg-emerald-900/80">
+          <div class="flex justify-between items-start gap-2">
+            <div class="flex flex-col min-w-0">
+              <p class="text-emerald-100 text-base md:text-lg font-semibold truncate">
+                {{ project.projectName }}
+              </p>
+              <p class="text-emerald-100/70 text-sm md:text-base truncate">
+                {{ project.subjectName }}
+              </p>
+            </div>
+            <app-badge
+              [text]="project.isOverdue ? 'Kasni' : 'U izradi'"
+              [color]="
                 project.isOverdue ? 'bg-red-950/60 text-red-100' : 'bg-emerald-800 text-emerald-100'
               "
-          >{{ project.isOverdue ? 'Kasni' : 'U izradi' }}</span
-        >
-      </div>
+            />
+          </div>
 
-      <div class="flex items-center gap-2 text-amber-300 text-sm md:text-base">
-        <ng-icon name="faSolidFileContract"></ng-icon>
-        <p>
-          Rezervacija:
-          <span class="font-semibold text-emerald-100">#{{ project.reservationId }}</span>
-        </p>
-      </div>
+          <div class="flex items-center gap-2 text-amber-300 text-sm md:text-base">
+            <ng-icon name="faSolidFileContract"></ng-icon>
+            <p>
+              Rezervacija:
+              <span class="font-semibold text-emerald-100">#{{ project.reservationId }}</span>
+            </p>
+          </div>
 
-      <div class="flex items-center justify-between gap-2 text-sm md:text-base">
-        <div class="flex items-center gap-2 text-amber-300">
-          <ng-icon name="faSolidCalendar"></ng-icon>
-          <p>Rok: <span class="font-semibold text-emerald-100">{{ project.deadline }}</span></p>
+          <div class="flex items-center justify-between gap-2 text-sm md:text-base">
+            <div class="flex items-center gap-2 text-amber-300">
+              <ng-icon name="faSolidCalendar"></ng-icon>
+              <p>
+                Rok: <span class="font-semibold text-emerald-100">{{ project.deadline }}</span>
+              </p>
+            </div>
+            <p class="font-bold" [class]="project.isOverdue ? 'text-red-400' : 'text-emerald-300'">
+              {{ project.deadlineLabel }}
+            </p>
+          </div>
         </div>
-        <p class="font-bold" [class]="project.isOverdue ? 'text-red-400' : 'text-emerald-300'">
-          {{ project.deadlineLabel }}
-        </p>
-      </div>
+      }
     </div>
-    }
-  </div>
   }
 </app-panel>

@@ -25,6 +25,7 @@ import { getErrorCode } from '@core/utilities/problem-details-helpers';
 import { getStudentErrorMessage } from '@features/students/utilities/student-error-messages';
 import { ACCOUNT_STATUS_META } from '@features/students/utilities/student-labels';
 import { StatusMeta } from '@features/reservations';
+import { Badge } from '@shared/components/badge/badge';
 
 type StudentStat = {
   icon: string;
@@ -33,7 +34,7 @@ type StudentStat = {
 };
 
 @Component({
-  imports: [NgIcon, Button, FormField, Panel],
+  imports: [Badge, NgIcon, Button, FormField, Panel],
   providers: [
     provideIcons({
       faSolidBuildingColumns,

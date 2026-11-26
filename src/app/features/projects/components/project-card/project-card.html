@@ -11,10 +11,7 @@
     <div class="flex items-center justify-between gap-3 min-w-0">
       <div class="flex items-center gap-2 min-w-0">
         <p class="text-emerald-100 font-semibold truncate">{{ project().subjectName }}</p>
-        <span
-          class="text-xs font-semibold px-2 py-0.5 rounded-full shrink-0 bg-emerald-700/70 text-emerald-100"
-          >{{ projectTypeLabel() }}</span
-        >
+        <app-badge [text]="projectTypeLabel()" color="bg-emerald-700/70 text-emerald-100" />
       </div>
       <span class="text-sm font-semibold text-emerald-100 shrink-0">{{ priceLabel() }}</span>
     </div>

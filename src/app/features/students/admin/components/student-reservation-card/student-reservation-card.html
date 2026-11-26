@@ -10,16 +10,8 @@
       <p class="text-sm text-emerald-300 truncate">{{ subjects() }}</p>
     </div>
     <div class="flex flex-wrap justify-end gap-1.5 shrink-0">
-      <span
-        class="text-xs font-semibold px-2 py-1 rounded-full"
-        [class]="reservationStatus().classes"
-        >{{ reservationStatus().label }}</span
-      >
-      <span
-        class="text-xs font-semibold px-2 py-1 rounded-full"
-        [class]="paymentStatus().classes"
-        >{{ paymentStatus().label }}</span
-      >
+      <app-badge [text]="reservationStatus().label" [color]="reservationStatus().classes" />
+      <app-badge [text]="paymentStatus().label" [color]="paymentStatus().classes" />
     </div>
   </div>
 

@@ -14,6 +14,7 @@ import { priceConverter } from '@core/utilities/price-helpers';
 import { Skeleton } from '@shared/components/skeleton/skeleton';
 import { AdminStudentDetailsStore } from '@features/students/admin/stores/admin-student-details-store';
 import { ACCOUNT_STATUS_META } from '@features/students/utilities/student-labels';
+import { Badge } from '@shared/components/badge/badge';
 
 type InfoRow = {
   icon: string;
@@ -22,7 +23,7 @@ type InfoRow = {
 };
 
 @Component({
-  imports: [NgIcon, Skeleton],
+  imports: [Badge, NgIcon, Skeleton],
   providers: [
     provideIcons({
       faSolidClock,

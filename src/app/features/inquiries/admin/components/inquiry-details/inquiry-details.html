@@ -1,11 +1,6 @@
 <app-panel class="h-full min-h-80 relative backdrop-blur-xl" [title]="panelTitle()">
   @if (inquiry()) {
-    <span
-      panelAction
-      class="text-xs font-semibold px-2 py-1 rounded-full shrink-0"
-      [class]="status().classes"
-      >{{ status().label }}</span
-    >
+    <app-badge panelAction [text]="status().label" [color]="status().classes" />
   }
 
   @if (inquiry(); as inquiry) {

@@ -37,11 +37,10 @@
                 <span class="font-semibold text-emerald-100">{{ reservedAt(reservation) }}</span>
               </p>
             </div>
-            <span
-              class="text-xs font-semibold px-2 py-1 rounded-full shrink-0"
-              [class]="statusMeta(reservation).classes"
-              >{{ statusMeta(reservation).label }}</span
-            >
+            <app-badge
+              [text]="statusMeta(reservation).label"
+              [color]="statusMeta(reservation).classes"
+            />
           </div>
 
           <app-slider
