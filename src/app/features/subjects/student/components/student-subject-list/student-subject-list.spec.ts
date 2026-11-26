@@ -50,7 +50,7 @@ describe('StudentSubjectList', () => {
     await flushPage(
       createPagedStudentSubjects([
         createStudentSubject({ id: 1, subjectName: 'Osnove programiranja', classesCount: 0 }),
-        createStudentSubject({ id: 2, subjectName: 'Baze podataka', studentsCount: 12 }),
+        createStudentSubject({ id: 2, subjectName: 'Baze podataka', classesCount: 12 }),
       ]),
     );
 

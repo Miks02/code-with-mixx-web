@@ -38,7 +38,6 @@ describe('StudentSubjectDetails', () => {
             subjectName: 'Baze podataka',
             subjectDescription: 'Relacioni model i SQL upiti',
             classesCount: 0,
-            studentsCount: 12,
           }),
         ]),
       );
@@ -57,7 +56,7 @@ describe('StudentSubjectDetails', () => {
     const values = Array.from(element.querySelectorAll('span.font-semibold')).map(
       (span) => span.textContent,
     );
-    expect(values).toEqual(['0', '12']);
+    expect(values).toEqual(['0']);
   });
 
   it('shows the empty state when nothing is selected', async () => {

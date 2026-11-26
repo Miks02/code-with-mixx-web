@@ -1,10 +1,6 @@
 import { Component, computed, inject } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import {
-  faSolidCalendar,
-  faSolidHandPointer,
-  faSolidUserGraduate,
-} from '@ng-icons/font-awesome/solid';
+import { faSolidCalendar, faSolidHandPointer } from '@ng-icons/font-awesome/solid';
 import { EmptyState } from '@shared/components/empty-state/empty-state';
 import { Panel } from '@shared/components/panel/panel';
 import { StudentSubjectStore } from '@features/subjects/student/stores/student-subject-store';
@@ -17,7 +13,7 @@ type SubjectStat = {
 
 @Component({
   imports: [NgIcon, Panel, EmptyState],
-  providers: [provideIcons({ faSolidCalendar, faSolidHandPointer, faSolidUserGraduate })],
+  providers: [provideIcons({ faSolidCalendar, faSolidHandPointer })],
   selector: 'app-student-subject-details',
   styleUrl: './student-subject-details.css',
   templateUrl: './student-subject-details.html',
@@ -31,9 +27,6 @@ export class StudentSubjectDetails {
     const subject = this.subject();
     if (!subject) return [];
 
-    return [
-      { icon: 'faSolidCalendar', value: subject.classesCount, label: 'Časovi' },
-      { icon: 'faSolidUserGraduate', value: subject.studentsCount, label: 'Studenti' },
-    ];
+    return [{ icon: 'faSolidCalendar', value: subject.classesCount, label: 'Časovi' }];
   });
 }

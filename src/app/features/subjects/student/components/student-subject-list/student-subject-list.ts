@@ -3,7 +3,7 @@ import { PagedList } from '@shared/components/paged-list/paged-list';
 import { SearchBar } from '@shared/components/search-bar/search-bar';
 import { SortMenu } from '@shared/components/sort-menu/sort-menu';
 import { SubjectCard } from '@features/subjects/components/subject-card/subject-card';
-import { StudentSubjectItem } from '@features/subjects/models/student-subject-item';
+import { StudentSubjectItem } from '@features/subjects/student/models/student-subject-item';
 import { SubjectSort } from '@features/subjects/models/subject-sort';
 import { StudentSubjectStore } from '@features/subjects/student/stores/student-subject-store';
 

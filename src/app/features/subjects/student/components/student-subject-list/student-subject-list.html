@@ -25,7 +25,6 @@
         [subjectName]="subject.subjectName"
         [subjectDescription]="subject.subjectDescription"
         [classesCount]="subject.classesCount"
-        [studentsCount]="subject.studentsCount"
         [addOpacity]="store.subjectsFetching()"
         [isSelected]="subject.id === store.selectedSubjectId()"
         (selected)="toggleSubject(subject)"
