@@ -1,17 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import {
-  faSolidChevronLeft,
-  faSolidChevronRight,
-  faSolidPlus,
-  faSolidUserSlash,
-  faSolidXmark,
-} from '@ng-icons/font-awesome/solid';
+import { faSolidPlus, faSolidUserSlash } from '@ng-icons/font-awesome/solid';
 import { Button } from '@shared/components/button/button';
+import { PagedList } from '@shared/components/paged-list/paged-list';
 import { FilterContainer } from '@shared/components/filter-container/filter-container';
 import { FilterMenu } from '@shared/components/filter-menu/filter-menu';
 import { SearchBar } from '@shared/components/search-bar/search-bar';
-import { Skeleton } from '@shared/components/skeleton/skeleton';
 import { SortMenu } from '@shared/components/sort-menu/sort-menu';
 import { StudentFilter } from '@features/students/models/student-filter';
 import { StudentSort } from '@features/students/models/student-sort';
@@ -30,14 +24,20 @@ const CONFLICTING_FILTERS: Record<StudentFilter, StudentFilter[]> = {
 };
 
 @Component({
-  imports: [StudentCard, Button, SearchBar, SortMenu, FilterContainer, FilterMenu, NgIcon, Skeleton],
+  imports: [
+    StudentCard,
+    Button,
+    SearchBar,
+    SortMenu,
+    FilterContainer,
+    FilterMenu,
+    NgIcon,
+    PagedList,
+  ],
   providers: [
     provideIcons({
-      faSolidChevronLeft,
-      faSolidChevronRight,
       faSolidPlus,
       faSolidUserSlash,
-      faSolidXmark,
     }),
   ],
   selector: 'app-admin-student-list',
@@ -48,7 +48,6 @@ export class AdminStudentList {
   protected store = inject(AdminStudentStore);
 
   protected conflictingFilters = CONFLICTING_FILTERS;
-  protected skeletonItems = Array.from({ length: 6 });
 
   protected sort: Record<StudentSort, string> = {
     [StudentSort.NameAscending]: 'Po imenu (A-Z)',
