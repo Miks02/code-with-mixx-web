@@ -23,4 +23,12 @@ export const CLASSES_ADMIN_ROUTES: Routes = [
         (c) => c.ClassReservationUpdatePage,
       ),
   },
+  {
+    title: pageTitle('Detalji rezervacije'),
+    path: 'details/:id',
+    loadComponent: () =>
+      import('./pages/class-reservation-details-page/class-reservation-details-page').then(
+        (c) => c.ClassReservationDetailsPage,
+      ),
+  },
 ];

@@ -1,15 +1,31 @@
 <div class="grid grid-cols-1 lg:grid-cols-3 w-full gap-4 items-start">
-  <div class="w-full flex justify-between flex-wrap lg:col-span-3">
-    <div class="flex gap-2 text-emerald-100 items-center">
+  <div class="w-full flex justify-between items-center gap-3 flex-wrap lg:col-span-3">
+    <div class="flex gap-2 text-emerald-100 items-center min-w-0">
       <a routerLink="/admin/classes" class="text-emerald-200">Časovi</a>
       <span>/</span>
       <p>Ažuriranje rezervacije</p>
     </div>
 
-    <app-button routerLink="/admin/classes" variant="ghost">
-      <span class="md:block hidden">Nazad na časove</span>
-      <span class="md:hidden">Nazad</span>
-    </app-button>
+    <div class="flex items-center gap-2">
+      @if (!store.isNotFound()) {
+        <app-button
+          [routerLink]="['/admin/classes/details', store.reservationId()]"
+          variant="ghost"
+          icon="faSolidEye"
+          aria-label="Detalji rezervacije"
+        >
+          <span class="hidden md:inline">Detalji rezervacije</span>
+        </app-button>
+      }
+      <app-button
+        routerLink="/admin/classes"
+        variant="ghost"
+        icon="faSolidArrowLeft"
+        aria-label="Nazad na časove"
+      >
+        <span class="hidden md:inline">Nazad na časove</span>
+      </app-button>
+    </div>
   </div>
 
   @if (store.isNotFound()) {

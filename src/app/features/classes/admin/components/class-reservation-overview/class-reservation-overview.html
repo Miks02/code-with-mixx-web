@@ -1,0 +1,88 @@
+<app-panel [title]="title()">
+  @if (reservationStatus(); as status) {
+    <app-badge panelAction [text]="status.label" [color]="status.classes" />
+  }
+
+  @if (store.detailsPending()) {
+    <div class="flex items-center gap-3">
+      <app-skeleton variant="circular" width="3.5rem" />
+      <div class="flex flex-col gap-2 flex-1">
+        <app-skeleton width="60%" height="1.25rem" />
+        <app-skeleton width="40%" />
+      </div>
+    </div>
+    <div class="flex flex-col gap-3">
+      @for (row of skeletonRows; track row) {
+        <app-skeleton width="75%" />
+      }
+    </div>
+    <app-skeleton height="6rem" />
+  } @else if (store.details(); as details) {
+    <div class="flex items-center gap-3 min-w-0">
+      <div class="flex justify-center items-center rounded-full h-14 w-14 shrink-0 bg-emerald-500">
+        <span class="text-lg font-semibold text-emerald-950">{{ initials() }}</span>
+      </div>
+      <h1 class="text-2xl font-bold text-white truncate">{{ details.studentFullName }}</h1>
+    </div>
+
+    <dl class="flex flex-col gap-3">
+      @for (row of infoRows(); track row.label) {
+        <div class="flex items-center gap-3 min-w-0">
+          <ng-icon [name]="row.icon" class="text-emerald-400! self-center! shrink-0"></ng-icon>
+          <div class="flex flex-col min-w-0">
+            <dt class="text-xs text-emerald-100/70">{{ row.label }}</dt>
+            <dd class="text-sm text-emerald-100 truncate">{{ row.value }}</dd>
+          </div>
+        </div>
+      }
+    </dl>
+
+    <div class="flex flex-col gap-2 border-t border-emerald-700/40 pt-4">
+      <div class="flex items-center justify-between gap-2">
+        <h2 class="text-emerald-100 font-semibold">Finansije</h2>
+        @if (paymentStatus(); as status) {
+          <app-badge [text]="status.label" [color]="status.classes" />
+        }
+      </div>
+
+      @for (row of financeRows(); track row.label) {
+        <div class="flex justify-between gap-3 text-sm">
+          <span class="text-emerald-100/70">{{ row.label }}</span>
+          <span class="font-semibold text-emerald-100">{{ row.value }}</span>
+        </div>
+      }
+
+      <div class="flex flex-col gap-2 rounded-lg bg-emerald-900/80 px-3 py-3">
+        <div class="flex justify-between items-end gap-3">
+          <span class="text-sm text-emerald-100/70">Preostalo za uplatu</span>
+          <span
+            class="text-xl font-bold"
+            [class.text-amber-400]="remainingAmount() > 0"
+            [class.text-emerald-100]="remainingAmount() === 0"
+            >{{ remainingLabel() }}</span
+          >
+        </div>
+        <div
+          class="h-1.5 w-full rounded-full bg-emerald-950 overflow-hidden"
+          role="progressbar"
+          [attr.aria-valuenow]="paidPercent()"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-label="Plaćeni deo rezervacije"
+        >
+          <div class="h-full rounded-full bg-emerald-400" [style.width.%]="paidPercent()"></div>
+        </div>
+        <span class="text-xs text-emerald-100/70">Plaćeno {{ paidPercent() }}% ukupne cene</span>
+      </div>
+    </div>
+
+    @if (details.description) {
+      <div class="flex flex-col gap-2 border-t border-emerald-700/40 pt-4">
+        <h2 class="text-emerald-100 font-semibold">Opis</h2>
+        <p class="text-sm text-emerald-100 whitespace-pre-line wrap-break-word">
+          {{ details.description }}
+        </p>
+      </div>
+    }
+  }
+</app-panel>

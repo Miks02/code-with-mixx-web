@@ -132,6 +132,7 @@ describe('ClassReservationDetails', () => {
         'Promeni status',
         'Registruj uplatu',
         'Skini uplatu',
+        'Detalji rezervacije',
         'Ažuriraj rezervaciju',
       ]);
     });
@@ -140,7 +141,7 @@ describe('ClassReservationDetails', () => {
       await load({ deletedAt: '2026-11-01T10:00:00Z' });
 
       expect(element.textContent).toContain('Arhivirano:');
-      expect(buttonLabels()).toEqual(['Pregled uplata', 'Vrati iz arhive']);
+      expect(buttonLabels()).toEqual(['Pregled uplata', 'Vrati iz arhive', 'Detalji rezervacije']);
     });
 
     it('offers hard deletion only when the backend allows it', async () => {
@@ -314,5 +315,14 @@ describe('ClassReservationDetails', () => {
     getButton(element, 'Ažuriraj rezervaciju')!.click();
 
     expect(navigate).toHaveBeenCalledWith(['admin/classes/update/1']);
+  });
+
+  it('"Detalji rezervacije" opens the read-only details page', async () => {
+    const navigate = vi.spyOn(TestBed.inject(Router), 'navigate').mockResolvedValue(true);
+    await load();
+
+    getButton(element, 'Detalji rezervacije')!.click();
+
+    expect(navigate).toHaveBeenCalledWith(['admin/classes/details/1']);
   });
 });
