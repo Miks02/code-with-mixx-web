@@ -114,4 +114,52 @@ describe('StudentSubjectStore', () => {
     expect(store.params.searchTerm()).toBe('baz');
     expect(store.params.pageNumber()).toBe(1);
   });
+
+  describe('selection', () => {
+    it('selects the first subject once the page loads', async () => {
+      expect(store.selectedSubject()).toBeUndefined();
+
+      await flushPage();
+
+      expect(store.selectedSubjectId()).toBe(1);
+    });
+
+    it('keeps the selected subject when it is still on the refetched page', async () => {
+      await flushPage();
+      store.selectSubject(store.pagedSubjectsItems()![1]);
+
+      store.setSort(SubjectSort.NameAscending);
+      await flushPage(
+        createPagedStudentSubjects([
+          createStudentSubject({ id: 5 }),
+          createStudentSubject({ id: 2, classesCount: 9 }),
+        ]),
+        { sortBy: SubjectSort.NameAscending },
+      );
+
+      expect(store.selectedSubjectId()).toBe(2);
+      expect(store.selectedSubject()?.classesCount).toBe(9);
+    });
+
+    it('falls back to the first subject when the selected one is no longer on the page', async () => {
+      await flushPage();
+      store.selectSubject(store.pagedSubjectsItems()![1]);
+
+      store.nextPage();
+      await flushPage(secondPage, { pageNumber: '2' });
+
+      expect(store.selectedSubjectId()).toBe(3);
+    });
+
+    it('requests a scroll to the details only when a subject is selected', async () => {
+      await flushPage();
+
+      store.selectSubject(store.pagedSubjectsItems()![1]);
+      expect(store.detailsScrollRequests()).toBe(1);
+
+      store.selectSubject(undefined);
+      expect(store.selectedSubject()).toBeUndefined();
+      expect(store.detailsScrollRequests()).toBe(1);
+    });
+  });
 });
