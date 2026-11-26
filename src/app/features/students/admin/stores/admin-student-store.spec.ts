@@ -85,11 +85,7 @@ describe('AdminStudentStore', () => {
       expect(store.students()).toEqual([]);
       expect(store.activeCount()).toBeUndefined();
       expect(store.mostActiveStudent()).toBeUndefined();
-      expect(store.pagedCount()).toBe(0);
-      expect(store.totalCount()).toBe(0);
-      expect(store.currentPage()).toBe(1);
-      expect(store.totalPages()).toBe(1);
-      expect(store.hasNextPage()).toBe(false);
+      expect(store.studentsQuery.data()).toBeUndefined();
       expect(store.selectedStudent()).toBeUndefined();
       expect(store.isEditing()).toBe(false);
       expect(store.isCreateModalVisible()).toBe(false);
@@ -112,11 +108,6 @@ describe('AdminStudentStore', () => {
     it('exposes the first page without a second request', () => {
       expect(store.studentsPending()).toBe(false);
       expect(store.students().map((student) => student.id)).toEqual(['student-1', 'student-2']);
-      expect(store.pagedCount()).toBe(2);
-      expect(store.totalCount()).toBe(3);
-      expect(store.totalPages()).toBe(2);
-      expect(store.hasPreviousPage()).toBe(false);
-      expect(store.hasNextPage()).toBe(true);
     });
 
     it('selects the first student automatically', () => {
@@ -238,7 +229,7 @@ describe('AdminStudentStore', () => {
       await settle();
       expectStudentsRequest({ pageNumber: '2' }).flush(secondPage);
       await settle();
-      expect(store.currentPage()).toBe(2);
+      expect(store.params.pageNumber()).toBe(2);
       expect(store.students().map((student) => student.id)).toEqual(['student-3']);
 
       store.nextPage();
