@@ -21,7 +21,7 @@
           <p class="text-emerald-100 font-semibold text-xl">{{ nextClass()?.subjectName }}</p>
           <div class="flex px-1 gap-2 items-center text-amber-300">
             <ng-icon name="faSolidClock"></ng-icon>
-            <p>
+            <p class="font-semibold text-emerald-100">
               {{
                 timeConverter(nextClass()?.startsAt!) + ' - ' + timeConverter(nextClass()?.endsAt!)
               }}
@@ -55,7 +55,7 @@
                 </p>
                 <div class="flex gap-2 items-center text-sm md:text-base text-amber-300">
                   <ng-icon name="faSolidClock"></ng-icon>
-                  <p>
+                  <p class="font-semibold text-emerald-100">
                     {{ timeConverter(class.startsAt) + ' - ' + timeConverter(class.endsAt) }}
                   </p>
                 </div>

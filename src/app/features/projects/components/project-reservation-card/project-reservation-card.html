@@ -25,17 +25,13 @@
   </div>
 
   <div
-    class="flex justify-between gap-4 border-t pt-2 text-xs"
-    [class]="[accentColor().border, accentColor().mutedText]"
+    class="flex justify-between gap-4 border-t pt-2 text-xs text-amber-300"
+    [class]="accentColor().border"
   >
     <div class="flex flex-col gap-1 min-w-0">
       @for (stat of stats(); track stat.label) {
         <div class="flex items-center gap-1.5">
-          <ng-icon
-            [name]="stat.icon"
-            class="self-center! shrink-0"
-            [class]="accentColor().icon"
-          ></ng-icon>
+          <ng-icon [name]="stat.icon" class="self-center! shrink-0 text-amber-300!"></ng-icon>
           <span>{{ stat.label }}</span>
           <span class="font-semibold text-emerald-100">{{ stat.value }}</span>
         </div>
@@ -44,11 +40,7 @@
 
     <div class="flex flex-col gap-1 min-w-0 items-end">
       <div class="flex items-center gap-1.5">
-        <ng-icon
-          name="faSolidCalendarPlus"
-          class="self-center! shrink-0"
-          [class]="accentColor().icon"
-        ></ng-icon>
+        <ng-icon name="faSolidCalendarPlus" class="self-center! shrink-0 text-amber-300!"></ng-icon>
         <span>Kreirana</span>
         <span class="font-semibold text-emerald-100">{{
           reservation().createdAt | date: 'dd.MM.yyyy'
@@ -57,8 +49,7 @@
       <div class="flex items-center gap-1.5">
         <ng-icon
           name="faSolidCalendarCheck"
-          class="self-center! shrink-0"
-          [class]="accentColor().icon"
+          class="self-center! shrink-0 text-amber-300!"
         ></ng-icon>
         <span>Rezervisana</span>
         <span class="font-semibold text-emerald-100">{{
@@ -67,11 +58,7 @@
       </div>
       @if (reservation().deletedAt; as deletedAt) {
         <div class="flex items-center gap-1.5">
-          <ng-icon
-            name="faSolidBoxArchive"
-            class="self-center! shrink-0"
-            [class]="accentColor().icon"
-          ></ng-icon>
+          <ng-icon name="faSolidBoxArchive" class="self-center! shrink-0 text-amber-300!"></ng-icon>
           <span>Arhivirana</span>
           <span class="font-semibold text-emerald-100">{{ deletedAt | date: 'dd.MM.yyyy' }}</span>
         </div>

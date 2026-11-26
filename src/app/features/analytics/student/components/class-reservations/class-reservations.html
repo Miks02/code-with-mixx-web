@@ -32,7 +32,10 @@
               <p class="text-emerald-100 font-semibold text-lg">
                 Rezervacija #{{ reservation.reservationId }}
               </p>
-              <p class="text-sm text-emerald-100/70">Rezervisano {{ reservedAt(reservation) }}</p>
+              <p class="text-sm text-amber-300">
+                Rezervisano
+                <span class="font-semibold text-emerald-100">{{ reservedAt(reservation) }}</span>
+              </p>
             </div>
             <span
               class="text-xs font-semibold px-2 py-1 rounded-full shrink-0"

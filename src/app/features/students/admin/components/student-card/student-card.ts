@@ -16,7 +16,6 @@ const BASE_CLASSES =
 type AccentColor = {
   avatar: string;
   initials: string;
-  icon: string;
   mutedText: string;
   border: string;
   selectedBackground: string;
@@ -30,7 +29,6 @@ type StatusClasses = {
 const EMERALD_ACCENT: AccentColor = {
   avatar: 'bg-emerald-500',
   initials: 'text-emerald-950',
-  icon: 'text-emerald-400!',
   mutedText: 'text-emerald-300',
   border: 'border-emerald-700/40',
   selectedBackground: 'bg-emerald-600/70',
@@ -39,7 +37,6 @@ const EMERALD_ACCENT: AccentColor = {
 const RED_ACCENT: AccentColor = {
   avatar: 'bg-red-400',
   initials: 'text-red-950',
-  icon: 'text-red-400!',
   mutedText: 'text-red-300',
   border: 'border-red-600/40',
   selectedBackground: 'bg-red-600/50',
@@ -48,7 +45,6 @@ const RED_ACCENT: AccentColor = {
 const PENDING_ACCENT: AccentColor = {
   avatar: 'bg-amber-400',
   initials: 'text-amber-950',
-  icon: 'text-amber-400!',
   mutedText: 'text-amber-200',
   border: 'border-amber-600/40',
   selectedBackground: 'bg-amber-600/50',
