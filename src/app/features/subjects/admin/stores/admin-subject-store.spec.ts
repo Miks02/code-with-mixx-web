@@ -76,12 +76,7 @@ describe('AdminSubjectStore', () => {
       expect(store.summaryPending()).toBe(true);
       expect(store.subjectsPending()).toBe(true);
       expect(store.pagedSubjectsItems()).toBeUndefined();
-      expect(store.pagedSubjectsCount()).toBe(0);
-      expect(store.pagedSubjectsTotalCount()).toBe(0);
-      expect(store.currentPage()).toBe(1);
-      expect(store.totalPages()).toBe(1);
-      expect(store.hasPreviousPage()).toBe(false);
-      expect(store.hasNextPage()).toBe(false);
+      expect(store.pagedSubjects()).toBeUndefined();
       await flushSummary();
     });
   });
@@ -96,11 +91,6 @@ describe('AdminSubjectStore', () => {
       expect(store.summary()?.totalSubjects).toBe(4);
       expect(store.mostPopularSubject()?.id).toBe(1);
       expect(store.pagedSubjectsItems()?.map((subject) => subject.id)).toEqual([1, 2]);
-      expect(store.pagedSubjectsCount()).toBe(2);
-      expect(store.pagedSubjectsTotalCount()).toBe(4);
-      expect(store.currentPage()).toBe(1);
-      expect(store.totalPages()).toBe(2);
-      expect(store.hasNextPage()).toBe(true);
       // http.verify() in afterEach proves the paged list came from the summary, not a new GET.
     });
 
@@ -130,9 +120,6 @@ describe('AdminSubjectStore', () => {
       await settle();
 
       expect(store.params.pageNumber()).toBe(2);
-      expect(store.currentPage()).toBe(2);
-      expect(store.hasPreviousPage()).toBe(true);
-      expect(store.hasNextPage()).toBe(false);
       expect(store.pagedSubjectsItems()?.map((subject) => subject.id)).toEqual([3, 4]);
     });
 

@@ -4,10 +4,9 @@ import { NgIcon, provideIcons } from '@ng-icons/core';
 import { faSolidCalendarXmark } from '@ng-icons/font-awesome/solid';
 import { Button } from '@shared/components/button/button';
 import { StudentSelection } from '@features/students';
+import { ReservationPricing, ReservationSummary } from '@features/reservations';
 import { ProjectFormService } from '@features/projects/services/project-form-service';
 import { ProjectReservationListForm } from '@features/projects/admin/components/project-reservation-list-form/project-reservation-list-form';
-import { ProjectReservationPricing } from '@features/projects/admin/components/project-reservation-pricing/project-reservation-pricing';
-import { ProjectReservationSummary } from '@features/projects/admin/components/project-reservation-summary/project-reservation-summary';
 import { AdminProjectReservationStore } from '@features/projects/admin/stores/admin-project-reservation-store';
 
 @Component({
@@ -17,8 +16,8 @@ import { AdminProjectReservationStore } from '@features/projects/admin/stores/ad
     Button,
     StudentSelection,
     ProjectReservationListForm,
-    ProjectReservationPricing,
-    ProjectReservationSummary,
+    ReservationPricing,
+    ReservationSummary,
   ],
   providers: [
     ProjectFormService,
@@ -31,4 +30,5 @@ import { AdminProjectReservationStore } from '@features/projects/admin/stores/ad
 })
 export class ProjectReservationDetailsPage {
   protected store = inject(AdminProjectReservationStore);
+  protected formService = inject(ProjectFormService);
 }

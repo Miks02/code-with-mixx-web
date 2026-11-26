@@ -38,7 +38,8 @@ describe('AdminInquiryList', () => {
   const cardBody = (index: number) => cards()[index].querySelector<HTMLElement>('[role="button"]')!;
   const cardCheckbox = (index: number) =>
     cards()[index].querySelector<HTMLButtonElement>('button[role="checkbox"]')!;
-  const selectAll = () => getButton(element, 'Označi sve na strani')!;
+  const selectAll = () =>
+    element.querySelector<HTMLButtonElement>('button[aria-label="Označi sve na strani"]')!;
   const pageButton = (label: string) =>
     element.querySelector<HTMLButtonElement>(`app-button[aria-label="${label}"] button`)!;
 

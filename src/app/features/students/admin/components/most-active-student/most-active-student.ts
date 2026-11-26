@@ -8,6 +8,7 @@ import {
   faSolidTrophy,
 } from '@ng-icons/font-awesome/solid';
 import { Skeleton } from '@shared/components/skeleton/skeleton';
+import { Panel } from '@shared/components/panel/panel';
 import { StudentItem } from '@features/students/models/student-item';
 
 type MostActiveStudentStat = {
@@ -17,7 +18,7 @@ type MostActiveStudentStat = {
 };
 
 @Component({
-  imports: [NgIcon, Skeleton],
+  imports: [NgIcon, Skeleton, Panel],
   providers: [
     provideIcons({
       faSolidCalendar,

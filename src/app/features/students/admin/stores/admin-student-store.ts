@@ -68,12 +68,6 @@ export const AdminStudentStore = signalStore(
     deletedCount: computed(() => store.summaryQuery.data()?.deletedStudents),
     mostActiveStudent: computed(() => store.summaryQuery.data()?.mostActiveStudent),
     students: computed(() => store.studentsQuery.data()?.items ?? []),
-    pagedCount: computed(() => store.studentsQuery.data()?.paginatedCount ?? 0),
-    totalCount: computed(() => store.studentsQuery.data()?.totalCount ?? 0),
-    currentPage: computed(() => store.studentsQuery.data()?.pageNumber ?? 1),
-    totalPages: computed(() => store.studentsQuery.data()?.totalPages ?? 1),
-    hasPreviousPage: computed(() => store.studentsQuery.data()?.hasPreviousPage ?? false),
-    hasNextPage: computed(() => store.studentsQuery.data()?.hasNextPage ?? false),
     studentsPending: computed(() => store.studentsQuery.isPending()),
     studentsFetching: computed(() => store.studentsQuery.isFetching()),
     selectedStudentId: computed(() => store.selectedStudent()?.id),
@@ -106,12 +100,14 @@ export const AdminStudentStore = signalStore(
         patchParams({ filters, pageNumber: 1 });
       },
       previousPage() {
-        if (!store.hasPreviousPage()) return;
-        patchParams({ pageNumber: store.currentPage() - 1 });
+        const page = store.studentsQuery.data();
+        if (!page?.hasPreviousPage) return;
+        patchParams({ pageNumber: page.pageNumber - 1 });
       },
       nextPage() {
-        if (!store.hasNextPage()) return;
-        patchParams({ pageNumber: store.currentPage() + 1 });
+        const page = store.studentsQuery.data();
+        if (!page?.hasNextPage) return;
+        patchParams({ pageNumber: page.pageNumber + 1 });
       },
       selectStudent(student: StudentItem | undefined) {
         patchState(store, {

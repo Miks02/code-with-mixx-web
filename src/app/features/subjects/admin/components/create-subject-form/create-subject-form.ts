@@ -3,6 +3,7 @@ import { FormField, submit } from '@angular/forms/signals';
 import { provideIcons } from '@ng-icons/core';
 import { faSolidCirclePlus } from '@ng-icons/font-awesome/solid';
 import { Button } from '@shared/components/button/button';
+import { Panel } from '@shared/components/panel/panel';
 import { CreateSubjectRequest } from '@features/subjects/models/create-subject-request';
 import { SubjectService } from '@features/subjects/services/subject-service';
 import { createSubjectForm } from '@features/subjects/admin/factories/subject-factories';
@@ -11,7 +12,7 @@ import { getErrorCode } from '@core/utilities/problem-details-helpers';
 import { getSubjectErrorMessage } from '@features/subjects/utilities/subject-error-messages';
 
 @Component({
-  imports: [FormField, Button],
+  imports: [FormField, Button, Panel],
   providers: [provideIcons({ faSolidCirclePlus })],
   selector: 'app-create-subject-form',
   styleUrl: './create-subject-form.css',

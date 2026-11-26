@@ -19,7 +19,7 @@ describe('CreateClassReservationPage', () => {
       (button) => button.textContent?.includes(name),
     )!;
   const checks = () =>
-    Array.from(element.querySelectorAll('app-class-reservation-summary li')).map((check) =>
+    Array.from(element.querySelectorAll('app-reservation-summary li')).map((check) =>
       check.textContent?.trim(),
     );
 

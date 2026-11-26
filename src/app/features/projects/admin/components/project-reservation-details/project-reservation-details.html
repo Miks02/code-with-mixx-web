@@ -1,33 +1,32 @@
-<div
-  class="bg-emerald-950/80 backdrop-blur-xl rounded-lg shadow-lg p-4 h-full min-h-80 flex flex-col gap-4 relative"
+<app-panel
+  class="h-full min-h-80 relative backdrop-blur-xl"
+  [title]="reservation()?.studentFullName ?? 'Detalji rezervacije'"
 >
+  @if (reservation()) {
+    <div panelAction class="flex items-center gap-2 shrink-0">
+      <span
+        class="text-xs font-semibold px-2 py-1 rounded-full"
+        [class]="reservationStatus()?.classes"
+        >{{ reservationStatus()?.label }}</span
+      >
+      <span
+        class="text-xs font-semibold px-2 py-1 rounded-full"
+        [class]="paymentStatus()?.classes"
+        >{{ paymentStatus()?.label }}</span
+      >
+    </div>
+  }
+
   @if (reservation(); as reservation) {
-    <div class="flex flex-wrap w-full items-center justify-between min-w-0 gap-2">
-      <div class="flex items-center flex-wrap gap-2 min-w-0">
-        <h2 class="text-xl font-semibold text-emerald-100 truncate">
-          {{ reservation.studentFullName }}
-        </h2>
-        <span
-          class="text-xs font-semibold px-2 py-1 rounded-full shrink-0"
-          [class]="reservationStatus()?.classes"
-          >{{ reservationStatus()?.label }}</span
-        >
-        <span
-          class="text-xs font-semibold px-2 py-1 rounded-full shrink-0"
-          [class]="paymentStatus()?.classes"
-          >{{ paymentStatus()?.label }}</span
-        >
-      </div>
-      <div class="flex flex-col gap-2">
-        @if (reservation.deletedAt) {
-          <p class="text-amber-100/80 font-semibold">
-            Arhivirano: {{ reservation.deletedAt | srDate }}
-          </p>
-        }
-        <p class="text-emerald-100/80 font-semibold">
-          Kreirano: {{ reservation.createdAt | srDate }}
+    <div class="flex flex-wrap items-center justify-between gap-x-4 gap-y-1">
+      <p class="text-emerald-100/80 font-semibold">
+        Kreirano: {{ reservation.createdAt | srDate }}
+      </p>
+      @if (reservation.deletedAt) {
+        <p class="text-amber-100/80 font-semibold">
+          Arhivirano: {{ reservation.deletedAt | srDate }}
         </p>
-      </div>
+      }
     </div>
 
     <div class="flex gap-2 flex-wrap">
@@ -140,21 +139,12 @@
       }
     </div>
   } @else {
-    <div
-      class="flex flex-col items-center justify-center gap-3 text-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-    >
-      <div class="flex justify-center items-center bg-emerald-900 rounded-full h-14 w-14">
-        <ng-icon
-          name="faSolidHandPointer"
-          class="text-emerald-400! text-2xl self-center!"
-        ></ng-icon>
-      </div>
-      <p class="text-emerald-200 font-medium text-lg w-full">
-        Izaberi rezervaciju iz liste da vidiš detalje
-      </p>
-    </div>
+    <app-empty-state
+      icon="faSolidHandPointer"
+      message="Izaberi rezervaciju iz liste da vidiš detalje"
+    ></app-empty-state>
   }
-</div>
+</app-panel>
 
 @if (reservation(); as reservation) {
   @if (store.reservationModal(); as reservationModal) {

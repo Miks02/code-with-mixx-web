@@ -1,9 +1,10 @@
 import { Component, input } from '@angular/core';
 import { NgIcon } from '@ng-icons/core';
+import { Panel } from '../panel/panel';
 import { Skeleton } from '../skeleton/skeleton';
 
 @Component({
-  imports: [NgIcon, Skeleton],
+  imports: [NgIcon, Panel, Skeleton],
   selector: 'app-stats-card',
   styleUrl: './stats-card.css',
   templateUrl: './stats-card.html',

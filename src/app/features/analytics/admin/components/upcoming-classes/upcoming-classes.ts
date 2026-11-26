@@ -5,9 +5,11 @@ import { NgIcon, provideIcons } from '@ng-icons/core';
 import { faSolidCalendarXmark, faSolidClock } from '@ng-icons/font-awesome/solid';
 import { RouterLink } from '@angular/router';
 import { Skeleton } from '@shared/components/skeleton/skeleton';
+import { Panel } from '@shared/components/panel/panel';
+import { EmptyState } from '@shared/components/empty-state/empty-state';
 
 @Component({
-  imports: [NgIcon, DatePipe, RouterLink, Skeleton],
+  imports: [NgIcon, DatePipe, RouterLink, Skeleton, Panel, EmptyState],
   providers: [provideIcons({ faSolidClock, faSolidCalendarXmark })],
   selector: 'app-upcoming-classes',
   styleUrl: './upcoming-classes.css',

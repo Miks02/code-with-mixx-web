@@ -1,6 +1,4 @@
-<div
-  class="bg-emerald-950/80 backdrop-blur-xl rounded-lg shadow-lg p-4 h-full min-h-80 flex flex-col gap-4 relative"
->
+<app-panel class="h-full min-h-80 relative backdrop-blur-xl" [title]="studentName()">
   @if (store.isUpdating()) {
     <div
       class="absolute w-full h-full top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 bg-emerald-900/50 z-10"
@@ -10,18 +8,17 @@
       </div>
     </div>
   }
+  @if (status(); as status) {
+    <span
+      panelAction
+      class="text-xs font-semibold px-2 py-1 rounded-full shrink-0"
+      [class]="status.classes"
+      >{{ status.label }}</span
+    >
+  }
+
   @if (selectedStudent(); as student) {
-    <div class="flex flex-wrap w-full items-center justify-between min-w-0 gap-1">
-      <div class="flex items-center gap-4 min-w-0">
-        <h2 class="text-xl font-semibold text-emerald-100 truncate">{{ studentName() }}</h2>
-        <span
-          class="text-xs font-semibold px-2 py-1 rounded-full shrink-0"
-          [class]="status()?.classes"
-          >{{ status()?.label }}</span
-        >
-      </div>
-      <p class="text-emerald-100/80 font-semibold">Registrovan: {{ registeredAtLabel() }}</p>
-    </div>
+    <p class="text-emerald-100/80 font-semibold">Registrovan: {{ registeredAtLabel() }}</p>
 
     <div class="flex gap-2 flex-wrap">
       @for (stat of stats(); track stat.label) {
@@ -212,4 +209,4 @@
       >
     </div>
   }
-</div>
+</app-panel>

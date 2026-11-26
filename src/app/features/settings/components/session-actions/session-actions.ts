@@ -15,6 +15,7 @@ import { DialogService } from '@core/services/dialog-service';
 import { ToastService } from '@core/services/toast-service';
 import { UserState } from '@core/services/user-state';
 import { Button } from '@shared/components/button/button';
+import { Panel } from '@shared/components/panel/panel';
 import { SrDatePipe } from '@shared/pipes/sr-date-pipe';
 
 const DEVICE_ICONS: Record<Device, string> = {
@@ -24,7 +25,7 @@ const DEVICE_ICONS: Record<Device, string> = {
 };
 
 @Component({
-  imports: [Button, NgIcon, SrDatePipe],
+  imports: [Button, NgIcon, SrDatePipe, Panel],
   providers: [
     provideIcons({
       faSolidArrowRightFromBracket,

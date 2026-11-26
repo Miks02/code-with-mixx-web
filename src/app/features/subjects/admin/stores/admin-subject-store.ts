@@ -68,12 +68,7 @@ export const AdminSubjectStore = signalStore(
     summaryPending: computed(() => store.summaryQuery.isPending()),
     mostPopularSubject: computed(() => store.summaryQuery.data()?.mostPopularSubject ?? undefined),
     pagedSubjectsItems: computed(() => store.subjectsQuery.data()?.items),
-    pagedSubjectsTotalCount: computed(() => store.subjectsQuery.data()?.totalCount ?? 0),
-    pagedSubjectsCount: computed(() => store.subjectsQuery.data()?.items.length ?? 0),
-    currentPage: computed(() => store.subjectsQuery.data()?.pageNumber ?? 1),
-    totalPages: computed(() => store.subjectsQuery.data()?.totalPages ?? 1),
-    hasPreviousPage: computed(() => store.subjectsQuery.data()?.hasPreviousPage ?? false),
-    hasNextPage: computed(() => store.subjectsQuery.data()?.hasNextPage ?? false),
+    pagedSubjects: computed(() => store.subjectsQuery.data()),
     selectedSubjectId: computed(() => store.selectedSubject()?.id),
     subjectsPending: computed(() => store.subjectsQuery.isPending()),
     subjectsFetching: computed(() => store.subjectsQuery.isFetching()),
@@ -94,12 +89,14 @@ export const AdminSubjectStore = signalStore(
         patchParams({ sortBy, pageNumber: 1 });
       },
       previousPage() {
-        if (!store.hasPreviousPage()) return;
-        patchParams({ pageNumber: store.currentPage() - 1 });
+        const page = store.pagedSubjects();
+        if (!page?.hasPreviousPage) return;
+        patchParams({ pageNumber: page.pageNumber - 1 });
       },
       nextPage() {
-        if (!store.hasNextPage()) return;
-        patchParams({ pageNumber: store.currentPage() + 1 });
+        const page = store.pagedSubjects();
+        if (!page?.hasNextPage) return;
+        patchParams({ pageNumber: page.pageNumber + 1 });
       },
       toggleOnlyArchived() {
         patchParams({ onlyArchived: !store.params.onlyArchived(), pageNumber: 1 });

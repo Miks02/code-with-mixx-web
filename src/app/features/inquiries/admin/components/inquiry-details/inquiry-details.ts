@@ -14,6 +14,7 @@ import { DialogResult } from '@core/components/dialog/dialog';
 import { DialogService } from '@core/services/dialog-service';
 import { ToastService } from '@core/services/toast-service';
 import { Button } from '@shared/components/button/button';
+import { Panel } from '@shared/components/panel/panel';
 import { SrDatePipe } from '@shared/pipes/sr-date-pipe';
 import { AdminInquiryStore } from '@features/inquiries/admin/stores/admin-inquiry-store';
 import { InquiryService } from '@features/inquiries/services/inquiry-service';
@@ -25,7 +26,7 @@ import {
 import { INQUIRY_TOAST_MESSAGES } from '@features/inquiries/utilities/inquiry-toast-messages';
 
 @Component({
-  imports: [NgIcon, Button, SrDatePipe],
+  imports: [NgIcon, Button, Panel, SrDatePipe],
   providers: [
     provideIcons({
       faSolidCalendarPlus,
@@ -53,6 +54,11 @@ export class InquiryDetails {
   inquiryType = computed(() => {
     const inquiry = this.inquiry();
     return inquiry ? INQUIRY_TYPE_LABELS[inquiry.inquiryType] : '';
+  });
+
+  panelTitle = computed(() => {
+    const inquiry = this.inquiry();
+    return inquiry ? `${inquiry.firstName} ${inquiry.lastName}` : 'Detalji upita';
   });
 
   status = computed(() =>

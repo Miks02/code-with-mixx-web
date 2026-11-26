@@ -76,12 +76,6 @@ export const AdminInquiryStore = signalStore(
     summary: computed(() => store.summaryQuery.data()),
     summaryPending: computed(() => store.summaryQuery.isPending()),
     pagedItems: computed(() => store.inquiriesQuery.data()?.items),
-    pagedCount: computed(() => store.inquiriesQuery.data()?.paginatedCount ?? 0),
-    pagedTotalCount: computed(() => store.inquiriesQuery.data()?.totalCount ?? 0),
-    currentPage: computed(() => store.inquiriesQuery.data()?.pageNumber ?? 1),
-    totalPages: computed(() => store.inquiriesQuery.data()?.totalPages ?? 1),
-    hasPreviousPage: computed(() => store.inquiriesQuery.data()?.hasPreviousPage ?? false),
-    hasNextPage: computed(() => store.inquiriesQuery.data()?.hasNextPage ?? false),
     inquiriesPending: computed(() => store.inquiriesQuery.isPending()),
     inquiriesFetching: computed(() => store.inquiriesQuery.isFetching()),
     isResolving: computed(() => store._inquiryService.resolveInquiryMutation.isPending()),
@@ -122,12 +116,14 @@ export const AdminInquiryStore = signalStore(
         patchParams({ filters: [...store.selectedStatusFilters(), ...typeFilters], pageNumber: 1 });
       },
       previousPage() {
-        if (!store.hasPreviousPage()) return;
-        patchParams({ pageNumber: store.currentPage() - 1 });
+        const page = store.inquiriesQuery.data();
+        if (!page?.hasPreviousPage) return;
+        patchParams({ pageNumber: page.pageNumber - 1 });
       },
       nextPage() {
-        if (!store.hasNextPage()) return;
-        patchParams({ pageNumber: store.currentPage() + 1 });
+        const page = store.inquiriesQuery.data();
+        if (!page?.hasNextPage) return;
+        patchParams({ pageNumber: page.pageNumber + 1 });
       },
       selectInquiry(inquiry: InquiryItem | undefined) {
         patchState(store, {

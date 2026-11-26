@@ -13,16 +13,18 @@ import {
   faSolidUser,
   faSolidXmark,
 } from '@ng-icons/font-awesome/solid';
-import { AccountStatus } from '@core/models/account-status';
 import { ToastService } from '@core/services/toast-service';
 import { dateConverter } from '@core/utilities/date-helpers';
 import { Button } from '@shared/components/button/button';
+import { Panel } from '@shared/components/panel/panel';
 import { createUpdateStudentForm } from '@features/students/factories/student-factories';
 import { AdminStudentStore } from '@features/students/admin/stores/admin-student-store';
 import { UpdateStudentFormModel } from '@features/students/models/update-student-request';
 import { StudentService } from '@features/students/services/student-service';
 import { getErrorCode } from '@core/utilities/problem-details-helpers';
 import { getStudentErrorMessage } from '@features/students/utilities/student-error-messages';
+import { ACCOUNT_STATUS_META } from '@features/students/utilities/student-labels';
+import { StatusMeta } from '@features/reservations';
 
 type StudentStat = {
   icon: string;
@@ -30,23 +32,8 @@ type StudentStat = {
   label: string;
 };
 
-type StatusMeta = {
-  label: string;
-  classes: string;
-};
-
-const STATUS_META: Record<AccountStatus, StatusMeta> = {
-  [AccountStatus.Active]: { label: 'Aktivan', classes: 'bg-emerald-900/80 text-emerald-100' },
-  [AccountStatus.Pending]: { label: 'Na čekanju', classes: 'bg-amber-900/60 text-amber-100' },
-  [AccountStatus.Deactivated]: {
-    label: 'Deaktiviran',
-    classes: 'bg-orange-950/60 text-orange-100',
-  },
-  [AccountStatus.Deleted]: { label: 'Obrisan', classes: 'bg-red-950/60 text-red-100' },
-};
-
 @Component({
-  imports: [NgIcon, Button, FormField],
+  imports: [NgIcon, Button, FormField, Panel],
   providers: [
     provideIcons({
       faSolidBuildingColumns,
@@ -103,7 +90,7 @@ export class EditStudentForm implements OnInit {
 
   status = computed<StatusMeta | null>(() => {
     const student = this.selectedStudent();
-    return student ? STATUS_META[student.accountStatus] : null;
+    return student ? ACCOUNT_STATUS_META[student.accountStatus] : null;
   });
 
   registeredAtLabel = computed(() => {

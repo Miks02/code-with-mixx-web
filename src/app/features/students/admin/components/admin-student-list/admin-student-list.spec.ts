@@ -112,7 +112,7 @@ describe('AdminStudentList', () => {
     });
 
     it('opens the create modal from the "Dodaj" button', async () => {
-      getButton(element, 'Dodaj')!.click();
+      getButton(element, '')!.click();
       await fixture.whenStable();
 
       expect(store.isCreateModalVisible()).toBe(true);

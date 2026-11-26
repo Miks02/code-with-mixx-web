@@ -1,10 +1,10 @@
-<div class="p-4 bg-emerald-950/70 rounded-lg shadow-lg w-full h-full backdrop-blur-lg">
+<app-panel class="w-full h-full gap-3! bg-emerald-950/70! backdrop-blur-lg" title="Sledeći čas">
+  <div panelAction class="p-2 self-center rounded-full flex items-center bg-orange-600/40">
+    <ng-icon name="faSolidForwardStep" class="text-emerald-100! text-xl"></ng-icon>
+  </div>
+
   @if (isPending()) {
-    <div class="flex flex-col gap-3 justify-between h-full">
-      <div class="flex w-full justify-between items-center">
-        <app-skeleton width="45%" />
-        <app-skeleton variant="circular" width="2.25rem" />
-      </div>
+    <div class="flex flex-col gap-3 justify-between flex-1">
       <div class="flex gap-3 items-center">
         <app-skeleton variant="circular" width="2.5rem" />
         <div class="flex flex-col gap-2 flex-1 min-w-0">
@@ -18,14 +18,7 @@
       </div>
     </div>
   } @else {
-    <div class="flex flex-col gap-3 justify-between h-full">
-      <div class="flex w-full justify-between">
-        <h2 class="text-lg md:text-xl font-bold text-emerald-100">Sledeći čas</h2>
-        <div class="p-2 self-center rounded-full flex items-center bg-orange-600/40">
-          <ng-icon name="faSolidForwardStep" class="text-emerald-100! text-xl"></ng-icon>
-        </div>
-      </div>
-
+    <div class="flex flex-col gap-3 justify-between flex-1">
       @if (nextClass(); as nextClass) {
         <div class="flex gap-3 items-center">
           <div
@@ -80,4 +73,4 @@
       }
     </div>
   }
-</div>
+</app-panel>

@@ -10,6 +10,7 @@ import {
 import { UserState } from '@core/services/user-state';
 import { ToastService } from '@core/services/toast-service';
 import { Button } from '@shared/components/button/button';
+import { Panel } from '@shared/components/panel/panel';
 import {
   createChangeEmailForm,
   createEmptyChangeEmailFormModel,
@@ -20,7 +21,7 @@ import { getSettingsErrorMessage } from '@features/settings/utilities/settings-e
 import { EmailTokenModal } from '../email-token-modal/email-token-modal';
 
 @Component({
-  imports: [NgIcon, Button, FormField, EmailTokenModal],
+  imports: [NgIcon, Button, FormField, EmailTokenModal, Panel],
   providers: [provideIcons({ faSolidCheck, faSolidEnvelope, faSolidLock, faSolidXmark })],
   selector: 'app-change-email-form',
   styleUrl: './change-email-form.css',

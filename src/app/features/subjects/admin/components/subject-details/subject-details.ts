@@ -11,6 +11,8 @@ import {
 } from '@ng-icons/font-awesome/solid';
 import { currentDate, dateConverter } from '@core/utilities/date-helpers';
 import { Button } from '@shared/components/button/button';
+import { EmptyState } from '@shared/components/empty-state/empty-state';
+import { Panel } from '@shared/components/panel/panel';
 import { SubjectService } from '@features/subjects/services/subject-service';
 import { DialogService } from '@core/services/dialog-service';
 import { DialogResult } from '@core/components/dialog/dialog';
@@ -26,7 +28,7 @@ type SubjectStat = {
 };
 
 @Component({
-  imports: [NgIcon, Button],
+  imports: [NgIcon, Button, Panel, EmptyState],
   providers: [
     provideIcons({
       faSolidCalendar,

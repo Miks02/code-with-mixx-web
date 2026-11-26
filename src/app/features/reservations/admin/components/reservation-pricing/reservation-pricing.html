@@ -1,8 +1,7 @@
-<div class="p-4 bg-emerald-950/80 rounded-lg shadow-lg flex flex-col gap-4">
-  <div class="flex w-full justify-between items-center">
-    <h2 class="text-xl text-emerald-100 font-semibold flex gap-2 items-center">Cena i status</h2>
-  </div>
+@let statusField = reservationStatus();
+@let totalPriceField = totalPrice();
 
+<app-panel title="Cena i status">
   <div
     [class]="totalPaid() === undefined ? 'md:grid-cols-2' : 'md:grid-cols-3'"
     class="grid grid-cols-1 gap-4"
@@ -14,9 +13,9 @@
           <button
             type="button"
             (click)="onStatusSelected(status)"
-            [attr.aria-pressed]="reservationForm.reservationStatus().value() === status"
+            [attr.aria-pressed]="statusField().value() === status"
             [class]="
-              reservationForm.reservationStatus().value() === status
+              statusField().value() === status
                 ? reservationStatusStyles[status].selectedClasses
                 : 'bg-emerald-900 text-emerald-100 hover:bg-emerald-800'
             "
@@ -24,7 +23,7 @@
           >
             <span
               [class]="
-                reservationForm.reservationStatus().value() === status
+                statusField().value() === status
                   ? 'bg-white'
                   : reservationStatusStyles[status].dotClasses
               "
@@ -44,35 +43,35 @@
         <label class="flex items-center gap-2 text-sm text-emerald-100 cursor-pointer">
           <input
             type="checkbox"
-            [checked]="useClassesSum()"
-            (change)="onUseClassesSumChanged($event)"
+            [checked]="useItemsSum()"
+            (change)="onUseItemsSumChanged($event)"
             class="peer sr-only"
           />
           <span
             class="relative w-10 h-6 shrink-0 rounded-full bg-emerald-900 peer-checked:bg-emerald-500 peer-focus-visible:ring-2 peer-focus-visible:ring-emerald-200 transition-200 after:absolute after:top-1 after:left-1 after:w-4 after:h-4 after:rounded-full after:bg-white after:transition-transform after:duration-200 peer-checked:after:translate-x-4"
           ></span>
-          Zbir časova
+          {{ sumLabel() }}
         </label>
       </div>
-      @if (useClassesSum()) {
+      @if (useItemsSum()) {
         <input
           id="reservation-total-price"
           type="number"
-          [value]="classesSum()"
+          [value]="itemsTotal()"
           disabled
           class="w-full rounded-lg bg-emerald-900/80 px-3 py-2.5 text-emerald-100 outline-none opacity-60 cursor-not-allowed scheme-dark"
         />
-        <p class="text-sm text-emerald-100/70">Računa se automatski iz cena časova.</p>
+        <p class="text-sm text-emerald-100/70">{{ sumHint() }}</p>
       } @else {
         <input
-          [formField]="reservationForm.totalPrice"
+          [formField]="totalPriceField"
           id="reservation-total-price"
           type="number"
           class="w-full rounded-lg bg-emerald-900/80 focus:bg-emerald-900 px-3 py-2.5 text-emerald-100 outline-none scheme-dark transition-200"
         />
       }
-      @if (reservationForm.totalPrice().errors().length) {
-        <p class="text-sm text-red-400">{{ reservationForm.totalPrice().errors()[0]?.message }}</p>
+      @if (totalPriceField().errors().length) {
+        <p class="text-sm text-red-400">{{ totalPriceField().errors()[0]?.message }}</p>
       }
     </div>
 
@@ -92,4 +91,4 @@
       </div>
     }
   </div>
-</div>
+</app-panel>

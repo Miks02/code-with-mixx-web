@@ -113,8 +113,8 @@ describe('StudentDetails', () => {
     it('deleted: hides the name and every action except the detailed view', async () => {
       await select({ accountStatus: AccountStatus.Deleted, deletedAt: '2026-03-01T08:00:00Z' });
 
-      expect(element.textContent).toContain('Nalog obrisan');
-      expect(element.querySelector('h2')).toBeNull();
+      expect(element.querySelector('h2')?.textContent).toContain('Nalog obrisan');
+      expect(element.textContent).not.toContain('Marko Jovanović');
       expect(buttonLabels()).toEqual(['Detaljniji pregled']);
       expect(inviteButton()).toBeNull();
     });

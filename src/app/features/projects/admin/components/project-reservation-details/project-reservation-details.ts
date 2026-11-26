@@ -14,7 +14,12 @@ import { ProjectCard } from '@features/projects/components/project-card/project-
 import { ProjectService } from '@features/projects/services/project-service';
 import { getProjectReservationErrorMessage } from '@features/projects/utilities/project-error-messages';
 import { PROJECT_RESERVATION_TOAST_MESSAGES } from '@features/projects/utilities/project-toast-messages';
-import { PAYMENT_STATUS_META, RESERVATION_STATUS_META, StatusMeta, UpdateStatusModal } from '@features/reservations';
+import {
+  PAYMENT_STATUS_META,
+  RESERVATION_STATUS_META,
+  StatusMeta,
+  UpdateStatusModal,
+} from '@features/reservations';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
   faSolidArrowsRotate,
@@ -32,6 +37,8 @@ import {
   faSolidTrash,
 } from '@ng-icons/font-awesome/solid';
 import { Button } from '@shared/components/button/button';
+import { EmptyState } from '@shared/components/empty-state/empty-state';
+import { Panel } from '@shared/components/panel/panel';
 import { SrDatePipe } from '@shared/pipes/sr-date-pipe';
 import { ProjectEditModal } from '../project-edit-modal/project-edit-modal';
 
@@ -45,13 +52,15 @@ type ReservationStat = {
   imports: [
     NgIcon,
     Button,
+    Panel,
+    EmptyState,
     ProjectCard,
     ProjectEditModal,
     RegisterPaymentModal,
     ReservationPaymentHistoryModal,
     SubtractPaymentModal,
     UpdateStatusModal,
-    SrDatePipe
+    SrDatePipe,
   ],
   providers: [
     provideIcons({

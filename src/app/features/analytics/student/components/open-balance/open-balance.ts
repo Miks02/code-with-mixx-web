@@ -3,6 +3,7 @@ import { priceConverter } from '@core/utilities/price-helpers';
 import { OpenBalanceSummary } from '@features/analytics/student/models/open-balance-summary';
 import { PAYMENT_STATUS_META, ReservationType } from '@features/reservations';
 import { NgIcon, provideIcons } from '@ng-icons/core';
+import { Panel } from '@shared/components/panel/panel';
 import {
   faSolidChalkboardUser,
   faSolidCircleCheck,
@@ -27,7 +28,7 @@ function overdueLabel(count: number) {
 }
 
 @Component({
-  imports: [NgIcon],
+  imports: [NgIcon, Panel],
   providers: [
     provideIcons({
       faSolidChalkboardUser,

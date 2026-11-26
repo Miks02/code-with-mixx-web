@@ -258,13 +258,11 @@ describe('ProjectReservationDetails', () => {
       await load({
         projects: [
           createProjectListItem({ id: 10 }),
-          createProjectListItem({ id: 11, subjectName: 'Web programiranje' }),
+          createProjectListItem({ id: 11, name: 'Web prodavnica' }),
         ],
       });
 
-      element
-        .querySelector<HTMLElement>('[aria-label="Detalji projekta Web programiranje"]')!
-        .click();
+      element.querySelector<HTMLElement>('[aria-label="Detalji projekta Web prodavnica"]')!.click();
       await settle();
 
       expect(store.editedProjectId()).toBe(11);
