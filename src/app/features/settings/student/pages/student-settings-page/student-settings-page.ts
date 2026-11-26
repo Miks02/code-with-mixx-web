@@ -8,6 +8,7 @@ import { SessionActions } from '@features/settings/components/session-actions/se
 import { SettingsService } from '@features/settings/services/settings-service';
 import { ProfileInfoCard } from '@features/settings/components/profile-info-card/profile-info-card';
 import { LoadingOverlay } from '@shared/components/loading-overlay/loading-overlay';
+import { UniversityForm } from '@features/settings/student/components/university-form/university-form';
 
 @Component({
   imports: [
@@ -18,6 +19,7 @@ import { LoadingOverlay } from '@shared/components/loading-overlay/loading-overl
     ChangePasswordForm,
     SessionActions,
     LoadingOverlay,
+    UniversityForm,
   ],
   selector: 'app-student-settings-page',
   templateUrl: './student-settings-page.html',
