@@ -116,7 +116,7 @@ describe('StudentReservationCard', () => {
 
     it('should link to the project reservation details', () => {
       const link = element().querySelector('a');
-      expect(link?.getAttribute('href')).toBe('/admin/projects/details/12');
+      expect(link?.getAttribute('href')).toBe('/admin/projects/update/12');
     });
 
     it('should list subjects with their project type', () => {

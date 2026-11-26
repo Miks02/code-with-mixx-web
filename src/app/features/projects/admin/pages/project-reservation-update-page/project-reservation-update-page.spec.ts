@@ -8,20 +8,20 @@ import {
   flushReservationDetailsRefetch,
   provideReservationRoute,
 } from '@features/projects/testing/project-test-utils';
-import { ProjectReservationDetailsPage } from './project-reservation-details-page';
+import { ProjectReservationUpdatePage } from './project-reservation-update-page';
 
-describe('ProjectReservationDetailsPage', () => {
-  let fixture: ComponentFixture<ProjectReservationDetailsPage>;
+describe('ProjectReservationUpdatePage', () => {
+  let fixture: ComponentFixture<ProjectReservationUpdatePage>;
   let element: HTMLElement;
   let http: HttpTestingController;
 
   const setup = async (reservationId: string) => {
     await TestBed.configureTestingModule({
-      imports: [ProjectReservationDetailsPage],
+      imports: [ProjectReservationUpdatePage],
       providers: [provideReservationRoute(reservationId), provideHttpTesting()],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ProjectReservationDetailsPage);
+    fixture = TestBed.createComponent(ProjectReservationUpdatePage);
     element = fixture.nativeElement;
     http = TestBed.inject(HttpTestingController);
     await flushLookups();

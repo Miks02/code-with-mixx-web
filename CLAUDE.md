@@ -37,9 +37,9 @@ Path aliases are defined in `tsconfig.json` `paths`: `@core/*`, `@features/*`, `
 
 - `''` → `SiteLayout`, no guard (public): `children: SITE_ROUTES` from `features/site/site.routes.ts` (`''` is the home page, `home` redirects to it; `**` is the not-found page). Imported statically so the public routes stay eager for SSR/prerendering. New public pages go here.
 - `'auth'` → `AuthLayout`, guarded by `guestGuard`: `children: AUTH_ROUTES` from `features/auth/auth.routes.ts`: `login`, `forgot-password`, `reset-password` (also `resetPasswordGuard`, requires `token` + `userId` query params), `activate-account`.
-- `'admin'` → `DashboardLayout`, guarded by `[authGuard, adminGuard]`: one `loadChildren: () => import('@features/<x>').then((m) => m.X_ROUTES)` entry per feature: `analytics`, `subjects`, `students` (`details/:id`), `projects` and `classes` (each with `create` and `details/:id`), `inquiries`, `settings`.
+- `'admin'` → `DashboardLayout`, guarded by `[authGuard, adminGuard]`: one `loadChildren: () => import('@features/<x>').then((m) => m.X_ROUTES)` entry per feature: `analytics`, `subjects`, `students` (`details/:id`), `projects` and `classes` (each with `create` and `update/:id`), `inquiries`, `settings`.
 
-Admin routes files live in `features/<x>/admin/<x>-admin.routes.ts` (`X_ADMIN_ROUTES`), or `features/<x>/<x>.routes.ts` (`X_ROUTES`) for features without an `admin/` folder (`settings`). Paths inside are relative to the feature's branch (`''`, `create`, `details/:id`) and pages are imported with relative paths. A new admin screen adds a route to its feature's routes file; a new admin feature adds one `loadChildren` entry to `app.routes.ts`.
+Admin routes files live in `features/<x>/admin/<x>-admin.routes.ts` (`X_ADMIN_ROUTES`), or `features/<x>/<x>.routes.ts` (`X_ROUTES`) for features without an `admin/` folder (`settings`). Paths inside are relative to the feature's branch (`''`, `create`, `update/:id`, `details/:id`) and pages are imported with relative paths. A new admin screen adds a route to its feature's routes file; a new admin feature adds one `loadChildren` entry to `app.routes.ts`.
 
 Auth routes live under the `/auth` prefix (`/auth/login`, not `/login`) since the root path belongs to the public site; links and redirects must use the prefixed paths.
 

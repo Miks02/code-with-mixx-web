@@ -24,10 +24,10 @@ import { AdminProjectReservationStore } from '@features/projects/admin/stores/ad
     AdminProjectReservationStore,
     provideIcons({ faSolidCalendarXmark }),
   ],
-  selector: 'app-project-reservation-details-page',
-  templateUrl: './project-reservation-details-page.html',
+  selector: 'app-project-reservation-update-page',
+  templateUrl: './project-reservation-update-page.html',
 })
-export class ProjectReservationDetailsPage {
+export class ProjectReservationUpdatePage {
   protected store = inject(AdminProjectReservationStore);
   protected formService = inject(ProjectFormService);
 }

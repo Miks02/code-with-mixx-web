@@ -187,7 +187,7 @@ export function provideReservationRoute(reservationId: string | null) {
   return [
     provideRouter([
       { path: 'admin/projects', children: [] },
-      { path: 'admin/projects/details/:id', children: [] },
+      { path: 'admin/projects/update/:id', children: [] },
     ]),
     {
       provide: ActivatedRoute,

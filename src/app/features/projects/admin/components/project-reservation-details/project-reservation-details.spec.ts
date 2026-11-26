@@ -108,7 +108,7 @@ describe('ProjectReservationDetails', () => {
         'Promeni status',
         'Registruj uplatu',
         'Skini uplatu',
-        'Detalji rezervacije',
+        'Ažuriraj rezervaciju',
       ]);
     });
 
@@ -272,12 +272,12 @@ describe('ProjectReservationDetails', () => {
     });
   });
 
-  it('"Detalji rezervacije" opens the reservation page', async () => {
+  it('"Ažuriraj rezervaciju" opens the update page', async () => {
     const navigate = vi.spyOn(TestBed.inject(Router), 'navigate').mockResolvedValue(true);
     await load();
 
-    getButton(element, 'Detalji rezervacije')!.click();
+    getButton(element, 'Ažuriraj rezervaciju')!.click();
 
-    expect(navigate).toHaveBeenCalledWith(['admin/projects/details/1']);
+    expect(navigate).toHaveBeenCalledWith(['admin/projects/update/1']);
   });
 });

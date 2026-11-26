@@ -52,7 +52,7 @@ export class StudentReservationCard {
   typeLabel = computed(() => (this.isClass() ? 'Časovi' : 'Projekti'));
 
   detailsLink = computed(() => [
-    this.isClass() ? '/admin/classes/update' : '/admin/projects/details',
+    this.isClass() ? '/admin/classes/update' : '/admin/projects/update',
     this.reservation().id,
   ]);
 

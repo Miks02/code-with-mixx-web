@@ -16,11 +16,11 @@ export const PROJECTS_ADMIN_ROUTES: Routes = [
       ),
   },
   {
-    title: pageTitle('Detalji rezervacije'),
-    path: 'details/:id',
+    title: pageTitle('Ažuriranje rezervacije'),
+    path: 'update/:id',
     loadComponent: () =>
-      import('./pages/project-reservation-details-page/project-reservation-details-page').then(
-        (c) => c.ProjectReservationDetailsPage,
+      import('./pages/project-reservation-update-page/project-reservation-update-page').then(
+        (c) => c.ProjectReservationUpdatePage,
       ),
   },
 ];

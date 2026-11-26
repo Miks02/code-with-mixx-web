@@ -126,7 +126,7 @@ export class ProjectReservationDetails {
   });
 
   goToDetails(reservationId: number) {
-    return this.router.navigate([`admin/projects/details/${reservationId}`]);
+    return this.router.navigate([`admin/projects/update/${reservationId}`]);
   }
 
   async onArchive(reservationId: number) {
