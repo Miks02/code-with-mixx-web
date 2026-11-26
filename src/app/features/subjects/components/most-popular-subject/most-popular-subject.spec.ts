@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { createSubject } from '@features/subjects/testing/subject-test-utils';
 import { MostPopularSubject } from './most-popular-subject';
 
 describe('MostPopularSubject', () => {
@@ -11,10 +10,9 @@ describe('MostPopularSubject', () => {
 
     fixture = TestBed.createComponent(MostPopularSubject);
     element = fixture.nativeElement;
-    fixture.componentRef.setInput(
-      'subject',
-      createSubject({ classesCount: 12, studentsCount: 30 }),
-    );
+    fixture.componentRef.setInput('subjectName', 'Osnove programiranja');
+    fixture.componentRef.setInput('classesCount', 12);
+    fixture.componentRef.setInput('studentsCount', 30);
     await fixture.whenStable();
   });
 
@@ -31,5 +29,13 @@ describe('MostPopularSubject', () => {
     expect(element.textContent).toContain('Osnove programiranja');
     expect(element.textContent).toMatch(/12\s*održanih časova/);
     expect(element.textContent).toMatch(/30\s*studenata/);
+  });
+
+  it('hides the students count when it is not given', async () => {
+    fixture.componentRef.setInput('studentsCount', undefined);
+    await fixture.whenStable();
+
+    expect(element.textContent).toMatch(/12\s*održanih časova/);
+    expect(element.textContent).not.toContain('studenata');
   });
 });

@@ -4,9 +4,9 @@ import { StudentSubjectStore } from '@features/subjects/student/stores/student-s
 import {
   createPagedStudentSubjects,
   createStudentSubject,
+  createStudentSubjectsSummary,
+  flushStudentSummary,
   provideSubjectTesting,
-  settle,
-  STUDENT_SUBJECTS_URL,
 } from '@features/subjects/testing/subject-test-utils';
 import { StudentSubjectDetails } from './student-subject-details';
 
@@ -27,11 +27,9 @@ describe('StudentSubjectDetails', () => {
     store = TestBed.inject(StudentSubjectStore);
     http = TestBed.inject(HttpTestingController);
 
-    await settle();
-    http
-      .expectOne((req) => req.url === STUDENT_SUBJECTS_URL)
-      .flush(
-        createPagedStudentSubjects([
+    await flushStudentSummary(
+      createStudentSubjectsSummary({
+        pagedSubjects: createPagedStudentSubjects([
           createStudentSubject({ id: 1 }),
           createStudentSubject({
             id: 2,
@@ -40,8 +38,8 @@ describe('StudentSubjectDetails', () => {
             classesCount: 0,
           }),
         ]),
-      );
-    await settle();
+      }),
+    );
     await fixture.whenStable();
   });
 

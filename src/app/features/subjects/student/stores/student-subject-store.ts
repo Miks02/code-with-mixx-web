@@ -32,14 +32,25 @@ const initialState: StudentSubjectState = {
 
 export const StudentSubjectStore = signalStore(
   withState(initialState),
-  withProps((store, subjectService = inject(SubjectService)) => ({
-    subjectsQuery: subjectService.getPagedSubjectsForStudentQuery(
+  withProps((store, subjectService = inject(SubjectService)) => {
+    const summaryQuery = subjectService.getSubjectsSummaryForStudentQuery(
       store.params.pageNumber,
       store.params.pageSize,
       store.params.searchTerm,
       store.params.sortBy,
-    ),
-  })),
+    );
+
+    return {
+      summaryQuery,
+      subjectsQuery: subjectService.getPagedSubjectsForStudentQuery(
+        summaryQuery,
+        store.params.pageNumber,
+        store.params.pageSize,
+        store.params.searchTerm,
+        store.params.sortBy,
+      ),
+    };
+  }),
   withLinkedState((store) => ({
     selectedSubject: linkedSignal<StudentSubjectItem[], StudentSubjectItem | undefined>({
       source: () => store.subjectsQuery.data()?.items ?? [],
@@ -48,6 +59,10 @@ export const StudentSubjectStore = signalStore(
     }),
   })),
   withComputed((store) => ({
+    summary: computed(() => store.summaryQuery.data()),
+    summaryPending: computed(() => store.summaryQuery.isPending()),
+    mostPopularSubject: computed(() => store.summaryQuery.data()?.mostPopularSubject ?? undefined),
+    lastSubjectClass: computed(() => store.summaryQuery.data()?.lastSubjectClass ?? undefined),
     pagedSubjects: computed(() => store.subjectsQuery.data()),
     pagedSubjectsItems: computed(() => store.subjectsQuery.data()?.items),
     selectedSubjectId: computed(() => store.selectedSubject()?.id),

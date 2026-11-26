@@ -4,9 +4,10 @@ import { StudentSubjectStore } from '@features/subjects/student/stores/student-s
 import {
   createPagedStudentSubjects,
   createStudentSubject,
+  createStudentSubjectsSummary,
+  flushStudentSummary,
   provideSubjectTesting,
   settle,
-  STUDENT_SUBJECTS_URL,
 } from '@features/subjects/testing/subject-test-utils';
 import { StudentSubjectList } from './student-subject-list';
 
@@ -18,9 +19,7 @@ describe('StudentSubjectList', () => {
   const cards = () => Array.from(element.querySelectorAll('app-subject-card'));
 
   const flushPage = async (page = createPagedStudentSubjects()) => {
-    await settle();
-    http.expectOne((req) => req.url === STUDENT_SUBJECTS_URL).flush(page);
-    await settle();
+    await flushStudentSummary(createStudentSubjectsSummary({ pagedSubjects: page }));
     await fixture.whenStable();
   };
 

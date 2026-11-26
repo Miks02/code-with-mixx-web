@@ -1,8 +1,55 @@
-<div class="flex flex-col lg:flex-row gap-6">
-  <app-student-subject-list class="flex-1 min-w-0"></app-student-subject-list>
+<div class="flex flex-col gap-6">
+  <div class="flex flex-col lg:flex-row gap-6">
+    <app-student-subject-list class="flex-1 min-w-0"></app-student-subject-list>
 
-  <app-student-subject-details
-    [appScrollIntoViewOn]="store.detailsScrollRequests()"
-    class="flex-1 min-w-0"
-  ></app-student-subject-details>
+    <app-student-subject-details
+      [appScrollIntoViewOn]="store.detailsScrollRequests()"
+      class="flex-1 min-w-0"
+    ></app-student-subject-details>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-6 gap-4">
+    <app-most-popular-subject
+      class="min-w-0 sm:col-span-3"
+      [subjectName]="store.mostPopularSubject()?.subjectName"
+      [classesCount]="store.mostPopularSubject()?.classesCount"
+      [isPending]="store.summaryPending()"
+    ></app-most-popular-subject>
+
+    <app-last-subject-class
+      class="min-w-0 sm:col-span-3"
+      [lastClass]="store.lastSubjectClass()"
+      [isPending]="store.summaryPending()"
+    ></app-last-subject-class>
+
+    <app-stats-card
+      title="Predmeti"
+      icon="faSolidBook"
+      iconBackground="sky"
+      description="Ukupno"
+      [value]="store.summary()?.totalSubjects"
+      [isPending]="store.summaryPending()"
+      class="min-w-0 sm:col-span-2"
+    ></app-stats-card>
+
+    <app-stats-card
+      title="Neodržani predmeti"
+      icon="faSolidBookSkull"
+      iconBackground="red"
+      description="Predmeti koji još nisu predavani"
+      [value]="store.summary()?.untaughtSubjects"
+      [isPending]="store.summaryPending()"
+      class="min-w-0 sm:col-span-2"
+    ></app-stats-card>
+
+    <app-stats-card
+      title="Održani predmeti"
+      icon="faSolidBookOpen"
+      iconBackground="violet"
+      description="Predmeti koji su predavani"
+      [value]="store.summary()?.taughtSubjects"
+      [isPending]="store.summaryPending()"
+      class="min-w-0 sm:col-span-2"
+    ></app-stats-card>
+  </div>
 </div>

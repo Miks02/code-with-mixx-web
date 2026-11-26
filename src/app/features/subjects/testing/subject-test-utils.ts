@@ -4,6 +4,7 @@ import { environment } from '@environments/environment';
 import { PagedResult } from '@core/models/paged-result';
 import { createToastServiceMock, provideHttpTesting, settle } from '@core/testing/test-utils';
 import { StudentSubjectItem } from '@features/subjects/student/models/student-subject-item';
+import { StudentSubjectsSummary } from '@features/subjects/student/models/student-subjects-summary';
 import { SubjectItem } from '@features/subjects/models/subject-item';
 import { SubjectsSummary } from '@features/subjects/models/subjects-summary';
 
@@ -18,6 +19,7 @@ export {
 export const SUBJECTS_URL = `${environment.apiUrl}/admin/subjects`;
 export const SUBJECTS_SUMMARY_URL = `${environment.apiUrl}/admin/subjects/summary`;
 export const STUDENT_SUBJECTS_URL = `${environment.apiUrl}/student/subjects`;
+export const STUDENT_SUBJECTS_SUMMARY_URL = `${environment.apiUrl}/student/subjects/summary`;
 
 export function createSubject(overrides: Partial<SubjectItem> = {}): SubjectItem {
   return {
@@ -101,4 +103,28 @@ export function createPagedStudentSubjects(
     paginatedCount: items.length,
     ...overrides,
   };
+}
+
+export function createStudentSubjectsSummary(
+  overrides: Partial<StudentSubjectsSummary> = {},
+): StudentSubjectsSummary {
+  return {
+    totalSubjects: 1,
+    taughtSubjects: 1,
+    untaughtSubjects: 0,
+    mostPopularSubject: createStudentSubject(),
+    lastSubjectClass: { subjectName: 'Osnove programiranja', classDate: '2026-11-20' },
+    pagedSubjects: createPagedStudentSubjects(),
+    ...overrides,
+  };
+}
+
+export async function flushStudentSummary(
+  summary: StudentSubjectsSummary = createStudentSubjectsSummary(),
+) {
+  await settle();
+  TestBed.inject(HttpTestingController)
+    .match((req) => req.url === STUDENT_SUBJECTS_SUMMARY_URL)
+    .forEach((req) => req.flush(summary));
+  await settle();
 }
