@@ -12,7 +12,7 @@ import { Skeleton } from '@shared/components/skeleton/skeleton';
 @Component({
   host: {
     class:
-      'relative flex flex-col gap-3 bg-emerald-950/80 backdrop-blur-xl p-4 rounded-lg shadow-lg',
+      'relative flex flex-col gap-3 bg-emerald-950/80 backdrop-blur-xl p-4 rounded-lg shadow-lg min-h-115',
   },
   imports: [Button, NgIcon, Skeleton],
   providers: [provideIcons({ faSolidChevronLeft, faSolidChevronRight, faSolidXmark })],
