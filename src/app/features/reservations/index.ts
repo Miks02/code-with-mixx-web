@@ -15,3 +15,5 @@ export {
 } from './utilities/reservation-labels'
 export type { StatusMeta } from './utilities/reservation-labels'
 export type { ReservationStatusStyle } from './utilities/reservation-labels'
+export { ReservationSummary } from './admin/components/reservation-summary/reservation-summary'
+export type { ReservationCheck } from './models/reservation-check'
