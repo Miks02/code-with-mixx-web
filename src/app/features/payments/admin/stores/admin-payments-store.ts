@@ -34,6 +34,7 @@ export const AdminPaymentsStore = signalStore(
     return {
       summaryQuery,
       paymentsQuery: paymentService.getPagedPaymentsQuery(store.params, summaryQuery),
+      openBalanceQuery: paymentService.getOpenBalanceQuery(),
     };
   }),
   withComputed((store) => ({
@@ -42,6 +43,7 @@ export const AdminPaymentsStore = signalStore(
     payments: computed(() => store.paymentsQuery.data()?.items ?? []),
     paymentsPending: computed(() => store.paymentsQuery.isPending()),
     paymentsFetching: computed(() => store.paymentsQuery.isFetching()),
+    openBalance: computed(() => store.openBalanceQuery.data()),
   })),
   withMethods((store) => {
     const patchParams = (params: Partial<PaymentQueryParams>) =>

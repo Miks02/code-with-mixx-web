@@ -11,6 +11,7 @@ import { lastValueFrom } from 'rxjs';
 import { environment } from '@environments/environment';
 import { PagedResult } from '@core/models/paged-result';
 import { invalidateReservationQueries, reservationKeys } from '@features/reservations';
+import { OpenBalanceSummary } from '../models/open-balance-summary';
 import { PaymentQueryParams } from '../models/payment-query-params';
 import { PaymentRequest } from '../models/payment-request';
 import { PaymentTransactionItem } from '../models/payment-transaction-item';
@@ -58,6 +59,16 @@ export class PaymentService {
     }));
   }
 
+  getOpenBalanceQuery() {
+    return injectQuery<OpenBalanceSummary>(() => ({
+      queryKey: paymentKeys.openBalance(),
+      queryFn: () =>
+        lastValueFrom(
+          this.http.get<OpenBalanceSummary>(`${this.apiUrl}/admin/reservations/open-balance`),
+        ),
+    }));
+  }
+
   getPaymentHistoryForReservationQuery(reservationId: Signal<number>, enabled: Signal<boolean>) {
     return injectQuery(() => ({
       queryKey: reservationKeys.payments(reservationId()),
@@ -97,6 +108,7 @@ export class PaymentService {
   private invalidateQueries(reservationId: number) {
     this.queryClient.invalidateQueries({ queryKey: paymentKeys.pages(), refetchType: 'none' });
     this.queryClient.invalidateQueries({ queryKey: paymentKeys.summary() });
+    this.queryClient.invalidateQueries({ queryKey: paymentKeys.openBalance() });
     return invalidateReservationQueries(this.queryClient, reservationId);
   }
 }
