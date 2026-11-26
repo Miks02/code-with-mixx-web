@@ -63,7 +63,7 @@ describe('ClassReservationDetailsPage', () => {
     await fixture.whenStable();
 
     expect(element.textContent).toContain('Rezervacija nije pronađena.');
-    expect(element.querySelector('app-class-reservation-summary')).toBeNull();
+    expect(element.querySelector('app-reservation-summary')).toBeNull();
   });
 
   it('shows the not found state right away for a malformed id', async () => {
