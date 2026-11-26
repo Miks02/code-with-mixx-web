@@ -108,6 +108,13 @@ export const routes: Routes = [
         path: 'settings',
         loadChildren: () => import('@features/settings').then((m) => m.SETTINGS_ADMIN_ROUTES),
       },
+      {
+        data: {
+          heading: 'Finansije',
+        },
+        path: 'payments',
+        loadChildren: () => import('@features/payments').then((m) => m.PAYMENTS_ADMIN_ROUTES),
+      },
     ],
   },
   {
