@@ -7,3 +7,4 @@ export { PaymentService } from './services/payment-service';
 export { PAYMENTS_ADMIN_ROUTES } from './admin/payments-admin.routes';
 export { OpenBalance } from './components/open-balance/open-balance';
 export type { OpenBalanceItem, OpenBalanceSummary } from './models/open-balance-summary';
+export { PAYMENTS_STUDENT_ROUTES } from './student/payments-student.routes';
