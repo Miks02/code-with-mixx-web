@@ -17,6 +17,7 @@ import { AccountStatus } from '@core/models/account-status';
 import { ToastService } from '@core/services/toast-service';
 import { dateConverter } from '@core/utilities/date-helpers';
 import { Button } from '@shared/components/button/button';
+import { Panel } from '@shared/components/panel/panel';
 import { createUpdateStudentForm } from '@features/students/factories/student-factories';
 import { AdminStudentStore } from '@features/students/admin/stores/admin-student-store';
 import { UpdateStudentFormModel } from '@features/students/models/update-student-request';
@@ -46,7 +47,7 @@ const STATUS_META: Record<AccountStatus, StatusMeta> = {
 };
 
 @Component({
-  imports: [NgIcon, Button, FormField],
+  imports: [NgIcon, Button, FormField, Panel],
   providers: [
     provideIcons({
       faSolidBuildingColumns,

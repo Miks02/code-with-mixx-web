@@ -3,7 +3,6 @@ import { NgIcon, provideIcons } from '@ng-icons/core';
 import { faSolidChevronLeft, faSolidChevronRight } from '@ng-icons/font-awesome/solid';
 import { Button } from '@shared/components/button/button';
 import { SearchBar } from '@shared/components/search-bar/search-bar';
-import { Skeleton } from '@shared/components/skeleton/skeleton';
 import { SortMenu } from '@shared/components/sort-menu/sort-menu';
 import { SubjectCard } from '@features/subjects/components/subject-card/subject-card';
 import { SubjectSort } from '@features/subjects/models/subject-sort';
@@ -11,7 +10,7 @@ import { AdminSubjectStore } from '@features/subjects/admin/stores/admin-subject
 import { PagedList } from '@shared/components/paged-list/paged-list';
 
 @Component({
-  imports: [SubjectCard, Button, SearchBar, SortMenu, NgIcon, Skeleton, PagedList],
+  imports: [SubjectCard, Button, SearchBar, SortMenu, NgIcon, PagedList],
   providers: [provideIcons({ faSolidChevronLeft, faSolidChevronRight })],
   selector: 'app-admin-subject-list',
   styleUrl: './admin-subject-list.css',

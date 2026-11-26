@@ -1,6 +1,4 @@
-<div
-  class="bg-emerald-950/80 backdrop-blur-xl rounded-lg shadow-lg p-4 h-full min-h-80 flex flex-col gap-4 relative"
->
+<app-panel class="h-full min-h-80 relative backdrop-blur-xl" [title]="panelTitle()">
   @if (store.isStudentActionPending()) {
     <div
       class="absolute w-full h-full top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 bg-emerald-900/50"
@@ -10,33 +8,30 @@
       </div>
     </div>
   }
-  @if (student(); as student) {
-    <div class="flex flex-wrap w-full items-center justify-between min-w-0 gap-1">
-      @if (student.accountStatus === AccountStatus.Deleted) {
-        <p class="text-red-300 font-semibold">Nalog obrisan</p>
-        <p class="text-red-300 font-semibold">{{ deletedAtLabel() }}</p>
-      } @else {
-        <div class="flex items-center gap-4 min-w-0">
-          <h2 class="text-xl font-semibold text-emerald-100 truncate">{{ studentName() }}</h2>
-          <span
-            class="text-xs font-semibold px-2 py-1 rounded-full shrink-0"
-            [class]="status()?.classes"
-            >{{ status()?.label }}</span
-          >
-          @if (student.accountStatus === AccountStatus.Pending) {
-            <button
-              type="button"
-              (click)="onSendInvitation()"
-              title="Pošalji pozivnicu"
-              class="shrink-0 rounded-full bg-emerald-700 p-2 flex justify-center items-center border-2 border-emerald-400 cursor-pointer shadow-lg active:scale-95 transition-200"
-            >
-              <ng-icon name="faSolidPaperPlane" class="text-emerald-100! self-center!"></ng-icon>
-            </button>
-          }
-        </div>
-        <p class="text-emerald-100/80 font-semibold">Registrovan: {{ registeredAtLabel() }}</p>
+  @if (student() && student()?.accountStatus !== AccountStatus.Deleted) {
+    <div panelAction class="flex items-center gap-2 shrink-0">
+      <span class="text-xs font-semibold px-2 py-1 rounded-full" [class]="status()?.classes">{{
+        status()?.label
+      }}</span>
+      @if (student()?.accountStatus === AccountStatus.Pending) {
+        <button
+          type="button"
+          (click)="onSendInvitation()"
+          title="Pošalji pozivnicu"
+          class="shrink-0 rounded-full bg-emerald-700 p-2 flex justify-center items-center border-2 border-emerald-400 cursor-pointer shadow-lg active:scale-95 transition-200"
+        >
+          <ng-icon name="faSolidPaperPlane" class="text-emerald-100! self-center!"></ng-icon>
+        </button>
       }
     </div>
+  }
+
+  @if (student(); as student) {
+    @if (student.accountStatus === AccountStatus.Deleted) {
+      <p class="text-red-300 font-semibold">Obrisan: {{ deletedAtLabel() }}</p>
+    } @else {
+      <p class="text-emerald-100/80 font-semibold">Registrovan: {{ registeredAtLabel() }}</p>
+    }
 
     <div class="flex gap-2 flex-wrap">
       @for (stat of stats(); track stat.label) {
@@ -139,18 +134,9 @@
       }
     </div>
   } @else {
-    <div
-      class="flex flex-col items-center justify-center gap-3 text-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-    >
-      <div class="flex justify-center items-center bg-emerald-900 rounded-full h-14 w-14">
-        <ng-icon
-          name="faSolidHandPointer"
-          class="text-emerald-400! text-2xl self-center!"
-        ></ng-icon>
-      </div>
-      <p class="text-emerald-200 font-medium text-lg w-full">
-        Izaberi studenta iz liste da vidiš detalje
-      </p>
-    </div>
+    <app-empty-state
+      icon="faSolidHandPointer"
+      message="Izaberi studenta iz liste da vidiš detalje"
+    ></app-empty-state>
   }
-</div>
+</app-panel>

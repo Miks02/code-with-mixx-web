@@ -24,6 +24,8 @@ import { DialogService } from '@core/services/dialog-service';
 import { ToastService } from '@core/services/toast-service';
 import { dateConverter } from '@core/utilities/date-helpers';
 import { Button } from '@shared/components/button/button';
+import { EmptyState } from '@shared/components/empty-state/empty-state';
+import { Panel } from '@shared/components/panel/panel';
 import { AdminStudentStore } from '@features/students/admin/stores/admin-student-store';
 import { StudentService } from '@features/students/services/student-service';
 import { getStudentErrorMessage } from '@features/students/utilities/student-error-messages';
@@ -38,7 +40,7 @@ type StudentStat = {
 };
 
 @Component({
-  imports: [NgIcon, Button, RouterLink],
+  imports: [NgIcon, Button, RouterLink, Panel, EmptyState],
   providers: [
     provideIcons({
       faSolidCalendar,
@@ -79,6 +81,13 @@ export class StudentDetails {
   studentName = computed(() => {
     const student = this.student();
     return student ? `${student.firstName} ${student.lastName}` : '';
+  });
+
+  panelTitle = computed(() => {
+    const student = this.student();
+    if (!student) return 'Detalji studenta';
+    if (student.accountStatus === AccountStatus.Deleted) return 'Nalog obrisan';
+    return this.studentName();
   });
 
   status = computed<StatusMeta | null>(() => {
