@@ -41,7 +41,12 @@
       <p class="text-emerald-200 font-medium text-lg">Rezervacija nije pronađena.</p>
     </div>
   } @else {
-    <app-class-reservation-overview class="min-w-0 lg:order-2"></app-class-reservation-overview>
+    <app-class-reservation-overview
+      class="min-w-0 lg:order-2"
+      [reservationId]="store.reservationId()"
+      [details]="store.details()"
+      [isPending]="store.detailsPending()"
+    ></app-class-reservation-overview>
 
     <div class="min-w-0 flex flex-col gap-4 lg:col-span-2 lg:order-1">
       <app-panel

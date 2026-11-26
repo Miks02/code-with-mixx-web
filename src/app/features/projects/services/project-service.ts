@@ -14,6 +14,7 @@ import { PagedResult } from '@core/models/paged-result';
 import { ProjectDetails } from '../models/project-details';
 import { ProjectQueryParams } from '../models/project-query-params';
 import { ProjectReservationDetails } from '../models/project-reservation-details';
+import { StudentProjectReservationDetails } from '../student/models/student-project-reservation-details';
 import { ProjectReservationItem } from '../models/project-reservation-item';
 import { ProjectReservationRequest } from '../models/project-reservation-request';
 import { ProjectsSummary } from '../models/projects-summary';
@@ -71,6 +72,20 @@ export class ProjectService {
         lastValueFrom(
           this.http.get<ProjectReservationDetails>(
             `${this.apiUrl}/admin/reservations/projects/${reservationId()}`,
+          ),
+        ),
+      enabled: reservationId() > 0,
+      refetchOnWindowFocus: false,
+    }));
+  }
+
+  getStudentProjectReservationDetailsQuery(reservationId: Signal<number>) {
+    return injectQuery<StudentProjectReservationDetails>(() => ({
+      queryKey: projectReservationKeys.detail(reservationId()),
+      queryFn: () =>
+        lastValueFrom(
+          this.http.get<StudentProjectReservationDetails>(
+            `${this.apiUrl}/student/reservations/projects/${reservationId()}`,
           ),
         ),
       enabled: reservationId() > 0,

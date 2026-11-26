@@ -28,7 +28,7 @@ import { PROJECT_TYPE_LABELS } from '@features/projects/utilities/project-labels
   templateUrl: './project-details-card.html',
 })
 export class ProjectDetailsCard {
-  project = input.required<ProjectDetailsItem>();
+  project = input.required<Omit<ProjectDetailsItem, 'notesToDelete'>>();
 
   protected typeLabel = computed(() => PROJECT_TYPE_LABELS[this.project().projectType]);
   protected priceLabel = computed(() => priceConverter(this.project().price));

@@ -20,6 +20,7 @@ import { ProjectReservationFormModel } from '@features/projects/models/project-r
 import { ProjectType } from '@features/projects/models/project-type';
 import { ProjectsSummary } from '@features/projects/models/projects-summary';
 import { ProjectFormService } from '@features/projects/services/project-form-service';
+import { StudentProjectReservationDetails } from '@features/projects/student/models/student-project-reservation-details';
 
 export const PROJECT_RESERVATIONS_URL = `${environment.apiUrl}/admin/reservations/projects`;
 export const PROJECTS_SUMMARY_URL = `${PROJECT_RESERVATIONS_URL}/summary`;
@@ -28,6 +29,9 @@ export const STUDENTS_LOOKUP_URL = `${environment.apiUrl}/admin/students/lookup`
 export const RESERVATIONS_URL = `${environment.apiUrl}/admin/reservations`;
 export const paymentHistoryUrl = (reservationId: number) =>
   `${environment.apiUrl}/reservations/${reservationId}/payments`;
+export const STUDENT_PROJECT_RESERVATIONS_URL = `${environment.apiUrl}/student/reservations/projects`;
+export const studentPaymentHistoryUrl = (reservationId: number) =>
+  `${environment.apiUrl}/student/reservations/${reservationId}/payments`;
 
 export const SUBJECTS_LOOKUP = [
   { id: 1, subjectName: 'Baze podataka' },
@@ -157,6 +161,31 @@ export function createProjectReservationDetails(
   };
 }
 
+export function createStudentProjectReservationDetails(
+  overrides: Partial<StudentProjectReservationDetails> = {},
+): StudentProjectReservationDetails {
+  const {
+    studentId: _studentId,
+    studentFullName: _studentFullName,
+    studentEmail: _studentEmail,
+    studentUniversity: _studentUniversity,
+    notes: _notes,
+    deletedAt: _deletedAt,
+    isHardDeletable: _isHardDeletable,
+    projects,
+    ...reservation
+  } = createProjectReservationDetails();
+
+  return {
+    ...reservation,
+    adminId: 'admin-1',
+    adminFullName: 'Nikola Marković',
+    adminEmail: 'admin@example.com',
+    projects: projects.map(({ notesToDelete: _notesToDelete, ...project }) => project),
+    ...overrides,
+  };
+}
+
 export function createProjectDetails(overrides: Partial<ProjectDetails> = {}): ProjectDetails {
   return {
     id: 10,
@@ -187,6 +216,7 @@ export function provideReservationRoute(reservationId: string | null) {
   return [
     provideRouter([
       { path: 'admin/projects', children: [] },
+      { path: 'student/projects', children: [] },
       { path: 'admin/projects/update/:id', children: [] },
     ]),
     {

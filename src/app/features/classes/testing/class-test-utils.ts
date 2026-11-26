@@ -17,6 +17,7 @@ import {
   ClassReservationFormModel,
 } from '@features/classes/models/create-class-reservation-request';
 import { ClassFormService } from '@features/classes/services/class-form-service';
+import { StudentClassReservationDetails } from '@features/classes/student/models/student-class-reservation-details';
 
 export const CLASS_RESERVATIONS_URL = `${environment.apiUrl}/admin/reservations/classes`;
 export const CLASSES_SUMMARY_URL = `${CLASS_RESERVATIONS_URL}/summary`;
@@ -25,6 +26,9 @@ export const STUDENTS_LOOKUP_URL = `${environment.apiUrl}/admin/students/lookup`
 export const RESERVATIONS_URL = `${environment.apiUrl}/admin/reservations`;
 export const paymentHistoryUrl = (reservationId: number) =>
   `${environment.apiUrl}/reservations/${reservationId}/payments`;
+export const STUDENT_CLASS_RESERVATIONS_URL = `${environment.apiUrl}/student/reservations/classes`;
+export const studentPaymentHistoryUrl = (reservationId: number) =>
+  `${environment.apiUrl}/student/reservations/${reservationId}/payments`;
 
 export const SUBJECTS_LOOKUP = [
   { id: 1, subjectName: 'Baze podataka' },
@@ -140,10 +144,31 @@ export function createClassReservationDetails(
   };
 }
 
+export function createStudentClassReservationDetails(
+  overrides: Partial<StudentClassReservationDetails> = {},
+): StudentClassReservationDetails {
+  const {
+    studentId: _studentId,
+    studentFullName: _studentFullName,
+    studentEmail: _studentEmail,
+    studentUniversity: _studentUniversity,
+    ...reservation
+  } = createClassReservationDetails();
+
+  return {
+    ...reservation,
+    adminId: 'admin-1',
+    adminFullName: 'Nikola Marković',
+    adminEmail: 'admin@example.com',
+    ...overrides,
+  };
+}
+
 export function provideReservationRoute(reservationId: string | null) {
   return [
     provideRouter([
       { path: 'admin/classes', children: [] },
+      { path: 'student/classes', children: [] },
       { path: 'admin/classes/update/:id', children: [] },
     ]),
     {

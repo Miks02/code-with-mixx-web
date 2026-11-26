@@ -1,7 +1,6 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
-  faSolidBoxArchive,
   faSolidBuildingColumns,
   faSolidCalendarPlus,
   faSolidClockRotateLeft,
@@ -14,16 +13,17 @@ import { PAYMENT_STATUS_META, RESERVATION_STATUS_META } from '@features/reservat
 import { Badge } from '@shared/components/badge/badge';
 import { Panel } from '@shared/components/panel/panel';
 import { Skeleton } from '@shared/components/skeleton/skeleton';
-import { AdminProjectReservationDetailsStore } from '@features/projects/admin/stores/admin-project-reservation-details-store';
+import { ClassReservationDetails } from '@features/classes/models/class-reservation-details';
+import { StudentClassReservationDetails } from '@features/classes/student/models/student-class-reservation-details';
 
 type InfoRow = { icon: string; label: string; value: string };
+type Person = { role: string; fullName: string; email: string; university: string | null };
 type FinanceRow = { label: string; value: string };
 
 @Component({
   imports: [Badge, NgIcon, Panel, Skeleton],
   providers: [
     provideIcons({
-      faSolidBoxArchive,
       faSolidBuildingColumns,
       faSolidCalendarPlus,
       faSolidClockRotateLeft,
@@ -31,28 +31,49 @@ type FinanceRow = { label: string; value: string };
       faSolidFileSignature,
     }),
   ],
-  selector: 'app-project-reservation-overview',
-  templateUrl: './project-reservation-overview.html',
+  selector: 'app-class-reservation-overview',
+  templateUrl: './class-reservation-overview.html',
 })
-export class ProjectReservationOverview {
-  protected store = inject(AdminProjectReservationDetailsStore);
+export class ClassReservationOverview {
+  reservationId = input.required<number>();
+  details = input<ClassReservationDetails | StudentClassReservationDetails>();
+  isPending = input(false);
 
   protected skeletonRows = [0, 1, 2, 3];
 
-  protected title = computed(() => `Rezervacija #${this.store.reservationId()}`);
+  protected title = computed(() => `Rezervacija #${this.reservationId()}`);
 
   protected reservationStatus = computed(() => {
-    const details = this.store.details();
+    const details = this.details();
     return details ? RESERVATION_STATUS_META[details.reservationStatus] : undefined;
   });
 
   protected paymentStatus = computed(() => {
-    const details = this.store.details();
+    const details = this.details();
     return details ? PAYMENT_STATUS_META[details.paymentStatus] : undefined;
   });
 
+  protected person = computed<Person | null>(() => {
+    const details = this.details();
+    if (!details) return null;
+    if ('studentFullName' in details) {
+      return {
+        role: 'Student',
+        fullName: details.studentFullName,
+        email: details.studentEmail,
+        university: details.studentUniversity,
+      };
+    }
+    return {
+      role: 'Instruktor',
+      fullName: details.adminFullName,
+      email: details.adminEmail,
+      university: null,
+    };
+  });
+
   protected initials = computed(() =>
-    (this.store.details()?.studentFullName ?? '')
+    (this.person()?.fullName ?? '')
       .split(' ')
       .filter(Boolean)
       .slice(0, 2)
@@ -61,17 +82,19 @@ export class ProjectReservationOverview {
   );
 
   protected infoRows = computed<InfoRow[]>(() => {
-    const details = this.store.details();
+    const details = this.details();
     if (!details) return [];
 
-    const rows: InfoRow[] = [
-      { icon: 'faSolidEnvelope', label: 'Email', value: details.studentEmail },
-    ];
-    if (details.studentUniversity) {
+    const person = this.person();
+    const rows: InfoRow[] = [];
+    if (person) {
+      rows.push({ icon: 'faSolidEnvelope', label: 'Email', value: person.email });
+    }
+    if (person?.university) {
       rows.push({
         icon: 'faSolidBuildingColumns',
         label: 'Univerzitet',
-        value: details.studentUniversity,
+        value: person.university,
       });
     }
     rows.push(
@@ -89,18 +112,11 @@ export class ProjectReservationOverview {
         value: dateConverter(details.updatedAt),
       });
     }
-    if (details.deletedAt) {
-      rows.push({
-        icon: 'faSolidBoxArchive',
-        label: 'Arhivirano',
-        value: dateConverter(details.deletedAt),
-      });
-    }
     return rows;
   });
 
   protected financeRows = computed<FinanceRow[]>(() => {
-    const details = this.store.details();
+    const details = this.details();
     if (!details) return [];
 
     const rows: FinanceRow[] = [
@@ -117,7 +133,7 @@ export class ProjectReservationOverview {
   });
 
   protected remainingAmount = computed(() => {
-    const details = this.store.details();
+    const details = this.details();
     return details ? Math.max(0, details.totalPrice - details.paidAmount) : 0;
   });
 
@@ -126,7 +142,7 @@ export class ProjectReservationOverview {
   );
 
   protected paidPercent = computed(() => {
-    const details = this.store.details();
+    const details = this.details();
     if (!details || details.totalPrice <= 0) return details ? 100 : 0;
     return Math.min(100, Math.round((details.paidAmount / details.totalPrice) * 100));
   });

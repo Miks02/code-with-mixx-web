@@ -14,6 +14,7 @@ import { PagedResult } from '@core/models/paged-result';
 import { classReservationKeys } from '@features/reservations';
 import { ClassQueryParams } from '../models/class-query-params';
 import { ClassReservationDetails } from '../models/class-reservation-details';
+import { StudentClassReservationDetails } from '../student/models/student-class-reservation-details';
 import { ClassReservationItem } from '../models/class-reservation-item';
 import { ClassesSummary } from '../models/classes-summary';
 import { CreateClassReservationRequest } from '../models/create-class-reservation-request';
@@ -69,6 +70,19 @@ export class ClassService {
         lastValueFrom(
           this.http.get<ClassReservationDetails>(
             `${this.apiUrl}/admin/reservations/classes/${reservationId()}`,
+          ),
+        ),
+      enabled: reservationId() > 0,
+      refetchOnWindowFocus: false,
+    }));
+  }
+  getStudentClassReservationDetailsQuery(reservationId: Signal<number>) {
+    return injectQuery<StudentClassReservationDetails>(() => ({
+      queryKey: classReservationKeys.detail(reservationId()),
+      queryFn: () =>
+        lastValueFrom(
+          this.http.get<StudentClassReservationDetails>(
+            `${this.apiUrl}/student/reservations/classes/${reservationId()}`,
           ),
         ),
       enabled: reservationId() > 0,

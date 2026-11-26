@@ -41,6 +41,20 @@ export const routes: Routes = [
       },
       {
         data: {
+          heading: 'Časovi',
+        },
+        path: 'classes',
+        loadChildren: () => import('@features/classes').then((m) => m.CLASSES_STUDENT_ROUTES),
+      },
+      {
+        data: {
+          heading: 'Projekti',
+        },
+        path: 'projects',
+        loadChildren: () => import('@features/projects').then((m) => m.PROJECTS_STUDENT_ROUTES),
+      },
+      {
+        data: {
           heading: 'Finansije',
         },
         path: 'payments',

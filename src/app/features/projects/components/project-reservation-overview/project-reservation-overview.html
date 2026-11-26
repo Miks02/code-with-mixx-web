@@ -3,7 +3,7 @@
     <app-badge panelAction [text]="status.label" [color]="status.classes" />
   }
 
-  @if (store.detailsPending()) {
+  @if (isPending()) {
     <div class="flex items-center gap-3">
       <app-skeleton variant="circular" width="3.5rem" />
       <div class="flex flex-col gap-2 flex-1">
@@ -17,13 +17,20 @@
       }
     </div>
     <app-skeleton height="6rem" />
-  } @else if (store.details(); as details) {
-    <div class="flex items-center gap-3 min-w-0">
-      <div class="flex justify-center items-center rounded-full h-14 w-14 shrink-0 bg-emerald-500">
-        <span class="text-lg font-semibold text-emerald-950">{{ initials() }}</span>
+  } @else if (details(); as details) {
+    @if (person(); as person) {
+      <div class="flex items-center gap-3 min-w-0">
+        <div
+          class="flex justify-center items-center rounded-full h-14 w-14 shrink-0 bg-emerald-500"
+        >
+          <span class="text-lg font-semibold text-emerald-950">{{ initials() }}</span>
+        </div>
+        <div class="flex flex-col min-w-0">
+          <span class="text-xs text-emerald-100/70">{{ person.role }}</span>
+          <h1 class="text-2xl font-bold text-white truncate">{{ person.fullName }}</h1>
+        </div>
       </div>
-      <h1 class="text-2xl font-bold text-white truncate">{{ details.studentFullName }}</h1>
-    </div>
+    }
 
     <dl class="flex flex-col gap-3">
       @for (row of infoRows(); track row.label) {

@@ -125,6 +125,22 @@ export class PaymentService {
     }));
   }
 
+  getStudentPaymentHistoryForReservationQuery(
+    reservationId: Signal<number>,
+    enabled: Signal<boolean>,
+  ) {
+    return injectQuery(() => ({
+      queryKey: reservationKeys.payments(reservationId()),
+      queryFn: () =>
+        lastValueFrom(
+          this.http.get<ReservationPaymentHistory>(
+            `${this.apiUrl}/student/reservations/${reservationId()}/payments`,
+          ),
+        ),
+      enabled: enabled() && reservationId() > 0,
+    }));
+  }
+
   registerPaymentMutation = injectMutation(() => ({
     mutationFn: (request: PaymentRequest) =>
       lastValueFrom(

@@ -11,7 +11,7 @@ import { Button } from '@shared/components/button/button';
 import { Panel } from '@shared/components/panel/panel';
 import { Skeleton } from '@shared/components/skeleton/skeleton';
 import { ClassCard } from '@features/classes/components/class-card/class-card';
-import { ClassReservationOverview } from '@features/classes/admin/components/class-reservation-overview/class-reservation-overview';
+import { ClassReservationOverview } from '@features/classes/components/class-reservation-overview/class-reservation-overview';
 import { AdminClassReservationDetailsStore } from '@features/classes/admin/stores/admin-class-reservation-details-store';
 
 @Component({
