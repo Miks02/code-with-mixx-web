@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { faSolidCalendarXmark } from '@ng-icons/font-awesome/solid';
+import { faSolidArrowLeft, faSolidCalendarXmark, faSolidEye } from '@ng-icons/font-awesome/solid';
 import { Button } from '@shared/components/button/button';
 import { StudentSelection } from '@features/students';
 import { ReservationPricing, ReservationSummary } from '@features/reservations';
@@ -22,7 +22,7 @@ import { AdminProjectReservationStore } from '@features/projects/admin/stores/ad
   providers: [
     ProjectFormService,
     AdminProjectReservationStore,
-    provideIcons({ faSolidCalendarXmark }),
+    provideIcons({ faSolidArrowLeft, faSolidCalendarXmark, faSolidEye }),
   ],
   selector: 'app-project-reservation-update-page',
   templateUrl: './project-reservation-update-page.html',

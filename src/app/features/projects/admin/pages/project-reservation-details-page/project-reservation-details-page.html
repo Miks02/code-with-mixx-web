@@ -12,14 +12,18 @@
           [routerLink]="['/admin/projects/update', store.reservationId()]"
           variant="secondary"
           icon="faSolidPenToSquare"
+          aria-label="Ažuriraj rezervaciju"
         >
-          <span class="md:block hidden">Ažuriraj rezervaciju</span>
-          <span class="md:hidden">Ažuriraj</span>
+          <span class="hidden md:inline">Ažuriraj rezervaciju</span>
         </app-button>
       }
-      <app-button routerLink="/admin/projects" variant="ghost">
-        <span class="md:block hidden">Nazad na projekte</span>
-        <span class="md:hidden">Nazad</span>
+      <app-button
+        routerLink="/admin/projects"
+        variant="ghost"
+        icon="faSolidArrowLeft"
+        aria-label="Nazad na projekte"
+      >
+        <span class="hidden md:inline">Nazad na projekte</span>
       </app-button>
     </div>
   </div>
