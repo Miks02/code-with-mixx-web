@@ -75,12 +75,6 @@ describe('AdminInquiryStore', () => {
       expect(store.summaryPending()).toBe(true);
       expect(store.inquiriesPending()).toBe(true);
       expect(store.pagedItems()).toBeUndefined();
-      expect(store.pagedCount()).toBe(0);
-      expect(store.pagedTotalCount()).toBe(0);
-      expect(store.currentPage()).toBe(1);
-      expect(store.totalPages()).toBe(1);
-      expect(store.hasPreviousPage()).toBe(false);
-      expect(store.hasNextPage()).toBe(false);
       expect(store.selectedInquiry()).toBeUndefined();
       expect(store.checkedIds()).toEqual([]);
       expect(store.areAllChecked()).toBe(false);
@@ -95,10 +89,6 @@ describe('AdminInquiryStore', () => {
       expect(store.summaryPending()).toBe(false);
       expect(store.summary()?.totalInquiries).toBe(1);
       expect(store.pagedItems()?.map((inquiry) => inquiry.id)).toEqual([1, 2]);
-      expect(store.pagedCount()).toBe(2);
-      expect(store.pagedTotalCount()).toBe(4);
-      expect(store.totalPages()).toBe(2);
-      expect(store.hasNextPage()).toBe(true);
     });
 
     it('selects the first inquiry automatically', () => {
@@ -205,7 +195,7 @@ describe('AdminInquiryStore', () => {
       await settle();
       expectInquiriesRequest({ pageNumber: '2' }).flush(secondPage);
       await settle();
-      expect(store.currentPage()).toBe(2);
+      expect(store.params.pageNumber()).toBe(2);
 
       store.nextPage();
       await settle();

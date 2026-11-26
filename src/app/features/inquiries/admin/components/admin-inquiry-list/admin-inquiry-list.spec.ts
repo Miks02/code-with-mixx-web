@@ -69,7 +69,7 @@ describe('AdminInquiryList', () => {
     await settle();
     expect(element.querySelectorAll('app-skeleton').length).toBeGreaterThan(0);
     expect(cards().length).toBe(0);
-    expect(selectAll().disabled).toBe(true);
+    expect(getButton(element, 'Označi sve na strani')).toBeUndefined();
   });
 
   it('shows the empty state when there are no inquiries', async () => {
