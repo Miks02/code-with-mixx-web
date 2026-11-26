@@ -33,6 +33,13 @@ export const routes: Routes = [
         loadChildren: () => import('@features/analytics').then((m) => m.ANALYTICS_STUDENT_ROUTES),
       },
       {
+        path: 'subjects',
+        data: {
+          heading: 'Predmeti',
+        },
+        loadChildren: () => import('@features/subjects').then((m) => m.SUBJECTS_STUDENT_ROUTES),
+      },
+      {
         data: {
           heading: 'Podešavanje',
         },

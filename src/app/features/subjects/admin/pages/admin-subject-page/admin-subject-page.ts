@@ -16,15 +16,15 @@ import { ScrollIntoViewOn } from '@shared/directives/scroll-into-view-on';
 import { AdminSubjectList } from '@features/subjects/admin/components/admin-subject-list/admin-subject-list';
 import { CreateSubjectForm } from '@features/subjects/admin/components/create-subject-form/create-subject-form';
 import { EditSubjectForm } from '@features/subjects/admin/components/edit-subject-form/edit-subject-form';
-import { MostPopularSubject } from '@features/subjects/admin/components/most-popular-subject/most-popular-subject';
-import { SubjectDetails } from '@features/subjects/admin/components/subject-details/subject-details';
+import { MostPopularSubject } from '@features/subjects/components/most-popular-subject/most-popular-subject';
+import { AdminSubjectDetails } from '@features/subjects/admin/components/admin-subject-details/admin-subject-details';
 import { AdminSubjectStore } from '@features/subjects/admin/stores/admin-subject-store';
 
 @Component({
   imports: [
     FormsModule,
     AdminSubjectList,
-    SubjectDetails,
+    AdminSubjectDetails,
     MostPopularSubject,
     CreateSubjectForm,
     StatsCard,
@@ -44,10 +44,10 @@ import { AdminSubjectStore } from '@features/subjects/admin/stores/admin-subject
       faSolidBoxArchive,
     }),
   ],
-  selector: 'app-subjects-page',
-  styleUrl: './subjects-page.css',
-  templateUrl: './subjects-page.html',
+  selector: 'app-admin-subject-page',
+  styleUrl: './admin-subject-page.css',
+  templateUrl: './admin-subject-page.html',
 })
-export class SubjectsPage {
+export class AdminSubjectPage {
   store = inject(AdminSubjectStore);
 }

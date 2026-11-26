@@ -5,10 +5,10 @@
     @if (store.isEditing()) {
       <app-edit-subject-form class="flex-1 min-w-0"></app-edit-subject-form>
     } @else {
-      <app-subject-details
+      <app-admin-subject-details
         [appScrollIntoViewOn]="store.detailsScrollRequests()"
         class="flex-1 min-w-0"
-      ></app-subject-details>
+      ></app-admin-subject-details>
     }
   </div>
 
@@ -16,7 +16,9 @@
     <div class="grid grid-cols-1 grid-rows-4 sm:grid-cols-6 sm:grid-rows-2 flex-1 gap-4">
       <app-most-popular-subject
         class="flex-1 min-w-0 sm:col-span-4"
-        [subject]="store.mostPopularSubject()"
+        [subjectName]="store.mostPopularSubject()?.subjectName"
+        [classesCount]="store.mostPopularSubject()?.classesCount"
+        [studentsCount]="store.mostPopularSubject()?.studentsCount"
         [isPending]="store.summaryPending()"
       ></app-most-popular-subject>
       <app-stats-card

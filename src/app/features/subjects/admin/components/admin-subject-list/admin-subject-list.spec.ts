@@ -82,6 +82,24 @@ describe('AdminSubjectList', () => {
       expect(cards()[0].querySelector('button')!.classList).not.toContain('bg-emerald-600');
     });
 
+    it('passes the counts to the cards', () => {
+      const counts = Array.from(cards()[0].querySelectorAll('span')).map(
+        (span) => span.textContent,
+      );
+      expect(counts).toContain('4');
+      expect(counts).toContain('7');
+    });
+
+    it('clears the selection when the selected card is clicked again', async () => {
+      cards()[1].querySelector('button')!.click();
+      await fixture.whenStable();
+      cards()[1].querySelector('button')!.click();
+      await fixture.whenStable();
+
+      expect(store.selectedSubject()).toBeUndefined();
+      expect(cards()[1].querySelector('button')!.classList).not.toContain('bg-emerald-600');
+    });
+
     it('disables the previous button on the first page and loads the next page', async () => {
       const [previous, next] = paginationButtons();
       expect(previous.disabled).toBe(true);

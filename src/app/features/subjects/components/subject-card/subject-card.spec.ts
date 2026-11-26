@@ -1,50 +1,50 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SubjectItem } from '@features/subjects/models/subject-item';
-import { createSubject } from '@features/subjects/testing/subject-test-utils';
 import { SubjectCard } from './subject-card';
 
 describe('SubjectCard', () => {
   let fixture: ComponentFixture<SubjectCard>;
   let element: HTMLElement;
-  const subject = createSubject();
 
   const button = () => element.querySelector('button')!;
+  const counts = () => Array.from(element.querySelectorAll('span')).map((span) => span.textContent);
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({ imports: [SubjectCard] }).compileComponents();
 
     fixture = TestBed.createComponent(SubjectCard);
     element = fixture.nativeElement;
-    fixture.componentRef.setInput('subject', subject);
+    fixture.componentRef.setInput('subjectName', 'Osnove programiranja');
+    fixture.componentRef.setInput('subjectDescription', 'Promenljive, petlje i funkcije');
     await fixture.whenStable();
   });
 
-  it('renders the name, description, classes count and students count', () => {
+  it('renders the name and description without counts when none are passed', () => {
     expect(element.textContent).toContain('Osnove programiranja');
-    expect(element.textContent).toContain('Promenljive, petlje i funkcije u JavaScript-u');
-    const counts = Array.from(element.querySelectorAll('span')).map((span) => span.textContent);
-    expect(counts).toContain('4');
-    expect(counts).toContain('7');
+    expect(element.textContent).toContain('Promenljive, petlje i funkcije');
+    expect(element.querySelectorAll('ng-icon').length).toBe(0);
   });
 
-  it('emits the subject when clicked', () => {
-    let emitted: SubjectItem | undefined;
-    fixture.componentInstance.selected.subscribe((value) => (emitted = value));
-
-    button().click();
-
-    expect(emitted).toEqual(subject);
-  });
-
-  it('emits undefined to clear the selection when the selected card is clicked again', async () => {
-    fixture.componentRef.setInput('isSelected', true);
+  it('renders only the counts that are passed, including zero', async () => {
+    fixture.componentRef.setInput('classesCount', 0);
     await fixture.whenStable();
-    const emitted: (SubjectItem | undefined)[] = [];
-    fixture.componentInstance.selected.subscribe((value) => emitted.push(value));
+
+    expect(element.querySelectorAll('ng-icon').length).toBe(1);
+    expect(counts()).toContain('0');
+
+    fixture.componentRef.setInput('studentsCount', 7);
+    await fixture.whenStable();
+
+    expect(element.querySelectorAll('ng-icon').length).toBe(2);
+    expect(counts()).toContain('7');
+  });
+
+  it('emits when clicked', () => {
+    let emitted = 0;
+    fixture.componentInstance.selected.subscribe(() => emitted++);
 
     button().click();
 
-    expect(emitted).toEqual([undefined]);
+    expect(emitted).toBe(1);
   });
 
   it('highlights the card when it is selected', async () => {

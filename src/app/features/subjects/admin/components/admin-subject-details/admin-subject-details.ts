@@ -40,11 +40,11 @@ type SubjectStat = {
       faSolidSpinner,
     }),
   ],
-  selector: 'app-subject-details',
-  styleUrl: './subject-details.css',
-  templateUrl: './subject-details.html',
+  selector: 'app-admin-subject-details',
+  styleUrl: './admin-subject-details.css',
+  templateUrl: './admin-subject-details.html',
 })
-export class SubjectDetails {
+export class AdminSubjectDetails {
   private subjectService = inject(SubjectService);
   private dialogService = inject(DialogService);
   private toastService = inject(ToastService);
