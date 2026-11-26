@@ -35,7 +35,6 @@ import { DialogResult } from '@core/components/dialog/dialog';
     }),
   ],
   selector: 'app-change-password-form',
-  styleUrl: './change-password-form.css',
   templateUrl: './change-password-form.html',
 })
 export class ChangePasswordForm {

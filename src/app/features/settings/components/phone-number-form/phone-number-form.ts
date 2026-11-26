@@ -18,7 +18,6 @@ import { getSettingsErrorMessage } from '@features/settings/utilities/settings-e
   imports: [NgIcon, Button, FormField, Panel],
   providers: [provideIcons({ faSolidCheck, faSolidPhone, faSolidXmark })],
   selector: 'app-phone-number-form',
-  styleUrl: './phone-number-form.css',
   templateUrl: './phone-number-form.html',
 })
 export class PhoneNumberForm {

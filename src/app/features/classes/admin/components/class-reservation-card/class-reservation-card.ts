@@ -82,8 +82,8 @@ const STATUS_CLASSES: Record<ReservationStatus, StatusClasses> = {
     }),
   ],
   selector: 'app-class-reservation-card',
-  styleUrl: './class-reservation-card.css',
   templateUrl: './class-reservation-card.html',
+  host: { class: 'grow' },
 })
 export class ClassReservationCard {
   reservation = input.required<ClassReservationItem>();

@@ -27,7 +27,6 @@ import { AdminStudentDetailsStore } from '@features/students/admin/stores/admin-
     }),
   ],
   selector: 'app-student-details-page',
-  styleUrl: './student-details-page.css',
   templateUrl: './student-details-page.html',
 })
 export class StudentDetailsPage {

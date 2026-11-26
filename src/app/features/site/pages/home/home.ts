@@ -11,7 +11,6 @@ import { Testimonials } from './components/testimonials/testimonials';
 @Component({
   imports: [Hero, AboutServices, HowItWorks, Testimonials, Pricing, MyStory, Contact, ProjectCta],
   selector: 'app-home',
-  styleUrl: './home.css',
   templateUrl: './home.html',
 })
 export class Home {}

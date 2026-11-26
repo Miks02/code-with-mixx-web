@@ -3,12 +3,7 @@ import { NgIcon, provideIcons } from '@ng-icons/core';
 import { faSolidSpinner } from '@ng-icons/font-awesome/solid';
 
 export type ButtonVariant =
-  | 'primary'
-  | 'secondary'
-  | 'danger'
-  | 'ghost'
-  | 'ghost-light'
-  | 'ghost-danger';
+  'primary' | 'secondary' | 'danger' | 'ghost' | 'ghost-light' | 'ghost-danger';
 export type ButtonSize = 'sm' | 'md' | 'lg';
 
 @Component({

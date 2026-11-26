@@ -1,6 +1,5 @@
 import { FaqGroup } from '../models/faq';
 
-
 export const FAQ_GROUPS: FaqGroup[] = [
   {
     id: 'classes',

@@ -16,7 +16,6 @@ import { faSolidArrowDownWideShort, faSolidChevronDown } from '@ng-icons/font-aw
   imports: [NgIcon],
   providers: [provideIcons({ faSolidArrowDownWideShort, faSolidChevronDown })],
   selector: 'app-sort-menu',
-  styleUrl: './sort-menu.css',
   templateUrl: './sort-menu.html',
 })
 export class SortMenu<T extends string = string> {

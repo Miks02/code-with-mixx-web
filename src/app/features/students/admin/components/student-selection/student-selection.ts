@@ -7,7 +7,6 @@ import { StudentLookup } from '@features/students/models/student-lookup';
   imports: [NgIcon],
   providers: [provideIcons({ faSolidMagnifyingGlass, faSolidXmark })],
   selector: 'app-student-selection',
-  styleUrl: './student-selection.css',
   templateUrl: './student-selection.html',
 })
 export class StudentSelection {

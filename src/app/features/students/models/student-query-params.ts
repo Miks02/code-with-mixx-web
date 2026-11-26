@@ -1,5 +1,5 @@
-import { StudentFilter } from "./student-filter";
-import { StudentSort } from "./student-sort";
+import { StudentFilter } from './student-filter';
+import { StudentSort } from './student-sort';
 
 export type StudentQueryParams = {
   pageNumber: number;
@@ -7,4 +7,4 @@ export type StudentQueryParams = {
   searchTerm: string;
   sortBy: StudentSort;
   filters: StudentFilter[];
-}
+};

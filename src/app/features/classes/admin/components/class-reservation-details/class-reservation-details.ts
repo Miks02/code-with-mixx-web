@@ -76,8 +76,8 @@ type ReservationStat = {
     }),
   ],
   selector: 'app-class-reservation-details',
-  styleUrl: './class-reservation-details.css',
   templateUrl: './class-reservation-details.html',
+  host: { class: 'flex-1' },
 })
 export class ClassReservationDetails {
   protected store = inject(AdminClassStore);

@@ -50,9 +50,10 @@ const STATUS_META: Record<AccountStatus, StatusMeta> = {
 
 @Component({
   imports: [NgIcon],
-  providers: [provideIcons({ faSolidBuildingColumns, faSolidClockRotateLeft, faSolidShieldHalved })],
+  providers: [
+    provideIcons({ faSolidBuildingColumns, faSolidClockRotateLeft, faSolidShieldHalved }),
+  ],
   selector: 'app-profile-info-card',
-  styleUrl: './profile-info-card.css',
   templateUrl: './profile-info-card.html',
 })
 export class ProfileInfoCard {
@@ -64,7 +65,7 @@ export class ProfileInfoCard {
   email = computed(() => this.user().email);
   phoneNumber = computed(() => this.user().phoneNumber);
   university = computed(() => this.user().university);
-  
+
   status = computed(() => STATUS_META[this.user().accountStatus] ?? null);
 
   lastLoginDate = computed(() => {

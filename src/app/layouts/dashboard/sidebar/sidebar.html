@@ -1,11 +1,11 @@
-@if(showSidebar()) {
-<button
-  type="button"
-  tabindex="-1"
-  aria-label="Zatvori meni"
-  (click)="onCloseSidebar()"
-  class="fixed inset-0 backdrop-blur-xs z-40 md:hidden"
-></button>
+@if (showSidebar()) {
+  <button
+    type="button"
+    tabindex="-1"
+    aria-label="Zatvori meni"
+    (click)="onCloseSidebar()"
+    class="fixed inset-0 backdrop-blur-xs z-40 md:hidden"
+  ></button>
 }
 
 <aside
@@ -20,12 +20,12 @@
 
   <ul class="flex flex-col gap-2 mt-6 h-full w-full">
     @for (link of sidebarLinks(); track $index) {
-    <app-sidebar-link
-      (click)="onCloseSidebar()"
-      [linkName]="link.name"
-      [linkIcon]="link.icon"
-      [navigateTo]="link.navigateTo"
-    ></app-sidebar-link>
+      <app-sidebar-link
+        (click)="onCloseSidebar()"
+        [linkName]="link.name"
+        [linkIcon]="link.icon"
+        [navigateTo]="link.navigateTo"
+      ></app-sidebar-link>
     }
 
     <div class="md:mt-auto mt-6 flex flex-col gap-2 w-full">

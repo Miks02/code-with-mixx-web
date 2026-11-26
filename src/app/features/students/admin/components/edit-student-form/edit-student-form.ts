@@ -49,8 +49,8 @@ type StudentStat = {
     }),
   ],
   selector: 'app-edit-student-form',
-  styleUrl: './edit-student-form.css',
   templateUrl: './edit-student-form.html',
+  host: { class: 'flex-1' },
 })
 export class EditStudentForm implements OnInit {
   private studentService = inject(StudentService);

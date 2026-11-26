@@ -6,7 +6,6 @@ import { faSolidMagnifyingGlass } from '@ng-icons/font-awesome/solid';
   imports: [NgIcon],
   providers: [provideIcons({ faSolidMagnifyingGlass })],
   selector: 'app-search-bar',
-  styleUrl: './search-bar.css',
   templateUrl: './search-bar.html',
 })
 export class SearchBar {

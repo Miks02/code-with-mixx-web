@@ -32,7 +32,6 @@ export const httpErrorInterceptor: HttpInterceptorFn = (req, next) => {
   );
 };
 
-// Shows a toast for generic (non-domain) errors. Domain errors are left to the calling component.
 function showGlobalError(problemDetails: ProblemDetails, toastService: ToastService) {
   // 401 is skipped on purpose: it is not an error the user should see. authInterceptor reacts to it
   // by silently rotating tokens and retrying the request, and if that fails, AuthService

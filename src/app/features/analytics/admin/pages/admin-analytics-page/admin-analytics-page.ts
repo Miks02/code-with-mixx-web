@@ -65,7 +65,6 @@ const ADMIN_ACTIONS: ActionButton[] = [
     }),
   ],
   selector: 'app-admin-analytics-page',
-  styleUrl: './admin-analytics-page.css',
   templateUrl: './admin-analytics-page.html',
 })
 export class AdminAnalyticsPage {

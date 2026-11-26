@@ -13,7 +13,6 @@ type Testimonial = {
   imports: [NgIcon],
   providers: [provideIcons({ faSolidQuoteLeft })],
   selector: 'app-testimonials',
-  styleUrl: './testimonials.css',
   templateUrl: './testimonials.html',
 })
 export class Testimonials {

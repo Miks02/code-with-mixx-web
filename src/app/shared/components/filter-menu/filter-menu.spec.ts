@@ -19,10 +19,6 @@ describe('FilterMenu', () => {
     await fixture.whenStable();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
   it('should show the placeholder when nothing is selected', () => {
     expect(component.selectedLabel()).toBe('Filteri');
   });

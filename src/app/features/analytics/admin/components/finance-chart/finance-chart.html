@@ -14,25 +14,25 @@
     </app-filter-container>
   </div>
   @if (isLoading()) {
-  <div class="px-4 pb-4 grow">
-    <app-skeleton variant="rectangular" height="400px" />
-  </div>
+    <div class="px-4 pb-4 grow">
+      <app-skeleton variant="rectangular" height="400px" />
+    </div>
   } @else {
-  <apx-chart
-    class="w-full h-full grow"
-    [series]="chartOptions().series!"
-    [chart]="chartOptions().chart!"
-    [xaxis]="chartOptions().xaxis!"
-    [yaxis]="chartOptions().yaxis!"
-    [stroke]="chartOptions().stroke!"
-    [fill]="chartOptions().fill!"
-    [colors]="chartOptions().colors!"
-    [markers]="chartOptions().markers!"
-    [dataLabels]="chartOptions().dataLabels!"
-    [legend]="chartOptions().legend!"
-    [tooltip]="chartOptions().tooltip!"
-    [grid]="chartOptions().grid!"
-    [responsive]="chartOptions().responsive!"
-  ></apx-chart>
+    <apx-chart
+      class="w-full h-full grow"
+      [series]="chartOptions().series!"
+      [chart]="chartOptions().chart!"
+      [xaxis]="chartOptions().xaxis!"
+      [yaxis]="chartOptions().yaxis!"
+      [stroke]="chartOptions().stroke!"
+      [fill]="chartOptions().fill!"
+      [colors]="chartOptions().colors!"
+      [markers]="chartOptions().markers!"
+      [dataLabels]="chartOptions().dataLabels!"
+      [legend]="chartOptions().legend!"
+      [tooltip]="chartOptions().tooltip!"
+      [grid]="chartOptions().grid!"
+      [responsive]="chartOptions().responsive!"
+    ></apx-chart>
   }
 </div>

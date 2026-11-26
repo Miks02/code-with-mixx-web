@@ -41,7 +41,6 @@ import { PROJECT_TYPE_LABELS } from '@features/projects/utilities/project-labels
     }),
   ],
   selector: 'app-project-edit-modal',
-  styleUrl: './project-edit-modal.css',
   templateUrl: './project-edit-modal.html',
 })
 export class ProjectEditModal {

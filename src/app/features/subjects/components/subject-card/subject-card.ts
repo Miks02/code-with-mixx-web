@@ -4,8 +4,8 @@ import { NgIcon } from '@ng-icons/core';
 @Component({
   imports: [NgIcon],
   selector: 'app-subject-card',
-  styleUrl: './subject-card.css',
   templateUrl: './subject-card.html',
+  host: { class: 'grow' },
 })
 export class SubjectCard {
   subjectName = input.required<string>();

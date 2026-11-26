@@ -15,8 +15,8 @@ type SubjectStat = {
   imports: [NgIcon, Panel, EmptyState],
   providers: [provideIcons({ faSolidCalendar, faSolidHandPointer })],
   selector: 'app-student-subject-details',
-  styleUrl: './student-subject-details.css',
   templateUrl: './student-subject-details.html',
+  host: { class: 'flex-1' },
 })
 export class StudentSubjectDetails {
   private store = inject(StudentSubjectStore);

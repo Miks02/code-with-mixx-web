@@ -82,7 +82,7 @@ describe('FilterContainer', () => {
 
     trigger().click();
     await fixture.whenStable();
-    expect(filterTrigger().className).toContain('bg-emerald-50');
+    expect(filterTrigger().className).toContain('bg-emerald-300');
 
     element.querySelector<HTMLButtonElement>('button[aria-label="Zatvori"]')!.click();
     await fixture.whenStable();

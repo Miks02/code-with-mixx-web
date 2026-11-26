@@ -18,7 +18,6 @@ import { AdminInquiryStore } from '@features/inquiries/admin/stores/admin-inquir
     provideIcons({ faSolidCircleCheck, faSolidEnvelope, faSolidHourglassHalf }),
   ],
   selector: 'app-inquiries-page',
-  styleUrl: './inquiries-page.css',
   templateUrl: './inquiries-page.html',
 })
 export class InquiriesPage {

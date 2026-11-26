@@ -53,27 +53,28 @@
   </ng-container>
 
   @if (store.checkedCount()) {
-  <div class="col-span-full flex items-center justify-between gap-3 min-h-8 mr-4 md:mr-0">
-    <span class="text-sm text-emerald-300">Označeno: {{ store.checkedCount() }}</span>
-    <app-button
-      variant="danger"
-      size="sm"
-      icon="faSolidTrash"
-      aria-label="Obriši označene"
-      [loading]="store.isBulkDeleting()"
-      (clicked)="onDeleteChecked()"
-    >
-      <span class="hidden sm:inline">Obriši označene</span>
-    </app-button>
-  </div>
-  } @for (inquiry of store.pagedItems(); track inquiry.id) {
-  <app-inquiry-card
-    [inquiry]="inquiry"
-    [addOpacity]="store.inquiriesFetching()"
-    [isSelected]="inquiry.id === store.selectedInquiryId()"
-    [isChecked]="isChecked(inquiry.id)"
-    (selected)="store.selectInquiry($event)"
-    (checkedToggled)="store.toggleChecked($event)"
-  ></app-inquiry-card>
+    <div class="col-span-full flex items-center justify-between gap-3 min-h-8 mr-4 md:mr-0">
+      <span class="text-sm text-emerald-300">Označeno: {{ store.checkedCount() }}</span>
+      <app-button
+        variant="danger"
+        size="sm"
+        icon="faSolidTrash"
+        aria-label="Obriši označene"
+        [loading]="store.isBulkDeleting()"
+        (clicked)="onDeleteChecked()"
+      >
+        <span class="hidden sm:inline">Obriši označene</span>
+      </app-button>
+    </div>
+  }
+  @for (inquiry of store.pagedItems(); track inquiry.id) {
+    <app-inquiry-card
+      [inquiry]="inquiry"
+      [addOpacity]="store.inquiriesFetching()"
+      [isSelected]="inquiry.id === store.selectedInquiryId()"
+      [isChecked]="isChecked(inquiry.id)"
+      (selected)="store.selectInquiry($event)"
+      (checkedToggled)="store.toggleChecked($event)"
+    ></app-inquiry-card>
   }
 </app-paged-list>

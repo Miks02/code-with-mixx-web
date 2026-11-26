@@ -1,24 +1,24 @@
 <header class="relative bg-emerald-950 w-full flex-1 px-6 py-4 flex justify-between items-center">
   @if (userState.isAdmin()) {
-  <app-student-lookup />
+    <app-student-lookup />
   }
 
   <h1 class="text-emerald-200 font-semibold text-2xl md:hidden">{{ heading() }}</h1>
 
   <div class="ml-auto flex gap-2 items-center">
     @if (userState.isAdmin()) {
-    <button
-      type="button"
-      aria-label="Pretraži studenta"
-      aria-controls="student-search"
-      [attr.aria-expanded]="!!studentLookup()?.isMobileOpen()"
-      (mousedown)="$event.preventDefault()"
-      (click)="onToggleMobileSearch()"
-      [class]="!!studentLookup()?.isMobileOpen() ? 'border-amber-500' : 'border-emerald-400'"
-      class="rounded-full bg-emerald-700 p-2 md:hidden flex justify-center items-center border-2 cursor-pointer shadow-lg hover:border-amber-500 active:scale-95 transition-200"
-    >
-      <ng-icon name="faSolidMagnifyingGlass" class="text-emerald-300! self-center!"></ng-icon>
-    </button>
+      <button
+        type="button"
+        aria-label="Pretraži studenta"
+        aria-controls="student-search"
+        [attr.aria-expanded]="!!studentLookup()?.isMobileOpen()"
+        (mousedown)="$event.preventDefault()"
+        (click)="onToggleMobileSearch()"
+        [class]="!!studentLookup()?.isMobileOpen() ? 'border-amber-500' : 'border-emerald-400'"
+        class="rounded-full bg-emerald-700 p-2 md:hidden flex justify-center items-center border-2 cursor-pointer shadow-lg hover:border-amber-500 active:scale-95 transition-200"
+      >
+        <ng-icon name="faSolidMagnifyingGlass" class="text-emerald-300! self-center!"></ng-icon>
+      </button>
     }
 
     <div class="flex gap-2 items-center">

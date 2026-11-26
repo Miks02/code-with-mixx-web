@@ -36,10 +36,6 @@ describe('InquiryCard', () => {
     element = fixture.nativeElement;
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
   it('should render name, initials, type and status', () => {
     expect(component.fullName()).toBe('Ana Anić');
     expect(component.initials()).toBe('AA');

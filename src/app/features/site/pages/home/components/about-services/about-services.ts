@@ -35,7 +35,6 @@ type Subject = {
     }),
   ],
   selector: 'app-about-services',
-  styleUrl: './about-services.css',
   templateUrl: './about-services.html',
 })
 export class AboutServices {

@@ -253,7 +253,13 @@ export function createValidReservationModel(
     studentId: 'student-1',
     totalPrice: 6000,
     projects: [
-      { ...createEmptyProject(), name: 'Biblioteka', subjectId: 1, subjectName: 'Baze podataka', price: 6000 },
+      {
+        ...createEmptyProject(),
+        name: 'Biblioteka',
+        subjectId: 1,
+        subjectName: 'Baze podataka',
+        price: 6000,
+      },
     ],
     ...overrides,
   };

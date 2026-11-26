@@ -26,7 +26,6 @@ const DAY_IN_MS = 24 * 60 * 60 * 1000;
     }),
   ],
   selector: 'app-next-class-card',
-  styleUrl: './next-class-card.css',
   templateUrl: './next-class-card.html',
 })
 export class NextClassCard {

@@ -9,7 +9,6 @@ type Fact = {
 @Component({
   imports: [NgTemplateOutlet],
   selector: 'app-project-details',
-  styleUrl: './project-details.css',
   templateUrl: './project-details.html',
 })
 export class ProjectDetails {

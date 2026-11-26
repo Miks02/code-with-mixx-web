@@ -38,7 +38,6 @@ const TRIGGER_CLASSES: Record<FilterVariant, TriggerClasses> = {
     { provide: FILTER_CONTAINER, useExisting: FilterContainer },
   ],
   selector: 'app-filter-container',
-  styleUrl: './filter-container.css',
   templateUrl: './filter-container.html',
   host: { class: 'contents' },
 })

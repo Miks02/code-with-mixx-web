@@ -31,7 +31,6 @@ export type DialogOptions = {
     }),
   ],
   selector: 'app-dialog',
-  styleUrl: './dialog.css',
   templateUrl: './dialog.html',
 })
 export class Dialog {

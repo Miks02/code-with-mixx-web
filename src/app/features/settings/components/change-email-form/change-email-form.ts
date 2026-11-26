@@ -24,7 +24,6 @@ import { EmailTokenModal } from '../email-token-modal/email-token-modal';
   imports: [NgIcon, Button, FormField, EmailTokenModal, Panel],
   providers: [provideIcons({ faSolidCheck, faSolidEnvelope, faSolidLock, faSolidXmark })],
   selector: 'app-change-email-form',
-  styleUrl: './change-email-form.css',
   templateUrl: './change-email-form.html',
 })
 export class ChangeEmailForm {

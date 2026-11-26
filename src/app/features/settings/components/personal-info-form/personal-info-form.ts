@@ -18,7 +18,6 @@ import { getSettingsErrorMessage } from '@features/settings/utilities/settings-e
   imports: [NgIcon, Button, FormField, Panel],
   providers: [provideIcons({ faSolidCheck, faSolidUser, faSolidXmark })],
   selector: 'app-personal-info-form',
-  styleUrl: './personal-info-form.css',
   templateUrl: './personal-info-form.html',
 })
 export class PersonalInfoForm {

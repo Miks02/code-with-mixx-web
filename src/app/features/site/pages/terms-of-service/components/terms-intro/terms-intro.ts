@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-terms-intro',
-  styleUrl: './terms-intro.css',
   templateUrl: './terms-intro.html',
 })
 export class TermsIntro {

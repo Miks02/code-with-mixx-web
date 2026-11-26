@@ -34,7 +34,6 @@ import { ClassReservationCard } from '../class-reservation-card/class-reservatio
     }),
   ],
   selector: 'app-class-reservations-list',
-  styleUrl: './class-reservations-list.css',
   templateUrl: './class-reservations-list.html',
 })
 export class ClassReservationsList {

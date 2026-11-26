@@ -18,7 +18,6 @@ import { Sidebar } from '../sidebar/sidebar';
 @Component({
   imports: [RouterOutlet, Sidebar, Header],
   selector: 'app-dashboard-layout',
-  styleUrl: './dashboard-layout.css',
   templateUrl: './dashboard-layout.html',
 })
 export class DashboardLayout {

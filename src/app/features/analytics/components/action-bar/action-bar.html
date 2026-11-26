@@ -12,15 +12,15 @@
   </div>
 
   <div class="flex gap-4 flex-wrap w-full mx-auto">
-    @for(action of actions(); track $index) {
-    <app-button
-      [routerLink]="action.navigateTo"
-      [variant]="action.variant"
-      [icon]="action.icon"
-      [loading]="false"
-    >
-      {{ action.label }}
-    </app-button>
+    @for (action of actions(); track $index) {
+      <app-button
+        [routerLink]="action.navigateTo"
+        [variant]="action.variant"
+        [icon]="action.icon"
+        [loading]="false"
+      >
+        {{ action.label }}
+      </app-button>
     }
   </div>
 </div>

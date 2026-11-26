@@ -5,8 +5,8 @@
     <h3 class="font-semibold text-emerald-100 text-base">Aktivacija naloga</h3>
 
     <p class="text-sm text-emerald-100/70 leading-relaxed">
-      Da bi aktivirao/la nalog, upiši lozinku i potvrdi je ispod. Nakon toga ćeš moći da se
-      prijaviš na platformu.
+      Da bi aktivirao/la nalog, upiši lozinku i potvrdi je ispod. Nakon toga ćeš moći da se prijaviš
+      na platformu.
     </p>
   </div>
 
@@ -36,9 +36,9 @@
       </div>
 
       @if (activationForm.password().touched() && activationForm.password().errors().length) {
-      <p class="text-sm text-red-400 leading-relaxed px-2 text-center">
-        {{ activationForm.password().errors()[0]?.message }}
-      </p>
+        <p class="text-sm text-red-400 leading-relaxed px-2 text-center">
+          {{ activationForm.password().errors()[0]?.message }}
+        </p>
       }
     </div>
 
@@ -67,11 +67,13 @@
         </label>
       </div>
 
-      @if (activationForm.confirmedPassword().touched() &&
-      activationForm.confirmedPassword().errors().length) {
-      <p class="text-sm text-red-400 leading-relaxed px-2 text-center">
-        {{ activationForm.confirmedPassword().errors()[0]?.message }}
-      </p>
+      @if (
+        activationForm.confirmedPassword().touched() &&
+        activationForm.confirmedPassword().errors().length
+      ) {
+        <p class="text-sm text-red-400 leading-relaxed px-2 text-center">
+          {{ activationForm.confirmedPassword().errors()[0]?.message }}
+        </p>
       }
     </div>
 

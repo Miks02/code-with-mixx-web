@@ -11,8 +11,8 @@ import { Skeleton } from '@shared/components/skeleton/skeleton';
   imports: [NgApexchartsModule, FilterContainer, FilterMenu, Skeleton],
   providers: [provideIcons({ faSolidCalendar })],
   selector: 'app-subjects-chart',
-  styleUrl: './subjects-chart.css',
   templateUrl: './subjects-chart.html',
+  host: { class: 'block w-full h-full' },
 })
 export class SubjectsChart {
   data = input.required<SubjectChart[] | undefined>();

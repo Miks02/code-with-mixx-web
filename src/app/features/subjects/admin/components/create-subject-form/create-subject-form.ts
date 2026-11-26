@@ -15,8 +15,8 @@ import { getSubjectErrorMessage } from '@features/subjects/utilities/subject-err
   imports: [FormField, Button, Panel],
   providers: [provideIcons({ faSolidCirclePlus })],
   selector: 'app-create-subject-form',
-  styleUrl: './create-subject-form.css',
   templateUrl: './create-subject-form.html',
+  host: { class: 'flex-1' },
 })
 export class CreateSubjectForm {
   private subjectService = inject(SubjectService);

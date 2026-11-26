@@ -21,7 +21,6 @@ import { AdminClassReservationStore } from '@features/classes/admin/stores/admin
   ],
   providers: [ClassFormService, AdminClassReservationStore, provideIcons({ faSolidCalendarXmark })],
   selector: 'app-class-reservation-details-page',
-  styleUrl: './class-reservation-details-page.css',
   templateUrl: './class-reservation-details-page.html',
 })
 export class ClassReservationDetailsPage {

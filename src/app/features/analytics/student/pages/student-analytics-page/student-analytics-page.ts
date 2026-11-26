@@ -21,7 +21,7 @@ import {
   faSolidFile,
   faSolidFileLines,
   faSolidMoneyBillTransfer,
-  faSolidSackDollar
+  faSolidSackDollar,
 } from '@ng-icons/font-awesome/solid';
 
 const STUDENT_ACTIONS: ActionButton[] = [
@@ -68,7 +68,6 @@ const STUDENT_ACTIONS: ActionButton[] = [
     }),
   ],
   selector: 'app-student-analytics-page',
-  styleUrl: './student-analytics-page.css',
   templateUrl: './student-analytics-page.html',
 })
 export class StudentAnalyticsPage {

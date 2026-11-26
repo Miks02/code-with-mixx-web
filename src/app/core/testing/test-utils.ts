@@ -15,10 +15,6 @@ export function createDialogServiceMock() {
   return { showDialog: vi.fn() };
 }
 
-/**
- * HttpClient (with the real error interceptor), HttpTestingController, a QueryClient configured like
- * the app's, and mocked ToastService/DialogService.
- */
 export function provideHttpTesting({
   toastService = createToastServiceMock(),
   dialogService = createDialogServiceMock(),
@@ -53,7 +49,6 @@ export function createProblemDetails(
   };
 }
 
-/** Lets Angular effects, change detection and TanStack's promise callbacks run. */
 export async function settle() {
   for (let i = 0; i < 3; i++) {
     TestBed.tick();
@@ -63,7 +58,6 @@ export async function settle() {
 
 export const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-/** Finds a native button by its visible text (works for app-button too). */
 export function getButton(root: HTMLElement, text: string): HTMLButtonElement | undefined {
   return Array.from(root.querySelectorAll<HTMLButtonElement>('button')).find((button) =>
     button.textContent?.includes(text),

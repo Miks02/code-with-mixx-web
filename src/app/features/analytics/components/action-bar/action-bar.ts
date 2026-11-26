@@ -9,13 +9,12 @@ export type ActionButton = {
   variant: ButtonVariant;
   navigateTo: string;
   icon: string;
-}
+};
 
 @Component({
   imports: [Button, RouterLink, NgIcon],
-  providers: [provideIcons({faSolidUser})],
+  providers: [provideIcons({ faSolidUser })],
   selector: 'app-action-bar',
-  styleUrl: './action-bar.css',
   templateUrl: './action-bar.html',
 })
 export class ActionBar {

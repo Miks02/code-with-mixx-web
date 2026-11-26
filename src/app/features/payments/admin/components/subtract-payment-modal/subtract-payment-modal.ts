@@ -28,7 +28,6 @@ import { getPaymentErrorMessage } from '@features/payments/utilities/payment-err
     }),
   ],
   selector: 'app-subtract-payment-modal',
-  styleUrl: './subtract-payment-modal.css',
   templateUrl: './subtract-payment-modal.html',
 })
 export class SubtractPaymentModal {

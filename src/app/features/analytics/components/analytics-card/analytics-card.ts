@@ -15,7 +15,7 @@ type VariantStyle = {
   iconBg: string;
   iconColor: string;
   labelColor: string;
-}
+};
 
 const VARIANT_STYLES: Record<DashboardCardVariant, VariantStyle> = {
   emerald: {
@@ -47,7 +47,6 @@ const VARIANT_STYLES: Record<DashboardCardVariant, VariantStyle> = {
 @Component({
   imports: [NgIcon],
   selector: 'app-analytics-card',
-  styleUrl: './analytics-card.css',
   templateUrl: './analytics-card.html',
 })
 export class AnalyticsCard {

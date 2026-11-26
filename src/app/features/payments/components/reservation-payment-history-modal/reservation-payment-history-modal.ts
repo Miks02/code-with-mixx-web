@@ -55,7 +55,6 @@ const PAYMENT_TYPE_META: Record<PaymentType, PaymentTypeMeta> = {
     }),
   ],
   selector: 'app-reservation-payment-history-modal',
-  styleUrl: './reservation-payment-history-modal.css',
   templateUrl: './reservation-payment-history-modal.html',
 })
 export class ReservationPaymentHistoryModal {

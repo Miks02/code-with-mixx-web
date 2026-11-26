@@ -53,10 +53,6 @@ describe('SubtractPaymentModal', () => {
     await fixture.whenStable();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
   describe('summary', () => {
     it('should show total price, paid and remaining amount', () => {
       expect(component.summary()).toEqual([

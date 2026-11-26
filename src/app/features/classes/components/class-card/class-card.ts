@@ -15,7 +15,6 @@ import { SrDatePipe } from '@shared/pipes/sr-date-pipe';
     }),
   ],
   selector: 'app-class-card',
-  styleUrl: './class-card.css',
   templateUrl: './class-card.html',
 })
 export class ClassCard {
@@ -24,5 +23,4 @@ export class ClassCard {
   priceLabel = computed(() => priceConverter(this.class().price));
   startsAtLabel = computed(() => timeConverter(this.class().startsAt));
   endsAtLabel = computed(() => timeConverter(this.class().endsAt));
-
 }

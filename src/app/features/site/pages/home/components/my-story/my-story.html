@@ -22,29 +22,32 @@
 
       <ol class="mt-5 ml-1.5 border-l border-emerald-700/40 3xl:mt-7">
         @for (step of steps; track step.label) {
-        <li
-          class="relative grid gap-x-8 gap-y-1 pb-8 pl-7 last:pb-0 sm:grid-cols-[8rem_1fr] sm:pl-9 3xl:grid-cols-[11rem_1fr] 3xl:pb-11"
-        >
-          <span
-            class="absolute top-1.5 -left-1.5 size-3 rounded-sm"
-            [class]="$last ? 'bg-amber-500' : 'bg-emerald-400'"
-            aria-hidden="true"
-          ></span>
+          <li
+            class="relative grid gap-x-8 gap-y-1 pb-8 pl-7 last:pb-0 sm:grid-cols-[8rem_1fr] sm:pl-9 3xl:grid-cols-[11rem_1fr] 3xl:pb-11"
+          >
+            <span
+              class="absolute top-1.5 -left-1.5 size-3 rounded-sm"
+              [class]="$last ? 'bg-amber-500' : 'bg-emerald-400'"
+              aria-hidden="true"
+            ></span>
 
-          <p class="font-semibold text-emerald-300 3xl:text-xl">{{ step.label }}</p>
+            <p class="font-semibold text-emerald-300 3xl:text-xl">{{ step.label }}</p>
 
-          <div>
-            <h3 class="text-lg font-bold text-white sm:text-xl 3xl:text-2xl">
-              {{ step.title }} @if ($last) {
-              <span class="ml-1 font-mono text-sm font-normal text-emerald-100/50">(HEAD)</span>
-              }
-            </h3>
+            <div>
+              <h3 class="text-lg font-bold text-white sm:text-xl 3xl:text-2xl">
+                {{ step.title }}
+                @if ($last) {
+                  <span class="ml-1 font-mono text-sm font-normal text-emerald-100/50">(HEAD)</span>
+                }
+              </h3>
 
-            <p class="mt-1 max-w-xl text-base text-emerald-100 3xl:mt-2 3xl:max-w-2xl 3xl:text-xl">
-              {{ step.description }}
-            </p>
-          </div>
-        </li>
+              <p
+                class="mt-1 max-w-xl text-base text-emerald-100 3xl:mt-2 3xl:max-w-2xl 3xl:text-xl"
+              >
+                {{ step.description }}
+              </p>
+            </div>
+          </li>
         }
       </ol>
 
@@ -83,12 +86,12 @@
             <dd class="mt-2 text-emerald-100 3xl:text-xl">
               <ul class="space-y-2">
                 @for (item of education; track item.level) {
-                <li>
-                  <span class="font-semibold text-white">{{ item.level }}</span>
-                  <span class="block text-sm text-emerald-100/70 3xl:text-base"
-                    >{{ item.school }}</span
-                  >
-                </li>
+                  <li>
+                    <span class="font-semibold text-white">{{ item.level }}</span>
+                    <span class="block text-sm text-emerald-100/70 3xl:text-base">{{
+                      item.school
+                    }}</span>
+                  </li>
                 }
               </ul>
             </dd>
@@ -99,7 +102,7 @@
             <dd class="mt-2">
               <ul class="flex flex-wrap gap-x-4 gap-y-1 text-emerald-100 3xl:text-xl">
                 @for (technology of technologies; track technology) {
-                <li>{{ technology }}</li>
+                  <li>{{ technology }}</li>
                 }
               </ul>
             </dd>

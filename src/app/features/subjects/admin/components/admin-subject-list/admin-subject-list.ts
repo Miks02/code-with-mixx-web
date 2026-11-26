@@ -14,7 +14,6 @@ import { PagedList } from '@shared/components/paged-list/paged-list';
   imports: [SubjectCard, Button, SearchBar, SortMenu, NgIcon, PagedList],
   providers: [provideIcons({ faSolidChevronLeft, faSolidChevronRight })],
   selector: 'app-admin-subject-list',
-  styleUrl: './admin-subject-list.css',
   templateUrl: './admin-subject-list.html',
 })
 export class AdminSubjectList {

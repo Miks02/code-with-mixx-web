@@ -18,7 +18,6 @@ type Education = {
   imports: [Button],
   providers: [provideIcons({ faSolidArrowRight, faSolidBriefcase, faSolidUser })],
   selector: 'app-my-story',
-  styleUrl: './my-story.css',
   templateUrl: './my-story.html',
 })
 export class MyStory {

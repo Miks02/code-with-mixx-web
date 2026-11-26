@@ -20,7 +20,6 @@ import { UserState } from '@core/services/user-state';
   imports: [NgIcon, FormField, Button, RouterLink],
   providers: [provideIcons({ faSolidEnvelope, faSolidLock, faSolidArrowRightToBracket })],
   selector: 'app-login',
-  styleUrl: './login.css',
   templateUrl: './login.html',
 })
 export class Login {

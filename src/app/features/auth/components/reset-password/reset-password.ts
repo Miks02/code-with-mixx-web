@@ -15,7 +15,6 @@ import { getAuthErrorMessage } from '@features/auth/utilities/auth-error-message
   imports: [NgIcon, FormField, Button, RouterLink],
   providers: [provideIcons({ faSolidCheck, faSolidKey, faSolidLock })],
   selector: 'app-reset-password',
-  styleUrl: './reset-password.css',
   templateUrl: './reset-password.html',
 })
 export class ResetPassword implements OnInit {

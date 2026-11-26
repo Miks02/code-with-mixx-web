@@ -18,7 +18,6 @@ import { AdminClassReservationStore } from '@features/classes/admin/stores/admin
   ],
   providers: [ClassFormService, AdminClassReservationStore],
   selector: 'app-create-class-reservation-page',
-  styleUrl: './create-class-reservation-page.css',
   templateUrl: './create-class-reservation-page.html',
 })
 export class CreateClassReservationPage {

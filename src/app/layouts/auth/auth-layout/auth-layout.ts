@@ -8,7 +8,6 @@ import FOG from 'vanta/dist/vanta.fog.min';
   imports: [RouterOutlet, NgIcon, RouterLink],
   providers: [provideIcons({ faSolidArrowLeft })],
   selector: 'app-auth-layout',
-  styleUrl: './auth-layout.css',
   templateUrl: './auth-layout.html',
 })
 export class AuthLayout {

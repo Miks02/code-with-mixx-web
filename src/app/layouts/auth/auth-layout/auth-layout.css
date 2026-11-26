@@ -1,5 +1,0 @@
-.vanta-bg {
-  position: absolute;
-  inset: 0;
-  z-index: -1; /* da sadržaj ide preko pozadine */
-}

@@ -48,10 +48,6 @@ describe('UpdateStatusModal', () => {
     await fixture.whenStable();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
   describe('initial state', () => {
     it('should preselect the current status', () => {
       expect(component.selectedStatus()).toBe(ReservationStatus.Confirmed);

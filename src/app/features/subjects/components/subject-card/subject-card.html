@@ -14,21 +14,25 @@
     </div>
   </div>
   @if (classesCount() !== undefined || studentsCount() !== undefined) {
-  <div class="flex items-center gap-3 text-emerald-200 text-sm pt-2">
-    @if (classesCount() !== undefined) {
-    <div class="flex items-center gap-1">
-      <ng-icon name="faSolidCalendar" class="text-emerald-400! text-base self-center!"></ng-icon>
-      <span>Časovi: {{ classesCount() }}</span>
+    <div class="flex items-center gap-3 text-emerald-200 text-sm pt-2">
+      @if (classesCount() !== undefined) {
+        <div class="flex items-center gap-1">
+          <ng-icon
+            name="faSolidCalendar"
+            class="text-emerald-400! text-base self-center!"
+          ></ng-icon>
+          <span>Časovi: {{ classesCount() }}</span>
+        </div>
+      }
+      @if (studentsCount() !== undefined) {
+        <div class="flex items-center gap-1">
+          <ng-icon
+            name="faSolidUserGraduate"
+            class="text-emerald-400! text-base self-center!"
+          ></ng-icon>
+          <span>Studenti: {{ studentsCount() }}</span>
+        </div>
+      }
     </div>
-    } @if (studentsCount() !== undefined) {
-    <div class="flex items-center gap-1">
-      <ng-icon
-        name="faSolidUserGraduate"
-        class="text-emerald-400! text-base self-center!"
-      ></ng-icon>
-      <span>Studenti: {{ studentsCount() }}</span>
-    </div>
-    }
-  </div>
   }
 </button>

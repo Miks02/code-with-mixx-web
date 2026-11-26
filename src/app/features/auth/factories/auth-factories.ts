@@ -5,9 +5,7 @@ import { LoginRequest } from '../models/login-request';
 import { ResetPasswordBody } from '../models/reset-password-body';
 import { AccountActivationBody } from '../models/account-activation-body';
 
-export function createLoginForm(
-  request: WritableSignal<LoginRequest>
-) {
+export function createLoginForm(request: WritableSignal<LoginRequest>) {
   return form(request, (schemaPath) => {
     debounce(schemaPath.email, 100);
     debounce(schemaPath.password, 100);

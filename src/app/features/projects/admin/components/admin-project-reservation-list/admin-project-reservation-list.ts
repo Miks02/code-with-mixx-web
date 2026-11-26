@@ -37,7 +37,6 @@ import { PROJECT_TYPE_LABELS } from '@features/projects/utilities/project-labels
     }),
   ],
   selector: 'app-admin-project-reservation-list',
-  styleUrl: './admin-project-reservation-list.css',
   templateUrl: './admin-project-reservation-list.html',
 })
 export class AdminProjectReservationList {

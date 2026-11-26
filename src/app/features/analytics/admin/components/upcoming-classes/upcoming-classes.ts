@@ -12,7 +12,6 @@ import { EmptyState } from '@shared/components/empty-state/empty-state';
   imports: [NgIcon, DatePipe, RouterLink, Skeleton, Panel, EmptyState],
   providers: [provideIcons({ faSolidClock, faSolidCalendarXmark })],
   selector: 'app-upcoming-classes',
-  styleUrl: './upcoming-classes.css',
   templateUrl: './upcoming-classes.html',
 })
 export class UpcomingClasses {

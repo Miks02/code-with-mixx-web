@@ -12,8 +12,8 @@ import { Skeleton } from '@shared/components/skeleton/skeleton';
   imports: [NgApexchartsModule, FilterContainer, FilterMenu, Skeleton],
   providers: [provideIcons({ faSolidCalendar })],
   selector: 'app-finance-chart',
-  styleUrl: './finance-chart.css',
   templateUrl: './finance-chart.html',
+  host: { class: 'block w-full h-full' },
 })
 export class FinanceChart {
   data = input.required<FinanceChartModel[] | undefined>();
@@ -53,12 +53,12 @@ export class FinanceChart {
         {
           name: 'Prihod',
           type: 'area',
-          data: data.map(d => d.revenue),
+          data: data.map((d) => d.revenue),
         },
         {
           name: 'Broj studenata',
           type: 'line',
-          data: data.map(d => d.students),
+          data: data.map((d) => d.students),
         },
       ],
       chart: {
@@ -72,8 +72,8 @@ export class FinanceChart {
       responsive: [
         {
           series: [
-            { name: 'Prihod', type: 'area', data: originalData.map(d => d.revenue) },
-            { name: 'Broj studenata', type: 'line', data: originalData.map(d => d.students) },
+            { name: 'Prihod', type: 'area', data: originalData.map((d) => d.revenue) },
+            { name: 'Broj studenata', type: 'line', data: originalData.map((d) => d.students) },
           ],
           breakpoint: 600,
           options: {

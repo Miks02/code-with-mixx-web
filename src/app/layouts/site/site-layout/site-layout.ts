@@ -13,7 +13,6 @@ import { Footer } from '../footer/footer';
   imports: [RouterOutlet, Navbar, Footer],
   selector: 'app-site-layout',
   host: { class: 'flex min-h-dvh flex-col' },
-  styleUrl: './site-layout.css',
   templateUrl: './site-layout.html',
 })
 export class SiteLayout {

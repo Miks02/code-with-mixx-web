@@ -29,13 +29,13 @@ describe('SubjectCard', () => {
     await fixture.whenStable();
 
     expect(element.querySelectorAll('ng-icon').length).toBe(1);
-    expect(counts()).toContain('0');
+    expect(counts()).toContain('Časovi: 0');
 
     fixture.componentRef.setInput('studentsCount', 7);
     await fixture.whenStable();
 
     expect(element.querySelectorAll('ng-icon').length).toBe(2);
-    expect(counts()).toContain('7');
+    expect(counts()).toContain('Studenti: 7');
   });
 
   it('emits when clicked', () => {

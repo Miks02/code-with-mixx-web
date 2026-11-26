@@ -1,4 +1,4 @@
 export type ProjectNote = {
-  id: number,
-  content: string
-}
+  id: number;
+  content: string;
+};

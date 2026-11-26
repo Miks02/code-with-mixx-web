@@ -2,13 +2,13 @@
   type="button"
   tabindex="-1"
   aria-label="Zatvori"
-  animate.enter="backdrop-in"
+  animate.enter="animate-backdrop-in"
   (click)="onClose()"
   class="fixed inset-0 z-1000 bg-emerald-900/60 backdrop-blur-xs"
 ></button>
 
 <div
-  animate.enter="modal-in"
+  animate.enter="animate-modal-in"
   class="flex flex-col p-4 gap-6 w-[calc(100%-2rem)] max-w-md sm:max-w-2xl max-h-[calc(100dvh-2rem)] overflow-y-auto bg-emerald-200 rounded-xl z-1000 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 shadow-lg"
 >
   <div class="flex items-start justify-between gap-4">
@@ -113,7 +113,7 @@
             [formField]="projectForm.price"
             type="number"
             id="projectPrice"
-            class="w-full border-none outline-none bg-transparent text-white caret-white placeholder:text-emerald-100/50 scheme-dark disabled:cursor-not-allowed"
+            class="no-spinner w-full border-none outline-none bg-transparent text-white caret-white placeholder:text-emerald-100/50 scheme-dark disabled:cursor-not-allowed"
             placeholder="0"
           />
           <span class="shrink-0 text-sm font-semibold text-emerald-100/70">RSD</span>

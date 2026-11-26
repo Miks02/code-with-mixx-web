@@ -14,7 +14,13 @@ import { AdminClassStore } from '@features/classes/admin/stores/admin-class-stor
 import { ScrollIntoViewOn } from '@shared/directives/scroll-into-view-on';
 
 @Component({
-  imports: [ClassReservationsList, ClassReservationDetails, NextClassCard, StatsCard, ScrollIntoViewOn],
+  imports: [
+    ClassReservationsList,
+    ClassReservationDetails,
+    NextClassCard,
+    StatsCard,
+    ScrollIntoViewOn,
+  ],
   providers: [
     AdminClassStore,
     provideIcons({
@@ -25,7 +31,6 @@ import { ScrollIntoViewOn } from '@shared/directives/scroll-into-view-on';
     }),
   ],
   selector: 'app-classes-page',
-  styleUrl: './classes-page.css',
   templateUrl: './classes-page.html',
 })
 export class ClassesPage {

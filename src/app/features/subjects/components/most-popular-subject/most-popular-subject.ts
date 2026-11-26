@@ -7,8 +7,8 @@ import { Skeleton } from '@shared/components/skeleton/skeleton';
   imports: [NgIcon, Skeleton],
   providers: [provideIcons({ faSolidCalendar, faSolidFire, faSolidUserGraduate })],
   selector: 'app-most-popular-subject',
-  styleUrl: './most-popular-subject.css',
   templateUrl: './most-popular-subject.html',
+  host: { class: 'flex-1' },
 })
 export class MostPopularSubject {
   subjectName = input<string>();

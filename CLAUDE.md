@@ -20,6 +20,7 @@ Angular 22 standalone-component app (no NgModules), using the esbuild/Vite-based
 The app has three areas sharing one codebase: the **public site** (`/`, open to everyone, the part meant to be server-rendered for SEO), the **auth pages** (`/auth/*`, guests only) and the **admin dashboard** (`/admin/*`). See "SSR" below before writing anything that renders on the public site.
 
 ### Feature-folder structure (`src/app/`)
+
 - `core/` — app-wide singletons and cross-cutting concerns: `guard/` (functional `CanActivateFn` guards), `interceptors/`, `services/` (`AuthService`, `UserState`, `ToastService`, `DialogService`), `components/` (`dialog/`, `toast/`, mounted dynamically by their services via `ComponentMounter`), `models/`, `utilities/`.
 - `features/<name>/` — domain features (`analytics`, `auth`, `classes`, `inquiries`, `payments`, `projects`, `reservations`, `settings`, `site`, `students`, `subjects`). Each has some of: `components/`, `pages/`, `models/`, `services/`, `factories/`, `utilities/`, plus an `admin/` subfolder (`admin/components/`, `admin/pages/`, `admin/stores/`) for admin-only UI, and a `testing/` folder with spec helpers. Features consumed by other features expose a public API through `index.ts`.
 - `features/site/` — the public site. Unlike the domain features it is organized by page: `pages/<page>/` holds the page component, and that page's sections live in `pages/<page>/components/<section>/` (e.g. `pages/home/components/hero/`). A page component only composes its sections.
@@ -27,12 +28,15 @@ The app has three areas sharing one codebase: the **public site** (`/`, open to 
 - `shared/` — generic reusable building blocks: presentational components in `shared/components/` (e.g. `shared/components/button/`), built with signal-based `input()`/`output()` APIs and Tailwind utility classes composed via `computed()`; pipes in `shared/pipes/`.
 
 ### Import aliases
+
 Path aliases are defined in `tsconfig.json` `paths`: `@core/*`, `@features/*`, `@layouts/*`, `@shared/*`, `@environments/*`. Convention: use an alias for anything outside the current module (a module = `core`, `shared`, `layouts`, or a single `features/<name>`), and for any import that would need `../../` or deeper; plain relative imports (`./`, `../`) only for nearby files within the same module. Another feature is imported only through its barrel (`@features/reservations`), never its internals.
 
 ### Routing & guards
+
 `src/app/app.routes.ts` only holds the three top-level branches with their layouts and guards; every feature owns its child routes in its own routes file and exports them through its `index.ts` barrel:
+
 - `''` → `SiteLayout`, no guard (public): `children: SITE_ROUTES` from `features/site/site.routes.ts` (`''` is the home page, `home` redirects to it; `**` is the not-found page). Imported statically so the public routes stay eager for SSR/prerendering. New public pages go here.
-- `'auth'` → `AuthLayout`, guarded by `guestGuard`: `children: AUTH_ROUTES` from `features/auth/auth.routes.ts`: `login`, `forgot-password`, `reset-password` (also `resetPasswordGuardGuard`, requires `token` + `userId` query params), `activate-account`.
+- `'auth'` → `AuthLayout`, guarded by `guestGuard`: `children: AUTH_ROUTES` from `features/auth/auth.routes.ts`: `login`, `forgot-password`, `reset-password` (also `resetPasswordGuard`, requires `token` + `userId` query params), `activate-account`.
 - `'admin'` → `DashboardLayout`, guarded by `[authGuard, adminGuard]`: one `loadChildren: () => import('@features/<x>').then((m) => m.X_ROUTES)` entry per feature: `analytics`, `subjects`, `students` (`details/:id`), `projects` and `classes` (each with `create` and `details/:id`), `inquiries`, `settings`.
 
 Admin routes files live in `features/<x>/admin/<x>-admin.routes.ts` (`X_ADMIN_ROUTES`), or `features/<x>/<x>.routes.ts` (`X_ROUTES`) for features without an `admin/` folder (`settings`). Paths inside are relative to the feature's branch (`''`, `create`, `details/:id`) and pages are imported with relative paths. A new admin screen adds a route to its feature's routes file; a new admin feature adds one `loadChildren` entry to `app.routes.ts`.
@@ -44,6 +48,7 @@ Every route sets its browser tab title with `title: pageTitle('...')` (helper in
 Guards live in `core/guard/` and are synchronous signal checks against `UserState` (`isAuthenticated()`, `isAdmin()`). The session is resolved once at startup by `provideAppInitializer(() => inject(AuthService).checkSession())`, which calls `GET /auth/me` only in the browser and only if a `Session` cookie is present.
 
 ### SSR (`@angular/ssr`)
+
 - **Files**: `src/main.server.ts` (server bootstrap), `src/server.ts` (Express: static files from `dist/.../browser`, everything else through `AngularNodeAppEngine`), `app.config.server.ts` (merges `appConfig` with `provideServerRendering(withRoutes(serverRoutes))`), `app.routes.server.ts` (per-route render mode). `app.config.ts` has `provideClientHydration()`.
 - **Render modes** (`app.routes.server.ts`): the admin and auth areas must stay `RenderMode.Client` — they depend on the user's session, which the server does not have. Matching is per full path, most specific entry wins (exact segment, then `:param`/`*`, then `**`), and order in the array does not matter. A path without a wildcard matches only that exact URL: `admin` covers `/admin` but not `/admin/analytics`, which falls through to `**`; a whole subtree needs `admin/**` (which also covers `/admin` itself). The entries are `admin/**` and `auth/**` (`RenderMode.Client`) and `**` (`RenderMode.Prerender`), so every public site route is prerendered at build time by default. A public page that needs fresh data per request gets its own `RenderMode.Server` entry; a public route with a `:param` needs `getPrerenderParams` or `RenderMode.Server`.
 - **The server never knows the user**: `checkSession()` returns early when not in the browser, so on the server `UserState` is always empty and the page renders as logged out. Public pages must render correctly as a guest; anything auth-dependent (e.g. the navbar's "Prijava" vs. profile buttons) only settles after hydration. Don't put a guard that needs the session on a server-rendered route.
@@ -54,6 +59,7 @@ Guards live in `core/guard/` and are synchronous signal checks against `UserStat
 - `angular.json` has `security.allowedHosts: []`; the production hostname has to be allowed there (or via the deploy config) for SSR to serve requests on a real domain.
 
 ### Auth & state management
+
 - **State**: Angular signals (`signal`/`computed`) for app-wide state, no RxJS `BehaviorSubject` services. `UserState` (`core/services/user-state.ts`) holds `_userDetails` as a signal and derives `userDetails`, `fullName`, `userRoles`, `isAuthenticated`, `isAdmin`, `activeSessions`, ... via `computed()`, plus the `update*` methods that patch it. `AuthService` (`core/services/auth-service.ts`) owns the auth HTTP calls/mutations and writes the result into `UserState`. Services use Angular's `@Service()` decorator.
 - **Admin screen state**: one NgRx signal store (`@ngrx/signals`) per admin screen, in `features/<x>/admin/stores/admin-<entity>-store.ts` (details screens: `admin-<entity>-details-store.ts` / `admin-<entity>-reservation-store.ts`). Existing ones: subjects, inquiries, students, student details, projects, project reservations, classes, class reservations; `projects` is the reference implementation to copy.
   - Provided in the page component's `providers`, never in root, so each visit starts fresh. Child components `inject()` the store instead of receiving inputs/outputs from the page; presentational cards keep their inputs.
@@ -67,6 +73,7 @@ Guards live in `core/guard/` and are synchronous signal checks against `UserStat
 - **API URL**: from `src/environments/environment.ts` (prod: `https://codewithmixx.com/api`) / `environment.development.ts` (dev: `https://localhost:7181/api`, i.e. a separate local backend expected on that port; the sibling repo is `../code-with-mixx-api`, ASP.NET Core).
 
 ### Error handling
+
 - The backend always returns RFC 9457 ProblemDetails with an `errorCode` extension: domain errors carry their own code (e.g. `Subject.AlreadyExists`), everything else gets a `General.*` code (`General.NotFound`, `General.InternalServerError`, ...). FluentValidation failures are 400 with an `errors` dictionary.
 - `httpErrorInterceptor` (`core/interceptors/`) normalizes every `HttpErrorResponse` into a `ProblemDetails` (`core/models/problem-details.ts`) and rethrows that, so callers never see `HttpErrorResponse`. Non-ProblemDetails responses become `Network.Unavailable` (status 0) or `Http.Unexpected`.
 - The interceptor toasts generic errors from `GLOBAL_ERROR_MESSAGES` (`core/utilities/http-error-messages.ts`). It deliberately skips 401 (handled by `authInterceptor`) and validation 400s (the form's job).
@@ -74,18 +81,22 @@ Guards live in `core/guard/` and are synchronous signal checks against `UserStat
 - Typing: `core/models/tanstack-query.d.ts` registers `ProblemDetails` as TanStack's `defaultError`, so `onError: (err) => ...` and `mutation.error()` are already `ProblemDetails`. In `try/catch` the error is `unknown`; use `getErrorCode(err)` / `isProblemDetails(err)` from `core/utilities/problem-details-helpers.ts`, never `any` or `as ProblemDetails`.
 
 ### Forms
+
 Uses Angular's Signal Forms API (`@angular/forms/signals`), not `ReactiveFormsModule`. The established pattern (see `features/auth/factories/auth-factories.ts`) is to extract form construction into a `factories/` module: a `createXForm(request: WritableSignal<T>)` function returns a `form(...)` built with validators (`required`, `email`, `debounce`, etc.), which the component then binds to its template via `[formField]` and submits via `submit(form, async () => {...})`. Frontend validators mirror the backend's FluentValidation rules; keep them in sync when either side changes.
 
 ### UI copy
+
 All user-facing text is in Serbian and uses informal "ti" address (`Unesi`, `Osveži`, `Da li sigurno želiš...`), never formal "Vi" (`Unesite`, `Da li ste sigurni...`). The app is meant to feel personal, instructor-to-student. Prefer gender-neutral phrasing.
 
 ### Styling
-Tailwind CSS v4 (`@import 'tailwindcss'` in `src/styles.css`, `@tailwindcss/postcss` plugin) — no Angular Material, no SCSS. Per-component `.css` files hold scoped styles alongside Tailwind utility classes used directly in templates. Icons come from `@ng-icons` (Font Awesome set, registered per component with `provideIcons`). The palette is emerald (dark `emerald-950/900` surfaces) with amber/yellow accents; the font is Outfit (`src/styles.css`).
+
+Tailwind CSS v4 (`@import 'tailwindcss'` in `src/styles.css`, `@tailwindcss/postcss` plugin) — no Angular Material, no SCSS. Styling lives in Tailwind utility classes in templates; a component has a `.css` file only when it needs CSS that utilities cannot express (see `DESIGN.md`), and host-element styles go into `host: { class: '...' }` in the `@Component` metadata, not a `:host` rule. Icons come from `@ng-icons` (Font Awesome set, registered per component with `provideIcons`). The palette is emerald (dark `emerald-950/900` surfaces) with amber/yellow accents; the font is Outfit (`src/styles.css`).
 
 **Before writing or changing any template, component CSS or Tailwind class string, read `DESIGN.md`** (repo root). It holds the visual rules: color roles, type scale, section layout, radius/shadow/motion, which shared component to use, and a "What not to do" list (no decorative gradients, borders only in moderation, no glow, no emoji icons, ...). Those rules are binding for the public site and apply to new admin UI as well. When a change introduces a new visual pattern or a new shared-component variant, update `DESIGN.md` in the same change.
 
 ### Testing
+
 - Specs for store-based admin features (subjects, inquiries, students, projects, classes) use real infrastructure, not mocked services: `provideHttpTesting()` from `core/testing/test-utils.ts` (HttpClient with the real `httpErrorInterceptor`, `HttpTestingController`, a QueryClient configured like the app's, mocked `ToastService`/`DialogService`), and `settle()` to let effects and TanStack callbacks run. Flush requests through `HttpTestingController` and call `http.verify()` in `afterEach`.
 - Each feature keeps its helpers in `features/<x>/testing/<x>-test-utils.ts`: endpoint URLs, data factories (`createXReservation`, `createXSummary`, ...), `flush*` helpers, `provideReservationRoute(id)`. Reuse them instead of inlining fixtures.
 - Write tests for business rules, edge cases and bugs (pricing, validation boundaries, error codes, malformed ids, pagination fallbacks), driven through the store or the rendered template; no "should create" tests. Don't write specs for components without logic.
-- The remaining failing specs (auth, settings, payments modals, analytics charts, contact, student-selection, sidebar, site-layout, core toast/dialog/auth-service) are old CLI stubs scheduled for a rewrite in the same style; they are not regressions.
+- The whole suite is expected to pass; a failing spec is a regression or an outdated test, not a known stub. The `should be created` specs for the core guards, interceptors and services and the `analytics`/`inquiries`/`payments`/`reservations` services are leftover CLI stubs that are kept for now; don't add new ones.

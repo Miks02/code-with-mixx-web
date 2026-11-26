@@ -18,7 +18,6 @@ import { AdminProjectReservationStore } from '@features/projects/admin/stores/ad
   ],
   providers: [ProjectFormService, AdminProjectReservationStore],
   selector: 'app-create-project-reservation-page',
-  styleUrl: './create-project-reservation-page.css',
   templateUrl: './create-project-reservation-page.html',
 })
 export class CreateProjectReservationPage {

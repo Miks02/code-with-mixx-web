@@ -19,7 +19,6 @@ const MAX_RESULTS = 8;
   imports: [NgIcon, RouterLink],
   providers: [provideIcons({ faSolidMagnifyingGlass, faSolidUserXmark })],
   selector: 'app-student-lookup',
-  styleUrl: './student-lookup.css',
   templateUrl: './student-lookup.html',
 })
 export class StudentLookup {

@@ -8,7 +8,9 @@
       name="faSolidArrowDownWideShort"
       class="text-emerald-400! text-sm self-center!"
     ></ng-icon>
-    <span class="flex-1 min-w-0 truncate text-left text-sm text-emerald-100">{{ selectedLabel() }}</span>
+    <span class="flex-1 min-w-0 truncate text-left text-sm text-emerald-100">{{
+      selectedLabel()
+    }}</span>
     <ng-icon
       name="faSolidChevronDown"
       class="text-emerald-400! text-xs! transition-transform duration-200"
@@ -17,22 +19,26 @@
   </button>
 
   @if (isOpen()) {
-  <ul
-    class="absolute left-0 right-0 top-full mt-2 z-10 bg-emerald-950 rounded-lg shadow-lg py-1 overflow-hidden"
-  >
-    @for (entry of entries(); track entry[0]) {
-    <li>
-      <button
-        type="button"
-        (click)="selectOption(entry[0])"
-        [class]="entry[0] === selected() ? 'bg-emerald-800 text-emerald-100' : 'text-emerald-100/80 hover:bg-emerald-900'"
-        class="w-full text-left px-3 py-2 text-sm cursor-pointer truncate"
-      >
-        {{ entry[1] }}
-      </button>
-    </li>
-    }
-  </ul>
+    <ul
+      class="absolute left-0 right-0 top-full mt-2 z-10 bg-emerald-950 rounded-lg shadow-lg py-1 overflow-hidden"
+    >
+      @for (entry of entries(); track entry[0]) {
+        <li>
+          <button
+            type="button"
+            (click)="selectOption(entry[0])"
+            [class]="
+              entry[0] === selected()
+                ? 'bg-emerald-800 text-emerald-100'
+                : 'text-emerald-100/80 hover:bg-emerald-900'
+            "
+            class="w-full text-left px-3 py-2 text-sm cursor-pointer truncate"
+          >
+            {{ entry[1] }}
+          </button>
+        </li>
+      }
+    </ul>
   }
 </div>
 
@@ -47,21 +53,25 @@
   </button>
 
   @if (isOpen()) {
-  <ul
-    class="absolute right-0 top-full mt-2 z-10 min-w-40 bg-emerald-950 rounded-lg shadow-lg py-1 overflow-hidden"
-  >
-    @for (entry of entries(); track entry[0]) {
-    <li>
-      <button
-        type="button"
-        (click)="selectOption(entry[0])"
-        [class]="entry[0] === selected() ? 'bg-emerald-800 text-emerald-100' : 'text-emerald-100/80 hover:bg-emerald-900'"
-        class="w-full text-left px-3 py-2 text-sm cursor-pointer whitespace-nowrap"
-      >
-        {{ entry[1] }}
-      </button>
-    </li>
-    }
-  </ul>
+    <ul
+      class="absolute right-0 top-full mt-2 z-10 min-w-40 bg-emerald-950 rounded-lg shadow-lg py-1 overflow-hidden"
+    >
+      @for (entry of entries(); track entry[0]) {
+        <li>
+          <button
+            type="button"
+            (click)="selectOption(entry[0])"
+            [class]="
+              entry[0] === selected()
+                ? 'bg-emerald-800 text-emerald-100'
+                : 'text-emerald-100/80 hover:bg-emerald-900'
+            "
+            class="w-full text-left px-3 py-2 text-sm cursor-pointer whitespace-nowrap"
+          >
+            {{ entry[1] }}
+          </button>
+        </li>
+      }
+    </ul>
   }
 </div>

@@ -23,7 +23,6 @@ const TYPE_FILTER_OPTIONS: Record<ReservationTypeFilter, string> = {
   imports: [NgIcon, Button, Skeleton, SortMenu, StudentReservationCard],
   providers: [provideIcons({ faSolidChevronLeft, faSolidChevronRight, faSolidXmark })],
   selector: 'app-student-reservations-list',
-  styleUrl: './student-reservations-list.css',
   templateUrl: './student-reservations-list.html',
 })
 export class StudentReservationsList {

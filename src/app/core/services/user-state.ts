@@ -15,7 +15,7 @@ export class UserState {
   lastName = computed(() => this._userDetails()?.lastName ?? '');
   phoneNumber = computed(() => this._userDetails()?.phoneNumber ?? '');
   email = computed(() => this._userDetails()?.email ?? '');
-  university = computed(() => this._userDetails()?.university ?? '')
+  university = computed(() => this._userDetails()?.university ?? '');
   userRoles = computed<string[]>(() => this._userDetails()?.roles ?? []);
   isAuthenticated = computed(() => !!this._userDetails());
   isAdmin = computed(() => this.userRoles().includes('Admin'));
@@ -35,7 +35,6 @@ export class UserState {
 
     return '/';
   });
-
 
   updateUserDetails(details: UserDetails | null): void {
     this._userDetails.set(details);

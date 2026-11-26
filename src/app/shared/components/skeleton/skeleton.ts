@@ -11,8 +11,8 @@ const SKELETON_COLORS: Record<SkeletonColor, string> = {
 @Component({
   selector: 'app-skeleton',
   standalone: true,
-  styleUrl: './skeleton.css',
   templateUrl: './skeleton.html',
+  host: { class: 'block' },
 })
 export class Skeleton {
   variant = input<SkeletonVariant>('text');

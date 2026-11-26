@@ -20,7 +20,6 @@ import { LoadingOverlay } from '@shared/components/loading-overlay/loading-overl
     LoadingOverlay,
   ],
   selector: 'app-admin-settings-page',
-  styleUrl: './admin-settings-page.css',
   templateUrl: './admin-settings-page.html',
 })
 export class AdminSettingsPage {

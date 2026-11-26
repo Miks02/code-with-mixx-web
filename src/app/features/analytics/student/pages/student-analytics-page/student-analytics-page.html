@@ -1,45 +1,48 @@
 @if (isLoading()) {
-<app-student-analytics-skeleton></app-student-analytics-skeleton>
+  <app-student-analytics-skeleton></app-student-analytics-skeleton>
 } @else {
-<div class="flex flex-col gap-4">
-  <div class="flex justify-between flex-wrap">
-    <app-action-bar
-      [fullName]="userState.fullName()"
-      [roles]="userState.userRoles()"
-      [actions]="studentActions"
-    ></app-action-bar>
+  <div class="flex flex-col gap-4">
+    <div class="flex justify-between flex-wrap">
+      <app-action-bar
+        [fullName]="userState.fullName()"
+        [roles]="userState.userRoles()"
+        [actions]="studentActions"
+      ></app-action-bar>
 
-    <div class="flex gap-4 overflow-x-auto scrollbar-none pl-2 -mr-2 md:p-0 md:mr-0">
-      @for (card of analyticsCards(); track card.title) {
-      <app-analytics-card
-        class="grow"
-        [variant]="card.variant"
-        [title]="card.title"
-        [value]="card.value"
-        [icon]="card.icon"
-      ></app-analytics-card>
-      }
+      <div class="flex gap-4 overflow-x-auto scrollbar-none pl-2 -mr-2 md:p-0 md:mr-0">
+        @for (card of analyticsCards(); track card.title) {
+          <app-analytics-card
+            class="grow"
+            [variant]="card.variant"
+            [title]="card.title"
+            [value]="card.value"
+            [icon]="card.icon"
+          ></app-analytics-card>
+        }
+      </div>
+    </div>
+
+    <div class="flex w-full gap-4 flex-wrap md:flex-nowrap">
+      <app-student-upcoming-classes
+        class="w-full"
+        [upcomingClasses]="upcomingClasses()"
+      ></app-student-upcoming-classes>
+      <app-class-reservations
+        class="w-full"
+        [summary]="classReservationsSummary()"
+      ></app-class-reservations>
+      <app-active-projects class="w-full" [projects]="activeProjects()"></app-active-projects>
+    </div>
+
+    <div class="flex w-full gap-4 flex-wrap md:flex-nowrap">
+      <app-open-balance
+        class="w-full md:flex-3"
+        [summary]="openBalanceSummary()"
+      ></app-open-balance>
+      <app-recent-payments
+        class="w-full md:flex-2"
+        [payments]="recentPayments()"
+      ></app-recent-payments>
     </div>
   </div>
-
-  <div class="flex w-full gap-4 flex-wrap md:flex-nowrap">
-    <app-student-upcoming-classes
-      class="w-full"
-      [upcomingClasses]="upcomingClasses()"
-    ></app-student-upcoming-classes>
-    <app-class-reservations
-      class="w-full"
-      [summary]="classReservationsSummary()"
-    ></app-class-reservations>
-    <app-active-projects class="w-full" [projects]="activeProjects()"></app-active-projects>
-  </div>
-
-  <div class="flex w-full gap-4 flex-wrap md:flex-nowrap">
-    <app-open-balance class="w-full md:flex-3" [summary]="openBalanceSummary()"></app-open-balance>
-    <app-recent-payments
-      class="w-full md:flex-2"
-      [payments]="recentPayments()"
-    ></app-recent-payments>
-  </div>
-</div>
 }

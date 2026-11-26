@@ -21,7 +21,6 @@ type Price = {
 @Component({
   imports: [NgTemplateOutlet, RouterLink],
   selector: 'app-terms-sections',
-  styleUrl: './terms-sections.css',
   templateUrl: './terms-sections.html',
 })
 export class TermsSections {

@@ -19,7 +19,6 @@ import { getSettingsErrorMessage } from '@features/settings/utilities/settings-e
   imports: [NgIcon, Button, FormField],
   providers: [provideIcons({ faSolidCheck, faSolidEnvelopeOpenText, faSolidXmark })],
   selector: 'app-email-token-modal',
-  styleUrl: './email-token-modal.css',
   templateUrl: './email-token-modal.html',
 })
 export class EmailTokenModal {

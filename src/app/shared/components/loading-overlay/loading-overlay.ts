@@ -22,5 +22,4 @@ export class LoadingOverlay {
   blur = input<BlurClass>('blur-sm');
 
   blurClass = computed(() => BLUR_CLASSES[this.blur()]);
-  
 }

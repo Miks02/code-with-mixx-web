@@ -10,7 +10,6 @@ import { Button } from '@shared/components/button/button';
   imports: [Button, NgIcon, NgOptimizedImage, RouterLink],
   providers: [provideIcons({ faSolidImage, faSolidPaperPlane })],
   selector: 'app-subject-list',
-  styleUrl: './subject-list.css',
   templateUrl: './subject-list.html',
 })
 export class SubjectList {

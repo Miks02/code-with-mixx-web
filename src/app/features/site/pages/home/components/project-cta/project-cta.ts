@@ -8,7 +8,6 @@ import { Button } from '@shared/components/button/button';
   imports: [Button, RouterLink],
   providers: [provideIcons({ faSolidCode })],
   selector: 'app-project-cta',
-  styleUrl: './project-cta.css',
   templateUrl: './project-cta.html',
 })
 export class ProjectCta {}

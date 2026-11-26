@@ -115,7 +115,7 @@ describe('StudentsPage', () => {
   it('opens the registration modal from the list', async () => {
     expect(element.querySelector('app-create-student-form form')).toBeNull();
 
-    getButton(element, 'Dodaj')!.click();
+    element.querySelector<HTMLButtonElement>('button[aria-label="Dodaj studenta"]')!.click();
     await fixture.whenStable();
 
     expect(element.querySelector('app-create-student-form form')).not.toBeNull();

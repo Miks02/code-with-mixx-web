@@ -41,7 +41,6 @@ const CONFLICTING_FILTERS: Record<StudentFilter, StudentFilter[]> = {
     }),
   ],
   selector: 'app-admin-student-list',
-  styleUrl: './admin-student-list.css',
   templateUrl: './admin-student-list.html',
 })
 export class AdminStudentList {

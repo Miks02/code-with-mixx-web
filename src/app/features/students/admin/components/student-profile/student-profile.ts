@@ -34,7 +34,6 @@ type InfoRow = {
     }),
   ],
   selector: 'app-student-profile',
-  styleUrl: './student-profile.css',
   templateUrl: './student-profile.html',
 })
 export class StudentProfile {

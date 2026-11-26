@@ -21,7 +21,6 @@ const SPINNER_VARIANTS: Record<SpinnerVariant, string> = {
 
 @Component({
   selector: 'app-spinner',
-  styleUrl: './spinner.css',
   templateUrl: './spinner.html',
 })
 export class Spinner {

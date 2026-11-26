@@ -1,7 +1,7 @@
 import { HttpTestingController } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AccountStatus } from '@core/models/account-status';
-import { getButton, provideHttpTesting, settle, typeInto, wait } from '@core/testing/test-utils';
+import { provideHttpTesting, settle, typeInto, wait } from '@core/testing/test-utils';
 import { AdminStudentStore } from '@features/students/admin/stores/admin-student-store';
 import { StudentFilter } from '@features/students/models/student-filter';
 import {
@@ -112,7 +112,7 @@ describe('AdminStudentList', () => {
     });
 
     it('opens the create modal from the "Dodaj" button', async () => {
-      getButton(element, '')!.click();
+      element.querySelector<HTMLButtonElement>('button[aria-label="Dodaj studenta"]')!.click();
       await fixture.whenStable();
 
       expect(store.isCreateModalVisible()).toBe(true);

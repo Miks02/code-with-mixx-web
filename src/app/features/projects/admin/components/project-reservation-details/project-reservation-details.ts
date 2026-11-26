@@ -80,8 +80,8 @@ type ReservationStat = {
     }),
   ],
   selector: 'app-project-reservation-details',
-  styleUrl: './project-reservation-details.css',
   templateUrl: './project-reservation-details.html',
+  host: { class: 'flex-1' },
 })
 export class ProjectReservationDetails {
   protected store = inject(AdminProjectStore);

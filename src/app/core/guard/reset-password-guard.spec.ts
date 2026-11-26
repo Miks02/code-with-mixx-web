@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { CanActivateFn } from '@angular/router';
-import { resetPasswordGuardGuard } from './reset-password-guard-guard';
+import { resetPasswordGuard } from './reset-password-guard';
 
-describe('resetPasswordGuardGuard', () => {
+describe('resetPasswordGuard', () => {
   const executeGuard: CanActivateFn = (...guardParameters) =>
-    TestBed.runInInjectionContext(() => resetPasswordGuardGuard(...guardParameters));
+    TestBed.runInInjectionContext(() => resetPasswordGuard(...guardParameters));
 
   beforeEach(() => {
     TestBed.configureTestingModule({});

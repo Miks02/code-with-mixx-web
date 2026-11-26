@@ -86,8 +86,8 @@ describe('AdminSubjectList', () => {
       const counts = Array.from(cards()[0].querySelectorAll('span')).map(
         (span) => span.textContent,
       );
-      expect(counts).toContain('4');
-      expect(counts).toContain('7');
+      expect(counts).toContain('Časovi: 4');
+      expect(counts).toContain('Studenti: 7');
     });
 
     it('clears the selection when the selected card is clicked again', async () => {

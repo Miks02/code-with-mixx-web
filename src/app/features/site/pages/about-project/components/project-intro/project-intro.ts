@@ -13,7 +13,6 @@ type Repository = {
   imports: [NgIcon],
   providers: [provideIcons({ faBrandGithub, faSolidArrowUpRightFromSquare })],
   selector: 'app-project-intro',
-  styleUrl: './project-intro.css',
   templateUrl: './project-intro.html',
 })
 export class ProjectIntro {

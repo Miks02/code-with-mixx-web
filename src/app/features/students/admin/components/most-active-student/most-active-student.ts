@@ -29,8 +29,8 @@ type MostActiveStudentStat = {
     }),
   ],
   selector: 'app-most-active-student',
-  styleUrl: './most-active-student.css',
   templateUrl: './most-active-student.html',
+  host: { class: 'block' },
 })
 export class MostActiveStudent {
   student = input<Omit<StudentItem, 'deletedAt'> | null>();

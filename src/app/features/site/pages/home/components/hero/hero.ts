@@ -37,7 +37,6 @@ const PLAIN = 'text-emerald-100/80';
 @Component({
   imports: [RouterLink, Button],
   selector: 'app-hero',
-  styleUrl: './hero.css',
   templateUrl: './hero.html',
 })
 export class Hero {
@@ -47,9 +46,27 @@ export class Hero {
   private readonly destroyRef = inject(DestroyRef);
 
   private readonly stats: HeroStat[] = [
-    { target: 30, suffix: '+', durationMs: 1200, label: 'Studenata', description: 'Kolege sa kojima sam radio' },
-    { target: 150, suffix: '+', durationMs: 2600, label: 'Održanih časova', description: 'Iz raznih oblasti' },
-    { target: 10, suffix: '+', durationMs: 1900, label: 'Seminarskih radova', description: 'Uz mentorstvo' },
+    {
+      target: 30,
+      suffix: '+',
+      durationMs: 1200,
+      label: 'Studenata',
+      description: 'Kolege sa kojima sam radio',
+    },
+    {
+      target: 150,
+      suffix: '+',
+      durationMs: 2600,
+      label: 'Održanih časova',
+      description: 'Iz raznih oblasti',
+    },
+    {
+      target: 10,
+      suffix: '+',
+      durationMs: 1900,
+      label: 'Seminarskih radova',
+      description: 'Uz mentorstvo',
+    },
   ];
 
   private readonly elapsedMs = signal(0);
@@ -163,6 +180,4 @@ export class Hero {
     frameId = requestAnimationFrame(tick);
     this.destroyRef.onDestroy(() => cancelAnimationFrame(frameId));
   }
-
-
 }

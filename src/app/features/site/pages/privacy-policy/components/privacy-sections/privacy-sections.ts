@@ -45,7 +45,6 @@ type Repository = {
 @Component({
   imports: [NgTemplateOutlet, RouterLink],
   selector: 'app-privacy-sections',
-  styleUrl: './privacy-sections.css',
   templateUrl: './privacy-sections.html',
 })
 export class PrivacySections {

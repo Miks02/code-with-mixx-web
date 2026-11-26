@@ -61,8 +61,8 @@ type StudentStat = {
     }),
   ],
   selector: 'app-student-details',
-  styleUrl: './student-details.css',
   templateUrl: './student-details.html',
+  host: { class: 'flex-1' },
 })
 export class StudentDetails {
   private studentService = inject(StudentService);

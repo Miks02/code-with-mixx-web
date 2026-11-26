@@ -8,7 +8,6 @@ import { Button } from '@shared/components/button/button';
   imports: [Button, RouterLink],
   providers: [provideIcons({ faSolidPaperPlane })],
   selector: 'app-faq-cta',
-  styleUrl: './faq-cta.css',
   templateUrl: './faq-cta.html',
 })
 export class FaqCta {

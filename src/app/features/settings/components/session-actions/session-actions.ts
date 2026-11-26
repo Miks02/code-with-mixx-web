@@ -36,7 +36,6 @@ const DEVICE_ICONS: Record<Device, string> = {
     }),
   ],
   selector: 'app-session-actions',
-  styleUrl: './session-actions.css',
   templateUrl: './session-actions.html',
 })
 export class SessionActions {

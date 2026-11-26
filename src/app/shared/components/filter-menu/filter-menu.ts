@@ -83,7 +83,6 @@ const FILTER_CLASSES: Record<FilterVariant, FilterClasses> = {
   imports: [NgIcon],
   providers: [provideIcons({ faSolidCheck, faSolidChevronDown, faSolidFilter, faSolidXmark })],
   selector: 'app-filter-menu',
-  styleUrl: './filter-menu.css',
   templateUrl: './filter-menu.html',
 })
 export class FilterMenu<T extends string = string> {

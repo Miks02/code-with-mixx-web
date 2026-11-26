@@ -15,10 +15,6 @@ describe('Slider', () => {
     await fixture.whenStable();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
   it('should hide the header when there is no label and the value is hidden', async () => {
     fixture.componentRef.setInput('showValue', false);
     await fixture.whenStable();

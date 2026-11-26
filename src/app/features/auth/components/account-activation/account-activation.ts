@@ -16,7 +16,6 @@ import { getAuthErrorMessage } from '@features/auth/utilities/auth-error-message
   imports: [NgIcon, FormField, Button, RouterLink],
   providers: [provideIcons({ faSolidKey, faSolidLock, faSolidUserCheck })],
   selector: 'app-account-activation',
-  styleUrl: './account-activation.css',
   templateUrl: './account-activation.html',
 })
 export class AccountActivation implements OnInit {

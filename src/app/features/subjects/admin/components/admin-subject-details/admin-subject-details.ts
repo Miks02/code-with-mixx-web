@@ -41,8 +41,8 @@ type SubjectStat = {
     }),
   ],
   selector: 'app-admin-subject-details',
-  styleUrl: './admin-subject-details.css',
   templateUrl: './admin-subject-details.html',
+  host: { class: 'flex-1' },
 })
 export class AdminSubjectDetails {
   private subjectService = inject(SubjectService);

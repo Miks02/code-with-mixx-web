@@ -15,22 +15,22 @@
     </app-filter-container>
   </div>
   @if (isLoading()) {
-  <div class="p-4 grow flex justify-center items-center">
-    <app-skeleton variant="circular" width="16rem" color="blue" />
-  </div>
+    <div class="p-4 grow flex justify-center items-center">
+      <app-skeleton variant="circular" width="16rem" color="blue" />
+    </div>
   } @else {
-  <apx-chart
-    class="w-full h-full grow flex flex-col justify-center"
-    [chart]="chartOptions().chart!"
-    [series]="chartOptions().series!"
-    [labels]="chartOptions().labels!"
-    [colors]="chartOptions().colors!"
-    [legend]="chartOptions().legend!"
-    [dataLabels]="chartOptions().dataLabels!"
-    [tooltip]="chartOptions().tooltip!"
-    [states]="chartOptions().states!"
-    [stroke]="chartOptions().stroke!"
-    [responsive]="chartOptions().responsive!"
-  ></apx-chart>
+    <apx-chart
+      class="w-full h-full grow flex flex-col justify-center"
+      [chart]="chartOptions().chart!"
+      [series]="chartOptions().series!"
+      [labels]="chartOptions().labels!"
+      [colors]="chartOptions().colors!"
+      [legend]="chartOptions().legend!"
+      [dataLabels]="chartOptions().dataLabels!"
+      [tooltip]="chartOptions().tooltip!"
+      [states]="chartOptions().states!"
+      [stroke]="chartOptions().stroke!"
+      [responsive]="chartOptions().responsive!"
+    ></apx-chart>
   }
 </div>

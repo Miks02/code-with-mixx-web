@@ -24,8 +24,8 @@ import { PROJECT_TYPE_LABELS } from '@features/projects/utilities/project-labels
     }),
   ],
   selector: 'app-project-card',
-  styleUrl: './project-card.css',
   templateUrl: './project-card.html',
+  host: { class: 'block' },
 })
 export class ProjectCard {
   project = input.required<ProjectListItem>();

@@ -59,8 +59,8 @@ describe('StudentSubjectList', () => {
     const counts = Array.from(element.querySelectorAll('app-subject-card span')).map(
       (span) => span.textContent,
     );
-    expect(counts).toContain('0');
-    expect(counts).toContain('12');
+    expect(counts).toContain('Časovi: 0');
+    expect(counts).toContain('Časovi: 12');
   });
 
   it('shows the empty state when there are no subjects', async () => {

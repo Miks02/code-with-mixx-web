@@ -30,7 +30,6 @@ import { AdminStudentStore } from '@features/students/admin/stores/admin-student
     provideIcons({ faSolidUserCheck, faSolidUserClock, faSolidUserSlash, faSolidUserXmark }),
   ],
   selector: 'app-students-page',
-  styleUrl: './students-page.css',
   templateUrl: './students-page.html',
 })
 export class StudentsPage {

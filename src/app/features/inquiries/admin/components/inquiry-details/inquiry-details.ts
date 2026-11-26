@@ -40,7 +40,6 @@ import { INQUIRY_TOAST_MESSAGES } from '@features/inquiries/utilities/inquiry-to
     }),
   ],
   selector: 'app-inquiry-details',
-  styleUrl: './inquiry-details.css',
   templateUrl: './inquiry-details.html',
 })
 export class InquiryDetails {

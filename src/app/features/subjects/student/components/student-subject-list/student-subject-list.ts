@@ -10,7 +10,6 @@ import { StudentSubjectStore } from '@features/subjects/student/stores/student-s
 @Component({
   imports: [PagedList, SearchBar, SortMenu, SubjectCard],
   selector: 'app-student-subject-list',
-  styleUrl: './student-subject-list.css',
   templateUrl: './student-subject-list.html',
 })
 export class StudentSubjectList {

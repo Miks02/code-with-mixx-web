@@ -40,7 +40,6 @@ const STATUS_BACKGROUNDS: Record<ReservationStatus, string> = {
     }),
   ],
   selector: 'app-student-reservation-card',
-  styleUrl: './student-reservation-card.css',
   templateUrl: './student-reservation-card.html',
 })
 export class StudentReservationCard {

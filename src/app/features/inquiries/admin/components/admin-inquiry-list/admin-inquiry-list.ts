@@ -47,7 +47,6 @@ import { INQUIRY_TOAST_MESSAGES } from '@features/inquiries/utilities/inquiry-to
     }),
   ],
   selector: 'app-admin-inquiry-list',
-  styleUrl: './admin-inquiry-list.css',
   templateUrl: './admin-inquiry-list.html',
 })
 export class AdminInquiryList {

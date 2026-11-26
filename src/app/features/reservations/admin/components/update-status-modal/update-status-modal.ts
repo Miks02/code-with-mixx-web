@@ -23,7 +23,6 @@ import { getErrorCode } from '@core/utilities/problem-details-helpers';
     }),
   ],
   selector: 'app-update-status-modal',
-  styleUrl: './update-status-modal.css',
   templateUrl: './update-status-modal.html',
 })
 export class UpdateStatusModal {

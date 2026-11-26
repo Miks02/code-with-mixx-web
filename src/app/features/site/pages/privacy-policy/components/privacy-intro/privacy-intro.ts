@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-privacy-intro',
-  styleUrl: './privacy-intro.css',
   templateUrl: './privacy-intro.html',
 })
 export class PrivacyIntro {

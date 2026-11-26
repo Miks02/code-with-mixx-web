@@ -6,7 +6,6 @@ import { FaqSections } from './components/faq-sections/faq-sections';
 @Component({
   imports: [FaqIntro, FaqSections, FaqCta],
   selector: 'app-faq',
-  styleUrl: './faq.css',
   templateUrl: './faq.html',
 })
 export class Faq {}

@@ -38,8 +38,8 @@ type SubjectStat = {
     }),
   ],
   selector: 'app-edit-subject-form',
-  styleUrl: './edit-subject-form.css',
   templateUrl: './edit-subject-form.html',
+  host: { class: 'flex-1' },
 })
 export class EditSubjectForm implements OnInit {
   private subjectService = inject(SubjectService);

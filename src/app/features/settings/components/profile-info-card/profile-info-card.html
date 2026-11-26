@@ -10,9 +10,9 @@
         <div class="flex gap-2 items-center flex-wrap">
           <p class="font-semibold text-emerald-100 text-2xl">{{ fullName() }}</p>
           @for (role of roles(); track role) {
-          <div class="px-3 py-2 bg-emerald-800 rounded-md">
-            <p class="font-semibold text-emerald-300 text-xs">{{ role }}</p>
-          </div>
+            <div class="px-3 py-2 bg-emerald-800 rounded-md">
+              <p class="font-semibold text-emerald-300 text-xs">{{ role }}</p>
+            </div>
           }
         </div>
         <p class="font-semibold text-emerald-100 text-sm">{{ email() }}</p>
@@ -25,33 +25,36 @@
       [class]="university() ? 'md:grid-cols-3' : 'md:grid-cols-2'"
     >
       @if (university(); as university) {
-      <div class="flex items-center gap-3 rounded-lg bg-emerald-900/40 px-4 py-3">
-        <div class="flex items-center justify-center size-9 shrink-0 rounded-md bg-emerald-500/15">
-          <ng-icon name="faSolidBuildingColumns" class="text-emerald-400!"></ng-icon>
+        <div class="flex items-center gap-3 rounded-lg bg-emerald-900/40 px-4 py-3">
+          <div
+            class="flex items-center justify-center size-9 shrink-0 rounded-md bg-emerald-500/15"
+          >
+            <ng-icon name="faSolidBuildingColumns" class="text-emerald-400!"></ng-icon>
+          </div>
+          <div class="flex flex-col gap-0.5 min-w-0">
+            <p class="text-xs text-emerald-300/70">Fakultet</p>
+            <p class="text-sm font-semibold text-emerald-100 truncate" [title]="university">
+              {{ university }}
+            </p>
+          </div>
         </div>
-        <div class="flex flex-col gap-0.5 min-w-0">
-          <p class="text-xs text-emerald-300/70">Fakultet</p>
-          <p class="text-sm font-semibold text-emerald-100 truncate" [title]="university">
-            {{ university }}
-          </p>
+      }
+      @if (status(); as status) {
+        <div class="flex items-center gap-3 rounded-lg bg-emerald-900/40 px-4 py-3">
+          <div
+            class="flex items-center justify-center size-9 shrink-0 rounded-md"
+            [class]="status.iconBg"
+          >
+            <ng-icon name="faSolidShieldHalved" [class]="status.icon"></ng-icon>
+          </div>
+          <div class="flex flex-col gap-0.5 min-w-0">
+            <p class="text-xs text-emerald-300/70">Status naloga</p>
+            <p class="flex items-center gap-2 text-sm font-semibold" [class]="status.text">
+              <span class="size-2 rounded-full" [class]="status.dot"></span>
+              {{ status.label }}
+            </p>
+          </div>
         </div>
-      </div>
-      } @if (status(); as status) {
-      <div class="flex items-center gap-3 rounded-lg bg-emerald-900/40 px-4 py-3">
-        <div
-          class="flex items-center justify-center size-9 shrink-0 rounded-md"
-          [class]="status.iconBg"
-        >
-          <ng-icon name="faSolidShieldHalved" [class]="status.icon"></ng-icon>
-        </div>
-        <div class="flex flex-col gap-0.5 min-w-0">
-          <p class="text-xs text-emerald-300/70">Status naloga</p>
-          <p class="flex items-center gap-2 text-sm font-semibold" [class]="status.text">
-            <span class="size-2 rounded-full" [class]="status.dot"></span>
-            {{ status.label }}
-          </p>
-        </div>
-      </div>
       }
       <div class="flex items-center gap-3 rounded-lg bg-emerald-900/40 px-4 py-3">
         <div class="flex items-center justify-center size-9 shrink-0 rounded-md bg-amber-500/15">
@@ -60,8 +63,9 @@
         <div class="flex flex-col gap-0.5 min-w-0">
           <p class="text-xs text-emerald-300/70">Poslednja prijava</p>
           <p class="text-sm font-semibold text-emerald-100">
-            {{ lastLoginDate() }} @if (lastLoginTime()) {
-            <span class="font-normal text-amber-400/90">u {{ lastLoginTime() }}</span>
+            {{ lastLoginDate() }}
+            @if (lastLoginTime()) {
+              <span class="font-normal text-amber-400/90">u {{ lastLoginTime() }}</span>
             }
           </p>
         </div>

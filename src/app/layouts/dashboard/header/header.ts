@@ -9,7 +9,6 @@ import { StudentLookup } from '../student-lookup/student-lookup';
   imports: [NgIcon, RouterLink, StudentLookup],
   providers: [provideIcons({ faSolidMagnifyingGlass, faSolidUser, faSolidBars })],
   selector: 'app-header',
-  styleUrl: './header.css',
   templateUrl: './header.html',
 })
 export class Header {

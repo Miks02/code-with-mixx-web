@@ -49,11 +49,11 @@
   </ng-container>
 
   @for (student of store.students(); track student.id) {
-  <app-student-card
-    [student]="student"
-    [addOpacity]="store.studentsFetching()"
-    [isSelected]="student.id === store.selectedStudentId()"
-    (selected)="store.selectStudent($event)"
-  ></app-student-card>
+    <app-student-card
+      [student]="student"
+      [addOpacity]="store.studentsFetching()"
+      [isSelected]="student.id === store.selectedStudentId()"
+      (selected)="store.selectStudent($event)"
+    ></app-student-card>
   }
 </app-paged-list>

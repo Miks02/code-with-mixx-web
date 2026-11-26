@@ -1,10 +1,4 @@
-import {
-    ComponentRef,
-    inject,
-    inputBinding,
-    outputBinding,
-    Service
-} from '@angular/core';
+import { ComponentRef, inject, inputBinding, outputBinding, Service } from '@angular/core';
 import { Dialog, DialogOptions, DialogResult } from '../components/dialog/dialog';
 import { ComponentMounter } from './component-mounter';
 
@@ -15,7 +9,7 @@ export class DialogService {
 
   showDialog(options: DialogOptions): Promise<DialogResult> {
     this.closeDialog();
-    
+
     return new Promise((resolve) => {
       const dialogRef = this.mounter.mount(Dialog, {
         bindings: [
@@ -28,11 +22,11 @@ export class DialogService {
         ],
       });
       this.dialogRef = dialogRef;
-    })
+    });
   }
 
   closeDialog() {
-    if(!this.dialogRef) return;
+    if (!this.dialogRef) return;
     this.dialogRef.instance.onClose();
   }
 }

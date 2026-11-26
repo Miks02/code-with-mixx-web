@@ -10,7 +10,6 @@ import { DateCard } from '@shared/components/date-card/date-card';
   imports: [DateCard, NgIcon, Panel],
   providers: [provideIcons({ faSolidClock, faSolidCalendarXmark })],
   selector: 'app-student-upcoming-classes',
-  styleUrl: './student-upcoming-classes.css',
   templateUrl: './student-upcoming-classes.html',
 })
 export class StudentUpcomingClasses {

@@ -1,5 +1,5 @@
 export type StudentLookup = {
-  id: string,
-  fullName: string,
-  email: string
-}
+  id: string;
+  fullName: string;
+  email: string;
+};

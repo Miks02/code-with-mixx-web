@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 
-export const resetPasswordGuardGuard: CanActivateFn = (route) => {
+export const resetPasswordGuard: CanActivateFn = (route) => {
   const router = inject(Router);
   const hasParams = !!route.queryParamMap.get('token') && !!route.queryParamMap.get('userId');
   return hasParams ? true : router.createUrlTree(['/auth/forgot-password']);

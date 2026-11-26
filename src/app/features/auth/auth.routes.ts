@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { resetPasswordGuardGuard } from '@core/guard/reset-password-guard-guard';
+import { resetPasswordGuard } from '@core/guard/reset-password-guard';
 import { pageTitle } from '@core/utilities/page-title';
 
 export const AUTH_ROUTES: Routes = [
@@ -23,7 +23,7 @@ export const AUTH_ROUTES: Routes = [
   },
   {
     title: pageTitle('Reset lozinke'),
-    canActivate: [resetPasswordGuardGuard],
+    canActivate: [resetPasswordGuard],
     path: 'reset-password',
     loadComponent: () =>
       import('@features/auth/components/reset-password/reset-password').then(

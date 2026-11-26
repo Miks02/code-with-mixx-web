@@ -30,7 +30,6 @@ import { getPaymentErrorMessage } from '@features/payments/utilities/payment-err
     }),
   ],
   selector: 'app-register-payment-modal',
-  styleUrl: './register-payment-modal.css',
   templateUrl: './register-payment-modal.html',
 })
 export class RegisterPaymentModal {

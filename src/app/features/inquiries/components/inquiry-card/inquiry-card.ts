@@ -15,8 +15,8 @@ const BASE_CLASSES =
   imports: [NgIcon, SrDatePipe],
   providers: [provideIcons({ faSolidCalendarPlus, faSolidCheck, faSolidEnvelope })],
   selector: 'app-inquiry-card',
-  styleUrl: './inquiry-card.css',
   templateUrl: './inquiry-card.html',
+  host: { class: 'grow' },
 })
 export class InquiryCard {
   inquiry = input.required<InquiryItem>();

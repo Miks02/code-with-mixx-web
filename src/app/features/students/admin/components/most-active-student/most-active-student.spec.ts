@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MostActiveStudent } from './most-active-student';
 
 describe('MostActiveStudent', () => {
-  let component: MostActiveStudent;
   let fixture: ComponentFixture<MostActiveStudent>;
 
   beforeEach(async () => {
@@ -11,13 +10,8 @@ describe('MostActiveStudent', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(MostActiveStudent);
-    component = fixture.componentInstance;
     fixture.componentRef.setInput('student', undefined);
     await fixture.whenStable();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
   });
 
   it('should render skeleton placeholders when isPending is true', () => {

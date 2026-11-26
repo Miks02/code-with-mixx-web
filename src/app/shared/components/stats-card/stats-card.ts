@@ -6,7 +6,6 @@ import { Skeleton } from '../skeleton/skeleton';
 @Component({
   imports: [NgIcon, Panel, Skeleton],
   selector: 'app-stats-card',
-  styleUrl: './stats-card.css',
   templateUrl: './stats-card.html',
 })
 export class StatsCard {

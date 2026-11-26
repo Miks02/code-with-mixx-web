@@ -22,7 +22,6 @@ import { ClassFormService } from '@features/classes/services/class-form-service'
   imports: [Button, NgIcon, FormField, NgTemplateOutlet, SrDatePipe],
   providers: [provideIcons({ faSolidPlus, faSolidTrash })],
   selector: 'app-class-reservation-list-form',
-  styleUrl: './class-reservation-list-form.css',
   templateUrl: './class-reservation-list-form.html',
 })
 export class ClassReservationListForm {

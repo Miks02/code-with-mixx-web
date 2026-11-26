@@ -59,7 +59,9 @@
   }
 
   <div class="flex items-center justify-between gap-3 flex-wrap mt-auto pt-2">
-    <p class="text-emerald-300 text-sm">Prikazano {{ store.pagedCount() }} od {{ store.totalCount() }}</p>
+    <p class="text-emerald-300 text-sm">
+      Prikazano {{ store.pagedCount() }} od {{ store.totalCount() }}
+    </p>
 
     <div class="flex items-center gap-2">
       <app-button
@@ -71,7 +73,9 @@
         (clicked)="store.previousPage()"
       ></app-button>
 
-      <span class="text-emerald-100 text-sm">{{ store.currentPage() }} / {{ store.totalPages() }}</span>
+      <span class="text-emerald-100 text-sm"
+        >{{ store.currentPage() }} / {{ store.totalPages() }}</span
+      >
 
       <app-button
         variant="ghost"

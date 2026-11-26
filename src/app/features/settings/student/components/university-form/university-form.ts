@@ -18,7 +18,6 @@ import { UserState } from '@core/services/user-state';
   imports: [NgIcon, Button, FormField, Panel],
   providers: [provideIcons({ faSolidBuildingColumns, faSolidCheck, faSolidXmark })],
   selector: 'app-university-form',
-  styleUrl: './university-form.css',
   templateUrl: './university-form.html',
 })
 export class UniversityForm {

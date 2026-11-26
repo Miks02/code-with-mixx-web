@@ -28,7 +28,6 @@ import { PROJECT_TYPE_LABELS } from '@features/projects/utilities/project-labels
   imports: [Button, NgIcon, FormField, Slider, NgTemplateOutlet],
   providers: [provideIcons({ faSolidPlus, faSolidTrash, faSolidXmark, faSolidComment })],
   selector: 'app-project-reservation-list-form',
-  styleUrl: './project-reservation-list-form.css',
   templateUrl: './project-reservation-list-form.html',
 })
 export class ProjectReservationListForm {

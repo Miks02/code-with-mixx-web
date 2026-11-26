@@ -8,8 +8,8 @@ import { LastSubjectClass as LastSubjectClassItem } from '@features/subjects/stu
   imports: [NgIcon, Skeleton],
   providers: [provideIcons({ faSolidCalendar, faSolidClockRotateLeft })],
   selector: 'app-last-subject-class',
-  styleUrl: './last-subject-class.css',
   templateUrl: './last-subject-class.html',
+  host: { class: 'flex-1' },
 })
 export class LastSubjectClass {
   lastClass = input<LastSubjectClassItem>();

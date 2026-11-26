@@ -25,7 +25,6 @@ import { AdminProjectReservationStore } from '@features/projects/admin/stores/ad
     provideIcons({ faSolidCalendarXmark }),
   ],
   selector: 'app-project-reservation-details-page',
-  styleUrl: './project-reservation-details-page.css',
   templateUrl: './project-reservation-details-page.html',
 })
 export class ProjectReservationDetailsPage {

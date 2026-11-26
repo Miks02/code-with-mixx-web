@@ -45,7 +45,6 @@ import { AdminSubjectStore } from '@features/subjects/admin/stores/admin-subject
     }),
   ],
   selector: 'app-admin-subject-page',
-  styleUrl: './admin-subject-page.css',
   templateUrl: './admin-subject-page.html',
 })
 export class AdminSubjectPage {

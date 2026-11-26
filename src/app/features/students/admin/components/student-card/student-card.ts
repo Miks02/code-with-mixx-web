@@ -84,8 +84,8 @@ const STATUS_CLASSES: Record<AccountStatus, StatusClasses> = {
     }),
   ],
   selector: 'app-student-card',
-  styleUrl: './student-card.css',
   templateUrl: './student-card.html',
+  host: { class: 'grow' },
 })
 export class StudentCard {
   student = input.required<StudentItem>();

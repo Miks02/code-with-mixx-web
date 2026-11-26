@@ -125,7 +125,6 @@ export function createStudentStats(
   };
 }
 
-/** A class reservation with a single "Baze podataka" class. */
 export function createStudentReservation(
   overrides: Partial<StudentReservation> = {},
 ): StudentReservation {
@@ -185,10 +184,6 @@ export function createStudentDetails(
   };
 }
 
-/**
- * Makes the details store read `studentId` as the `:id` route param, plus the students list route
- * the store redirects to when loading fails.
- */
 export function provideStudentRoute(studentId = 'student-1') {
   const paramMap = convertToParamMap({ id: studentId });
   return [
@@ -222,7 +217,6 @@ export function expectStudentDetailsRequest(
   );
 }
 
-/** Answers the lookup and the pending details request, then lets the store settle. */
 export async function flushStudentDetails(
   details: StudentDetailsResponse = createStudentDetails(),
   studentId = 'student-1',

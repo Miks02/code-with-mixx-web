@@ -33,10 +33,6 @@ describe('StudentCard', () => {
     await fixture.whenStable();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
   it('should render the student initials', () => {
     expect(component.studentInitials()).toBe('MJ');
   });
