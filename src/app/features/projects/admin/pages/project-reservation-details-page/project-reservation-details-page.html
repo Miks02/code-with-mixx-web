@@ -1,0 +1,77 @@
+<div class="grid grid-cols-1 lg:grid-cols-3 w-full gap-4 items-start">
+  <div class="w-full flex justify-between items-center gap-3 flex-wrap lg:col-span-3">
+    <div class="flex gap-2 text-emerald-100 items-center">
+      <a routerLink="/admin/projects" class="text-emerald-200">Projekti</a>
+      <span>/</span>
+      <p>Detalji rezervacije</p>
+    </div>
+
+    <div class="flex items-center gap-2">
+      @if (!store.isNotFound()) {
+        <app-button
+          [routerLink]="['/admin/projects/update', store.reservationId()]"
+          variant="secondary"
+          icon="faSolidPenToSquare"
+        >
+          <span class="md:block hidden">Ažuriraj rezervaciju</span>
+          <span class="md:hidden">Ažuriraj</span>
+        </app-button>
+      }
+      <app-button routerLink="/admin/projects" variant="ghost">
+        <span class="md:block hidden">Nazad na projekte</span>
+        <span class="md:hidden">Nazad</span>
+      </app-button>
+    </div>
+  </div>
+
+  @if (store.isNotFound()) {
+    <div
+      class="lg:col-span-3 bg-emerald-950/80 backdrop-blur-xl rounded-lg shadow-lg p-4 min-h-80 flex flex-col items-center justify-center gap-3 text-center"
+    >
+      <div class="flex justify-center items-center bg-emerald-900 rounded-full h-14 w-14">
+        <ng-icon
+          name="faSolidCalendarXmark"
+          class="text-emerald-400! text-2xl self-center!"
+        ></ng-icon>
+      </div>
+      <p class="text-emerald-200 font-medium text-lg">Rezervacija nije pronađena.</p>
+    </div>
+  } @else {
+    <app-project-reservation-overview class="min-w-0 lg:order-2"></app-project-reservation-overview>
+
+    <div class="min-w-0 flex flex-col gap-4 lg:col-span-2 lg:order-1">
+      <app-panel
+        title="Projekti"
+        [count]="store.detailsPending() ? undefined : store.details()?.projects?.length"
+      >
+        <div class="flex flex-col gap-3">
+          @if (store.detailsPending()) {
+            @for (card of skeletonCards; track card) {
+              <div class="flex flex-col gap-4 p-4 rounded-lg bg-emerald-900/80">
+                <div class="flex justify-between gap-3">
+                  <div class="flex flex-col gap-2 flex-1">
+                    <app-skeleton width="50%" height="1.25rem" />
+                    <app-skeleton width="30%" />
+                  </div>
+                  <app-skeleton width="6rem" />
+                </div>
+                <app-skeleton height="0.5rem" />
+                <app-skeleton width="70%" />
+                <app-skeleton height="3rem" />
+              </div>
+            }
+          } @else {
+            @for (project of store.details()?.projects; track project.id) {
+              <app-project-details-card [project]="project"></app-project-details-card>
+            }
+          }
+        </div>
+      </app-panel>
+
+      <app-reservation-payments
+        [paymentHistory]="store.paymentHistory()"
+        [isPending]="store.paymentHistoryPending()"
+      ></app-reservation-payments>
+    </div>
+  }
+</div>

@@ -1,0 +1,96 @@
+<article class="flex flex-col gap-4 p-4 rounded-lg bg-emerald-900/80">
+  <div class="flex items-start justify-between gap-3">
+    <div class="flex flex-col gap-0.5 min-w-0">
+      <div class="flex items-center gap-2 min-w-0">
+        <h3 class="text-lg text-emerald-100 font-semibold truncate">{{ project().name }}</h3>
+        <app-badge [text]="typeLabel()" color="bg-emerald-700/70 text-emerald-100" />
+      </div>
+      <p class="text-sm text-emerald-100/70 truncate">{{ project().subjectName }}</p>
+    </div>
+    <span class="text-emerald-300 font-bold shrink-0">{{ priceLabel() }}</span>
+  </div>
+
+  <div class="flex flex-col gap-1.5">
+    <div class="flex items-center justify-between text-sm">
+      <span class="text-emerald-100/70">Napredak</span>
+      <span class="font-semibold text-emerald-100">{{ progress() }}%</span>
+    </div>
+    <div
+      class="h-2 w-full rounded-full bg-emerald-950 overflow-hidden"
+      role="progressbar"
+      [attr.aria-valuenow]="progress()"
+      aria-valuemin="0"
+      aria-valuemax="100"
+      [attr.aria-label]="'Napredak projekta ' + project().name"
+    >
+      <div class="h-full rounded-full bg-emerald-400" [style.width.%]="progress()"></div>
+    </div>
+  </div>
+
+  <div class="flex flex-wrap gap-x-5 gap-y-1.5 text-sm text-amber-300">
+    <div class="flex items-center gap-1.5">
+      <ng-icon name="faSolidCalendarDays" class="self-center! shrink-0"></ng-icon>
+      <span>Početak</span>
+      <span class="font-semibold text-emerald-100">{{ project().startDate | srDate }}</span>
+    </div>
+    <div class="flex items-center gap-1.5">
+      <ng-icon name="faSolidCalendarCheck" class="self-center! shrink-0"></ng-icon>
+      <span>Rok</span>
+      <span class="font-semibold text-emerald-100">{{ project().endDate | srDate }}</span>
+    </div>
+    <div class="flex items-center gap-1.5">
+      <ng-icon name="faSolidCalendarPlus" class="self-center! shrink-0"></ng-icon>
+      <span>Rezervisan</span>
+      <span class="font-semibold text-emerald-100">{{ project().reservedAt | srDate }}</span>
+    </div>
+  </div>
+
+  @if (project().githubLink || project().downloadLink) {
+    <div class="flex flex-wrap gap-2">
+      @if (project().githubLink; as githubLink) {
+        <a
+          [href]="githubLink"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold bg-emerald-800 text-emerald-100 hover:bg-emerald-700 active:scale-95 transition-200"
+        >
+          <ng-icon name="faBrandGithub" class="text-sm shrink-0"></ng-icon>
+          GitHub
+        </a>
+      }
+      @if (project().downloadLink; as downloadLink) {
+        <a
+          [href]="downloadLink"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold bg-emerald-800 text-emerald-100 hover:bg-emerald-700 active:scale-95 transition-200"
+        >
+          <ng-icon name="faSolidDownload" class="text-sm shrink-0"></ng-icon>
+          Preuzmi
+        </a>
+      }
+    </div>
+  }
+
+  <div class="flex flex-col gap-2 border-t border-emerald-700/40 pt-3">
+    <div class="flex items-center gap-2">
+      <h4 class="text-sm font-semibold text-emerald-100">Beleške</h4>
+      <app-badge [text]="project().notes.length" />
+    </div>
+    @for (note of project().notes; track note.id) {
+      <div class="flex flex-col gap-1 rounded-md bg-emerald-800 px-3 py-2">
+        <p class="text-sm text-emerald-100 whitespace-pre-line wrap-break-word">
+          {{ note.content }}
+        </p>
+        <span class="text-xs text-emerald-100/70">
+          {{ note.updatedAt ?? note.createdAt | srDate }}
+          @if (note.updatedAt) {
+            · izmenjeno
+          }
+        </span>
+      </div>
+    } @empty {
+      <p class="text-sm text-emerald-100/70">Nema beleški za ovaj projekat.</p>
+    }
+  </div>
+</article>

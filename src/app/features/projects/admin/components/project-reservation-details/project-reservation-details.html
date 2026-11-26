@@ -116,10 +116,16 @@
         >
         <app-button
           (clicked)="goToDetails(reservation.id)"
-          class="sm:col-span-2"
           [fullWidth]="true"
           variant="ghost"
           icon="faSolidEye"
+          >Detalji rezervacije</app-button
+        >
+        <app-button
+          (clicked)="goToUpdate(reservation.id)"
+          [fullWidth]="true"
+          variant="ghost"
+          icon="faSolidPenToSquare"
           >Ažuriraj rezervaciju</app-button
         >
       } @else {
@@ -131,6 +137,14 @@
           variant="secondary"
           icon="faSolidBoxArchive"
           >Vrati iz arhive</app-button
+        >
+        <app-button
+          (clicked)="goToDetails(reservation.id)"
+          class="sm:col-span-2"
+          [fullWidth]="true"
+          variant="ghost"
+          icon="faSolidEye"
+          >Detalji rezervacije</app-button
         >
       }
     </div>

@@ -33,6 +33,7 @@ import {
   faSolidHourglassHalf,
   faSolidMoneyBill1,
   faSolidMoneyBillWave,
+  faSolidPenToSquare,
   faSolidPercent,
   faSolidTrash,
 } from '@ng-icons/font-awesome/solid';
@@ -76,6 +77,7 @@ type ReservationStat = {
       faSolidHandPointer,
       faSolidHourglassHalf,
       faSolidMoneyBillWave,
+      faSolidPenToSquare,
       faSolidPercent,
       faSolidMoneyBill1,
       faSolidTrash,
@@ -125,8 +127,12 @@ export class ProjectReservationDetails {
     ];
   });
 
-  goToDetails(reservationId: number) {
+  goToUpdate(reservationId: number) {
     return this.router.navigate([`admin/projects/update/${reservationId}`]);
+  }
+
+  goToDetails(reservationId: number) {
+    return this.router.navigate([`admin/projects/details/${reservationId}`]);
   }
 
   async onArchive(reservationId: number) {

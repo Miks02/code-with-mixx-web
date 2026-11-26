@@ -23,4 +23,12 @@ export const PROJECTS_ADMIN_ROUTES: Routes = [
         (c) => c.ProjectReservationUpdatePage,
       ),
   },
+  {
+    title: pageTitle('Detalji rezervacije'),
+    path: 'details/:id',
+    loadComponent: () =>
+      import('./pages/project-reservation-details-page/project-reservation-details-page').then(
+        (c) => c.ProjectReservationDetailsPage,
+      ),
+  },
 ];
