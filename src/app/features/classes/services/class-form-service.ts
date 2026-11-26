@@ -34,6 +34,17 @@ export class ClassFormService {
   );
   totalPrice = computed(() => this.reservationModel().totalPrice ?? this.itemsTotal());
 
+  private isManualPrice = signal(false);
+
+  useItemsSum = computed(
+    () => !this.isManualPrice() && this.reservationModel().totalPrice === null,
+  );
+
+  setUseItemsSum(useItemsSum: boolean) {
+    this.isManualPrice.set(!useItemsSum);
+    this.reservationForm.totalPrice().value.set(useItemsSum ? null : this.itemsTotal());
+  }
+
   checks = computed<ReservationCheck[]>(() => {
     const classes = this.reservationModel().classes;
 

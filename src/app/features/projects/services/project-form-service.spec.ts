@@ -150,6 +150,43 @@ describe('ProjectFormService on the reservation pages', () => {
     });
   });
 
+  describe('"Zbir projekata"', () => {
+    beforeEach(async () => {
+      await setup(null);
+      form.reservationModel.set(
+        createValidReservationModel({
+          totalPrice: 5000,
+          projects: [
+            { ...createEmptyProject(), subjectId: 1, price: 3000 },
+            { ...createEmptyProject(), subjectId: 2, price: 4500 },
+          ],
+        }),
+      );
+    });
+
+    it('sets the total price to the sum and keeps following the prices', async () => {
+      form.setUseItemsSum(true);
+      await settle();
+      expect(form.reservationModel().totalPrice).toBe(7500);
+
+      form.updateProject(1, { price: 500 });
+      await settle();
+      expect(form.reservationModel().totalPrice).toBe(3500);
+    });
+
+    it('turning the sum off keeps the last sum and stops following the prices', async () => {
+      form.setUseItemsSum(true);
+      await settle();
+      form.setUseItemsSum(false);
+
+      form.updateProject(0, { price: 9000 });
+      await settle();
+
+      expect(form.useItemsSum()).toBe(false);
+      expect(form.reservationModel().totalPrice).toBe(7500);
+    });
+  });
+
   describe('checks', () => {
     beforeEach(() => setup(null));
 

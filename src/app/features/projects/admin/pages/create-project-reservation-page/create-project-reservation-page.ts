@@ -2,10 +2,9 @@ import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Button } from '@shared/components/button/button';
 import { StudentSelection } from '@features/students';
-import { ReservationSummary } from '@features/reservations';
+import { ReservationPricing, ReservationSummary } from '@features/reservations';
 import { ProjectFormService } from '@features/projects/services/project-form-service';
 import { ProjectReservationListForm } from '@features/projects/admin/components/project-reservation-list-form/project-reservation-list-form';
-import { ProjectReservationPricing } from '@features/projects/admin/components/project-reservation-pricing/project-reservation-pricing';
 import { AdminProjectReservationStore } from '@features/projects/admin/stores/admin-project-reservation-store';
 
 @Component({
@@ -14,7 +13,7 @@ import { AdminProjectReservationStore } from '@features/projects/admin/stores/ad
     Button,
     StudentSelection,
     ProjectReservationListForm,
-    ProjectReservationPricing,
+    ReservationPricing,
     ReservationSummary,
   ],
   providers: [ProjectFormService, AdminProjectReservationStore],

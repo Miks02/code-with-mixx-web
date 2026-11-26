@@ -1,4 +1,12 @@
-import { computed, inject, Service, signal, WritableSignal } from '@angular/core';
+import {
+  computed,
+  effect,
+  inject,
+  Service,
+  signal,
+  untracked,
+  WritableSignal,
+} from '@angular/core';
 import { submit } from '@angular/forms/signals';
 import { Router } from '@angular/router';
 import { ToastService } from '@core/services/toast-service';
@@ -31,6 +39,21 @@ export class ProjectFormService {
     this.reservationModel().projects.reduce((sum, project) => sum + project.price, 0),
   );
   totalPrice = computed(() => this.reservationModel().totalPrice || 0);
+
+  useItemsSum = signal(false);
+
+  constructor() {
+    effect(() => {
+      if (!this.useItemsSum()) return;
+
+      const sum = this.itemsTotal();
+      untracked(() => this.reservationForm.totalPrice().value.set(sum));
+    });
+  }
+
+  setUseItemsSum(useItemsSum: boolean) {
+    this.useItemsSum.set(useItemsSum);
+  }
 
   checks = computed<ReservationCheck[]>(() => {
     const projects = this.reservationModel().projects;

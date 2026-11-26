@@ -176,6 +176,77 @@ describe('ClassFormService on the reservation pages', () => {
     });
   });
 
+  describe('"Zbir časova"', () => {
+    beforeEach(async () => {
+      await setup(null);
+      form.reservationModel.set(
+        createValidReservationModel({
+          totalPrice: null,
+          classes: [
+            createFormClass(inDays(3, 10), { price: 1300 }),
+            createFormClass(inDays(3, 11), { price: 1500 }),
+          ],
+        }),
+      );
+    });
+
+    it('starts on and leaves the price to the backend', () => {
+      expect(form.useItemsSum()).toBe(true);
+      expect(form.itemsTotal()).toBe(2800);
+      expect(form.reservationModel().totalPrice).toBeNull();
+    });
+
+    it('turning the sum off prefills the price with the sum and stops following the classes', () => {
+      form.setUseItemsSum(false);
+      expect(form.reservationModel().totalPrice).toBe(2800);
+
+      form.updateClass(0, { price: 9000 });
+      expect(form.reservationModel().totalPrice).toBe(2800);
+    });
+
+    it('turning the sum back on drops the manual price', () => {
+      form.setUseItemsSum(false);
+      form.reservationForm.totalPrice().value.set(2000);
+
+      form.setUseItemsSum(true);
+
+      expect(form.useItemsSum()).toBe(true);
+      expect(form.reservationModel().totalPrice).toBeNull();
+    });
+
+    it('clearing the manual price keeps it manual instead of switching to the sum', () => {
+      form.setUseItemsSum(false);
+
+      form.reservationForm.totalPrice().value.set(null);
+
+      expect(form.useItemsSum()).toBe(false);
+    });
+
+    it('rejects a negative manual price', () => {
+      form.setUseItemsSum(false);
+      form.reservationForm.totalPrice().value.set(-100);
+
+      expect(form.reservationForm.totalPrice().errors()[0]?.message).toBe(
+        'Ukupna cena rezervacije može biti najmanje 0 RSD.',
+      );
+    });
+
+    it('allows a free reservation', () => {
+      form.setUseItemsSum(false);
+      form.reservationForm.totalPrice().value.set(0);
+
+      expect(form.reservationForm.totalPrice().errors()).toEqual([]);
+    });
+  });
+
+  it('a saved reservation has its own price, so "Zbir časova" starts off', async () => {
+    await setup('7');
+    await loadDetails({ totalPrice: 2000 });
+
+    expect(form.useItemsSum()).toBe(false);
+    expect(form.reservationModel().totalPrice).toBe(2000);
+  });
+
   describe('checks', () => {
     beforeEach(() => setup(null));
 
