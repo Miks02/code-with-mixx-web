@@ -20,10 +20,12 @@ body {
   }
 }
 
-@layer utilities {
-  .transition-200 {
-    @apply transition-all duration-200;
-  }
+@utility transition-200 {
+  @apply transition-all duration-200;
+}
+
+@utility action-link {
+  @apply text-sm text-amber-400 hover:opacity-70 active:opacity-50 transition-200 cursor-pointer;
 }
 
 ::-webkit-scrollbar {

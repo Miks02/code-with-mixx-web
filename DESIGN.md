@@ -6,7 +6,7 @@ The site should feel personal and calm, like one instructor's own site, not a Sa
 
 ## Where styles live
 
-- `src/styles.css` — the only global stylesheet: font import, `@theme` (currently just `--breakpoint-3xl: 140rem`), scrollbar colors, and the `transition-200` utility. New design tokens go in `@theme` here, nowhere else.
+- `src/styles.css` — the only global stylesheet: font import, `@theme` (currently just `--breakpoint-3xl: 140rem`), scrollbar colors, and the custom utilities `transition-200` and `action-link`. New design tokens go in `@theme` here, nowhere else. Custom utilities are declared with `@utility name { ... }` (Tailwind v4), not as classes inside `@layer utilities`: only `@utility` registers them, so they work with `@apply` and variants (`hover:`, `md:`).
 - There are no custom color tokens. Colors are the default Tailwind palette used by name (`bg-emerald-950`), so the values below are rules of use, not definitions.
 - Templates carry the styling as Tailwind utilities. A component's `.css` file is only for what utilities cannot express (pseudo-elements, keyframes, native `range` styling, state classes), as in `layouts/site/navbar/navbar.css`. In those files use theme variables (`var(--color-amber-500)`), never raw hex.
 - Shared components build variant classes in TypeScript via `computed()` (`shared/components/button/button.ts`). A new look for a button, card or input is a new variant there, not a one-off class string in a feature template.
@@ -65,6 +65,7 @@ The site should feel personal and calm, like one instructor's own site, not a Sa
 - Dates shown as a block next to an item (next class, upcoming list) use `app-date-card`: `full` is the light tile with short month on top, day number in the middle and weekday below (one highlighted date); `compact` is short weekday in amber over `dd.MM.` in muted text (rows of a list). Formatting goes through `Intl` with the `locale` input (`sr-Latn-RS` by default).
 - Loading states use `app-skeleton` in the shape of the final content, not a spinner in an empty box.
 - List item cards inside a panel (recent payments, open balances, active projects, upcoming classes) are a filled `bg-emerald-900/80 rounded-lg` with no border and follow one text hierarchy: the item title is `text-emerald-100 font-semibold`; an optional secondary line right under it (e.g. the subject) is `text-emerald-100/70` without an icon; metadata (dates, times, reservation number, type) is `text-amber-300`, each piece led by a small icon in the same color; the one key value of the item (an amount, days left, what is still owed) is `text-emerald-300 font-bold`, or `text-red-400` when it signals a problem. Status goes into a `rounded-full` badge on the right. Panel-level accents (links like "Svi projekti", the main amount in a stat tile) stay `amber-400`.
+- A link or text action on the right of a panel header (the `panelAction` slot of `app-panel`, e.g. "Svi projekti") uses the `action-link` utility: `text-sm text-amber-400`, opacity on hover and press. Do not rebuild it from separate classes.
 - Icons come from `@ng-icons` (Font Awesome solid), registered per component.
 
 ## What not to do
