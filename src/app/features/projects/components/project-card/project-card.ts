@@ -11,9 +11,10 @@ import {
 import { priceConverter } from '@core/utilities/price-helpers';
 import { ProjectListItem } from '@features/projects/models/project-reservation-item';
 import { PROJECT_TYPE_LABELS } from '@features/projects/utilities/project-labels';
+import { Badge } from '@shared/components/badge/badge';
 
 @Component({
-  imports: [NgIcon, DatePipe],
+  imports: [Badge, NgIcon, DatePipe],
   providers: [
     provideIcons({
       faSolidCalendarDays,

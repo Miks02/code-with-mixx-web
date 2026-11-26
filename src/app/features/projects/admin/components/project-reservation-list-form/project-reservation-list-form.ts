@@ -23,9 +23,10 @@ import { ProjectType } from '@features/projects/models/project-type';
 import { AdminProjectReservationStore } from '@features/projects/admin/stores/admin-project-reservation-store';
 import { ProjectFormService } from '@features/projects/services/project-form-service';
 import { PROJECT_TYPE_LABELS } from '@features/projects/utilities/project-labels';
+import { Badge } from '@shared/components/badge/badge';
 
 @Component({
-  imports: [Button, NgIcon, FormField, Slider, NgTemplateOutlet],
+  imports: [Badge, Button, NgIcon, FormField, Slider, NgTemplateOutlet],
   providers: [provideIcons({ faSolidPlus, faSolidTrash, faSolidXmark, faSolidComment })],
   selector: 'app-project-reservation-list-form',
   templateUrl: './project-reservation-list-form.html',

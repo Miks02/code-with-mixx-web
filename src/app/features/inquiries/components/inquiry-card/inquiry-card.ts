@@ -7,12 +7,13 @@ import {
   INQUIRY_STATUS_META,
   INQUIRY_TYPE_LABELS,
 } from '@features/inquiries/utilities/inquiry-labels';
+import { Badge } from '@shared/components/badge/badge';
 
 const BASE_CLASSES =
   'p-4 rounded-lg flex flex-col gap-2.5 active:scale-95 transition-200 cursor-pointer flex-1 grow';
 
 @Component({
-  imports: [NgIcon, SrDatePipe],
+  imports: [Badge, NgIcon, SrDatePipe],
   providers: [provideIcons({ faSolidCalendarPlus, faSolidCheck, faSolidEnvelope })],
   selector: 'app-inquiry-card',
   templateUrl: './inquiry-card.html',

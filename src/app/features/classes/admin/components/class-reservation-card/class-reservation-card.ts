@@ -11,6 +11,7 @@ import { priceConverter } from '@core/utilities/price-helpers';
 import { ReservationStatus } from '@features/reservations';
 import { PAYMENT_STATUS_META } from '@features/reservations';
 import { ClassReservationItem } from '@features/classes/models/class-reservation-item';
+import { Badge } from '@shared/components/badge/badge';
 
 const BASE_CLASSES =
   'w-full text-left p-4 rounded-lg flex flex-col gap-2.5 active:scale-95 transition-200 cursor-pointer flex-1 grow';
@@ -18,7 +19,6 @@ const BASE_CLASSES =
 type AccentColor = {
   avatar: string;
   initials: string;
-  icon: string;
   mutedText: string;
   border: string;
   selectedBackground: string;
@@ -32,7 +32,6 @@ type StatusClasses = {
 const EMERALD_ACCENT: AccentColor = {
   avatar: 'bg-emerald-500',
   initials: 'text-emerald-950',
-  icon: 'text-emerald-400!',
   mutedText: 'text-emerald-300',
   border: 'border-emerald-700/40',
   selectedBackground: 'bg-emerald-600/70',
@@ -41,7 +40,6 @@ const EMERALD_ACCENT: AccentColor = {
 const SKY_ACCENT: AccentColor = {
   avatar: 'bg-sky-400',
   initials: 'text-sky-950',
-  icon: 'text-sky-400!',
   mutedText: 'text-sky-200',
   border: 'border-sky-600/40',
   selectedBackground: 'bg-sky-600/50',
@@ -50,7 +48,6 @@ const SKY_ACCENT: AccentColor = {
 const RED_ACCENT: AccentColor = {
   avatar: 'bg-red-400',
   initials: 'text-red-950',
-  icon: 'text-red-400!',
   mutedText: 'text-red-300',
   border: 'border-red-600/40',
   selectedBackground: 'bg-red-600/50',
@@ -72,7 +69,7 @@ const STATUS_CLASSES: Record<ReservationStatus, StatusClasses> = {
 };
 
 @Component({
-  imports: [NgIcon, DatePipe],
+  imports: [Badge, NgIcon, DatePipe],
   providers: [
     provideIcons({
       faSolidCalendarPlus,

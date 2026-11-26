@@ -16,10 +16,7 @@
       @if (project(); as project) {
         <div class="flex items-center gap-2 min-w-0">
           <p class="text-xl font-semibold text-emerald-900 truncate">{{ project.subjectName }}</p>
-          <span
-            class="text-xs font-semibold px-2 py-0.5 rounded-full shrink-0 bg-emerald-700 text-emerald-100"
-            >{{ projectTypeLabel() }}</span
-          >
+          <app-badge [text]="projectTypeLabel()" color="bg-emerald-700 text-emerald-100" />
         </div>
         <p class="text-sm text-emerald-900/70">
           @if (readOnlyReason()) {
@@ -231,11 +228,7 @@
             <ng-icon name="faSolidComment" class="text-emerald-700!"></ng-icon>
             Beleške
           </p>
-          <span
-            class="rounded-full bg-emerald-700 px-3 py-0.5 text-xs font-semibold text-emerald-100"
-          >
-            {{ projectModel().notes.length }}
-          </span>
+          <app-badge [text]="projectModel().notes.length" color="bg-emerald-700 text-emerald-100" />
         </div>
 
         <div class="flex flex-col gap-2 max-h-60 overflow-y-auto">
@@ -251,10 +244,7 @@
                   {{ noteField.content().value() }}
                 </p>
                 @if (!noteField().value().id) {
-                  <span
-                    class="shrink-0 rounded-full bg-amber-200 px-2 py-0.5 text-xs font-semibold text-amber-900"
-                    >Nova</span
-                  >
+                  <app-badge text="Nova" color="bg-amber-200 text-amber-900" />
                 }
                 @if (!isReadOnly()) {
                   <button

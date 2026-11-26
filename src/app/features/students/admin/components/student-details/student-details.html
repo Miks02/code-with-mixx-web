@@ -10,9 +10,9 @@
   }
   @if (student() && student()?.accountStatus !== AccountStatus.Deleted) {
     <div panelAction class="flex items-center gap-2 shrink-0">
-      <span class="text-xs font-semibold px-2 py-1 rounded-full" [class]="status()?.classes">{{
-        status()?.label
-      }}</span>
+      @if (status(); as status) {
+        <app-badge [text]="status.label" [color]="status.classes" />
+      }
       @if (student()?.accountStatus === AccountStatus.Pending) {
         <button
           type="button"

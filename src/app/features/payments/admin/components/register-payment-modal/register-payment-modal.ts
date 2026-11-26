@@ -6,11 +6,11 @@ import {
   faSolidCirclePlus,
   faSolidMoneyBillWave,
   faSolidNoteSticky,
-  faSolidXmark,
 } from '@ng-icons/font-awesome/solid';
 import { ToastService } from '@core/services/toast-service';
 import { priceConverter } from '@core/utilities/price-helpers';
 import { Button } from '@shared/components/button/button';
+import { ModalOverlay } from '@shared/components/modal-overlay/modal-overlay';
 import { createRegisterPaymentForm } from '@features/payments/factories/payment-factories';
 import { RegisterPaymentFormModel } from '@features/payments/models/payment-request';
 import { PaymentService } from '@features/payments/services/payment-service';
@@ -19,14 +19,13 @@ import { PaymentType } from '@features/payments/models/payment-type';
 import { getPaymentErrorMessage } from '@features/payments/utilities/payment-error-messages';
 
 @Component({
-  imports: [NgIcon, Button, FormField],
+  imports: [NgIcon, Button, FormField, ModalOverlay],
   providers: [
     provideIcons({
       faSolidCalendarDays,
       faSolidCirclePlus,
       faSolidMoneyBillWave,
       faSolidNoteSticky,
-      faSolidXmark,
     }),
   ],
   selector: 'app-register-payment-modal',

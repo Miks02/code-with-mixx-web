@@ -21,11 +21,9 @@
       <div class="flex flex-col gap-1 min-w-0">
         <h1 class="text-2xl font-bold text-white truncate">{{ fullName() }}</h1>
         <div class="flex flex-wrap items-center gap-2">
-          <span
-            class="text-xs font-semibold px-2 py-1 rounded-full shrink-0"
-            [class]="status()?.classes"
-            >{{ status()?.label }}</span
-          >
+          @if (status(); as status) {
+            <app-badge [text]="status.label" [color]="status.classes" />
+          }
           @if (student.accountStatus === AccountStatus.Deleted && deletedAtLabel()) {
             <span class="text-sm font-semibold text-red-300">Obrisan {{ deletedAtLabel() }}</span>
           }

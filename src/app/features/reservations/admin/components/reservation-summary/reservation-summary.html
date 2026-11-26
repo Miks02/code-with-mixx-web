@@ -1,11 +1,5 @@
 <app-panel title="Rezime">
-  <span
-    panelAction
-    [class]="paymentStatus().classes"
-    class="rounded-full px-3 py-1 text-sm font-semibold"
-  >
-    {{ paymentStatus().label }}
-  </span>
+  <app-badge panelAction [text]="paymentStatus().label" [color]="paymentStatus().classes" />
 
   <div class="grid grid-cols-2 gap-2">
     @for (stat of stats(); track stat.label) {

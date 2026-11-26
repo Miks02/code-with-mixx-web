@@ -1,34 +1,12 @@
-<button
-  type="button"
-  tabindex="-1"
-  aria-label="Zatvori"
-  animate.enter="animate-backdrop-in"
-  (click)="onClose()"
-  class="fixed inset-0 z-1000 bg-emerald-900/60 backdrop-blur-xs"
-></button>
-
-<div
-  animate.enter="animate-modal-in"
-  class="flex flex-col p-4 gap-6 w-[calc(100%-2rem)] max-w-md sm:max-w-xl max-h-[calc(100dvh-2rem)] bg-emerald-200 rounded-xl z-1000 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 shadow-lg"
+<app-modal-overlay
+  [isOpen]="true"
+  [title]="'Istorija uplata - ID: ' + (paymentHistory()?.reservationId ?? '')"
+  subtitle="Pregled svih transakcija za izabranu rezervaciju."
+  [isLoading]="isLoading()"
+  size="xl"
+  (closed)="onClose()"
 >
-  <div class="flex items-start justify-between gap-4">
-    <div class="flex flex-col gap-1">
-      <p class="text-xl font-semibold text-emerald-900">
-        Istorija uplata - ID: {{ paymentHistory()?.reservationId }}
-      </p>
-      <p class="text-sm text-emerald-900/70">Pregled svih transakcija za izabranu rezervaciju.</p>
-    </div>
-    <button
-      type="button"
-      aria-label="Zatvori"
-      (click)="onClose()"
-      class="text-2xl text-red-900 cursor-pointer hover:opacity-70 active:opacity-50 transition-200"
-    >
-      <ng-icon name="faSolidXmark"></ng-icon>
-    </button>
-  </div>
-
-  <div class="grid grid-cols-3 gap-2">
+  <div modalHeader class="grid grid-cols-3 gap-2">
     @for (item of summary(); track item.label) {
       <div class="flex flex-col rounded-lg px-3 py-2 bg-emerald-300/60 min-w-0">
         <span class="text-xs text-emerald-900/70">{{ item.label }}</span>
@@ -118,7 +96,7 @@
     </div>
   </div>
 
-  <div class="self-end flex gap-2">
+  <ng-container modalActions>
     <app-button size="sm" variant="secondary" (click)="onClose()">Zatvori</app-button>
-  </div>
-</div>
+  </ng-container>
+</app-modal-overlay>

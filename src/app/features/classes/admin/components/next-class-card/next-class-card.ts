@@ -11,11 +11,12 @@ import { dateConverter, timeConverter } from '@core/utilities/date-helpers';
 import { Skeleton } from '@shared/components/skeleton/skeleton';
 import { Panel } from '@shared/components/panel/panel';
 import { NextClass } from '@features/classes/models/classes-summary';
+import { Badge } from '@shared/components/badge/badge';
 
 const DAY_IN_MS = 24 * 60 * 60 * 1000;
 
 @Component({
-  imports: [NgIcon, Skeleton, Panel],
+  imports: [Badge, NgIcon, Skeleton, Panel],
   providers: [
     provideIcons({
       faSolidBuildingColumns,

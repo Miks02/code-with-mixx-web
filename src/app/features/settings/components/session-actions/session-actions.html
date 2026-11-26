@@ -29,10 +29,11 @@
               {{ session.browser }} · {{ session.os }}
             </p>
             @if (session.isCurrentSession) {
-              <span
-                class="hidden md:inline shrink-0 rounded-full bg-amber-500/20 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-amber-400"
-                >Ovaj uređaj</span
-              >
+              <app-badge
+                class="hidden md:block"
+                text="Ovaj uređaj"
+                color="bg-amber-500/20 text-amber-400"
+              />
             }
           </div>
           <p class="text-xs text-emerald-300/80">Aktivna od: {{ session.activeSince | srDate }}</p>

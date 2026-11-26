@@ -32,24 +32,20 @@
       <p class="text-sm truncate text-emerald-300">{{ inquiryType() }}</p>
     </div>
 
-    <span
-      class="text-xs font-semibold px-2 py-1 rounded-full shrink-0"
-      [class]="status().classes"
-      >{{ status().label }}</span
-    >
+    <app-badge [text]="status().label" [color]="status().classes" />
   </div>
 
   <p class="text-sm text-emerald-100/70 line-clamp-2 wrap-break-word">{{ inquiry().message }}</p>
 
   <div
-    class="flex flex-col md:flex-row md:flex-wrap gap-x-4 gap-y-1 border-t border-emerald-700/40 pt-2 text-xs text-emerald-300"
+    class="flex flex-col md:flex-row md:flex-wrap gap-x-4 gap-y-1 border-t border-emerald-700/40 pt-2 text-xs text-amber-300"
   >
     <div class="flex items-center gap-1.5 min-w-0">
-      <ng-icon name="faSolidEnvelope" class="self-center! shrink-0 text-emerald-400!"></ng-icon>
+      <ng-icon name="faSolidEnvelope" class="self-center! shrink-0 text-amber-300!"></ng-icon>
       <span class="font-semibold text-emerald-100 truncate">{{ inquiry().email }}</span>
     </div>
     <div class="flex items-center gap-1.5">
-      <ng-icon name="faSolidCalendarPlus" class="self-center! shrink-0 text-emerald-400!"></ng-icon>
+      <ng-icon name="faSolidCalendarPlus" class="self-center! shrink-0 text-amber-300!"></ng-icon>
       <span>Poslat</span>
       <span class="font-semibold text-emerald-100">{{ inquiry().createdAt | srDate }}</span>
     </div>

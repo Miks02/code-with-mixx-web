@@ -10,6 +10,7 @@ import {
   faSolidFileLines,
   faSolidTriangleExclamation,
 } from '@ng-icons/font-awesome/solid';
+import { Badge } from '@shared/components/badge/badge';
 
 const RESERVATION_TYPES: Record<ReservationType, { label: string; icon: string }> = {
   [ReservationType.Class]: { label: 'Paket časova', icon: 'faSolidChalkboardUser' },
@@ -28,7 +29,7 @@ function overdueLabel(count: number) {
 }
 
 @Component({
-  imports: [NgIcon, Panel],
+  imports: [Badge, NgIcon, Panel],
   providers: [
     provideIcons({
       faSolidChalkboardUser,

@@ -1,10 +1,11 @@
 import { Component, inject, input, output, signal } from '@angular/core';
 import { FieldTree, FormField, submit } from '@angular/forms/signals';
-import { NgIcon, provideIcons } from '@ng-icons/core';
-import { faSolidCheck, faSolidEnvelopeOpenText, faSolidXmark } from '@ng-icons/font-awesome/solid';
+import { provideIcons } from '@ng-icons/core';
+import { faSolidCheck } from '@ng-icons/font-awesome/solid';
 import { ToastService } from '@core/services/toast-service';
 import { getErrorCode } from '@core/utilities/problem-details-helpers';
 import { Button } from '@shared/components/button/button';
+import { ModalOverlay } from '@shared/components/modal-overlay/modal-overlay';
 import {
   createChangeEmailRequest,
   createEmailTokenForm,
@@ -16,8 +17,8 @@ import { SettingsService } from '@features/settings/services/settings-service';
 import { getSettingsErrorMessage } from '@features/settings/utilities/settings-error-messages';
 
 @Component({
-  imports: [NgIcon, Button, FormField],
-  providers: [provideIcons({ faSolidCheck, faSolidEnvelopeOpenText, faSolidXmark })],
+  imports: [Button, FormField, ModalOverlay],
+  providers: [provideIcons({ faSolidCheck })],
   selector: 'app-email-token-modal',
   templateUrl: './email-token-modal.html',
 })

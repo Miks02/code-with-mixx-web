@@ -24,9 +24,10 @@ import {
   INQUIRY_TYPE_LABELS,
 } from '@features/inquiries/utilities/inquiry-labels';
 import { INQUIRY_TOAST_MESSAGES } from '@features/inquiries/utilities/inquiry-toast-messages';
+import { Badge } from '@shared/components/badge/badge';
 
 @Component({
-  imports: [NgIcon, Button, Panel, SrDatePipe],
+  imports: [Badge, NgIcon, Button, Panel, SrDatePipe],
   providers: [
     provideIcons({
       faSolidCalendarPlus,

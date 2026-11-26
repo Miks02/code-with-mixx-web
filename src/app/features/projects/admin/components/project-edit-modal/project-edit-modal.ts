@@ -24,9 +24,10 @@ import { UpdateProjectFormModel } from '@features/projects/models/update-project
 import { ProjectService } from '@features/projects/services/project-service';
 import { getProjectReservationErrorMessage } from '@features/projects/utilities/project-error-messages';
 import { PROJECT_TYPE_LABELS } from '@features/projects/utilities/project-labels';
+import { Badge } from '@shared/components/badge/badge';
 
 @Component({
-  imports: [NgIcon, Button, FormField, Slider],
+  imports: [Badge, NgIcon, Button, FormField, Slider],
   providers: [
     provideIcons({
       faBrandGithub,

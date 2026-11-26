@@ -41,6 +41,7 @@ import { EmptyState } from '@shared/components/empty-state/empty-state';
 import { Panel } from '@shared/components/panel/panel';
 import { SrDatePipe } from '@shared/pipes/sr-date-pipe';
 import { ProjectEditModal } from '../project-edit-modal/project-edit-modal';
+import { Badge } from '@shared/components/badge/badge';
 
 type ReservationStat = {
   icon: string;
@@ -50,6 +51,7 @@ type ReservationStat = {
 
 @Component({
   imports: [
+    Badge,
     NgIcon,
     Button,
     Panel,

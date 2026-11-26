@@ -7,10 +7,10 @@ import {
   faSolidPhone,
   faSolidUser,
   faSolidUserPlus,
-  faSolidXmark,
 } from '@ng-icons/font-awesome/solid';
 import { ToastService } from '@core/services/toast-service';
 import { Button } from '@shared/components/button/button';
+import { ModalOverlay } from '@shared/components/modal-overlay/modal-overlay';
 import { AdminStudentStore } from '@features/students/admin/stores/admin-student-store';
 import { createStudentForm } from '@features/students/factories/student-factories';
 import { CreateStudentFormModel } from '@features/students/models/create-student-request';
@@ -27,7 +27,7 @@ const emptyStudentModel: CreateStudentFormModel = {
 };
 
 @Component({
-  imports: [NgIcon, Button, FormField],
+  imports: [NgIcon, Button, FormField, ModalOverlay],
   providers: [
     provideIcons({
       faSolidBuildingColumns,
@@ -35,7 +35,6 @@ const emptyStudentModel: CreateStudentFormModel = {
       faSolidPhone,
       faSolidUser,
       faSolidUserPlus,
-      faSolidXmark,
     }),
   ],
   selector: 'app-create-student-form',

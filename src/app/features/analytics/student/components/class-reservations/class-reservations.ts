@@ -10,9 +10,10 @@ import { NgIcon, provideIcons } from '@ng-icons/core';
 import { Panel } from '@shared/components/panel/panel';
 import { faSolidCalendarXmark } from '@ng-icons/font-awesome/solid';
 import { Slider } from '@shared/components/slider/slider';
+import { Badge } from '@shared/components/badge/badge';
 
 @Component({
-  imports: [Slider, NgIcon, RouterLink, Panel],
+  imports: [Badge, Slider, NgIcon, RouterLink, Panel],
   providers: [provideIcons({ faSolidCalendarXmark })],
   selector: 'app-class-reservations',
   templateUrl: './class-reservations.html',

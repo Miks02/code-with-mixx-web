@@ -1,0 +1,53 @@
+@if (isOpen()) {
+  <button
+    type="button"
+    tabindex="-1"
+    aria-label="Zatvori"
+    animate.enter="animate-backdrop-in"
+    (click)="onClose()"
+    class="fixed inset-0 z-1000 bg-emerald-900/60 backdrop-blur-xs"
+  ></button>
+
+  <div
+    role="dialog"
+    aria-modal="true"
+    [attr.aria-busy]="isLoading()"
+    animate.enter="animate-modal-in"
+    [class]="sizeClass()"
+    class="flex flex-col p-4 gap-6 w-[calc(100%-2rem)] max-h-[calc(100dvh-2rem)] overflow-y-auto bg-emerald-200 rounded-xl z-1000 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 shadow-lg"
+  >
+    <div class="flex items-start justify-between gap-4">
+      <div class="flex flex-col gap-1 min-w-0 flex-1">
+        @if (isLoading()) {
+          <div class="flex flex-col gap-2 animate-pulse">
+            <span class="h-7 w-1/2 rounded bg-emerald-900/15"></span>
+            @if (subtitle()) {
+              <span class="h-4 w-3/4 rounded bg-emerald-900/10"></span>
+            }
+          </div>
+        } @else {
+          <p class="text-xl font-semibold text-emerald-900 truncate">{{ title() }}</p>
+          @if (subtitle()) {
+            <p class="text-sm text-emerald-900/70">{{ subtitle() }}</p>
+          }
+        }
+      </div>
+      <button
+        type="button"
+        aria-label="Zatvori"
+        (click)="onClose()"
+        class="text-2xl text-red-900 cursor-pointer hover:opacity-70 active:opacity-50 transition-200"
+      >
+        <ng-icon name="faSolidXmark"></ng-icon>
+      </button>
+    </div>
+
+    <ng-content select="[modalHeader]" />
+
+    <ng-content />
+
+    <div class="flex justify-end gap-2 empty:hidden">
+      <ng-content select="[modalActions]" />
+    </div>
+  </div>
+}
