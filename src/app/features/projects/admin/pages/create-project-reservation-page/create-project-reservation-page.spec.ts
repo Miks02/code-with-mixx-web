@@ -19,7 +19,7 @@ describe('CreateProjectReservationPage', () => {
       (button) => button.textContent?.includes(name),
     )!;
   const checks = () =>
-    Array.from(element.querySelectorAll('app-project-reservation-summary li')).map((check) =>
+    Array.from(element.querySelectorAll('app-reservation-summary li')).map((check) =>
       check.textContent?.trim(),
     );
 

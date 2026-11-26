@@ -37,7 +37,18 @@
         [selectedStudent]="store.selectedStudent()"
         (studentSelected)="store.selectStudent($event)"
       ></app-student-selection>
-      <app-project-reservation-summary></app-project-reservation-summary>
+      <app-reservation-summary
+        [totalPrice]="formService.totalPrice()"
+        [itemsTotal]="formService.itemsTotal()"
+        [totalPaid]="store.totalPaid() ?? 0"
+        [reservedAt]="formService.reservationForm.reservedAt"
+        [description]="formService.reservationForm.description"
+        [checks]="formService.checks()"
+        [canSave]="formService.reservationForm().valid()"
+        [isSaving]="store.isSaving()"
+        (saved)="formService.save(store.reservationId())"
+        (formReset)="formService.reset()"
+      ></app-reservation-summary>
     </div>
   }
 </div>

@@ -1,4 +1,8 @@
-import { Service, signal, WritableSignal } from '@angular/core';
+import { computed, inject, Service, signal, WritableSignal } from '@angular/core';
+import { submit } from '@angular/forms/signals';
+import { Router } from '@angular/router';
+import { ToastService } from '@core/services/toast-service';
+import { ReservationCheck } from '@features/reservations';
 import {
   ProjectItemFormModel,
   ProjectReservationFormModel,
@@ -7,13 +11,77 @@ import {
   createEmptyProject,
   createEmptyReservation,
   createProjectReservationFormFactory,
+  createProjectReservationRequest,
+  createUpdateProjectReservationRequest,
 } from '../factories/project-factories';
+import { getProjectReservationErrorMessage } from '../utilities/project-error-messages';
+import { ProjectService } from './project-service';
 
 @Service()
 export class ProjectFormService {
   reservationModel: WritableSignal<ProjectReservationFormModel> = signal(createEmptyReservation());
 
   reservationForm = createProjectReservationFormFactory(this.reservationModel);
+
+  private projectService = inject(ProjectService);
+  private toastService = inject(ToastService);
+  private router = inject(Router);
+
+  itemsTotal = computed(() =>
+    this.reservationModel().projects.reduce((sum, project) => sum + project.price, 0),
+  );
+  totalPrice = computed(() => this.reservationModel().totalPrice || 0);
+
+  checks = computed<ReservationCheck[]>(() => {
+    const projects = this.reservationModel().projects;
+
+    return [
+      {
+        isValid: this.reservationForm.studentId().valid(),
+        validLabel: 'Student je izabran',
+        invalidLabel: 'Student nije izabran',
+      },
+      {
+        isValid: projects.length > 0,
+        validLabel: 'Rezervacija ima bar jedan projekat',
+        invalidLabel: 'Rezervacija nema nijedan projekat',
+      },
+      {
+        isValid: this.reservationForm.projects().valid(),
+        validLabel: 'Polja svih projekata su ispravna',
+        invalidLabel: 'Neka polja projekata nisu ispravna',
+      },
+      {
+        isValid: projects.every((project) => project.subjectId !== 0),
+        validLabel: 'Svi projekti imaju izabrani predmet.',
+        invalidLabel: 'Svi projekti moraju imati izabrani predmet.',
+      },
+    ];
+  });
+
+  save(reservationId: number | null) {
+    return submit(this.reservationForm, async () => {
+      const model = this.reservationModel();
+
+      try {
+        if (reservationId !== null) {
+          await this.projectService.updateProjectReservationMutation.mutateAsync(
+            createUpdateProjectReservationRequest(model),
+          );
+          this.toastService.showSuccess('Rezervacija je uspešno ažurirana.');
+        } else {
+          await this.projectService.createProjectReservationMutation.mutateAsync(
+            createProjectReservationRequest(model),
+          );
+          this.toastService.showSuccess('Rezervacija je uspešno kreirana.');
+        }
+        this.router.navigateByUrl('/admin/projects');
+      } catch (err) {
+        const message = getProjectReservationErrorMessage(err);
+        if (message) this.toastService.showError(message);
+      }
+    });
+  }
 
   addProject() {
     this.reservationModel.update((prev) => ({
