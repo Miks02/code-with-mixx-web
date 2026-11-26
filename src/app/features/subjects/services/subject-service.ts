@@ -16,6 +16,7 @@ import { CreateSubjectRequest } from '../models/create-subject-request';
 import { SubjectItem } from '../models/subject-item';
 import { SubjectLookupItem } from '../models/subject-lookup-item';
 import { StudentSubjectItem } from '../student/models/student-subject-item';
+import { StudentSubjectsSummary } from '../student/models/student-subjects-summary';
 import { SubjectSort } from '../models/subject-sort';
 import { SubjectsSummary } from '../models/subjects-summary';
 import { UpdateSubjectRequest } from '../models/update-subject-request';
@@ -105,7 +106,40 @@ export class SubjectService {
     }));
   }
 
+  getSubjectsSummaryForStudentQuery(
+    pageNumber: Signal<number>,
+    pageSize: Signal<number>,
+    searchTerm: Signal<string>,
+    sortBy: Signal<SubjectSort>,
+  ) {
+    return injectQuery(() => ({
+      queryKey: ['subjects-summary-student'],
+      queryFn: async () => {
+        const params = {
+          pageNumber: pageNumber(),
+          pageSize: pageSize(),
+          searchTerm: searchTerm(),
+          sortBy: sortBy(),
+        };
+
+        const data = await lastValueFrom(
+          this.http.get<StudentSubjectsSummary>(`${this.apiUrl}/student/subjects/summary`, {
+            params,
+          }),
+        );
+
+        this.queryClient.setQueryData(
+          ['paged-subjects-student', pageNumber(), pageSize(), searchTerm(), sortBy()],
+          data.pagedSubjects,
+        );
+
+        return data;
+      },
+    }));
+  }
+
   getPagedSubjectsForStudentQuery(
+    queryResult: CreateQueryResult<StudentSubjectsSummary>,
     pageNumber: Signal<number>,
     pageSize: Signal<number>,
     searchTerm: Signal<string>,
@@ -124,6 +158,7 @@ export class SubjectService {
             },
           }),
         ),
+      enabled: queryResult.isSuccess(),
       placeholderData: keepPreviousData,
     }));
   }
