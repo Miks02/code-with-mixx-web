@@ -10,4 +10,5 @@ export type UserDetails = {
   lastLogin: string;
   accountStatus: AccountStatus;
   activeSessions: ActiveSession[];
+  university: string | null;
 };
