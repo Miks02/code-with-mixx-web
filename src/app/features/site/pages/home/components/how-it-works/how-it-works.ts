@@ -5,6 +5,7 @@ import {
   faSolidComments,
   faSolidGraduationCap,
   faSolidLaptopCode,
+  faSolidUserPlus,
   faSolidVideo,
 } from '@ng-icons/font-awesome/solid';
 
@@ -22,6 +23,7 @@ type Step = {
       faSolidComments,
       faSolidGraduationCap,
       faSolidLaptopCode,
+      faSolidUserPlus,
       faSolidVideo,
     }),
   ],
@@ -42,6 +44,12 @@ export class HowItWorks {
       title: 'Dogovor',
       description:
         'Brzo zakazivanje termina časa ili preciziranje detalja i roka za izradu seminarskog rada.',
+    },
+    {
+      icon: 'faSolidUserPlus',
+      title: 'Nalog',
+      description:
+        'Otvaramo studentski nalog. Preko tog naloga moći ćeš da pratiš časove, radove i uplate.',
     },
     {
       icon: 'faSolidLaptopCode',
