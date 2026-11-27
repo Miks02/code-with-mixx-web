@@ -10,15 +10,15 @@
       [class]="accentColor().avatar"
     >
       @if (studentFullName()) {
-      <span class="text-sm font-semibold" [class]="accentColor().initials"
-        >{{ studentInitials() }}</span
-      >
+        <span class="text-sm font-semibold" [class]="accentColor().initials">{{
+          studentInitials()
+        }}</span>
       } @else {
-      <ng-icon
-        name="faSolidCalendar"
-        class="self-center! text-emerald-950!"
-        [class]="accentColor().initials"
-      ></ng-icon>
+        <ng-icon
+          name="faSolidCalendar"
+          class="self-center! text-emerald-950!"
+          [class]="accentColor().initials"
+        ></ng-icon>
       }
     </div>
     <div class="flex flex-col min-w-0 flex-1">
@@ -33,18 +33,18 @@
     [class]="accentColor().border"
   >
     @for (stat of stats(); track stat.label) {
-    <div class="flex items-center gap-1.5">
-      <ng-icon [name]="stat.icon" class="self-center! shrink-0 text-amber-300!"></ng-icon>
-      <span>{{ stat.label }}</span>
-      <span class="font-semibold text-emerald-100">{{ stat.value }}</span>
-    </div>
+      <div class="flex items-center gap-1.5">
+        <ng-icon [name]="stat.icon" class="self-center! shrink-0 text-amber-300!"></ng-icon>
+        <span>{{ stat.label }}</span>
+        <span class="font-semibold text-emerald-100">{{ stat.value }}</span>
+      </div>
     }
     <div class="flex items-center gap-1.5">
       <ng-icon name="faSolidCalendarPlus" class="self-center! shrink-0 text-amber-300!"></ng-icon>
       <span>Kreirana</span>
-      <span class="font-semibold text-emerald-100"
-        >{{ reservation().createdAt | date: 'dd.MM.yyyy' }}</span
-      >
+      <span class="font-semibold text-emerald-100">{{
+        reservation().createdAt | date: 'dd.MM.yyyy'
+      }}</span>
     </div>
   </div>
 </button>

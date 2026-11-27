@@ -4,7 +4,12 @@ import {
   provideAppInitializer,
   provideBrowserGlobalErrorListeners,
 } from '@angular/core';
-import { provideRouter, withInMemoryScrolling, withPreloading, withRouterConfig } from '@angular/router';
+import {
+  provideRouter,
+  withInMemoryScrolling,
+  withPreloading,
+  withRouterConfig,
+} from '@angular/router';
 import { provideTanStackQuery, QueryClient } from '@tanstack/angular-query-experimental';
 import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
@@ -24,7 +29,7 @@ export const appConfig: ApplicationConfig = {
       // Without this a second click on the same nav link (same URL and fragment) is ignored,
       // so it would not scroll back to the section.
       withRouterConfig({ onSameUrlNavigation: 'reload' }),
-      withPreloading(SelectivePreloading)
+      withPreloading(SelectivePreloading),
     ),
     provideAppInitializer(() => inject(AuthService).checkSession()),
     provideTanStackQuery(

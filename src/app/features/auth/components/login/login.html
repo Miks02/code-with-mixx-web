@@ -26,9 +26,9 @@
       </div>
 
       @if (loginForm.email().touched() && loginForm.email().errors().length) {
-      <p class="text-sm text-red-400 leading-relaxed px-2 text-center">
-        {{ loginForm.email().errors()[0]?.message }}
-      </p>
+        <p class="text-sm text-red-400 leading-relaxed px-2 text-center">
+          {{ loginForm.email().errors()[0]?.message }}
+        </p>
       }
     </div>
 
@@ -65,9 +65,9 @@
       </div>
 
       @if (loginForm.password().touched() && loginForm.password().errors().length) {
-      <p class="text-sm text-red-400 leading-relaxed px-2 text-center">
-        {{ loginForm.password().errors()[0]?.message }}
-      </p>
+        <p class="text-sm text-red-400 leading-relaxed px-2 text-center">
+          {{ loginForm.password().errors()[0]?.message }}
+        </p>
       }
     </div>
 
