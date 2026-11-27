@@ -5,6 +5,7 @@ export const PAYMENTS_ADMIN_ROUTES: Routes = [
   {
     title: pageTitle('Finansije'),
     path: '',
+    data: { preloading: 'admin' },
     loadComponent: () =>
       import('./pages/admin-payments-page/admin-payments-page').then((c) => c.AdminPaymentsPage),
   },

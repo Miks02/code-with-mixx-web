@@ -5,12 +5,14 @@ export const CLASSES_STUDENT_ROUTES: Routes = [
   {
     title: pageTitle('Časovi'),
     path: '',
+    data: { preloading: 'student' },
     loadComponent: () =>
       import('./pages/student-classes-page/student-classes-page').then((c) => c.StudentClassesPage),
   },
   {
     title: pageTitle('Detalji rezervacije'),
     path: 'details/:id',
+    data: { preloading: 'student' },
     loadComponent: () =>
       import('./pages/student-class-reservation-details-page/student-class-reservation-details-page').then(
         (c) => c.StudentClassReservationDetailsPage,
