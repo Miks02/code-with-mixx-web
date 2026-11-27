@@ -5,8 +5,8 @@ import { Component } from '@angular/core';
   templateUrl: './privacy-intro.html',
 })
 export class PrivacyIntro {
-  readonly lastUpdated = '14. novembar 2026.';
-  readonly lastUpdatedIso = '2026-11-14';
+  readonly lastUpdated = '27. novembar 2026.';
+  readonly lastUpdatedIso = '2026-11-27';
   readonly email = 'milan@codewithmixx.com';
 
   readonly summary: string[] = [

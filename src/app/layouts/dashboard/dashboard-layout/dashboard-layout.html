@@ -20,7 +20,8 @@
 
 @if (userState.isStudent()) {
   <app-welcome
-    [isShown]="userState.wasLoggedBefore() === false"
+    [isShown]="!userState.wasLoggedBefore()"
     [university]="userState.university()"
+    (closed)="userState.markAsLoggedBefore()"
   ></app-welcome>
 }

@@ -66,7 +66,7 @@ export const SITE_ROUTES: Routes = [
     path: 'terms-of-service',
     data: {
       description:
-        'Kako se na CodeWithMixx zakazuju, otkazuju i plaćaju časovi i radovi, kada se novac vraća i ko vodi tvoj nalog dok studentski panel ne bude gotov.',
+        'Kako se na CodeWithMixx zakazuju, otkazuju i plaćaju časovi i radovi, kada se novac vraća i kako radi tvoj nalog i studentski panel.',
     },
     component: TermsOfService,
   },

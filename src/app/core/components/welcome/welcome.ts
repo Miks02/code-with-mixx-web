@@ -1,4 +1,4 @@
-import { Component, computed, input, signal } from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
@@ -33,9 +33,7 @@ export class Welcome {
   isShown = input.required<boolean>();
   university = input<string | null>(null);
 
-  private isDismissed = signal(false);
-
-  protected isOpen = computed(() => this.isShown() && !this.isDismissed());
+  closed = output<void>();
 
   protected hasUniversity = computed(() => !!this.university());
 
@@ -68,6 +66,6 @@ export class Welcome {
   ];
 
   protected close() {
-    this.isDismissed.set(true);
+    this.closed.emit();
   }
 }
