@@ -5,6 +5,8 @@ import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
   faSolidArrowRightToBracket,
   faSolidEnvelope,
+  faSolidEye,
+  faSolidEyeSlash,
   faSolidLock,
 } from '@ng-icons/font-awesome/solid';
 import { AuthService } from '@core/services/auth-service';
@@ -18,7 +20,9 @@ import { UserState } from '@core/services/user-state';
 
 @Component({
   imports: [NgIcon, FormField, Button, RouterLink],
-  providers: [provideIcons({ faSolidEnvelope, faSolidLock, faSolidArrowRightToBracket })],
+  providers: [
+    provideIcons({ faSolidEnvelope, faSolidLock, faSolidArrowRightToBracket, faSolidEye, faSolidEyeSlash }),
+  ],
   selector: 'app-login',
   templateUrl: './login.html',
 })
@@ -30,6 +34,8 @@ export class Login {
   private toastService = inject(ToastService);
   private userState = inject(UserState);
 
+  showPassword = signal(false);
+
   constructor() {
     if (this.activatedRoute.snapshot.queryParamMap.get('expired') === 'true') {
       history.replaceState(null, '', location.pathname);
@@ -39,6 +45,10 @@ export class Login {
 
   loginMutation = this.authService.loginMutation;
   loginForm = createLoginForm(this.loginModel);
+
+  toggleShowPassword() {
+    this.showPassword.update((show) => !show);
+  }
 
   onSubmit() {
     return submit(this.loginForm, async () => {
