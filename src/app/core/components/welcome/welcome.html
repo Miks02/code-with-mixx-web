@@ -1,0 +1,55 @@
+<app-modal-overlay
+  [isOpen]="isOpen()"
+  title="Zdravo!"
+  subtitle="Drago mi je što si tu. Evo kratko šta te čeka."
+  size="lg"
+  (closed)="close()"
+>
+  <div class="flex flex-col gap-4">
+    <p class="text-emerald-900 max-w-xl">
+      Ovo je tvoj nalog na platformi
+      <span class="font-bold"><span class="text-amber-500">Code</span>WithMixx.</span>
+      Ovde pratiš časove i projekte koje radimo zajedno..
+    </p>
+
+    <ul class="flex flex-col gap-2">
+      @for (section of sections; track section.name) {
+      <li class="flex items-start gap-3 rounded-lg bg-emerald-300/60 px-3 py-2.5">
+        <span
+          class="w-9 h-9 rounded-full shrink-0 flex items-center justify-center bg-emerald-700 text-emerald-100"
+        >
+          <ng-icon [name]="section.icon" class="self-center!"></ng-icon>
+        </span>
+        <div class="flex flex-col min-w-0">
+          <span class="text-sm font-semibold text-emerald-900">{{ section.name }}</span>
+          <span class="text-sm text-emerald-900/70">{{ section.description }}</span>
+        </div>
+      </li>
+      }
+    </ul>
+
+    @if (!hasUniversity()) {
+    <div class="flex items-start gap-3 rounded-lg bg-amber-200/70 px-3 py-2.5">
+      <ng-icon name="faSolidGear" class="text-amber-900! mt-0.5 shrink-0"></ng-icon>
+      <p class="text-sm text-amber-900">
+        Univerzitet još nije upisan na tvom nalogu. Možeš ga dodati u Podešavanju, zajedno sa
+        ostalim ličnim podacima.
+      </p>
+    </div>
+    }
+
+    <p class="text-emerald-900 max-w-xl">
+      Ako ti nešto nije jasno ili primetiš grešku, javi mi se direktno.
+      <span class="block mt-1 font-semibold">Mixx</span>
+    </p>
+  </div>
+
+  <ng-container modalActions>
+    @if (!hasUniversity()) {
+    <app-button size="sm" variant="secondary" routerLink="/student/settings" (clicked)="close()"
+      >Otvori podešavanje</app-button
+    >
+    }
+    <app-button size="sm" variant="primary" (clicked)="close()">Kreni</app-button>
+  </ng-container>
+</app-modal-overlay>

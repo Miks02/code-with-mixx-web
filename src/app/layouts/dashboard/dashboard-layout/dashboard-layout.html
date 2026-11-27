@@ -17,3 +17,10 @@
     </div>
   </div>
 </div>
+
+@if (userState.isStudent()) {
+  <app-welcome
+    [isShown]="userState.wasLoggedBefore() === false"
+    [university]="userState.university()"
+  ></app-welcome>
+}

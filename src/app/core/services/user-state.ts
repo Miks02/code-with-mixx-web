@@ -27,6 +27,7 @@ export class UserState {
   activeSessions = computed(() => this._userDetails()?.activeSessions ?? []);
   activeSessionsCount = computed(() => this.activeSessions().length ?? 0);
   lastLogin = computed(() => this._userDetails()?.lastLogin ?? '');
+  wasLoggedBefore = computed(() => this._userDetails()?.wasLoggedBefore);
   accountStatus = computed(() => this._userDetails()?.accountStatus ?? null);
 
   dashboardEntry = computed(() => {

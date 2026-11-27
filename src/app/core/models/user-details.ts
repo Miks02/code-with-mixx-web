@@ -8,6 +8,7 @@ export type UserDetails = {
   phoneNumber: string;
   roles: string[];
   lastLogin: string;
+  wasLoggedBefore: boolean;
   accountStatus: AccountStatus;
   activeSessions: ActiveSession[];
   university: string | null;

@@ -9,6 +9,8 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { Welcome } from '@core/components/welcome/welcome';
+import { UserState } from '@core/services/user-state';
 import { filter } from 'rxjs';
 import * as THREE from 'three';
 import FOG from 'vanta/dist/vanta.fog.min';
@@ -16,12 +18,13 @@ import { Header } from '../header/header';
 import { Sidebar } from '../sidebar/sidebar';
 
 @Component({
-  imports: [RouterOutlet, Sidebar, Header],
+  imports: [RouterOutlet, Sidebar, Header, Welcome],
   selector: 'app-dashboard-layout',
   templateUrl: './dashboard-layout.html',
 })
 export class DashboardLayout {
   private router = inject(Router);
+  protected userState = inject(UserState);
 
   private mainContainer = viewChild<ElementRef<HTMLDivElement>>('mainContainer');
   private vantaRef = viewChild<ElementRef<HTMLDivElement>>('vantaRef');
