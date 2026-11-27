@@ -1,9 +1,9 @@
 name: CI
 
-on: 
+on:
   pull_request:
     branches: [main]
-  push: 
+  push:
     branches: [main]
 
 jobs:
@@ -16,6 +16,7 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npm run lint  
+      - run: npm run lint
+      - run: npx prettier --check src
       - run: npm test -- --watch=false
-      - run: npm run build    
+      - run: npm run build
