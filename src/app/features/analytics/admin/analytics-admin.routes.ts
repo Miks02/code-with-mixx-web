@@ -5,6 +5,7 @@ export const ANALYTICS_ADMIN_ROUTES: Routes = [
   {
     title: pageTitle('Analitika'),
     path: '',
+    data: { preloading: 'admin' },
     loadComponent: () =>
       import('./pages/admin-analytics-page/admin-analytics-page').then((c) => c.AdminAnalyticsPage),
   },

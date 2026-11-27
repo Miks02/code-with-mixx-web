@@ -5,11 +5,13 @@ export const STUDENTS_ADMIN_ROUTES: Routes = [
   {
     title: pageTitle('Studenti'),
     path: '',
+    data: { preloading: 'admin' },
     loadComponent: () => import('./pages/students-page/students-page').then((c) => c.StudentsPage),
   },
   {
     title: pageTitle('Detalji studenta'),
     path: 'details/:id',
+    data: { preloading: 'admin' },
     loadComponent: () =>
       import('./pages/student-details-page/student-details-page').then((c) => c.StudentDetailsPage),
   },

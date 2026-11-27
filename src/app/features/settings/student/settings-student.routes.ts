@@ -5,6 +5,7 @@ export const SETTINGS_STUDENT_ROUTES: Routes = [
   {
     title: pageTitle('Podešavanje'),
     path: '',
+    data: { preloading: 'student' },
     loadComponent: () =>
       import('./pages/student-settings-page/student-settings-page').then(
         (c) => c.StudentSettingsPage,

@@ -5,6 +5,7 @@ export const PAYMENTS_STUDENT_ROUTES: Routes = [
   {
     title: pageTitle('Finansije'),
     path: '',
+    data: { preloading: 'student' },
     loadComponent: () =>
       import('./pages/student-payments-page/student-payments-page').then(
         (c) => c.StudentPaymentsPage,

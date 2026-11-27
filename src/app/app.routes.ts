@@ -17,6 +17,7 @@ export const routes: Routes = [
   {
     path: 'student',
     canActivate: [authGuard, studentGuard],
+    data: { preloading: 'student' },
     loadComponent: () =>
       import('@layouts/dashboard/dashboard-layout/dashboard-layout').then((c) => c.DashboardLayout),
     children: [
@@ -28,6 +29,7 @@ export const routes: Routes = [
       {
         data: {
           heading: 'Analitika',
+          preloading: 'student',
         },
         path: 'analytics',
         loadChildren: () => import('@features/analytics').then((m) => m.ANALYTICS_STUDENT_ROUTES),
@@ -36,12 +38,14 @@ export const routes: Routes = [
         path: 'subjects',
         data: {
           heading: 'Predmeti',
+          preloading: 'student',
         },
         loadChildren: () => import('@features/subjects').then((m) => m.SUBJECTS_STUDENT_ROUTES),
       },
       {
         data: {
           heading: 'Časovi',
+          preloading: 'student',
         },
         path: 'classes',
         loadChildren: () => import('@features/classes').then((m) => m.CLASSES_STUDENT_ROUTES),
@@ -49,6 +53,7 @@ export const routes: Routes = [
       {
         data: {
           heading: 'Projekti',
+          preloading: 'student',
         },
         path: 'projects',
         loadChildren: () => import('@features/projects').then((m) => m.PROJECTS_STUDENT_ROUTES),
@@ -56,6 +61,7 @@ export const routes: Routes = [
       {
         data: {
           heading: 'Finansije',
+          preloading: 'student',
         },
         path: 'payments',
         loadChildren: () => import('@features/payments').then((m) => m.PAYMENTS_STUDENT_ROUTES),
@@ -63,6 +69,7 @@ export const routes: Routes = [
       {
         data: {
           heading: 'Podešavanje',
+          preloading: 'student',
         },
         path: 'settings',
         loadChildren: () => import('@features/settings').then((m) => m.SETTINGS_STUDENT_ROUTES),
@@ -72,6 +79,7 @@ export const routes: Routes = [
   {
     path: 'admin',
     canActivate: [authGuard, adminGuard],
+    data: { preloading: 'admin' },
     loadComponent: () =>
       import('@layouts/dashboard/dashboard-layout/dashboard-layout').then((c) => c.DashboardLayout),
     children: [
@@ -83,6 +91,7 @@ export const routes: Routes = [
       {
         data: {
           heading: 'Analitika',
+          preloading: 'admin',
         },
         path: 'analytics',
         loadChildren: () => import('@features/analytics').then((m) => m.ANALYTICS_ADMIN_ROUTES),
@@ -90,6 +99,7 @@ export const routes: Routes = [
       {
         data: {
           heading: 'Predmeti',
+          preloading: 'admin',
         },
         path: 'subjects',
         loadChildren: () => import('@features/subjects').then((m) => m.SUBJECTS_ADMIN_ROUTES),
@@ -97,6 +107,7 @@ export const routes: Routes = [
       {
         data: {
           heading: 'Studenti',
+          preloading: 'admin',
         },
         path: 'students',
         loadChildren: () => import('@features/students').then((m) => m.STUDENTS_ADMIN_ROUTES),
@@ -104,6 +115,7 @@ export const routes: Routes = [
       {
         data: {
           heading: 'Projekti',
+          preloading: 'admin',
         },
         path: 'projects',
         loadChildren: () => import('@features/projects').then((m) => m.PROJECTS_ADMIN_ROUTES),
@@ -111,6 +123,7 @@ export const routes: Routes = [
       {
         data: {
           heading: 'Časovi',
+          preloading: 'admin',
         },
         path: 'classes',
         loadChildren: () => import('@features/classes').then((m) => m.CLASSES_ADMIN_ROUTES),
@@ -118,6 +131,7 @@ export const routes: Routes = [
       {
         data: {
           heading: 'Upiti',
+          preloading: 'admin',
         },
         path: 'inquiries',
         loadChildren: () => import('@features/inquiries').then((m) => m.INQUIRIES_ADMIN_ROUTES),
@@ -125,6 +139,7 @@ export const routes: Routes = [
       {
         data: {
           heading: 'Podešavanje',
+          preloading: 'admin',
         },
         path: 'settings',
         loadChildren: () => import('@features/settings').then((m) => m.SETTINGS_ADMIN_ROUTES),
@@ -132,6 +147,7 @@ export const routes: Routes = [
       {
         data: {
           heading: 'Finansije',
+          preloading: 'admin',
         },
         path: 'payments',
         loadChildren: () => import('@features/payments').then((m) => m.PAYMENTS_ADMIN_ROUTES),
