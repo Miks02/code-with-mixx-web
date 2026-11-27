@@ -21,7 +21,13 @@ import { UserState } from '@core/services/user-state';
 @Component({
   imports: [NgIcon, FormField, Button, RouterLink],
   providers: [
-    provideIcons({ faSolidEnvelope, faSolidLock, faSolidArrowRightToBracket, faSolidEye, faSolidEyeSlash }),
+    provideIcons({
+      faSolidEnvelope,
+      faSolidLock,
+      faSolidArrowRightToBracket,
+      faSolidEye,
+      faSolidEyeSlash,
+    }),
   ],
   selector: 'app-login',
   templateUrl: './login.html',

@@ -11,7 +11,7 @@ export const serverRoutes: ServerRoute[] = [
   },
   {
     path: 'student/**',
-    renderMode: RenderMode.Client
+    renderMode: RenderMode.Client,
   },
   {
     path: '',
