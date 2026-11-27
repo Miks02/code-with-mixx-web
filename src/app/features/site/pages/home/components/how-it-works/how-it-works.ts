@@ -49,7 +49,7 @@ export class HowItWorks {
       icon: 'faSolidUserPlus',
       title: 'Nalog',
       description:
-        'Otvaramo studentski nalog. Preko tog naloga moći ćeš da pratiš časove, radove i uplate.',
+        'Otvaramo studentski nalog. Preko njega pratiš časove, radove i uplate.',
     },
     {
       icon: 'faSolidLaptopCode',
