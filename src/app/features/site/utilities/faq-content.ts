@@ -160,7 +160,7 @@ export const FAQ_GROUPS: FaqGroup[] = [
       {
         question: 'Šta mogu da radim u studentskom panelu?',
         answer: [
-          'Studentski panel je još u izradi. Do tada naloge, rezervacije i uplate vodim ja, a ako nešto u tvojim podacima treba da se promeni, samo mi piši.',
+          'Vidiš svoje časove sa terminima, seminarske i diplomske radove sa napretkom, rokovima i beleškama, i sve uplate sa iznosom koji je ostao. U Podešavanju menjaš lične podatke i lozinku i gasiš prijave sa drugih uređaja. Rezervacije i uplate unosim ja, pa mi piši ako nešto od toga nije tačno.',
         ],
       },
       {
