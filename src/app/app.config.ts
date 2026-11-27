@@ -4,7 +4,7 @@ import {
   provideAppInitializer,
   provideBrowserGlobalErrorListeners,
 } from '@angular/core';
-import { provideRouter, withInMemoryScrolling, withRouterConfig } from '@angular/router';
+import { provideRouter, withInMemoryScrolling, withPreloading, withRouterConfig } from '@angular/router';
 import { provideTanStackQuery, QueryClient } from '@tanstack/angular-query-experimental';
 import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
@@ -13,6 +13,7 @@ import { authInterceptor } from '@core/interceptors/auth-interceptor';
 import { timeZoneInterceptor } from '@core/interceptors/time-zone-interceptor';
 import { httpErrorInterceptor } from '@core/interceptors/http-error-interceptor';
 import { provideClientHydration } from '@angular/platform-browser';
+import { SelectivePreloading } from '@core/services/selective-preloading';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -23,6 +24,7 @@ export const appConfig: ApplicationConfig = {
       // Without this a second click on the same nav link (same URL and fragment) is ignored,
       // so it would not scroll back to the section.
       withRouterConfig({ onSameUrlNavigation: 'reload' }),
+      withPreloading(SelectivePreloading)
     ),
     provideAppInitializer(() => inject(AuthService).checkSession()),
     provideTanStackQuery(
