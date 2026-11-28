@@ -22,7 +22,7 @@ export const AdminClassReservationDetailsStore = signalStore(
   withProps(
     (store, classService = inject(ClassService), paymentService = inject(PaymentService)) => ({
       detailsQuery: classService.getClassReservationDetailsQuery(store._validReservationId),
-      paymentHistoryQuery: paymentService.getPaymentHistoryForReservationQuery(
+      paymentHistoryQuery: paymentService.getAdminPaymentHistoryForReservationQuery(
         store._validReservationId,
         computed(() => store._validReservationId() > 0),
       ),

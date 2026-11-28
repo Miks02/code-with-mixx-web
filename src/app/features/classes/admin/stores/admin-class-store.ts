@@ -63,7 +63,7 @@ export const AdminClassStore = signalStore(
     }),
   })),
   withProps((store, paymentService = inject(PaymentService)) => ({
-    paymentHistoryQuery: paymentService.getPaymentHistoryForReservationQuery(
+    paymentHistoryQuery: paymentService.getAdminPaymentHistoryForReservationQuery(
       computed(() => store.selectedReservation()?.id ?? 0),
       computed(() => store.reservationModal() === 'payment-history'),
     ),

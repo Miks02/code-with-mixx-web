@@ -32,7 +32,7 @@ export const SUBJECTS_LOOKUP_URL = `${environment.apiUrl}/subjects/lookup`;
 export const STUDENTS_LOOKUP_URL = `${environment.apiUrl}/admin/students/lookup`;
 export const RESERVATIONS_URL = `${environment.apiUrl}/admin/reservations`;
 export const paymentHistoryUrl = (reservationId: number) =>
-  `${environment.apiUrl}/reservations/${reservationId}/payments`;
+  `${environment.apiUrl}/admin/reservations/${reservationId}/payments`;
 export const STUDENT_PROJECT_RESERVATIONS_URL = `${environment.apiUrl}/student/reservations/projects`;
 export const STUDENT_PROJECTS_SUMMARY_URL = `${environment.apiUrl}/student/reservations/projects/summary`;
 export const studentPaymentHistoryUrl = (reservationId: number) =>

@@ -112,13 +112,16 @@ export class PaymentService {
     }));
   }
 
-  getPaymentHistoryForReservationQuery(reservationId: Signal<number>, enabled: Signal<boolean>) {
+  getAdminPaymentHistoryForReservationQuery(
+    reservationId: Signal<number>,
+    enabled: Signal<boolean>,
+  ) {
     return injectQuery(() => ({
       queryKey: reservationKeys.payments(reservationId()),
       queryFn: () =>
         lastValueFrom(
           this.http.get<ReservationPaymentHistory>(
-            `${this.apiUrl}/reservations/${reservationId()}/payments`,
+            `${this.apiUrl}/admin/reservations/${reservationId()}/payments`,
           ),
         ),
       enabled: enabled() && reservationId() > 0,
