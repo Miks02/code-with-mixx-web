@@ -73,7 +73,8 @@ export class Login {
         if (getErrorCode(err) === 'Auth.AccountLocked') {
           return {
             kind: 'server',
-            message: 'Previše neuspešnih pokušaja. Nalog je privremeno zaključan, pokušaj ponovo za 5 minuta.',
+            message:
+              'Previše neuspešnih pokušaja. Nalog je privremeno zaključan, pokušaj ponovo za 5 minuta.',
             fieldTree: this.loginForm.password,
           };
         }
