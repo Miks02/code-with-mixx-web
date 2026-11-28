@@ -70,6 +70,13 @@ export class Login {
             fieldTree: this.loginForm.password,
           };
         }
+        if (getErrorCode(err) === 'Auth.AccountLocked') {
+          return {
+            kind: 'server',
+            message: 'Previše neuspešnih pokušaja. Nalog je privremeno zaključan, pokušaj ponovo za 5 minuta.',
+            fieldTree: this.loginForm.password,
+          };
+        }
         const message = getAuthErrorMessage(err);
         if (message) {
           this.toastService.showError(message);
